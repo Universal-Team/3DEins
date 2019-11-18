@@ -1,2 +1,2 @@
-# Uno3DS
-UNO for Nintendo 3DS!
+# 3DEins!
+A Card game for Nintendo 3DS!
