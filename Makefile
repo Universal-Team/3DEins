@@ -54,9 +54,9 @@ VERSION_MICRO := 1
 #---------------------------------------------------------------------------------
 TARGET		:=	3DEins
 BUILD		:=	build
-SOURCES		:=	source source/gui source/screens
+SOURCES		:=	source source/gui source/screens source/utils
 DATA		:=	data
-INCLUDES	:=	include include/gui include/screens
+INCLUDES	:=	include include/gui include/screens include/utils
 GRAPHICS	:=	assets/gfx
 ROMFS		:=	romfs
 GFXBUILD	:=	$(ROMFS)/gfx

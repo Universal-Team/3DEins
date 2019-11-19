@@ -23,28 +23,18 @@
 *         or requiring that modified versions of such material be marked in
 *         reasonable ways as different from the original version.
 */
+#ifndef TEST_HPP
+#define TEST_HPP
 
-#include "gui/gui.hpp"
+#include "screens/screen.hpp"
 
-#include "screens/mainMenu.hpp"
-#include "screens/test.hpp"
+class Test : public Screen
+{
+public:
+	void Draw(void) const override;
+	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
+private:
+	int currentCard = 0;
+};
 
-extern bool exiting;
-
-void MainMenu::Draw(void) const {
-	Gui::DrawTop();
-	Gui::DrawString(100, 2, 0.9f, WHITE, "Press A to continue.");
-	Gui::DrawBottom();
-}
-
-
-void MainMenu::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
-
-	if (hDown & KEY_A) {
-		Gui::setScreen(std::make_unique<Test>());
-	}
-
-	if (hDown & KEY_B) {
-		exiting = true;
-	}
-}
+#endif

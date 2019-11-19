@@ -76,6 +76,26 @@ void Gui::DrawCard(int key, int x, int y, float ScaleX, float ScaleY)
 	C2D_DrawImageAt(C2D_SpriteSheetGetImage(cards, key), x, y, 0.5f, NULL, ScaleX, ScaleY);
 }
 
+// Animated Card Selector.
+void Gui::DrawSelectedCard(int key, int x, int y, float ScaleX, float ScaleY)
+{
+	static float timer         = 0.0f;
+	float highlight_multiplier = fmax(0.0, fabs(fmod(timer, 1.0) - 0.5) / 0.5);
+	u8 r                       = C2D_Color32(200, 0, 0, 255) & 0xFF;
+	u8 g                       = (C2D_Color32(200, 0, 0, 255) >> 8) & 0xFF;
+	u8 b                       = (C2D_Color32(200, 0, 0, 255) >> 16) & 0xFF;
+	u32 color = C2D_Color32(r + (255 - r) * highlight_multiplier, g + (255 - g) * highlight_multiplier, b + (255 - b) * highlight_multiplier, 255);
+	C2D_ImageTint tint;
+	C2D_SetImageTint(&tint, C2D_TopLeft, color, 1);
+	C2D_SetImageTint(&tint, C2D_TopRight, color, 1);
+	C2D_SetImageTint(&tint, C2D_BotLeft, color, 1);
+	C2D_SetImageTint(&tint, C2D_BotRight, color, 1);
+	C2D_DrawImageAt(C2D_SpriteSheetGetImage(cards, 55), x, y, 0.5f, &tint, ScaleX, ScaleY);
+	C2D_DrawImageAt(C2D_SpriteSheetGetImage(cards, key), x, y, 0.5f, NULL, ScaleX, ScaleY);
+	timer += .030;
+}
+
+
 void Gui::DrawStringCentered(float x, float y, float size, u32 color, std::string Text, int maxWidth) {
 	Gui::DrawString((currentScreen ? 200 : 160)+x-(std::min(maxWidth, (int)Gui::GetStringWidth(size, Text))/2), y, size, color, Text, maxWidth);
 }

@@ -56,3 +56,4 @@
 #define cards_blank_idx 52
 #define cards_wish_idx 53
 #define cards_plus4_wish_idx 54
+#define cards_outline_idx 55

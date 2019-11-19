@@ -24,27 +24,28 @@
 *         reasonable ways as different from the original version.
 */
 
-#include "gui/gui.hpp"
+#ifndef CARDHELPER_HPP
+#define CARDHELPER_HPP
 
-#include "screens/mainMenu.hpp"
-#include "screens/test.hpp"
+// Card Type getter.
+namespace CardGetter {
+    bool isNumberCard(int Gamecard);
+    bool isPlus2(int Gamecard);
+    bool isReturn(int Gamecard);
+    bool isExpose(int Gamecard);
+    bool isWish(int Gamecard);
+    bool isPlus4(int Gamecard);
 
-extern bool exiting;
+    // Color getter!
+    bool isBlue(int Gamecard);
+    bool isGreen(int Gamecard);
+    bool isRed(int Gamecard);
+    bool isYellow(int Gamecard);
+}
 
-void MainMenu::Draw(void) const {
-	Gui::DrawTop();
-	Gui::DrawString(100, 2, 0.9f, WHITE, "Press A to continue.");
-	Gui::DrawBottom();
+namespace CardSetter {
+
 }
 
 
-void MainMenu::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
-
-	if (hDown & KEY_A) {
-		Gui::setScreen(std::make_unique<Test>());
-	}
-
-	if (hDown & KEY_B) {
-		exiting = true;
-	}
-}
+#endif
