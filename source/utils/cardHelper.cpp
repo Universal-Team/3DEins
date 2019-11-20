@@ -1,6 +1,6 @@
 /*
 *   This file is part of 3DEins
-*   Copyright (C) 2019 VoltZ
+*   Copyright (C) 2019 DeadPhoenix8091, Epicpkmn11, Flame, RocketRobz, TotallyNotGuy, VoltZ
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -63,18 +63,18 @@ bool CardGetter::isExpose(int Gamecard) {
 	}
 }
 
-// 54 is the Color Wish card.
+// 52 is the Color Wish card.
 bool CardGetter::isWish(int Gamecard) {
-	if (Gamecard == 53) {
+	if (Gamecard == 52) {
 		return true;
 	} else {
 		return false;
 	}
 }
 
-// 54 is the Plus4 card.
+// 53 is the Plus4 card.
 bool CardGetter::isPlus4(int Gamecard) {
-	if (Gamecard == 54) {
+	if (Gamecard == 53) {
 		return true;
 	} else {
 		return false;

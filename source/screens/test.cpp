@@ -1,6 +1,6 @@
 /*
 *   This file is part of 3DEins
-*   Copyright (C) 2019 VoltZ
+*   Copyright (C) 2019 DeadPhoenix8091, Epicpkmn11, Flame, RocketRobz, TotallyNotGuy, VoltZ
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@
 
 #include "utils/cardHelper.hpp"
 
-#define TotalCards 54
+#define TotalCards 53
 
 void Test::Draw(void) const {
 	Gui::DrawTop();
