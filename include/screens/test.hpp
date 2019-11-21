@@ -34,8 +34,21 @@ class Test : public Screen
 public:
 	void Draw(void) const override;
 	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
+	Test();
+
 private:
 	int currentCard = 0;
+	int player1Cards = 7;
+	int player2Cards = 10;
+	int player3Cards = 5;
+
+	// Cards.
+	int Card1;
+	int Card2;
+	int Card3;
+	int Card4;
+	int Card5;
+	int Card6;
 };
 
 #endif

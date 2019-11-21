@@ -29,7 +29,7 @@
 
 // The Number cards start from 0 until 39.
 bool CardGetter::isNumberCard(int Gamecard) {
-	if (Gamecard < 40) {
+	if (Gamecard < 10) {
 		return true;
 	} else {
 		return false;
@@ -38,81 +38,59 @@ bool CardGetter::isNumberCard(int Gamecard) {
 
 // All Plus 2 cards are from 48 until 51.
 bool CardGetter::isPlus2(int Gamecard) {
-	if (Gamecard > 47 && Gamecard < 52) {
+	if (Gamecard == 12) {
 		return true;
 	} else {
 		return false;
 	}
 }
 
-// Begins from 44 until 47.
+// 11 is the return card.
 bool CardGetter::isReturn(int Gamecard) {
-	if (Gamecard > 43 && Gamecard < 48) {
+	if (Gamecard == 11) {
 		return true;
 	} else {
 		return false;
 	}
 }
 
-// Begins from 40 until 43.
+// 10 is the Expose / Pause card.
 bool CardGetter::isExpose(int Gamecard) {
-	if (Gamecard > 39 && Gamecard < 44) {
+	if (Gamecard == 10) {
 		return true;
 	} else {
 		return false;
 	}
 }
 
-// 52 is the Color Wish card.
+// 13 is the Color Wish card.
 bool CardGetter::isWish(int Gamecard) {
-	if (Gamecard == 52) {
+	if (Gamecard == 13) {
 		return true;
 	} else {
 		return false;
 	}
 }
 
-// 53 is the Plus4 card.
+// 14 is the Plus4 card.
 bool CardGetter::isPlus4(int Gamecard) {
-	if (Gamecard == 53) {
+	if (Gamecard == 14) {
 		return true;
 	} else {
 		return false;
 	}
 }
 
-bool CardGetter::isBlue(int Gamecard) {
-	if (Gamecard == 0 || Gamecard == 4 || Gamecard == 8 || Gamecard == 12 || Gamecard == 16 || Gamecard == 20 || Gamecard == 24
-	|| Gamecard == 28 || Gamecard == 32 || Gamecard == 36 || Gamecard == 40 || Gamecard == 44 || Gamecard == 48) {
-		return true;
+std::string CardGetter::getColor(int color) {
+	if (color == 1) {
+		return "Color1";
+	} else if (color == 2) {
+		return "Color2";
+	} else if (color == 3) {
+		return "Color3";
+	} else if (color == 4) {
+		return "Color4";
 	} else {
-		return false;
-	}
-}
-
-bool CardGetter::isGreen(int Gamecard) {
-	if (Gamecard == 1 || Gamecard == 5 || Gamecard == 9 || Gamecard == 13 || Gamecard == 17 || Gamecard == 21 || Gamecard == 25
-	|| Gamecard == 29 || Gamecard == 33 || Gamecard == 37 || Gamecard == 41 || Gamecard == 45 || Gamecard == 49) {
-		return true;
-	} else {
-		return false;
-	}
-}
-
-bool CardGetter::isRed(int Gamecard) {
-	if (Gamecard == 2 || Gamecard == 6 || Gamecard == 10 || Gamecard == 14 || Gamecard == 18 || Gamecard == 22 || Gamecard == 26
-	|| Gamecard == 30 || Gamecard == 34 || Gamecard == 38 || Gamecard == 42 || Gamecard == 46 || Gamecard == 50) {
-		return true;
-	} else {
-		return false;
-	}
-}
-
-bool CardGetter::isYellow(int Gamecard) {
-	if (Gamecard == 3 || Gamecard == 7 || Gamecard == 11 || Gamecard == 15 || Gamecard == 19 || Gamecard == 23 || Gamecard == 27
-	|| Gamecard == 31 || Gamecard == 35 || Gamecard == 39 || Gamecard == 43 || Gamecard == 47 || Gamecard == 51) {
-		return true;
-	} else {
-		return false;
+		return "?";
 	}
 }

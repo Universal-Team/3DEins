@@ -71,13 +71,26 @@ void Gui::exit(void)
 	C3D_Fini();
 }
 
-void Gui::DrawCard(int key, int x, int y, float ScaleX, float ScaleY)
+void Gui::DrawCard(int key, int x, int y, int color, float ScaleX, float ScaleY)
 {
+	if (color == 1) {
+		// Green.
+		C2D_DrawRectSolid(x+2, y+3, 0.5f, 54*ScaleX-5, 80*ScaleY-5, C2D_Color32(0, 200, 0, 255));
+	} else if (color == 2) {
+		// Blue.
+		C2D_DrawRectSolid(x+2, y+3, 0.5f, 54*ScaleX-5, 80*ScaleY-5, C2D_Color32(0, 200, 200, 255));
+	} else if (color == 3) {
+		// Yellow.
+		C2D_DrawRectSolid(x+2, y+3, 0.5f, 54*ScaleX-5, 80*ScaleY-5, C2D_Color32(200, 200, 0, 255));
+	} else if (color == 4) {
+		// Red.
+		C2D_DrawRectSolid(x+2, y+3, 0.5f, 54*ScaleX-5, 80*ScaleY-5, C2D_Color32(200, 0, 0, 255));
+	}
 	C2D_DrawImageAt(C2D_SpriteSheetGetImage(cards, key), x, y, 0.5f, NULL, ScaleX, ScaleY);
 }
 
 // Animated Card Selector.
-void Gui::DrawSelectedCard(int key, int x, int y, float ScaleX, float ScaleY)
+void Gui::DrawSelectedCard(int key, int x, int y, int colorCard, float ScaleX, float ScaleY)
 {
 	static float timer         = 0.0f;
 	float highlight_multiplier = fmax(0.0, fabs(fmod(timer, 1.0) - 0.5) / 0.5);
@@ -90,8 +103,25 @@ void Gui::DrawSelectedCard(int key, int x, int y, float ScaleX, float ScaleY)
 	C2D_SetImageTint(&tint, C2D_TopRight, color, 1);
 	C2D_SetImageTint(&tint, C2D_BotLeft, color, 1);
 	C2D_SetImageTint(&tint, C2D_BotRight, color, 1);
-	C2D_DrawImageAt(C2D_SpriteSheetGetImage(cards, 55), x, y, 0.5f, &tint, ScaleX, ScaleY);
+
+	// Draw Rectangle for the card.
+	if (colorCard == 1) {
+		// Green.
+		C2D_DrawRectSolid(x+2, y+3, 0.5f, 54*ScaleX-5, 80*ScaleY-5, C2D_Color32(0, 200, 0, 255));
+	} else if (colorCard == 2) {
+		// Blue.
+		C2D_DrawRectSolid(x+2, y+3, 0.5f, 54*ScaleX-5, 80*ScaleY-5, C2D_Color32(0, 200, 200, 255));
+	} else if (colorCard == 3) {
+		// Yellow.
+		C2D_DrawRectSolid(x+2, y+3, 0.5f, 54*ScaleX-5, 80*ScaleY-5, C2D_Color32(200, 200, 0, 255));
+	} else if (colorCard == 4) {
+		// Red.
+		C2D_DrawRectSolid(x+2, y+3, 0.5f, 54*ScaleX-5, 80*ScaleY-5, C2D_Color32(200, 0, 0, 255));
+	}
+
+	// Draw Card & Outline.
 	C2D_DrawImageAt(C2D_SpriteSheetGetImage(cards, key), x, y, 0.5f, NULL, ScaleX, ScaleY);
+	C2D_DrawImageAt(C2D_SpriteSheetGetImage(cards, 16), x, y, 0.5f, &tint, ScaleX, ScaleY);
 	timer += .030;
 }
 

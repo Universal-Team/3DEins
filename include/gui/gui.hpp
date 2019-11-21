@@ -59,8 +59,8 @@ namespace Gui
 	void clearTextBufs(void);
 
 	// Draw a Card from the sheet.
-	void DrawCard(int key, int x, int y, float ScaleX = 1, float ScaleY = 1);
-	void DrawSelectedCard(int key, int x, int y, float ScaleX = 1, float ScaleY = 1);
+	void DrawCard(int key, int x, int y, int color, float ScaleX = 1, float ScaleY = 1);
+	void DrawSelectedCard(int key, int x, int y, int colorCard, float ScaleX = 1, float ScaleY = 1);
 	
 	// Misc.
 	bool Draw_Rect(float x, float y, float w, float h, u32 color);

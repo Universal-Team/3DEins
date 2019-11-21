@@ -30,48 +30,40 @@
 
 #include "utils/cardHelper.hpp"
 
-#define TotalCards 53
+#define TotalCards 14
+extern C2D_SpriteSheet cards;
 
 void Test::Draw(void) const {
 	Gui::DrawTop();
 	Gui::DrawString(165, 2, 0.9f, WHITE, "3DEins");
-	Gui::DrawSelectedCard(currentCard, 170, 80);
+	Gui::DrawSelectedCard(currentCard, 170, 80, 1);
+
+	C2D_DrawImageAt(C2D_SpriteSheetGetImage(cards, 15), 10, 85, 0.5f, NULL, 0.8, 0.8);
+	Gui::DrawString(15, 100, 0.7f, BLACK, std::to_string(player2Cards));
+
+	C2D_DrawImageAt(C2D_SpriteSheetGetImage(cards, 15), 350, 85, 0.5f, NULL, 0.8, 0.8);
+	Gui::DrawString(355, 100, 0.7f, BLACK, std::to_string(player3Cards));
+
+
 	Gui::DrawBottom();
 
-	// Player Statistics Rectangles.
-	Gui::Draw_Rect(0, 40+(0*57), 320, 45, C2D_Color32(130, 0, 0, 180));
-	Gui::Draw_Rect(0, 40+(1*57), 320, 45, C2D_Color32(130, 0, 0, 180));
-	Gui::Draw_Rect(0, 40+(2*57), 320, 45, C2D_Color32(130, 0, 0, 180));
-
-	if (CardGetter::isBlue(currentCard) == true) {
-		Gui::DrawStringCentered(0, 50+(0*57), 0.7f, WHITE, "This is a Blue card.", 320);
-	} else if (CardGetter::isGreen(currentCard) == true) {
-		Gui::DrawStringCentered(0, 50+(0*57), 0.7f, WHITE, "This is a Green Card.", 320);
-	} else if (CardGetter::isRed(currentCard) == true) {
-		Gui::DrawStringCentered(0, 50+(0*57), 0.7f, WHITE, "This is a Red Card.", 320);
-	} else if (CardGetter::isYellow(currentCard) == true) {
-		Gui::DrawStringCentered(0, 50+(0*57), 0.7f, WHITE, "This is a Yellow Card.", 320);
-	} else {
-		Gui::DrawStringCentered(0, 50+(0*57), 0.7f, WHITE, "This is a special Card.", 320);
-	}
-
-	if (CardGetter::isNumberCard(currentCard) == true) {
-		Gui::DrawStringCentered(0, 50+(1*57), 0.7f, WHITE, "This is a Number card.", 320);
-	} else if (CardGetter::isPlus2(currentCard) == true) {
-		Gui::DrawStringCentered(0, 50+(1*57), 0.7f, WHITE, "This is a Plus2 card.", 320);
-	} else if (CardGetter::isReturn(currentCard) == true) {
-		Gui::DrawStringCentered(0, 50+(1*57), 0.7f, WHITE, "This is a Return card.", 320);
-	} else if (CardGetter::isExpose(currentCard) == true) {
-		Gui::DrawStringCentered(0, 50+(1*57), 0.7f, WHITE, "This is a expose card.", 320);
-	} else if (CardGetter::isWish(currentCard) == true) {
-		Gui::DrawStringCentered(0, 50+(1*57), 0.7f, WHITE, "This is a Wish card.", 320);
-	} else if (CardGetter::isPlus4(currentCard) == true) {
-		Gui::DrawStringCentered(0, 50+(1*57), 0.7f, WHITE, "This is a Plus4 card.", 320);
-	} else {
-		Gui::DrawStringCentered(0, 50+(1*57), 0.7f, WHITE, "This is a blank card.", 320);
-	}
+	Gui::DrawCard(Card1, 15, 160, 1, 0.8, 0.8);
+	Gui::DrawCard(Card2, 65, 160, 2, 0.8, 0.8);
+	Gui::DrawCard(Card3, 115, 160, 3, 0.8, 0.8);
+	Gui::DrawCard(Card4, 165, 160, 4, 0.8, 0.8);
+	Gui::DrawCard(Card5, 215, 160, 3, 0.8, 0.8);
+	Gui::DrawCard(Card6, 265, 160, 2, 0.8, 0.8);
 }
 
+// Randomize all cards.
+Test::Test() {
+	Card1 = rand() % 14 + 0;
+	Card2 = rand() % 14 + 0;
+	Card3 = rand() % 14 + 0;
+	Card4 = rand() % 14 + 0;
+	Card5 = rand() % 14 + 0;
+	Card6 = rand() % 14 + 0;
+}
 
 void Test::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 

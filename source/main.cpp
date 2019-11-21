@@ -39,7 +39,7 @@ int main()
 	Gui::init();
 	sdmcInit();
 	osSetSpeedupEnable(true);	// Enable speed-up for New 3DS users.
-
+	srand(time(NULL));
 	Gui::setScreen(std::make_unique<MainMenu>());
 	
 	// Loop as long as the status is not exit.

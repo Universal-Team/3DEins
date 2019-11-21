@@ -27,6 +27,8 @@
 #ifndef CARDHELPER_HPP
 #define CARDHELPER_HPP
 
+#include <string>
+
 // Card Type getter.
 namespace CardGetter {
     bool isNumberCard(int Gamecard);
@@ -35,12 +37,8 @@ namespace CardGetter {
     bool isExpose(int Gamecard);
     bool isWish(int Gamecard);
     bool isPlus4(int Gamecard);
-
     // Color getter!
-    bool isBlue(int Gamecard);
-    bool isGreen(int Gamecard);
-    bool isRed(int Gamecard);
-    bool isYellow(int Gamecard);
+    std::string getColor(int color);
 }
 
 namespace CardSetter {
