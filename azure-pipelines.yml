@@ -15,9 +15,13 @@ pool:
   vmImage: 'Ubuntu-16.04'
 
 variables:
-  CURRENT_DATE: $[format('{0:yyyyMMdd\-HHmmss}', pipeline.startTime)]
-  REPOSITORY_NAME: $(Build.Repository.Name)
-  COMMIT_TAG: $(git log --format=%h -1)
+  - group: 'Secrets (Universal-Team webhook)'
+  - name: CURRENT_DATE
+    value: $[format('{0:yyyyMMdd\-HHmmss}', pipeline.startTime)]
+  - name: REPOSITORY_NAME
+    value: $(Build.Repository.Name)
+  - name: COMMIT_TAG
+    value: $(git log --format=%h -1)
 
 steps:
 - script: |
