@@ -1,7 +1,7 @@
 trigger:
   branches:
     include: ['*']
-    exclude: []
+    exclude: [full-rewrite]
   tags:
     include: ['*']
 
