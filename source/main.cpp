@@ -24,42 +24,8 @@
 *         reasonable ways as different from the original version.
 */
 
-#include "gui/gui.hpp"
+#include "init.hpp"
 
-#include "screens/mainMenu.hpp"
-#include "screens/screenCommon.hpp"
-
-bool exiting = false;
-touchPosition touch;
-
-int main()
-{
-	gfxInitDefault();
-	romfsInit();
-	Gui::init();
-	sdmcInit();
-	osSetSpeedupEnable(true);	// Enable speed-up for New 3DS users.
-	srand(time(NULL));
-	Gui::setScreen(std::make_unique<MainMenu>());
-	
-	// Loop as long as the status is not exit.
-	while (aptMainLoop() && !exiting)
-	{
-		// Scan all the Inputs.
-		hidScanInput();
-		u32 hDown = hidKeysDown();
-		u32 hHeld = hidKeysHeld();
-		hidTouchRead(&touch);
-		C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
-		C2D_TargetClear(top, BLACK);
-		C2D_TargetClear(bottom, BLACK);
-		Gui::clearTextBufs();
-		Gui::mainLoop(hDown, hHeld, touch);
-		C3D_FrameEnd(0);
-	}
-	Gui::exit();
-	gfxExit();
-	romfsExit();
-	sdmcExit();
-	return 0;
+int main() {
+	Init::MainLoop();
 }

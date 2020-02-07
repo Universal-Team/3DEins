@@ -24,35 +24,31 @@
 *         reasonable ways as different from the original version.
 */
 
-#include "gui/gui.hpp"
-
-#include "screens/test.hpp"
-
-#include "utils/cardHelper.hpp"
+#include "cardHelper.hpp"
+#include "test.hpp"
 
 #define TotalCards 14
-extern C2D_SpriteSheet cards;
 
 void Test::Draw(void) const {
-	Gui::DrawTop();
+	GFX::DrawTop();
 	Gui::DrawString(165, 2, 0.9f, WHITE, "3DEins");
-	Gui::DrawSelectedCard(currentCard, 170, 80, 1);
+	GFX::DrawSelectedCard(currentCard, 170, 80, 1);
 
-	C2D_DrawImageAt(C2D_SpriteSheetGetImage(cards, 15), 10, 85, 0.5f, NULL, 0.8, 0.8);
+	GFX::DrawCard(15, 10, 85, 0.8, 0.8);
 	Gui::DrawString(15, 100, 0.7f, BLACK, std::to_string(player2Cards));
 
-	C2D_DrawImageAt(C2D_SpriteSheetGetImage(cards, 15), 350, 85, 0.5f, NULL, 0.8, 0.8);
+	GFX::DrawCard(15, 350, 85, 0.8, 0.8);
 	Gui::DrawString(355, 100, 0.7f, BLACK, std::to_string(player3Cards));
 
 
-	Gui::DrawBottom();
+	GFX::DrawBottom();
 
-	Gui::DrawCard(Card1, 15, 160, 1, 0.8, 0.8);
-	Gui::DrawCard(Card2, 65, 160, 2, 0.8, 0.8);
-	Gui::DrawCard(Card3, 115, 160, 3, 0.8, 0.8);
-	Gui::DrawCard(Card4, 165, 160, 4, 0.8, 0.8);
-	Gui::DrawCard(Card5, 215, 160, 3, 0.8, 0.8);
-	Gui::DrawCard(Card6, 265, 160, 2, 0.8, 0.8);
+	GFX::DrawCard(Card1, 15, 160, 1, 0.8, 0.8);
+	GFX::DrawCard(Card2, 65, 160, 2, 0.8, 0.8);
+	GFX::DrawCard(Card3, 115, 160, 3, 0.8, 0.8);
+	GFX::DrawCard(Card4, 165, 160, 4, 0.8, 0.8);
+	GFX::DrawCard(Card5, 215, 160, 3, 0.8, 0.8);
+	GFX::DrawCard(Card6, 265, 160, 2, 0.8, 0.8);
 }
 
 // Randomize all cards.

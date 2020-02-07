@@ -54,9 +54,10 @@ VERSION_MICRO := 1
 #---------------------------------------------------------------------------------
 TARGET		:=	3DEins
 BUILD		:=	build
-SOURCES		:=	source source/gui source/screens source/utils
+UNIVCORE	:= 	Universal-Core
+SOURCES		:=	$(UNIVCORE) source source/gui source/screens source/utils
 DATA		:=	data
-INCLUDES	:=	include include/gui include/screens include/utils
+INCLUDES	:=	$(UNIVCORE) include include/gui include/screens include/utils
 GRAPHICS	:=	assets/gfx
 ROMFS		:=	romfs
 GFXBUILD	:=	$(ROMFS)/gfx

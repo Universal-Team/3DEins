@@ -9,3 +9,4 @@
 *.map
 *.d
 *.o
+build/cards.h

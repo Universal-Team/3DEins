@@ -24,19 +24,16 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef SCREEN_HPP
-#define SCREEN_HPP
+#ifndef INIT_HPP
+#define INIT_HPP
 
 #include <3ds.h>
-#include <memory>
 
-class Screen
-{
-public:
-	virtual ~Screen() {}
-	virtual void Logic(u32 hDown, u32 hHeld, touchPosition touch) = 0;
-	virtual void Draw() const = 0;
-private:
-};
+namespace Init {
+	// Init, Mainloop & Exit.
+	Result Initialize();
+	Result MainLoop();
+	Result Exit();
+}
 
 #endif
