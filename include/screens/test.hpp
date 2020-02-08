@@ -27,7 +27,7 @@
 #ifndef TEST_HPP
 #define TEST_HPP
 
-#include "screens/screen.hpp"
+#include "common.hpp"
 
 class Test : public Screen
 {

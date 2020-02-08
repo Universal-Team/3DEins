@@ -27,7 +27,7 @@
 #ifndef MAINMENU_HPP
 #define MAINMENU_HPP
 
-#include "screens/screen.hpp"
+#include "common.hpp"
 
 class MainMenu : public Screen
 {

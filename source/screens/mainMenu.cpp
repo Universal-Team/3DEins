@@ -24,17 +24,15 @@
 *         reasonable ways as different from the original version.
 */
 
-#include "gui/gui.hpp"
-
-#include "screens/mainMenu.hpp"
-#include "screens/test.hpp"
+#include "mainMenu.hpp"
+#include "test.hpp"
 
 extern bool exiting;
 
 void MainMenu::Draw(void) const {
-	Gui::DrawTop();
+	GFX::DrawTop();
 	Gui::DrawString(100, 2, 0.9f, WHITE, "Press A to continue.");
-	Gui::DrawBottom();
+	GFX::DrawBottom();
 }
 
 

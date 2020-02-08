@@ -24,7 +24,7 @@
 *         reasonable ways as different from the original version.
 */
 
-#include "utils/cardHelper.hpp"
+#include "cardHelper.hpp"
 
 
 // The Number cards start from 0 until 39.
