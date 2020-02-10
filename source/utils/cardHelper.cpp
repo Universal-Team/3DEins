@@ -90,6 +90,8 @@ std::string CardGetter::getColor(int color) {
 		return "Color3";
 	} else if (color == 4) {
 		return "Color4";
+	} else if (color == 5) {
+		return "Special";
 	} else {
 		return "?";
 	}

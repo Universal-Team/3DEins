@@ -56,6 +56,8 @@ void GFX::DrawCard(int key, int x, int y, int color, float ScaleX, float ScaleY)
 	} else if (color == 4) {
 		// Red.
 		C2D_DrawRectSolid(x+2, y+3, 0.5f, 54*ScaleX-5, 80*ScaleY-5, C2D_Color32(200, 0, 0, 255));
+	} else if (color == 5) {
+		C2D_DrawRectSolid(x+2, y+3, 0.5f, 54*ScaleX-5, 80*ScaleY-5, C2D_Color32(0, 0, 0, 255));
 	}
 	C2D_DrawImageAt(C2D_SpriteSheetGetImage(cards, key), x, y, 0.5f, NULL, ScaleX, ScaleY);
 }
@@ -88,6 +90,9 @@ void GFX::DrawSelectedCard(int key, int x, int y, int colorCard, float ScaleX, f
 	} else if (colorCard == 4) {
 		// Red.
 		C2D_DrawRectSolid(x+2, y+3, 0.5f, 54*ScaleX-5, 80*ScaleY-5, C2D_Color32(200, 0, 0, 255));
+	} else if (colorCard == 5) {
+		// Black.
+		C2D_DrawRectSolid(x+2, y+3, 0.5f, 54*ScaleX-5, 80*ScaleY-5, C2D_Color32(0, 0, 0, 255));
 	}
 
 	// Draw Card & Outline.

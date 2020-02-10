@@ -37,18 +37,18 @@ public:
 	Test();
 
 private:
-	int currentCard = 0;
-	int player1Cards = 7;
-	int player2Cards = 10;
-	int player3Cards = 5;
+	bool isPause = false;
+	bool canReturn = false;
+	bool canCounter = false; // In case the opponent has a Plus 2 / 4 too.
+	int currentCard = 0; // Always set to 0.
+	int currentPlayer = 0; // Player 1.
+	int toPlayColor = 1; // The to play color.
+	void PlayerLogic(u32 hDown, u32 hHeld, touchPosition touch);
+	void RoundLogic(u32 hDown, u32 hHeld, touchPosition touch);
+	void OpponentLogic(void);
 
-	// Cards.
-	int Card1;
-	int Card2;
-	int Card3;
-	int Card4;
-	int Card5;
-	int Card6;
+	// Special stuff.
+	void specialHandle(int Player, int card);
 };
 
 #endif
