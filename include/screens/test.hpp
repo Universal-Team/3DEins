@@ -27,6 +27,7 @@
 #ifndef TEST_HPP
 #define TEST_HPP
 
+#include "cardHelper.hpp"
 #include "common.hpp"
 
 class Test : public Screen
@@ -35,20 +36,15 @@ public:
 	void Draw(void) const override;
 	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
 	Test();
-
 private:
 	bool isPause = false;
 	bool canReturn = false;
 	bool canCounter = false; // In case the opponent has a Plus 2 / 4 too.
 	int currentCard = 0; // Always set to 0.
-	int currentPlayer = 0; // Player 1.
-	int toPlayColor = 1; // The to play color.
+	Player currentPlayer = Player::PLAYER_1; // Player 1.
 	void PlayerLogic(u32 hDown, u32 hHeld, touchPosition touch);
 	void RoundLogic(u32 hDown, u32 hHeld, touchPosition touch);
 	void OpponentLogic(void);
-
-	// Special stuff.
-	void specialHandle(int Player, int card);
 };
 
 #endif

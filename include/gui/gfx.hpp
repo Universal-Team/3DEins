@@ -27,6 +27,7 @@
 #ifndef GFX_HPP
 #define GFX_HPP
 
+#include "cardHelper.hpp"
 #include "cards.h"
 
 #include <3ds.h>
@@ -35,9 +36,6 @@
 // Colors.
 #define BLACK 			C2D_Color32(0, 0, 0, 255)
 #define WHITE 			C2D_Color32(255, 255, 255, 255)
-#define RED				C2D_Color32(255, 0, 0, 255)
-#define GREEN			C2D_Color32(0, 255, 0, 255)
-#define BLUE			C2D_Color32(0, 0, 255, 255)
 
 typedef u32 Color;
 
@@ -47,8 +45,8 @@ namespace GFX
 	void DrawTop(void);
 	void DrawBottom(void);
 
-	void DrawCard(int img, int x, int y, int color, float ScaleX = 1, float ScaleY = 1);
-	void DrawSelectedCard(int key, int x, int y, int colorCard, float ScaleX = 1, float ScaleY = 1);
+	void DrawCard(CardType CT, int x, int y, CardColor CC, float ScaleX = 1, float ScaleY = 1);
+	void DrawSelectedCard(CardType CT, int x, int y, CardColor CC, float ScaleX = 1, float ScaleY = 1);
 }
 
 #endif

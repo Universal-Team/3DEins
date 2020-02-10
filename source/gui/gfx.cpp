@@ -24,6 +24,7 @@
 *         reasonable ways as different from the original version.
 */
 
+#include "cardHelper.hpp"
 #include "common.hpp"
 
 void GFX::DrawTop(void) {
@@ -42,28 +43,56 @@ void GFX::DrawBottom(void) {
 
 extern C2D_SpriteSheet cards;
 
-void GFX::DrawCard(int key, int x, int y, int color, float ScaleX, float ScaleY)
+void GFX::DrawCard(CardType CT, int x, int y, CardColor CC, float ScaleX, float ScaleY)
 {
-	if (color == 1) {
-		// Green.
+	if (CC == CardColor::GREEN) {
 		C2D_DrawRectSolid(x+2, y+3, 0.5f, 54*ScaleX-5, 80*ScaleY-5, C2D_Color32(0, 200, 0, 255));
-	} else if (color == 2) {
-		// Blue.
+	} else if (CC == CardColor::BLUE) {
 		C2D_DrawRectSolid(x+2, y+3, 0.5f, 54*ScaleX-5, 80*ScaleY-5, C2D_Color32(0, 200, 200, 255));
-	} else if (color == 3) {
-		// Yellow.
+	} else if (CC == CardColor::YELLOW) {
 		C2D_DrawRectSolid(x+2, y+3, 0.5f, 54*ScaleX-5, 80*ScaleY-5, C2D_Color32(200, 200, 0, 255));
-	} else if (color == 4) {
-		// Red.
+	} else if (CC == CardColor::RED) {
 		C2D_DrawRectSolid(x+2, y+3, 0.5f, 54*ScaleX-5, 80*ScaleY-5, C2D_Color32(200, 0, 0, 255));
-	} else if (color == 5) {
+	} else if (CC == CardColor::SPECIAL) {
 		C2D_DrawRectSolid(x+2, y+3, 0.5f, 54*ScaleX-5, 80*ScaleY-5, C2D_Color32(0, 0, 0, 255));
 	}
-	C2D_DrawImageAt(C2D_SpriteSheetGetImage(cards, key), x, y, 0.5f, NULL, ScaleX, ScaleY);
+
+	// Card Type.
+	if (CT == CardType::NUMBER_0) {
+		C2D_DrawImageAt(C2D_SpriteSheetGetImage(cards, 0), x, y, 0.5f, NULL, ScaleX, ScaleY);
+	} else if (CT == CardType::NUMBER_1) {
+		C2D_DrawImageAt(C2D_SpriteSheetGetImage(cards, 1), x, y, 0.5f, NULL, ScaleX, ScaleY);
+	} else if (CT == CardType::NUMBER_2) {
+		C2D_DrawImageAt(C2D_SpriteSheetGetImage(cards, 2), x, y, 0.5f, NULL, ScaleX, ScaleY);
+	} else if (CT == CardType::NUMBER_3) {
+		C2D_DrawImageAt(C2D_SpriteSheetGetImage(cards, 3), x, y, 0.5f, NULL, ScaleX, ScaleY);
+	} else if (CT == CardType::NUMBER_4) {
+		C2D_DrawImageAt(C2D_SpriteSheetGetImage(cards, 4), x, y, 0.5f, NULL, ScaleX, ScaleY);
+	} else if (CT == CardType::NUMBER_5) {
+		C2D_DrawImageAt(C2D_SpriteSheetGetImage(cards, 5), x, y, 0.5f, NULL, ScaleX, ScaleY);
+	} else if (CT == CardType::NUMBER_6) {
+		C2D_DrawImageAt(C2D_SpriteSheetGetImage(cards, 6), x, y, 0.5f, NULL, ScaleX, ScaleY);
+	} else if (CT == CardType::NUMBER_7) {
+		C2D_DrawImageAt(C2D_SpriteSheetGetImage(cards, 7), x, y, 0.5f, NULL, ScaleX, ScaleY);
+	} else if (CT == CardType::NUMBER_8) {
+		C2D_DrawImageAt(C2D_SpriteSheetGetImage(cards, 8), x, y, 0.5f, NULL, ScaleX, ScaleY);
+	} else if (CT == CardType::NUMBER_9) {
+		C2D_DrawImageAt(C2D_SpriteSheetGetImage(cards, 9), x, y, 0.5f, NULL, ScaleX, ScaleY);
+	} else if (CT == CardType::PAUSE) {
+		C2D_DrawImageAt(C2D_SpriteSheetGetImage(cards, 10), x, y, 0.5f, NULL, ScaleX, ScaleY);
+	} else if (CT == CardType::RETURN) {
+		C2D_DrawImageAt(C2D_SpriteSheetGetImage(cards, 11), x, y, 0.5f, NULL, ScaleX, ScaleY);
+	} else if (CT == CardType::PLUS2) {
+		C2D_DrawImageAt(C2D_SpriteSheetGetImage(cards, 12), x, y, 0.5f, NULL, ScaleX, ScaleY);
+	} else if (CT == CardType::WISH) {
+		C2D_DrawImageAt(C2D_SpriteSheetGetImage(cards, 13), x, y, 0.5f, NULL, ScaleX, ScaleY);
+	} else if (CT == CardType::PLUS4) {
+		C2D_DrawImageAt(C2D_SpriteSheetGetImage(cards, 14), x, y, 0.5f, NULL, ScaleX, ScaleY);
+	}
 }
 
 // Animated Card Selector.
-void GFX::DrawSelectedCard(int key, int x, int y, int colorCard, float ScaleX, float ScaleY)
+void GFX::DrawSelectedCard(CardType CT, int x, int y, CardColor CC, float ScaleX, float ScaleY)
 {
 	static float timer         = 0.0f;
 	float highlight_multiplier = fmax(0.0, fabs(fmod(timer, 1.0) - 0.5) / 0.5);
@@ -78,25 +107,52 @@ void GFX::DrawSelectedCard(int key, int x, int y, int colorCard, float ScaleX, f
 	C2D_SetImageTint(&tint, C2D_BotRight, color, 1);
 
 	// Draw Rectangle for the card.
-	if (colorCard == 1) {
-		// Green.
+	if (CC == CardColor::GREEN) {
 		C2D_DrawRectSolid(x+2, y+3, 0.5f, 54*ScaleX-5, 80*ScaleY-5, C2D_Color32(0, 200, 0, 255));
-	} else if (colorCard == 2) {
-		// Blue.
+	} else if (CC == CardColor::BLUE) {
 		C2D_DrawRectSolid(x+2, y+3, 0.5f, 54*ScaleX-5, 80*ScaleY-5, C2D_Color32(0, 200, 200, 255));
-	} else if (colorCard == 3) {
-		// Yellow.
+	} else if (CC == CardColor::YELLOW) {
 		C2D_DrawRectSolid(x+2, y+3, 0.5f, 54*ScaleX-5, 80*ScaleY-5, C2D_Color32(200, 200, 0, 255));
-	} else if (colorCard == 4) {
-		// Red.
+	} else if (CC == CardColor::RED) {
 		C2D_DrawRectSolid(x+2, y+3, 0.5f, 54*ScaleX-5, 80*ScaleY-5, C2D_Color32(200, 0, 0, 255));
-	} else if (colorCard == 5) {
-		// Black.
+	} else if (CC == CardColor::SPECIAL) {
 		C2D_DrawRectSolid(x+2, y+3, 0.5f, 54*ScaleX-5, 80*ScaleY-5, C2D_Color32(0, 0, 0, 255));
 	}
 
 	// Draw Card & Outline.
-	C2D_DrawImageAt(C2D_SpriteSheetGetImage(cards, key), x, y, 0.5f, NULL, ScaleX, ScaleY);
+	// Card Type.
+	if (CT == CardType::NUMBER_0) {
+		C2D_DrawImageAt(C2D_SpriteSheetGetImage(cards, 0), x, y, 0.5f, NULL, ScaleX, ScaleY);
+	} else if (CT == CardType::NUMBER_1) {
+		C2D_DrawImageAt(C2D_SpriteSheetGetImage(cards, 1), x, y, 0.5f, NULL, ScaleX, ScaleY);
+	} else if (CT == CardType::NUMBER_2) {
+		C2D_DrawImageAt(C2D_SpriteSheetGetImage(cards, 2), x, y, 0.5f, NULL, ScaleX, ScaleY);
+	} else if (CT == CardType::NUMBER_3) {
+		C2D_DrawImageAt(C2D_SpriteSheetGetImage(cards, 3), x, y, 0.5f, NULL, ScaleX, ScaleY);
+	} else if (CT == CardType::NUMBER_4) {
+		C2D_DrawImageAt(C2D_SpriteSheetGetImage(cards, 4), x, y, 0.5f, NULL, ScaleX, ScaleY);
+	} else if (CT == CardType::NUMBER_5) {
+		C2D_DrawImageAt(C2D_SpriteSheetGetImage(cards, 5), x, y, 0.5f, NULL, ScaleX, ScaleY);
+	} else if (CT == CardType::NUMBER_6) {
+		C2D_DrawImageAt(C2D_SpriteSheetGetImage(cards, 6), x, y, 0.5f, NULL, ScaleX, ScaleY);
+	} else if (CT == CardType::NUMBER_7) {
+		C2D_DrawImageAt(C2D_SpriteSheetGetImage(cards, 7), x, y, 0.5f, NULL, ScaleX, ScaleY);
+	} else if (CT == CardType::NUMBER_8) {
+		C2D_DrawImageAt(C2D_SpriteSheetGetImage(cards, 8), x, y, 0.5f, NULL, ScaleX, ScaleY);
+	} else if (CT == CardType::NUMBER_9) {
+		C2D_DrawImageAt(C2D_SpriteSheetGetImage(cards, 9), x, y, 0.5f, NULL, ScaleX, ScaleY);
+	} else if (CT == CardType::PAUSE) {
+		C2D_DrawImageAt(C2D_SpriteSheetGetImage(cards, 10), x, y, 0.5f, NULL, ScaleX, ScaleY);
+	} else if (CT == CardType::RETURN) {
+		C2D_DrawImageAt(C2D_SpriteSheetGetImage(cards, 11), x, y, 0.5f, NULL, ScaleX, ScaleY);
+	} else if (CT == CardType::PLUS2) {
+		C2D_DrawImageAt(C2D_SpriteSheetGetImage(cards, 12), x, y, 0.5f, NULL, ScaleX, ScaleY);
+	} else if (CT == CardType::WISH) {
+		C2D_DrawImageAt(C2D_SpriteSheetGetImage(cards, 13), x, y, 0.5f, NULL, ScaleX, ScaleY);
+	} else if (CT == CardType::PLUS4) {
+		C2D_DrawImageAt(C2D_SpriteSheetGetImage(cards, 14), x, y, 0.5f, NULL, ScaleX, ScaleY);
+	}
+
 	C2D_DrawImageAt(C2D_SpriteSheetGetImage(cards, 16), x, y, 0.5f, &tint, ScaleX, ScaleY);
 	timer += .030;
 }

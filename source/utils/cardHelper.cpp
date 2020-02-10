@@ -26,73 +26,117 @@
 
 #include "cardHelper.hpp"
 
+#define MAXCOLOR	3 // Only 4 Colors, the 5th color is for special cards.
+#define MAXCARDTYPE	15
 
-// The Number cards start from 0 until 39.
-bool CardGetter::isNumberCard(int Gamecard) {
-	if (Gamecard < 10) {
-		return true;
-	} else {
-		return false;
+// Player Targets.
+std::vector<CardStruct> Player1Hand;
+std::vector<CardStruct> Player2Hand;
+std::vector<CardStruct> Player3Hand;
+std::vector<CardStruct> Player4Hand;
+std::vector<CardStruct> tableCard;
+
+void CardHelper::RemoveCard(Player player, int pos) {
+	if (player == Player::PLAYER_1) {
+		Player1Hand.erase(Player1Hand.begin()+pos);
+	} else if (player == Player::PLAYER_2) {
+		Player2Hand.erase(Player2Hand.begin()+pos);
+	} else if (player == Player::PLAYER_3) {
+		Player3Hand.erase(Player3Hand.begin()+pos);
+	} else if (player == Player::PLAYER_4) {
+		Player4Hand.erase(Player4Hand.begin()+pos);
 	}
 }
 
-// All Plus 2 cards are from 48 until 51.
-bool CardGetter::isPlus2(int Gamecard) {
-	if (Gamecard == 12) {
-		return true;
-	} else {
-		return false;
+void CardHelper::AddCard(Player player) {
+	CardType Card = CardType(rand() % MAXCARDTYPE + 0);
+	CardColor Color = CardColor(rand() % MAXCOLOR + 0);
+	// Checks for Wish & +4.
+	if (Card == CardType::WISH || Card == CardType::PLUS4) {
+		Color = CardColor::SPECIAL;
+	}
+
+	if (player == Player::PLAYER_1) {
+		Player1Hand.push_back({Card, Color});
+	} else if (player == Player::PLAYER_2) {
+		Player2Hand.push_back({Card, Color});
+	} else if (player == Player::PLAYER_3) {
+		Player3Hand.push_back({Card, Color});
+	} else if (player == Player::PLAYER_4) {
+		Player4Hand.push_back({Card, Color});
+	} else if (player == Player::TABLE) {
+		tableCard.push_back({Card, Color});
 	}
 }
 
-// 11 is the return card.
-bool CardGetter::isReturn(int Gamecard) {
-	if (Gamecard == 11) {
-		return true;
-	} else {
-		return false;
-	}
-}
-
-// 10 is the Expose / Pause card.
-bool CardGetter::isExpose(int Gamecard) {
-	if (Gamecard == 10) {
-		return true;
-	} else {
-		return false;
-	}
-}
-
-// 13 is the Color Wish card.
-bool CardGetter::isWish(int Gamecard) {
-	if (Gamecard == 13) {
-		return true;
-	} else {
-		return false;
-	}
-}
-
-// 14 is the Plus4 card.
-bool CardGetter::isPlus4(int Gamecard) {
-	if (Gamecard == 14) {
-		return true;
-	} else {
-		return false;
-	}
-}
-
-std::string CardGetter::getColor(int color) {
-	if (color == 1) {
-		return "Color1";
-	} else if (color == 2) {
-		return "Color2";
-	} else if (color == 3) {
-		return "Color3";
-	} else if (color == 4) {
-		return "Color4";
-	} else if (color == 5) {
-		return "Special";
-	} else {
-		return "?";
+void CardHelper::specialHandle(Player player, CardType card) {
+	if (player == Player::PLAYER_1) {
+		switch(card) {
+			case CardType::NUMBER_0:
+			case CardType::NUMBER_1:
+			case CardType::NUMBER_2:
+			case CardType::NUMBER_3:
+			case CardType::NUMBER_4:
+			case CardType::NUMBER_5:
+			case CardType::NUMBER_6:
+			case CardType::NUMBER_7:
+			case CardType::NUMBER_8:
+			case CardType::NUMBER_9:
+				break;
+			case CardType::PLUS2:
+				AddCard(Player::PLAYER_2);
+				AddCard(Player::PLAYER_2);
+				break;
+			case CardType::PLUS4:
+				AddCard(Player::PLAYER_2);
+				AddCard(Player::PLAYER_2);
+				AddCard(Player::PLAYER_2);
+				AddCard(Player::PLAYER_2);
+				//Color wish function.
+				break;
+			case CardType::WISH:
+				// Color wish function.
+				break;
+			case CardType::PAUSE:
+				// The Pause function.
+				break;
+			case CardType::RETURN:
+				// The Return function.
+				break;
+		}
+	} else if (player == Player::PLAYER_2) {
+		switch(card) {
+			case CardType::NUMBER_0:
+			case CardType::NUMBER_1:
+			case CardType::NUMBER_2:
+			case CardType::NUMBER_3:
+			case CardType::NUMBER_4:
+			case CardType::NUMBER_5:
+			case CardType::NUMBER_6:
+			case CardType::NUMBER_7:
+			case CardType::NUMBER_8:
+			case CardType::NUMBER_9:
+				break;
+			case CardType::PLUS2:
+				AddCard(Player::PLAYER_1);
+				AddCard(Player::PLAYER_1);
+				break;
+			case CardType::PLUS4:
+				AddCard(Player::PLAYER_1);
+				AddCard(Player::PLAYER_1);
+				AddCard(Player::PLAYER_1);
+				AddCard(Player::PLAYER_1);
+				//Color wish function.
+				break;
+			case CardType::WISH:
+				// Color wish function.
+				break;
+			case CardType::PAUSE:
+				// The Pause function.
+				break;
+			case CardType::RETURN:
+				// The Return function.
+				break;
+		}
 	}
 }

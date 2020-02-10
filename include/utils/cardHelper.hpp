@@ -28,22 +28,52 @@
 #define CARDHELPER_HPP
 
 #include <string>
+#include <vector>
 
-// Card Type getter.
-namespace CardGetter {
-    bool isNumberCard(int Gamecard);
-    bool isPlus2(int Gamecard);
-    bool isReturn(int Gamecard);
-    bool isExpose(int Gamecard);
-    bool isWish(int Gamecard);
-    bool isPlus4(int Gamecard);
-    // Color getter!
-    std::string getColor(int color);
+enum class CardColor {
+	GREEN,
+	BLUE,
+	YELLOW,
+	RED,
+	SPECIAL
+};
+
+enum class CardType {
+	NUMBER_0,
+	NUMBER_1,
+	NUMBER_2,
+	NUMBER_3,
+	NUMBER_4,
+	NUMBER_5,
+	NUMBER_6,
+	NUMBER_7,
+	NUMBER_8,
+	NUMBER_9,
+	PAUSE,
+	RETURN,
+	PLUS2,
+	WISH,
+	PLUS4
+};
+
+enum class Player {
+    PLAYER_1,
+    PLAYER_2,
+    PLAYER_3,
+    PLAYER_4,
+    TABLE
+};
+
+// CardStruct.
+struct CardStruct {
+	CardType CT;
+	CardColor CC;
+};
+
+namespace CardHelper {
+    void specialHandle(Player player, CardType card);
+    void AddCard(Player player);
+    void RemoveCard(Player player, int pos);
 }
-
-namespace CardSetter {
-
-}
-
 
 #endif
