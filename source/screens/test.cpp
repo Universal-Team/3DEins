@@ -28,29 +28,120 @@
 
 #include <vector>
 
-#define MAXSHOWNCARDS 6
+#define MAXSHOWNCARDS 5
 // Player Hands and status.
 extern std::vector<CardStruct> Player1Hand;
 extern PlayerStatus Player1Status;
 extern std::vector<CardStruct> Player2Hand;
 extern PlayerStatus Player2Status;
+extern std::vector<CardStruct> Player3Hand;
+extern PlayerStatus Player3Status;
+extern std::vector<CardStruct> Player4Hand;
+extern PlayerStatus Player4Status;
+
 // Table card.
 extern CardType TypeToPlay;
 extern CardColor ColorToPlay;
 
+void Test::DisplayPlayerHand() const {
+	if (currentPlayer == Player::PLAYER_1) {
+		for (int i = 0; i < (int)Player1Hand.size(); i++) {
+			if (Player1Card < MAXSHOWNCARDS) {
+				GFX::DrawCard(Player1Hand[i].CT, 3 + (i * 65), 50, Player1Hand[i].CC);
+			} else {
+				GFX::DrawCard(Player1Hand[i+Player1Card-4].CT, 3 + (i * 65), 50, Player1Hand[i+Player1Card-4].CC);
+			}
+			if (i == Player1Card) {
+				if (Player1Card < MAXSHOWNCARDS) {
+					GFX::DrawSprite(sprites_pointer_idx, 19 + (i * 65), 78);
+				} else {
+					GFX::DrawSprite(sprites_pointer_idx, 19 + (4 * 65), 78);
+				}
+			}
+		}
+	} else if (currentPlayer == Player::PLAYER_2) {
+		for (int i = 0; i < (int)Player2Hand.size(); i++) {
+			if (Player2Card < MAXSHOWNCARDS) {
+				GFX::DrawCard(Player2Hand[i].CT, 3 + (i * 65), 50, Player2Hand[i].CC);
+			} else {
+				GFX::DrawCard(Player2Hand[i+Player2Card-4].CT, 3 + (i * 65), 50, Player2Hand[i+Player2Card-4].CC);
+			}
+			if (i == Player2Card) {
+				if (Player2Card < MAXSHOWNCARDS) {
+					GFX::DrawSprite(sprites_pointer_idx, 19 + (i * 65), 78);
+				} else {
+					GFX::DrawSprite(sprites_pointer_idx, 19 + (4 * 65), 78);
+				}
+			}
+		}
+	} else if (currentPlayer == Player::PLAYER_3) {
+		for (int i = 0; i < (int)Player3Hand.size(); i++) {
+			if (Player3Card < MAXSHOWNCARDS) {
+				GFX::DrawCard(Player3Hand[i].CT, 3 + (i * 65), 50, Player3Hand[i].CC);
+			} else {
+				GFX::DrawCard(Player3Hand[i+Player3Card-4].CT, 3 + (i * 65), 50, Player3Hand[i+Player3Card-4].CC);
+			}
+			if (i == Player3Card) {
+				if (Player3Card < MAXSHOWNCARDS) {
+					GFX::DrawSprite(sprites_pointer_idx, 19 + (i * 65), 78);
+				} else {
+					GFX::DrawSprite(sprites_pointer_idx, 19 + (4 * 65), 78);
+				}
+			}
+		}
+	} else if (currentPlayer == Player::PLAYER_4) {
+		for (int i = 0; i < (int)Player4Hand.size(); i++) {
+			if (Player4Card < MAXSHOWNCARDS) {
+				GFX::DrawCard(Player4Hand[i].CT, 3 + (i * 65), 50, Player4Hand[i].CC);
+			} else {
+				GFX::DrawCard(Player4Hand[i+Player4Card-4].CT, 3 + (i * 65), 50, Player4Hand[i+Player4Card-4].CC);
+			}
+			if (i == Player4Card) {
+				if (Player4Card < MAXSHOWNCARDS) {
+					GFX::DrawSprite(sprites_pointer_idx, 19 + (i * 65), 78);
+				} else {
+					GFX::DrawSprite(sprites_pointer_idx, 19 + (4 * 65), 78);
+				}
+			}
+		}
+	}
+}
+
+void Test::DisplayPlayerHandSmall() const {
+	if (currentPlayer == Player::PLAYER_1) {
+		for (int i = 0; i < (int)Player1Hand.size(); i++) {
+			GFX::DrawCard(Player1Hand[i].CT, 2 + (i * 18), 140, Player1Hand[i].CC, 0.8, 0.8);
+		}
+	} else if (currentPlayer == Player::PLAYER_2) {
+		for (int i = 0; i < (int)Player2Hand.size(); i++) {
+			GFX::DrawCard(Player2Hand[i].CT, 2 + (i * 18), 140, Player2Hand[i].CC, 0.8, 0.8);
+		}
+	} else if (currentPlayer == Player::PLAYER_3) {
+		for (int i = 0; i < (int)Player3Hand.size(); i++) {
+			GFX::DrawCard(Player3Hand[i].CT, 2 + (i * 18), 140, Player3Hand[i].CC, 0.8, 0.8);
+		}
+	} else if (currentPlayer == Player::PLAYER_4) {
+		for (int i = 0; i < (int)Player4Hand.size(); i++) {
+			GFX::DrawCard(Player4Hand[i].CT, 2 + (i * 18), 140, Player4Hand[i].CC, 0.8, 0.8);
+		}
+	}
+}
+
+
 void Test::Draw(void) const {
 	GFX::DrawTop();
-	Gui::DrawStringCentered(0, 0, 0.9f, WHITE, "3DEins");
+	DrawPlayers();
+	//Gui::DrawStringCentered(0, 0, 0.9f, WHITE, "3DEins");
 	GFX::DrawCard(TypeToPlay, 170, 80, ColorToPlay);
 
 	// Display Players.
-	Gui::DrawString(5, 55, 0.6f, WHITE, Lang::get("PLAYER_1"));
-	Gui::DrawString(335, 55, 0.6f, WHITE, Lang::get("PLAYER_2"));
+//	Gui::DrawString(5, 55, 0.6f, WHITE, Lang::get("PLAYER_1"));
+//	Gui::DrawString(335, 55, 0.6f, WHITE, Lang::get("PLAYER_2"));
 	// Draw Cards with amount.
-	GFX::DrawSprite(sprites_blank_idx, 5, 80);
-	Gui::DrawString(15, 100, 0.7f, BLACK, std::to_string(Player1Hand.size()));
-	GFX::DrawSprite(sprites_blank_idx, 340, 80);
-	Gui::DrawString(350, 100, 0.7f, BLACK, std::to_string(Player2Hand.size()));
+//	GFX::DrawSprite(sprites_blank_idx, 5, 80);
+//	Gui::DrawString(15, 100, 0.7f, BLACK, std::to_string(Player1Hand.size()));
+//	GFX::DrawSprite(sprites_blank_idx, 340, 80);
+//	Gui::DrawString(350, 100, 0.7f, BLACK, std::to_string(Player2Hand.size()));
 
 	if (currentPlayer == Player::PLAYER_1) {
 		Gui::DrawStringCentered(0, 216, 0.7f, WHITE, Lang::get("ITS_PLAYER_1_TURN"));
@@ -60,28 +151,20 @@ void Test::Draw(void) const {
 
 	GFX::DrawBottom();
 
-	for (int i = 0; i < (int)Player1Hand.size(); i++) {
-		if (currentCard < MAXSHOWNCARDS) {
-			GFX::DrawCard(Player1Hand[i].CT, 2 + (i * 53), 85, Player1Hand[i].CC);
-		} else {
-			GFX::DrawCard(Player1Hand[i+currentCard-5].CT, 2 + (i * 53), 85, Player1Hand[i+currentCard-5].CC);
-		}
-		if (i == currentCard) {
-			if (currentCard < MAXSHOWNCARDS) {
-				GFX::DrawSprite(sprites_pointer_idx, 18 + (i * 53), 113);
-			} else {
-				GFX::DrawSprite(sprites_pointer_idx, 18 + (5 * 53), 113);
-			}
-		}
-	}
+	DisplayPlayerHand();
+	DisplayPlayerHandSmall();
 }
 
-
+// TODO.
+void Test::DrawPlayers() const {
+}
 	
 Test::Test() {
 	// Clear Player Hands.
 	Player1Hand.clear();
 	Player2Hand.clear();
+	Player3Hand.clear();
+	Player4Hand.clear();
 
 	// Randomize Table card.
 	CardHelper::RandomizeTableCard();
@@ -101,6 +184,22 @@ Test::Test() {
 	CardHelper::AddCard(Player::PLAYER_2);
 	CardHelper::AddCard(Player::PLAYER_2);
 	CardHelper::AddCard(Player::PLAYER_2);
+
+	// Fill Player 3.
+	CardHelper::AddCard(Player::PLAYER_3);
+	CardHelper::AddCard(Player::PLAYER_3);
+	CardHelper::AddCard(Player::PLAYER_3);
+	CardHelper::AddCard(Player::PLAYER_3);
+	CardHelper::AddCard(Player::PLAYER_3);
+	CardHelper::AddCard(Player::PLAYER_3);
+
+	// Fill Player 4.
+	CardHelper::AddCard(Player::PLAYER_4);
+	CardHelper::AddCard(Player::PLAYER_4);
+	CardHelper::AddCard(Player::PLAYER_4);
+	CardHelper::AddCard(Player::PLAYER_4);
+	CardHelper::AddCard(Player::PLAYER_4);
+	CardHelper::AddCard(Player::PLAYER_4);
 }
 
 void Test::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
@@ -119,26 +218,26 @@ void Test::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 // For the Player hand.
 void Test::PlayerLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hDown & KEY_RIGHT) {
-		if (currentCard < (int)Player1Hand.size()-1) {
-			currentCard++;
+		if (Player1Card < (int)Player1Hand.size()-1) {
+			Player1Card++;
 		}
 	}
 
 	if (hDown & KEY_LEFT ) {
-		if (currentCard > 0) {
-			currentCard--;
+		if (Player1Card > 0) {
+			Player1Card--;
 		}
 	}
 
 	if (hDown & KEY_A) {
 		// Check if cardType or CardColor are identical.
-		if (Player1Hand[currentCard].CT == TypeToPlay || Player1Hand[currentCard].CC == ColorToPlay || Player1Hand[currentCard].CT == CardType::WISH || Player1Hand[currentCard].CT == CardType::PLUS4) {
-			TypeToPlay = Player1Hand[currentCard].CT;
-			ColorToPlay = Player1Hand[currentCard].CC;
-			CardHelper::statusHandler(Player::PLAYER_1, Player1Status, Player1Hand[currentCard].CT);
-			CardHelper::RemoveCard(Player::PLAYER_1, currentCard);
-			if (currentCard > (int)Player1Hand.size() -1) {
-				currentCard = (int)Player1Hand.size() - 1;
+		if (Player1Hand[Player1Card].CT == TypeToPlay || Player1Hand[Player1Card].CC == ColorToPlay || Player1Hand[Player1Card].CT == CardType::WISH || Player1Hand[Player1Card].CT == CardType::PLUS4) {
+			TypeToPlay = Player1Hand[Player1Card].CT;
+			ColorToPlay = Player1Hand[Player1Card].CC;
+			CardHelper::statusHandler(Player::PLAYER_1, Player1Status, Player1Hand[Player1Card].CT);
+			CardHelper::RemoveCard(Player::PLAYER_1, Player1Card);
+			if (Player1Card > (int)Player1Hand.size() -1) {
+				Player1Card = (int)Player1Hand.size() - 1;
 			}
 			//currentPlayer = Player::PLAYER_2;
 		}

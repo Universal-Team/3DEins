@@ -25,6 +25,7 @@
 */
 
 #include "colorCard.hpp"
+#include "charSelection.hpp"
 #include "credits.hpp"
 #include "langSelection.hpp"
 #include "mainMenu.hpp"
@@ -110,6 +111,10 @@ void MainMenu::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 	if (hDown & KEY_START) {
 		exiting = true;
+	}
+
+	if (hDown & KEY_Y) {
+		Gui::setScreen(std::make_unique<CharSelection>());
 	}
 
 	if (hHeld & KEY_SELECT) {

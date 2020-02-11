@@ -4,6 +4,8 @@
 	"CARD_COLOR_CHANGER":		"Card Color Changer",
 	"CARD_COLOR_INSTRUCTIONS":	"\uE07B | \uE07C: Color Selection\n\uE052 | \uE053: Card Selection\n\uE001: Back\nTouch: RGB Change",
 	"CARD_COLORS":				"Card Colors",
+	"CHAR_SELECTION":			"Character Selection",
+	"CHAR_SELECTION_INSTR":		"\uE000: Select\n\uE052 | \uE053: Change Phrase\n\uE07B | \uE07C: Change Character\n\uE001: Back",
 	"CREDITS":					"Credits",
 	"CREDITS_INSTRUCTIONS":		"Touch the Bar for a QR Code to our discord.\n\uE001: Back",
 	"CREDITS_INSTRUCTIONS_2":	"\uE001: Back",

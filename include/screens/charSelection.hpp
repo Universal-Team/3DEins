@@ -24,35 +24,29 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef TEST_HPP
-#define TEST_HPP
+#ifndef CHARSELECTION_HPP
+#define CHARSELECTION_HPP
 
-#include "cardHelper.hpp"
 #include "common.hpp"
+#include "structs.hpp"
 
-class Test : public Screen
+#include <vector>
+
+class CharSelection : public Screen
 {
 public:
 	void Draw(void) const override;
 	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
-	Test();
 private:
-	bool isPause = false;
-	bool canReturn = false;
-	bool canCounter = false; // In case the opponent has a Plus 2 / 4 too.
-	int Player1Card = 0; // Always set to 0.
-	int Player2Card = 0;
-	int Player3Card = 0;
-	int Player4Card = 0;
-	Player currentPlayer = Player::PLAYER_1; // Player 1.
-	
-	void DisplayPlayerHand() const;
-	void DisplayPlayerHandSmall() const;
-	void DrawPlayers() const;
+	int Selection = 0;
+	int state = 2;
+	std::vector<Structs::ButtonPos> mainButtons = {
+		{0, 35, 120, 120}, // Player 1.
+		{95, 35, 120, 120}, // Player 2.
+		{195, 35, 120, 120}, // Player 3.
+		{295, 35, 120, 120}, // Player 4.
+	};
 
-	void PlayerLogic(u32 hDown, u32 hHeld, touchPosition touch);
-	void RoundLogic(u32 hDown, u32 hHeld, touchPosition touch);
-	void OpponentLogic(void);
 };
 
 #endif
