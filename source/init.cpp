@@ -25,16 +25,20 @@
 */
 
 #include "common.hpp"
+#include "config.hpp"
 #include "init.hpp"
 #include "mainMenu.hpp"
 
 #include <3ds.h>
+#include <dirent.h>
+#include <unistd.h>
 
 bool exiting = false;
 touchPosition touch;
 
 // Include all spritesheet's.
 C2D_SpriteSheet cards;
+C2D_SpriteSheet sprites;
 
 
 // If button Position pressed -> Do something.
@@ -51,7 +55,14 @@ Result Init::Initialize() {
 	romfsInit();
 	Gui::init();
 	Gui::loadSheet("romfs:/gfx/cards.t3x", cards);
+	Gui::loadSheet("romfs:/gfx/sprites.t3x", sprites);
 	sdmcInit();
+	mkdir("sdmc:/3ds", 0777);	// For DSP dump
+	mkdir("sdmc:/3ds/3DEins", 0777); // main Path.
+	if(access("sdmc:/3ds/3DEins/CardColors.json", F_OK) == -1 ) {
+		Config::initializeNewConfig();
+	}
+	Config::load();
 	osSetSpeedupEnable(true);	// Enable speed-up for New 3DS users.
 	srand(time(NULL));
 	Gui::setScreen(std::make_unique<MainMenu>());
@@ -85,6 +96,8 @@ Result Init::MainLoop() {
 Result Init::Exit() {
 	Gui::exit();
 	Gui::unloadSheet(cards);
+	Gui::unloadSheet(sprites);
+	Config::save();
 	gfxExit();
 	romfsExit();
 	sdmcExit();

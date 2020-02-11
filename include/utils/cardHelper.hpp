@@ -30,6 +30,9 @@
 #include <string>
 #include <vector>
 
+#define MAXCOLOR	4 // Only 4 Colors, the 5th color is for special cards.
+#define MAXCARDTYPE	15
+
 enum class CardColor {
 	GREEN,
 	BLUE,

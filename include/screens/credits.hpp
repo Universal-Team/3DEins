@@ -24,35 +24,30 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef MAINMENU_HPP
-#define MAINMENU_HPP
+#ifndef CREDITS_HPP
+#define CREDITS_HPP
 
-#include "cardHelper.hpp"
 #include "common.hpp"
 #include "structs.hpp"
 
 #include <vector>
 
-class MainMenu : public Screen
+class Credits : public Screen
 {
 public:
 	void Draw(void) const override;
 	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
-	MainMenu();
+
 private:
-	int Selection = 0;
+	int DisplayMode = 1;
+	int delay = 120;
+	bool discordText = false;
 
-	CardType Card1;
-	CardColor Color1;
-	CardType Card2;
-	CardColor Color2;
-	CardType Card3;
-	CardColor Color3;
+	void Loop();
+	void qr_code() const;
 
-	std::vector<Structs::ButtonPos> mainButtons = {
-		{90, 40, 140, 35}, // New Game
-		{90, 100, 140, 35}, // Colors?
-		{90, 160, 140, 35}, // Credits
+	std::vector<Structs::ButtonPos> touchPos = {
+		{0, 210, 320, 30},
 	};
 };
 

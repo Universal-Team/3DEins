@@ -28,23 +28,16 @@
 #define GFX_HPP
 
 #include "cardHelper.hpp"
+#include "colorHelper.hpp"
 #include "cards.h"
-
-#include <3ds.h>
-#include <citro2d.h>
-
-// Colors.
-#define BLACK 			C2D_Color32(0, 0, 0, 255)
-#define WHITE 			C2D_Color32(255, 255, 255, 255)
-
-typedef u32 Color;
+#include "sprites.h"
 
 namespace GFX
 {
 	// Basic GUI.
 	void DrawTop(void);
 	void DrawBottom(void);
-
+	void DrawSprite(int index, int x, int y, float ScaleX = 1, float ScaleY = 1);
 	void DrawCard(CardType CT, int x, int y, CardColor CC, float ScaleX = 1, float ScaleY = 1);
 	void DrawSelectedCard(CardType CT, int x, int y, CardColor CC, float ScaleX = 1, float ScaleY = 1);
 }

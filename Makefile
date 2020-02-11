@@ -48,9 +48,10 @@ endif
 # Version number
 #---------------------------------------------------------------------------------
 VERSION_MAJOR := 0
-VERSION_MINOR := 0
-VERSION_MICRO := 1
+VERSION_MINOR := 1
+VERSION_MICRO := 0
 
+VERSION_STRING := "Current version: $(VERSION_MAJOR).$(VERSION_MINOR).$(VERSION_MICRO)"
 #---------------------------------------------------------------------------------
 TARGET		:=	3DEins
 BUILD		:=	build
@@ -73,6 +74,7 @@ RSF_FILE	:=	app/build-cia.rsf
 ARCH	:=	-march=armv6k -mtune=mpcore -mfloat-abi=hard -mtp=soft
 
 CFLAGS	:=	-g -Wall -Wno-psabi -O2 -mword-relocations \
+			-DV_STRING=\"$(VERSION_STRING)\" \
 			-fomit-frame-pointer -ffunction-sections \
 			$(ARCH)
 

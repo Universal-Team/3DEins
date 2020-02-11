@@ -36,7 +36,7 @@ extern std::vector<CardStruct> tableCard;
 
 void Test::Draw(void) const {
 	GFX::DrawTop();
-	Gui::DrawStringCentered(0, 2, 0.9f, WHITE, "3DEins");
+	Gui::DrawStringCentered(0, 0, 0.9f, WHITE, "3DEins");
 	GFX::DrawCard(tableCard[0].CT, 170, 80, tableCard[0].CC);
 
 	if (currentPlayer == Player::PLAYER_1) {
@@ -92,6 +92,14 @@ Test::Test() {
 
 void Test::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	RoundLogic(hDown, hHeld, touch);
+
+	// Always make it possible, to quit a game.
+	if (hDown & KEY_START) {
+		if (Msg::promptMsg2("Would you like to quit this game?")) {
+			Gui::screenBack();
+			return;
+		}
+	}
 }
 
 

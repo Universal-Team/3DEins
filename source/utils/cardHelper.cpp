@@ -26,9 +26,6 @@
 
 #include "cardHelper.hpp"
 
-#define MAXCOLOR	3 // Only 4 Colors, the 5th color is for special cards.
-#define MAXCARDTYPE	15
-
 // Player Targets.
 std::vector<CardStruct> Player1Hand;
 std::vector<CardStruct> Player2Hand;

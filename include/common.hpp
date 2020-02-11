@@ -28,8 +28,10 @@
 #define COMMON_HPP
 
 // This is the new "screenCommon.hpp", lol.
+#include "config.hpp"
 #include "gfx.hpp"
 #include "gui.hpp"
+#include "msg.hpp"
 #include "screenCommon.hpp"
 
 #endif

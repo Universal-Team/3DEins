@@ -24,36 +24,21 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef MAINMENU_HPP
-#define MAINMENU_HPP
+#ifndef MSG_HPP
+#define MSG_HPP
 
-#include "cardHelper.hpp"
-#include "common.hpp"
-#include "structs.hpp"
+#include <string>
 
-#include <vector>
-
-class MainMenu : public Screen
+namespace Msg
 {
-public:
-	void Draw(void) const override;
-	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
-	MainMenu();
-private:
-	int Selection = 0;
-
-	CardType Card1;
-	CardColor Color1;
-	CardType Card2;
-	CardColor Color2;
-	CardType Card3;
-	CardColor Color3;
-
-	std::vector<Structs::ButtonPos> mainButtons = {
-		{90, 40, 140, 35}, // New Game
-		{90, 100, 140, 35}, // Colors?
-		{90, 160, 140, 35}, // Credits
-	};
-};
+	void DisplayWarnMsg(std::string Text); // Display a Warn Message for about 2 seconds.
+	void DisplayWarnMsg2(std::string Text); // Display a Warn Message for about 2 seconds. Used for more text.
+	bool promptMsg(std::string msg); // This will be used for the prompt Messages, which needs confirmation with A or cancel with B.
+	bool promptMsg2(std::string promptMsg); // This is part of promptMsg.
+	void DisplayWaitMsg(std::string waitMsg, ...); // Will Display a Message, which needs a confirmation with A.
+	void NotImplementedYet(void); // Display a not Implemented Message.
+	void DisplayMsg(std::string Message); // Display just a Message.
+	void HelperBox(std::string Msg); // Helper Box?
+}
 
 #endif

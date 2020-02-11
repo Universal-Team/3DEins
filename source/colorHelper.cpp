@@ -24,36 +24,26 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef MAINMENU_HPP
-#define MAINMENU_HPP
+#include "colorHelper.hpp"
 
-#include "cardHelper.hpp"
-#include "common.hpp"
-#include "structs.hpp"
-
-#include <vector>
-
-class MainMenu : public Screen
+int ColorHelper::getColorValue(int color, int bgr)
 {
-public:
-	void Draw(void) const override;
-	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
-	MainMenu();
-private:
-	int Selection = 0;
+	char colorName[10];
+	int i;
+	std::stringstream ss;
 
-	CardType Card1;
-	CardColor Color1;
-	CardType Card2;
-	CardColor Color2;
-	CardType Card3;
-	CardColor Color3;
+	itoa(color, colorName, 16);
+	std::string colorNamePart(colorName, 2*bgr+2, 2);
+	ss << std::hex << colorNamePart.c_str();
+	ss >> i;
 
-	std::vector<Structs::ButtonPos> mainButtons = {
-		{90, 40, 140, 35}, // New Game
-		{90, 100, 140, 35}, // Colors?
-		{90, 160, 140, 35}, // Credits
-	};
-};
+	return i;
+}
 
-#endif
+std::string ColorHelper::getColorName(int color, int bgr)
+{
+	char colorName[10];
+	int i = getColorValue(color, bgr);
+	itoa(i, colorName, 10);
+	return colorName;
+}

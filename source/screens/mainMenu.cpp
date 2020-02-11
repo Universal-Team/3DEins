@@ -24,25 +24,87 @@
 *         reasonable ways as different from the original version.
 */
 
+#include "colorCard.hpp"
+#include "credits.hpp"
+#include "keyboard.hpp"
 #include "mainMenu.hpp"
 #include "test.hpp"
 
 extern bool exiting;
+extern bool touching(touchPosition touch, Structs::ButtonPos button);
+
+MainMenu::MainMenu() {
+	// Randomize carts. ;P
+	Card1 = CardType(rand() % MAXCARDTYPE + 0);
+	Color1 = CardColor(rand() % MAXCOLOR + 0);
+
+	Card2 = CardType(rand() % MAXCARDTYPE + 0);
+	Color2 = CardColor(rand() % MAXCOLOR + 0);
+
+	Card3 = CardType(rand() % MAXCARDTYPE + 0);
+	Color3 = CardColor(rand() % MAXCOLOR + 0);
+}
 
 void MainMenu::Draw(void) const {
 	GFX::DrawTop();
-	Gui::DrawString(100, 2, 0.9f, WHITE, "Press A to continue.");
+	Gui::DrawString(100, 0, 0.9f, WHITE, "3DEins - MainMenu");
+	GFX::DrawCard(Card1, 40, 65, Color1, 1.5, 1.5);
+	GFX::DrawCard(Card2, 160, 65, Color2, 1.5, 1.5);
+	GFX::DrawCard(Card3, 280, 65, Color3, 1.5, 1.5);
+
 	GFX::DrawBottom();
+	for (int i = 0; i < 3; i++) {
+		Gui::Draw_Rect(mainButtons[i].x, mainButtons[i].y, mainButtons[i].w, mainButtons[i].h, C2D_Color32(170, 60, 0, 200));
+		if (Selection == i) {
+			Gui::Draw_Rect(mainButtons[i].x, mainButtons[i].y, mainButtons[i].w, mainButtons[i].h, C2D_Color32(220, 60, 0, 200));
+		}
+	}
+	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8, "New Game"))/2-80+17.5, 0.8, WHITE, "New Game", 130, 25);
+	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8, "Card Colors"))/2-20+17.5, 0.8, WHITE, "Card Colors", 130, 25);
+	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8, "Credits"))/2+75-17.5, 0.8, WHITE, "Credits", 130, 25);
 }
 
 
 void MainMenu::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 
-	if (hDown & KEY_A) {
-		Gui::setScreen(std::make_unique<Test>());
+	if (hDown & KEY_TOUCH) {
+		if (touching(touch, mainButtons[0])) {
+			if (Msg::promptMsg2("Would you like to start a new game?\n3DEins isn't fully implemented right now.")) {
+				Gui::setScreen(std::make_unique<Test>());
+			}
+		} else if (touching(touch, mainButtons[1])) {
+			Gui::setScreen(std::make_unique<ColorCard>());
+		} else if (touching(touch, mainButtons[2])) {
+			Gui::setScreen(std::make_unique<Credits>());
+		}
 	}
 
-	if (hDown & KEY_B) {
+
+	if (hDown & KEY_A) {
+		if (Selection == 0) {
+			if (Msg::promptMsg2("Would you like to start a new game?\n3DEins isn't fully implemented right now.")) {
+				Gui::setScreen(std::make_unique<Test>());
+			}
+		} else if (Selection == 1) {
+			Gui::setScreen(std::make_unique<ColorCard>());
+		} else if (Selection == 2) {
+			Gui::setScreen(std::make_unique<Credits>());
+		}
+	}
+
+	if (hDown & KEY_DOWN) {
+		if (Selection < 3)	Selection++;
+	}
+
+	if (hDown & KEY_UP) {
+		if (Selection > 0)	Selection--;
+	}
+
+	if (hDown & KEY_START) {
 		exiting = true;
+	}
+
+	if (hHeld & KEY_SELECT) {
+		Msg::HelperBox("START: Exit the App.\n\uE000: Select");
 	}
 }

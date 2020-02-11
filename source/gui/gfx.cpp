@@ -26,6 +26,7 @@
 
 #include "cardHelper.hpp"
 #include "common.hpp"
+#include "config.hpp"
 
 void GFX::DrawTop(void) {
 	Gui::ScreenDraw(Top);
@@ -42,17 +43,22 @@ void GFX::DrawBottom(void) {
 }
 
 extern C2D_SpriteSheet cards;
+extern C2D_SpriteSheet sprites;
+
+void GFX::DrawSprite(int index, int x, int y, float ScaleX, float ScaleY) {
+	Gui::DrawSprite(sprites, index, x, y, ScaleX, ScaleY);
+}
 
 void GFX::DrawCard(CardType CT, int x, int y, CardColor CC, float ScaleX, float ScaleY)
 {
 	if (CC == CardColor::GREEN) {
-		C2D_DrawRectSolid(x+2, y+3, 0.5f, 54*ScaleX-5, 80*ScaleY-5, C2D_Color32(0, 200, 0, 255));
+		C2D_DrawRectSolid(x+2, y+3, 0.5f, 54*ScaleX-5, 80*ScaleY-5, Config::Green);
 	} else if (CC == CardColor::BLUE) {
-		C2D_DrawRectSolid(x+2, y+3, 0.5f, 54*ScaleX-5, 80*ScaleY-5, C2D_Color32(0, 200, 200, 255));
+		C2D_DrawRectSolid(x+2, y+3, 0.5f, 54*ScaleX-5, 80*ScaleY-5, Config::Blue);
 	} else if (CC == CardColor::YELLOW) {
-		C2D_DrawRectSolid(x+2, y+3, 0.5f, 54*ScaleX-5, 80*ScaleY-5, C2D_Color32(200, 200, 0, 255));
+		C2D_DrawRectSolid(x+2, y+3, 0.5f, 54*ScaleX-5, 80*ScaleY-5, Config::Yellow);
 	} else if (CC == CardColor::RED) {
-		C2D_DrawRectSolid(x+2, y+3, 0.5f, 54*ScaleX-5, 80*ScaleY-5, C2D_Color32(200, 0, 0, 255));
+		C2D_DrawRectSolid(x+2, y+3, 0.5f, 54*ScaleX-5, 80*ScaleY-5, Config::Red);
 	} else if (CC == CardColor::SPECIAL) {
 		C2D_DrawRectSolid(x+2, y+3, 0.5f, 54*ScaleX-5, 80*ScaleY-5, C2D_Color32(0, 0, 0, 255));
 	}
@@ -108,13 +114,13 @@ void GFX::DrawSelectedCard(CardType CT, int x, int y, CardColor CC, float ScaleX
 
 	// Draw Rectangle for the card.
 	if (CC == CardColor::GREEN) {
-		C2D_DrawRectSolid(x+2, y+3, 0.5f, 54*ScaleX-5, 80*ScaleY-5, C2D_Color32(0, 200, 0, 255));
+		C2D_DrawRectSolid(x+2, y+3, 0.5f, 54*ScaleX-5, 80*ScaleY-5, Config::Green);
 	} else if (CC == CardColor::BLUE) {
-		C2D_DrawRectSolid(x+2, y+3, 0.5f, 54*ScaleX-5, 80*ScaleY-5, C2D_Color32(0, 200, 200, 255));
+		C2D_DrawRectSolid(x+2, y+3, 0.5f, 54*ScaleX-5, 80*ScaleY-5, Config::Blue);
 	} else if (CC == CardColor::YELLOW) {
-		C2D_DrawRectSolid(x+2, y+3, 0.5f, 54*ScaleX-5, 80*ScaleY-5, C2D_Color32(200, 200, 0, 255));
+		C2D_DrawRectSolid(x+2, y+3, 0.5f, 54*ScaleX-5, 80*ScaleY-5, Config::Yellow);
 	} else if (CC == CardColor::RED) {
-		C2D_DrawRectSolid(x+2, y+3, 0.5f, 54*ScaleX-5, 80*ScaleY-5, C2D_Color32(200, 0, 0, 255));
+		C2D_DrawRectSolid(x+2, y+3, 0.5f, 54*ScaleX-5, 80*ScaleY-5, Config::Red);
 	} else if (CC == CardColor::SPECIAL) {
 		C2D_DrawRectSolid(x+2, y+3, 0.5f, 54*ScaleX-5, 80*ScaleY-5, C2D_Color32(0, 0, 0, 255));
 	}

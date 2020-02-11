@@ -24,36 +24,32 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef MAINMENU_HPP
-#define MAINMENU_HPP
+#ifndef COLORHELPER_HPP
+#define COLORHELPER_HPP
 
-#include "cardHelper.hpp"
-#include "common.hpp"
-#include "structs.hpp"
+#include <citro2d.h>
+#include <citro3d.h>
+#include <sstream>
+#include <string>
 
-#include <vector>
+/**
+ * @brief Creates a 8 byte RGBA color
+ * @param r red component of the color
+ * @param g green component of the color
+ * @param b blue component of the color
+ * @param a alpha component of the color
+ */
+#define RGBA8(r, g, b, a) ((((r)&0xFF)<<0) | (((g)&0xFF)<<8) | (((b)&0xFF)<<16) | (((a)&0xFF)<<24))
 
-class MainMenu : public Screen
-{
-public:
-	void Draw(void) const override;
-	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
-	MainMenu();
-private:
-	int Selection = 0;
+#define BLACK 					C2D_Color32(0, 0, 0, 255)
+#define WHITE 					C2D_Color32(255, 255, 255, 255)
+#define TRANSPARENT				C2D_Color32(0, 0, 0, 0)
 
-	CardType Card1;
-	CardColor Color1;
-	CardType Card2;
-	CardColor Color2;
-	CardType Card3;
-	CardColor Color3;
+typedef u32 Color;
 
-	std::vector<Structs::ButtonPos> mainButtons = {
-		{90, 40, 140, 35}, // New Game
-		{90, 100, 140, 35}, // Colors?
-		{90, 160, 140, 35}, // Credits
-	};
-};
+namespace ColorHelper {
+	int getColorValue(int color, int bgr);
+	std::string getColorName(int color, int bgr);
+}
 
 #endif
