@@ -39,7 +39,6 @@ namespace GFX
 	void DrawBottom(void);
 	void DrawSprite(int index, int x, int y, float ScaleX = 1, float ScaleY = 1);
 	void DrawCard(CardType CT, int x, int y, CardColor CC, float ScaleX = 1, float ScaleY = 1);
-	void DrawSelectedCard(CardType CT, int x, int y, CardColor CC, float ScaleX = 1, float ScaleY = 1);
 }
 
 #endif

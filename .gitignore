@@ -10,3 +10,4 @@
 *.d
 *.o
 build/cards.h
+build/sprites.h

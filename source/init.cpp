@@ -59,10 +59,11 @@ Result Init::Initialize() {
 	sdmcInit();
 	mkdir("sdmc:/3ds", 0777);	// For DSP dump
 	mkdir("sdmc:/3ds/3DEins", 0777); // main Path.
-	if(access("sdmc:/3ds/3DEins/CardColors.json", F_OK) == -1 ) {
+	if(access("sdmc:/3ds/3DEins/Settings.json", F_OK) == -1 ) {
 		Config::initializeNewConfig();
 	}
 	Config::load();
+	Lang::load(Config::getLang("LANG"));
 	osSetSpeedupEnable(true);	// Enable speed-up for New 3DS users.
 	srand(time(NULL));
 	Gui::setScreen(std::make_unique<MainMenu>());
@@ -72,7 +73,6 @@ Result Init::Initialize() {
 Result Init::MainLoop() {
     // Initialize everything.
     Initialize();
-
 	// Loop as long as the status is not exiting.
 	while (aptMainLoop() && !exiting)
 	{

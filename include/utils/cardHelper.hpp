@@ -63,8 +63,19 @@ enum class Player {
     PLAYER_1,
     PLAYER_2,
     PLAYER_3,
-    PLAYER_4,
-    TABLE
+    PLAYER_4
+};
+
+// TODO: Add Status handler.
+enum class PlayerStatus {
+	DRAW_2,
+	DRAW_4,
+	WISH_COLOR,
+	TAKE_BREAK,
+	CAN_RETURN,
+	DIRECTION_CHANGE,
+	HAS_NO_CARDS,
+	NORMAL
 };
 
 // CardStruct.
@@ -74,9 +85,13 @@ struct CardStruct {
 };
 
 namespace CardHelper {
+	void RandomizeTableCard(void);
+	void statusHandler(Player player, PlayerStatus status, CardType card); // Handle Status like +2, +4, Wish etc.
+	void DrawEffect(Player player, CardType card);
     void specialHandle(Player player, CardType card);
     void AddCard(Player player);
     void RemoveCard(Player player, int pos);
+	CardColor wishFunction();
 }
 
 #endif

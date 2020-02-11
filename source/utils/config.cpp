@@ -32,13 +32,13 @@
 #include <string>
 #include <unistd.h>
 
-int Config::Red, Config::Yellow, Config::Blue, Config::Green;
+int Config::lang, Config::Red, Config::Yellow, Config::Blue, Config::Green;
 
 
 nlohmann::json configJson;
 
 void Config::load() {
-	FILE* file = fopen("sdmc:/3ds/3DEins/CardColors.json", "r");
+	FILE* file = fopen("sdmc:/3ds/3DEins/Settings.json", "r");
 	if(file)	configJson = nlohmann::json::parse(file, nullptr, false);
 	fclose(file);
 	if(!configJson.contains("RED")) {
@@ -64,6 +64,12 @@ void Config::load() {
 	} else {
 		Config::Green = getInt("GREEN");
 	}
+
+	if(!configJson.contains("LANG")) {
+		Config::lang = 2;
+	} else {
+		Config::lang = getInt("LANG");
+	}
 }
 
 
@@ -72,20 +78,22 @@ void Config::save() {
 	Config::setInt("YELLOW", Config::Yellow);
 	Config::setInt("BLUE", Config::Blue);
 	Config::setInt("GREEN", Config::Green);
-	FILE* file = fopen("sdmc:/3ds/3DEins/CardColors.json", "w");
+	Config::setInt("LANG", Config::lang);
+	FILE* file = fopen("sdmc:/3ds/3DEins/Settings.json", "w");
 	if(file)	fwrite(configJson.dump(1, '\t').c_str(), 1, configJson.dump(1, '\t').size(), file);
 	fclose(file);
 }
 
 // If no Settings File is found, set a default one. ;)
 void Config::initializeNewConfig() {
-	FILE* file = fopen("sdmc:/3ds/3DEins/CardColors.json", "r");
+	FILE* file = fopen("sdmc:/3ds/3DEins/Settings.json", "r");
 	if(file)	configJson = nlohmann::json::parse(file, nullptr, false);
 	fclose(file);
 	setInt("RED", C2D_Color32(255, 0, 0, 255));
 	setInt("YELLOW", C2D_Color32(200, 200, 0, 255));
 	setInt("BLUE", C2D_Color32(0, 0, 255, 255));
 	setInt("GREEN", C2D_Color32(0, 255, 0, 255));
+	setInt("LANG", 2);
 	if(file)	fwrite(configJson.dump(1, '\t').c_str(), 1, configJson.dump(1, '\t').size(), file);
 	fclose(file);
 }
@@ -98,4 +106,11 @@ int Config::getInt(const std::string &key) {
 }
 void Config::setInt(const std::string &key, int v) {
 	configJson[key] = v;
+}
+
+int Config::getLang(const std::string &key) {
+	if(!configJson.contains(key)) {
+		return 1;
+	}
+	return configJson.at(key).get_ref<const int64_t&>();
 }

@@ -53,7 +53,7 @@ void ColorCard::DrawPreview(void) const {
 
 void ColorCard::Draw(void) const {
 	GFX::DrawTop();
-	Gui::DrawStringCentered(0, 0, 0.9f, WHITE, "3DEins - Card Color Changer", 320);
+	Gui::DrawStringCentered(0, 0, 0.9f, WHITE, "3DEins - " + Lang::get("CARD_COLOR_CHANGER"), 320);
 	DrawPreview();
 	GFX::DrawBottom();
 
@@ -62,22 +62,22 @@ void ColorCard::Draw(void) const {
 	Gui::Draw_Rect(buttons[2].x, buttons[2].y, 95, 41, C2D_Color32(0, 0, 255, 255));
 
 	if (colorMode == 0) {
-		Gui::DrawStringCentered(0, 60, 0.7f, WHITE, "Red Color", 320);
+		Gui::DrawStringCentered(0, 60, 0.7f, WHITE, Lang::get("RED_COLOR"), 320);
 		Gui::DrawString(40, 98, 0.7f, WHITE, ColorHelper::getColorName(Config::Red, 2).c_str(), 400);
 		Gui::DrawString(140, 98, 0.7f, WHITE, ColorHelper::getColorName(Config::Red, 1).c_str(), 400);
 		Gui::DrawString(245, 98, 0.7f, WHITE, ColorHelper::getColorName(Config::Red, 0).c_str(), 400);
 	} else if (colorMode == 1) {
-		Gui::DrawStringCentered(0, 60, 0.7f, WHITE, "Blue Color", 320);
+		Gui::DrawStringCentered(0, 60, 0.7f, WHITE, Lang::get("BLUE_COLOR"), 320);
 		Gui::DrawString(40, 98, 0.7f, WHITE, ColorHelper::getColorName(Config::Blue, 2).c_str(), 400);
 		Gui::DrawString(140, 98, 0.7f, WHITE, ColorHelper::getColorName(Config::Blue, 1).c_str(), 400);
 		Gui::DrawString(245, 98, 0.7f, WHITE, ColorHelper::getColorName(Config::Blue, 0).c_str(), 400);
 	} else if (colorMode == 2) {
-		Gui::DrawStringCentered(0, 60, 0.7f, WHITE, "Yellow Color", 320);
+		Gui::DrawStringCentered(0, 60, 0.7f, WHITE, Lang::get("YELLOW_COLOR"), 320);
 		Gui::DrawString(40, 98, 0.7f, WHITE, ColorHelper::getColorName(Config::Yellow, 2).c_str(), 400);
 		Gui::DrawString(140, 98, 0.7f, WHITE, ColorHelper::getColorName(Config::Yellow, 1).c_str(), 400);
 		Gui::DrawString(245, 98, 0.7f, WHITE, ColorHelper::getColorName(Config::Yellow, 0).c_str(), 400);
 	} else if (colorMode == 3) {
-		Gui::DrawStringCentered(0, 60, 0.7f, WHITE, "Green Color", 320);
+		Gui::DrawStringCentered(0, 60, 0.7f, WHITE, Lang::get("GREEN_COLOR"), 320);
 		Gui::DrawString(40, 98, 0.7f, WHITE, ColorHelper::getColorName(Config::Green, 2).c_str(), 400);
 		Gui::DrawString(140, 98, 0.7f, WHITE, ColorHelper::getColorName(Config::Green, 1).c_str(), 400);
 		Gui::DrawString(245, 98, 0.7f, WHITE, ColorHelper::getColorName(Config::Green, 0).c_str(), 400);
@@ -112,12 +112,12 @@ void ColorCard::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	}
 
 	if (hHeld & KEY_SELECT) {
-		Msg::HelperBox("\uE07B | \uE07C: Color Selection\n\uE052 | \uE053: Card Selection\n\uE001: Back\nTouch: RGB Change");
+		Msg::HelperBox(Lang::get("CARD_COLOR_INSTRUCTIONS"));
 	}
 
 	if (hDown & KEY_TOUCH) {
 		if (touching(touch, buttons[0])) {
-			int temp = Input::getUint(255, "Enter the Red RGB.");
+			int temp = Input::getUint(255, Lang::get("ENTER_RED_RGB"));
 			if(temp != -1) {
 				red = temp;
 				if (colorMode == 0) {
@@ -131,7 +131,7 @@ void ColorCard::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 				}
 			}
 		} else if (touching(touch, buttons[1]) && colorMode != 7) {
-			int temp = Input::getUint(255, "Enter the Green RGB.");
+			int temp = Input::getUint(255, Lang::get("ENTER_GREEN_RGB"));
 			if(temp != -1) {
 				green = temp;
 				if (colorMode == 0) {
@@ -145,7 +145,7 @@ void ColorCard::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 				}
 			}
 		} else if (touching(touch, buttons[2])) {
-			int temp = Input::getUint(255, "Enter the Blue RGB.");
+			int temp = Input::getUint(255, Lang::get("ENTER_BLUE_RGB"));
 			if(temp != -1) {
 				blue = temp;
 				if (colorMode == 0) {

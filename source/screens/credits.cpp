@@ -31,13 +31,13 @@ extern bool touching(touchPosition touch, Structs::ButtonPos button);
 void Credits::Draw(void) const {
 	if (DisplayMode == 1) {
 		GFX::DrawTop();
-		Gui::DrawStringCentered(0, 0, 0.9f, WHITE, "3DEins - Credits", 400);
-		Gui::DrawStringCentered(0, 30, 0.9f, WHITE, "Developed by: Universal-Team.", 390);
-		Gui::DrawStringCentered(0, 70, 0.9f, WHITE, "Main Developer: StackZ", 390);
+		Gui::DrawStringCentered(0, 0, 0.9f, WHITE, "3DEins - " + Lang::get("CREDITS"), 400);
+		Gui::DrawStringCentered(0, 30, 0.9f, WHITE, Lang::get("DEVELOPED_BY"), 390);
+		Gui::DrawStringCentered(0, 70, 0.9f, WHITE, Lang::get("MAIN_DEV"), 390);
 		GFX::DrawSprite(sprites_stackZ_idx, 120, 100);
-		Gui::DrawString(395-Gui::GetStringWidth(0.7, V_STRING), 215, 0.7, WHITE, V_STRING, 400);
+		Gui::DrawString(395-Gui::GetStringWidth(0.7, Lang::get("CURRENT_VERSION") + V_STRING), 215, 0.7, WHITE, Lang::get("CURRENT_VERSION") + V_STRING, 400);
 		GFX::DrawBottom();
-		Gui::DrawStringCentered(0, 217, 0.6f, WHITE, discordText ? "Click here to show the QR Code." : "Join our Discord: https://discord.gg/KDJCfGF", 310);
+		Gui::DrawStringCentered(0, 217, 0.6f, WHITE, discordText ? Lang::get("SHOW_QR") : Lang::get("LINK"), 310);
 	 } else if (DisplayMode == 2) {
 		qr_code();
 	}
@@ -47,7 +47,7 @@ void Credits::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	Loop();
 	if (DisplayMode == 1) {
 		if (hHeld & KEY_SELECT) {
-			Msg::HelperBox("Touch the Bar for a QR Code to our discord.\n\uE001: Back");
+			Msg::HelperBox(Lang::get("CREDITS_INSTRUCTIONS"));
 		}
 
 		if (hDown & KEY_B) {
@@ -62,7 +62,7 @@ void Credits::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 	} else if (DisplayMode == 2) {
 		if (hHeld & KEY_SELECT) {
-			Msg::HelperBox("\uE001: Back");
+			Msg::HelperBox(Lang::get("CREDITS_INSTRUCTIONS_2"));
 		}
 
 		if (hDown & KEY_B) {

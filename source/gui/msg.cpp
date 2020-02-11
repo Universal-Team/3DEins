@@ -55,9 +55,9 @@ bool Msg::promptMsg2(std::string promptMsg)
 		// Draw Bottom Screen part.
 		Gui::Draw_Rect(10, 100, 140, 35, C2D_Color32(220, 60, 0, 200));
 		Gui::Draw_Rect(170, 100, 140, 35, C2D_Color32(220, 60, 0, 200));
-		Gui::drawAnimatedSelector(promptBtn[selection].x, promptBtn[selection].y, promptBtn[selection].w, promptBtn[selection].h, .030f, C2D_Color32(0, 0, 0, 0), C2D_Color32(220, 60, 0, 200));
-		Gui::DrawStringCentered(-150+70, 105, 0.8f, WHITE, "Yes", 140);
-		Gui::DrawStringCentered(150-70, 105, 0.8f, WHITE, "No", 140);
+		Gui::DrawStringCentered(-150+70, 105, 0.8f, WHITE, Lang::get("YES"), 140);
+		Gui::DrawStringCentered(150-70, 105, 0.8f, WHITE, Lang::get("NO"), 140);
+		GFX::DrawSprite(sprites_pointer_idx, promptBtn[selection].x+120, promptBtn[selection].y+25);
 		C3D_FrameEnd(0);
 
 		// Selection part.
@@ -134,10 +134,10 @@ void Msg::DisplayWaitMsg(std::string waitMsg, ...)
 	GFX::DrawTop();
 	Gui::Draw_Rect(0, 80, 400, 80, C2D_Color32(220, 60, 0, 200));
 	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8f, waitMsg))/2, 0.8f, WHITE, waitMsg, 390, 70);
-	Gui::DrawStringCentered(0, 214, 0.8f, WHITE, "Press \uE000 to continue.", 390);
+	Gui::DrawStringCentered(0, 214, 0.8f, WHITE, Lang::get("A_CONTINUE"), 390);
 	GFX::DrawBottom();
 	Gui::Draw_Rect(100, 100, 140, 35, C2D_Color32(220, 60, 0, 200));
-	Gui::DrawStringCentered(-60+70, 105, 0.8f, WHITE, "Ok", 140);
+	Gui::DrawStringCentered(-60+70, 105, 0.8f, WHITE, Lang::get("OK"), 140);
 	C3D_FrameEnd(0);
 
 	while(1)
@@ -178,5 +178,5 @@ void Msg::DisplayMsg(std::string Message) {
 
 
 void Msg::NotImplementedYet(void) {
-	Msg::DisplayWaitMsg("This isn't implemented yet!");
+	Msg::DisplayWaitMsg(Lang::get("NOT_IMPLEMENTED"));
 }

@@ -24,37 +24,20 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef MAINMENU_HPP
-#define MAINMENU_HPP
+#ifndef CONFIG_HPP
+#define CONFIG_HPP
 
-#include "cardHelper.hpp"
-#include "common.hpp"
-#include "structs.hpp"
+#include <string>
 
-#include <vector>
+namespace Config {
+	void load();
+	void save();
+	void initializeNewConfig();
 
-class MainMenu : public Screen
-{
-public:
-	void Draw(void) const override;
-	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
-	MainMenu();
-private:
-	int Selection = 0;
-
-	CardType Card1;
-	CardColor Color1;
-	CardType Card2;
-	CardColor Color2;
-	CardType Card3;
-	CardColor Color3;
-
-	std::vector<Structs::ButtonPos> mainButtons = {
-		{10, 70, 140, 40}, // New Game.
-		{170, 70, 140, 40}, // Card Colors.
-		{10, 145, 140, 40}, // Credits.
-		{170, 145, 140, 40}, // Language.
-	};
-};
+	int getInt(const std::string &key);
+	void setInt(const std::string &key, int v);
+	int getLang(const std::string &key);
+	extern int lang, Red, Yellow, Blue, Green;
+}
 
 #endif

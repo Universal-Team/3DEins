@@ -51,7 +51,7 @@ VERSION_MAJOR := 0
 VERSION_MINOR := 1
 VERSION_MICRO := 0
 
-VERSION_STRING := "Current version: $(VERSION_MAJOR).$(VERSION_MINOR).$(VERSION_MICRO)"
+VERSION_STRING := "$(VERSION_MAJOR).$(VERSION_MINOR).$(VERSION_MICRO)"
 #---------------------------------------------------------------------------------
 TARGET		:=	3DEins
 BUILD		:=	build

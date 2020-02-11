@@ -29,49 +29,62 @@
 #include <vector>
 
 #define MAXSHOWNCARDS 6
-// Player Hands and table card.
+// Player Hands and status.
 extern std::vector<CardStruct> Player1Hand;
+extern PlayerStatus Player1Status;
 extern std::vector<CardStruct> Player2Hand;
-extern std::vector<CardStruct> tableCard;
+extern PlayerStatus Player2Status;
+// Table card.
+extern CardType TypeToPlay;
+extern CardColor ColorToPlay;
 
 void Test::Draw(void) const {
 	GFX::DrawTop();
 	Gui::DrawStringCentered(0, 0, 0.9f, WHITE, "3DEins");
-	GFX::DrawCard(tableCard[0].CT, 170, 80, tableCard[0].CC);
+	GFX::DrawCard(TypeToPlay, 170, 80, ColorToPlay);
+
+	// Display Players.
+	Gui::DrawString(5, 55, 0.6f, WHITE, Lang::get("PLAYER_1"));
+	Gui::DrawString(335, 55, 0.6f, WHITE, Lang::get("PLAYER_2"));
+	// Draw Cards with amount.
+	GFX::DrawSprite(sprites_blank_idx, 5, 80);
+	Gui::DrawString(15, 100, 0.7f, BLACK, std::to_string(Player1Hand.size()));
+	GFX::DrawSprite(sprites_blank_idx, 340, 80);
+	Gui::DrawString(350, 100, 0.7f, BLACK, std::to_string(Player2Hand.size()));
 
 	if (currentPlayer == Player::PLAYER_1) {
-		Gui::DrawStringCentered(0, 216, 0.7f, WHITE, "It's your turn!");
+		Gui::DrawStringCentered(0, 216, 0.7f, WHITE, Lang::get("ITS_PLAYER_1_TURN"));
 	} else {
-		Gui::DrawStringCentered(0, 216, 0.7f, WHITE, "It's the opponent turn!");
+		Gui::DrawStringCentered(0, 216, 0.7f, WHITE, Lang::get("ITS_PLAYER_2_TURN"));
 	}
 
 	GFX::DrawBottom();
 
 	for (int i = 0; i < (int)Player1Hand.size(); i++) {
+		if (currentCard < MAXSHOWNCARDS) {
+			GFX::DrawCard(Player1Hand[i].CT, 2 + (i * 53), 85, Player1Hand[i].CC);
+		} else {
+			GFX::DrawCard(Player1Hand[i+currentCard-5].CT, 2 + (i * 53), 85, Player1Hand[i+currentCard-5].CC);
+		}
 		if (i == currentCard) {
 			if (currentCard < MAXSHOWNCARDS) {
-				GFX::DrawSelectedCard(Player1Hand[i].CT, 2 + (i * 53), 85, Player1Hand[i].CC);
+				GFX::DrawSprite(sprites_pointer_idx, 18 + (i * 53), 113);
 			} else {
-				GFX::DrawSelectedCard(Player1Hand[i+currentCard-5].CT, 2 + (i * 53), 85, Player1Hand[i+currentCard-5].CC);
-			}
-		} else {
-			if (currentCard < 6) {
-				GFX::DrawCard(Player1Hand[i].CT, 2 + (i * 53), 85, Player1Hand[i].CC);
-			} else {
-				GFX::DrawCard(Player1Hand[i+currentCard-5].CT, 2 + (i * 53), 85, Player1Hand[i+currentCard-5].CC);
+				GFX::DrawSprite(sprites_pointer_idx, 18 + (5 * 53), 113);
 			}
 		}
 	}
 }
 
+
+	
 Test::Test() {
-	// Clear Hands and the table.
-	tableCard.clear();
+	// Clear Player Hands.
 	Player1Hand.clear();
 	Player2Hand.clear();
 
-	// Add Table card.
-	CardHelper::AddCard(Player::TABLE);
+	// Randomize Table card.
+	CardHelper::RandomizeTableCard();
 
 	// Fill Player 1.
 	CardHelper::AddCard(Player::PLAYER_1);
@@ -95,7 +108,7 @@ void Test::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 	// Always make it possible, to quit a game.
 	if (hDown & KEY_START) {
-		if (Msg::promptMsg2("Would you like to quit this game?")) {
+		if (Msg::promptMsg2(Lang::get("QUIT_GAME"))) {
 			Gui::screenBack();
 			return;
 		}
@@ -119,18 +132,16 @@ void Test::PlayerLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 	if (hDown & KEY_A) {
 		// Check if cardType or CardColor are identical.
-		if (Player1Hand[currentCard].CT == tableCard[0].CT || Player1Hand[currentCard].CC == tableCard[0].CC) {
-			tableCard.clear();
-			CardType card = Player1Hand[currentCard].CT;
-			CardColor color = Player1Hand[currentCard].CC;
-			tableCard.push_back({card, color});
+		if (Player1Hand[currentCard].CT == TypeToPlay || Player1Hand[currentCard].CC == ColorToPlay || Player1Hand[currentCard].CT == CardType::WISH || Player1Hand[currentCard].CT == CardType::PLUS4) {
+			TypeToPlay = Player1Hand[currentCard].CT;
+			ColorToPlay = Player1Hand[currentCard].CC;
+			CardHelper::statusHandler(Player::PLAYER_1, Player1Status, Player1Hand[currentCard].CT);
 			CardHelper::RemoveCard(Player::PLAYER_1, currentCard);
 			if (currentCard > (int)Player1Hand.size() -1) {
 				currentCard = (int)Player1Hand.size() - 1;
 			}
 			//currentPlayer = Player::PLAYER_2;
 		}
-		// Set Logic -> TODO.
 	}
 
 	// User cannot set, so draw a card.
@@ -138,16 +149,20 @@ void Test::PlayerLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 		CardHelper::AddCard(Player::PLAYER_1);
 		//currentPlayer = Player::PLAYER_2;
 	}
+
+	// Test Test.
+	if (hDown & KEY_Y) {
+		ColorToPlay = CardHelper::wishFunction();
+	}
 }
 
 // TODO!!!
 void Test::OpponentLogic(void) {
 	for (int i = 0; i < (int)Player2Hand.size(); i++) {
-		if (Player2Hand[i].CT == tableCard[0].CT || Player2Hand[i].CC == tableCard[0].CC) {
-			tableCard.clear();
-			CardType card = Player2Hand[i].CT;
-			CardColor color = Player2Hand[i].CC;
-			tableCard.push_back({card, color});
+		if (Player2Hand[i].CT == TypeToPlay || Player2Hand[i].CC == ColorToPlay) {
+			TypeToPlay = Player2Hand[i].CT;
+			ColorToPlay = Player2Hand[i].CC;
+			CardHelper::statusHandler(Player::PLAYER_2, Player2Status, Player2Hand[i].CT);
 			CardHelper::RemoveCard(Player::PLAYER_2, i);
 		} else {
 			CardHelper::AddCard(Player::PLAYER_2);

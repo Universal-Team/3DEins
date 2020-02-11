@@ -1,4 +1,6 @@
 --atlas -f rgba8888 -z auto
 
+sprites/blank.png
 sprites/discord.png
+sprites/pointer.png
 sprites/stackZ.png

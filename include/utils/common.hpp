@@ -24,19 +24,15 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef CONFIG_HPP
-#define CONFIG_HPP
+#ifndef COMMON_HPP
+#define COMMON_HPP
 
-#include <string>
-
-namespace Config {
-	void load();
-	void save();
-	void initializeNewConfig();
-
-	int getInt(const std::string &key);
-	void setInt(const std::string &key, int v);
-	extern int Red, Yellow, Blue, Green;
-}
+// This is the new "screenCommon.hpp", lol.
+#include "config.hpp"
+#include "gfx.hpp"
+#include "gui.hpp"
+#include "lang.hpp"
+#include "msg.hpp"
+#include "screenCommon.hpp"
 
 #endif
