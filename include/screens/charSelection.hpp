@@ -39,7 +39,7 @@ public:
 	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
 private:
 	int Selection = 0;
-	int state = 2;
+	int state = 1;
 	std::vector<Structs::ButtonPos> mainButtons = {
 		{0, 35, 120, 120}, // Player 1.
 		{95, 35, 120, 120}, // Player 2.

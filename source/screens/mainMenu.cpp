@@ -73,7 +73,7 @@ void MainMenu::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hDown & KEY_TOUCH) {
 		if (touching(touch, mainButtons[0])) {
 			if (Msg::promptMsg2(Lang::get("NEW_GAME_PROMPT"))) {
-				Gui::setScreen(std::make_unique<Test>());
+				Gui::setScreen(std::make_unique<CharSelection>());
 			}
 		} else if (touching(touch, mainButtons[1])) {
 			Gui::setScreen(std::make_unique<ColorCard>());
@@ -88,7 +88,7 @@ void MainMenu::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hDown & KEY_A) {
 		if (Selection == 0) {
 			if (Msg::promptMsg2(Lang::get("NEW_GAME_PROMPT"))) {
-				Gui::setScreen(std::make_unique<Test>());
+				Gui::setScreen(std::make_unique<CharSelection>());
 			}
 		} else if (Selection == 1) {
 			Gui::setScreen(std::make_unique<ColorCard>());
@@ -111,10 +111,6 @@ void MainMenu::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 	if (hDown & KEY_START) {
 		exiting = true;
-	}
-
-	if (hDown & KEY_Y) {
-		Gui::setScreen(std::make_unique<CharSelection>());
 	}
 
 	if (hHeld & KEY_SELECT) {

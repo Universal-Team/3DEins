@@ -32,7 +32,7 @@
 #include <string>
 #include <unistd.h>
 
-int Config::lang, Config::Red, Config::Yellow, Config::Blue, Config::Green;
+int Config::lang, Config::character, Config::Red, Config::Yellow, Config::Blue, Config::Green;
 
 
 nlohmann::json configJson;
@@ -70,6 +70,12 @@ void Config::load() {
 	} else {
 		Config::lang = getInt("LANG");
 	}
+
+	if(!configJson.contains("CHAR")) {
+		Config::character = 0;
+	} else {
+		Config::character = getInt("CHAR");
+	}
 }
 
 
@@ -79,6 +85,7 @@ void Config::save() {
 	Config::setInt("BLUE", Config::Blue);
 	Config::setInt("GREEN", Config::Green);
 	Config::setInt("LANG", Config::lang);
+	Config::setInt("CHAR", Config::character);
 	FILE* file = fopen("sdmc:/3ds/3DEins/Settings.json", "w");
 	if(file)	fwrite(configJson.dump(1, '\t').c_str(), 1, configJson.dump(1, '\t').size(), file);
 	fclose(file);
@@ -94,6 +101,7 @@ void Config::initializeNewConfig() {
 	setInt("BLUE", C2D_Color32(0, 0, 255, 255));
 	setInt("GREEN", C2D_Color32(0, 255, 0, 255));
 	setInt("LANG", 2);
+	setInt("CHAR", 0);
 	if(file)	fwrite(configJson.dump(1, '\t').c_str(), 1, configJson.dump(1, '\t').size(), file);
 	fclose(file);
 }

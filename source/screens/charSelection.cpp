@@ -25,6 +25,7 @@
 */
 
 #include "charSelection.hpp"
+#include "test.hpp"
 
 extern bool touching(touchPosition touch, Structs::ButtonPos button);
 
@@ -32,10 +33,10 @@ extern bool touching(touchPosition touch, Structs::ButtonPos button);
 void CharSelection::Draw(void) const {
 	GFX::DrawTop();
 	Gui::DrawStringCentered(0, 0, 0.9f, WHITE, "3DEins - " + Lang::get("CHAR_SELECTION"), 320);
-	GFX::DrawPlayer(-5, 35, 0, 0, state);
-	GFX::DrawPlayer(95, 35, 0, 1, state);
-	GFX::DrawPlayer(195, 35, 0, 2, state);
-	GFX::DrawPlayer(295, 35, 0, 3, state);
+	GFX::DrawPlayer(-5, 35, 1, 1, PlayerChar::STACKZ, PlayerFeeling(state));
+	GFX::DrawPlayer(95, 35, 1, 1, PlayerChar::CARL, PlayerFeeling(state));
+	GFX::DrawPlayer(195, 35, 1, 1, PlayerChar::ISABEL, PlayerFeeling(state));
+	GFX::DrawPlayer(295, 35, 1, 1, PlayerChar::LEA, PlayerFeeling(state));
 
 	Gui::Draw_Rect(10, 160, 80, 30, C2D_Color32(200, 80, 0, 255));
 	Gui::Draw_Rect(110, 160, 80, 30, C2D_Color32(200, 80, 0, 255));
@@ -55,6 +56,12 @@ void CharSelection::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hDown & KEY_B) {
 		Gui::screenBack();
 		return;
+	}
+
+	if (hDown & KEY_A) {
+		Config::character = Selection;
+		Config::save();
+		Gui::setScreen(std::make_unique<Test>());
 	}
 
 	if (hDown & KEY_R) {

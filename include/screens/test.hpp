@@ -50,7 +50,8 @@ private:
 	void DisplayPlayerHandSmall() const;
 	void DrawPlayers() const;
 
-	void PlayerLogic(u32 hDown, u32 hHeld, touchPosition touch);
+	void Player1Logic(u32 hDown, u32 hHeld, touchPosition touch);
+	void Player2Logic(u32 hDown, u32 hHeld, touchPosition touch);
 	void RoundLogic(u32 hDown, u32 hHeld, touchPosition touch);
 	void OpponentLogic(void);
 };

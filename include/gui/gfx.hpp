@@ -35,12 +35,12 @@
 namespace GFX
 {
 	// Basic GUI.
-	void DrawTop(void);
+	void DrawTop(bool useBars = true);
 	void DrawBottom(void);
 	void DrawSprite(int index, int x, int y, float ScaleX = 1, float ScaleY = 1);
 	void DrawCard(CardType CT, int x, int y, CardColor CC, float ScaleX = 1, float ScaleY = 1);
 
-	void DrawPlayer(int x, int y, float rotation, int player, int state = 0); // STATE'S: 0 -> Normal ; 1 -> Sigh ; 2 -> Smile; 3 -> Angry ; 4 -> Proud.
+	void DrawPlayer(int x, int y, float ScaleX, float ScaleY, PlayerChar player, PlayerFeeling state);
 }
 
 #endif

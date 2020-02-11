@@ -39,6 +39,7 @@
 	"SELECT_COLOR":				"Select the color you wish.",
 	"SELECT_LANG":				"Choose the current language.",
 	"SHOW_QR":					"Click here to show the QR Code.",
+	"Y_CONTINUE":				"Press \uE003 to continue.",
 	"YELLOW_COLOR":				"Yellow Color",
 	"YES":						"Yes"
 }

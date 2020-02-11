@@ -31,12 +31,20 @@
 // Player Targets and status.
 std::vector<CardStruct> Player1Hand;
 PlayerStatus Player1Status = PlayerStatus::NORMAL;
+PlayerFeeling Player1Feeling = PlayerFeeling::NORMAL;
+
 std::vector<CardStruct> Player2Hand;
 PlayerStatus Player2Status = PlayerStatus::NORMAL;
+PlayerFeeling Player2Feeling = PlayerFeeling::NORMAL;
+
 std::vector<CardStruct> Player3Hand;
 PlayerStatus Player3Status = PlayerStatus::NORMAL;
+PlayerFeeling Player3Feeling = PlayerFeeling::NORMAL;
+
 std::vector<CardStruct> Player4Hand;
 PlayerStatus Player4Status = PlayerStatus::NORMAL;
+PlayerFeeling Player4Feeling = PlayerFeeling::NORMAL;
+
 // Table card.
 CardColor ColorToPlay; // The color which needs to be played.
 CardType TypeToPlay; // The type which needs to be played.

@@ -28,11 +28,15 @@
 #include "common.hpp"
 #include "config.hpp"
 
-void GFX::DrawTop(void) {
+void GFX::DrawTop(bool useBars) {
 	Gui::ScreenDraw(Top);
-	Gui::Draw_Rect(0, 0, 400, 30, C2D_Color32(220, 60, 0, 200));
-	Gui::Draw_Rect(0, 30, 400, 180, C2D_Color32(220, 160, 0, 200));
-	Gui::Draw_Rect(0, 210, 400, 30, C2D_Color32(220, 60, 0, 200));
+	if (useBars) {
+		Gui::Draw_Rect(0, 0, 400, 30, C2D_Color32(220, 60, 0, 200));
+		Gui::Draw_Rect(0, 30, 400, 180, C2D_Color32(220, 160, 0, 200));
+		Gui::Draw_Rect(0, 210, 400, 30, C2D_Color32(220, 60, 0, 200));
+	} else {
+		Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(220, 160, 0, 200));
+	}
 }
 
 void GFX::DrawBottom(void) {
@@ -97,60 +101,54 @@ void GFX::DrawCard(CardType CT, int x, int y, CardColor CC, float ScaleX, float 
 	}
 }
 
-void GFX::DrawPlayer(int x, int y, float rotation, int player, int state) {
-	C2D_Sprite sprite;
-	if (player == 0) {
-		if (state == 0) {
-			C2D_SpriteFromSheet(&sprite, sprites, sprites_char1_idx);
-		} else if (state == 1) {
-			C2D_SpriteFromSheet(&sprite, sprites, sprites_sigh1_idx);
-		} else if (state == 2) {
-			C2D_SpriteFromSheet(&sprite, sprites, sprites_smile1_idx);
-		} else if (state == 3) {
-			C2D_SpriteFromSheet(&sprite, sprites, sprites_angry1_idx);
-		} else if (state == 4) {
-			C2D_SpriteFromSheet(&sprite, sprites, sprites_proud1_idx);
+void GFX::DrawPlayer(int x, int y, float ScaleX, float ScaleY, PlayerChar player, PlayerFeeling state) {
+	if (player == PlayerChar::STACKZ) {
+		if (state == PlayerFeeling::NORMAL) {
+			DrawSprite(sprites_char1_idx, x, y, ScaleX, ScaleY);
+		} else if (state == PlayerFeeling::PROUD) {
+			DrawSprite(sprites_proud1_idx, x, y, ScaleX, ScaleY);
+		} else if (state == PlayerFeeling::ANGRY) {
+			DrawSprite(sprites_angry1_idx, x, y, ScaleX, ScaleY);
+		} else if (state == PlayerFeeling::SMILE) {
+			DrawSprite(sprites_smile1_idx, x, y, ScaleX, ScaleY);
+		} else if (state == PlayerFeeling::SIGH) {
+			DrawSprite(sprites_sigh1_idx, x, y, ScaleX, ScaleY);
 		}
-	} else if (player == 1) {
-		if (state == 0) {
-			C2D_SpriteFromSheet(&sprite, sprites, sprites_char2_idx);
-		} else if (state == 1) {
-			C2D_SpriteFromSheet(&sprite, sprites, sprites_sigh2_idx);
-		} else if (state == 2) {
-			C2D_SpriteFromSheet(&sprite, sprites, sprites_smile2_idx);
-		} else if (state == 3) {
-			C2D_SpriteFromSheet(&sprite, sprites, sprites_angry2_idx);
-		} else if (state == 4) {
-			C2D_SpriteFromSheet(&sprite, sprites, sprites_proud2_idx);
+	} else if (player == PlayerChar::CARL) {
+		if (state == PlayerFeeling::NORMAL) {
+			DrawSprite(sprites_char2_idx, x, y, ScaleX, ScaleY);
+		} else if (state == PlayerFeeling::PROUD) {
+			DrawSprite(sprites_proud2_idx, x, y, ScaleX, ScaleY);
+		} else if (state == PlayerFeeling::ANGRY) {
+			DrawSprite(sprites_angry2_idx, x, y, ScaleX, ScaleY);
+		} else if (state == PlayerFeeling::SMILE) {
+			DrawSprite(sprites_smile2_idx, x, y, ScaleX, ScaleY);
+		} else if (state == PlayerFeeling::SIGH) {
+			DrawSprite(sprites_sigh2_idx, x, y, ScaleX, ScaleY);
 		}
-	} else if (player == 2) {
-		if (state == 0) {
-			C2D_SpriteFromSheet(&sprite, sprites, sprites_char3_idx);
-		} else if (state == 1) {
-			C2D_SpriteFromSheet(&sprite, sprites, sprites_sigh3_idx);
-		} else if (state == 2) {
-			C2D_SpriteFromSheet(&sprite, sprites, sprites_smile3_idx);
-		} else if (state == 3) {
-			C2D_SpriteFromSheet(&sprite, sprites, sprites_angry3_idx);
-		} else if (state == 4) {
-			C2D_SpriteFromSheet(&sprite, sprites, sprites_proud3_idx);
+	} else if (player == PlayerChar::ISABEL) {
+		if (state == PlayerFeeling::NORMAL) {
+			DrawSprite(sprites_char3_idx, x, y, ScaleX, ScaleY);
+		} else if (state == PlayerFeeling::PROUD) {
+			DrawSprite(sprites_proud3_idx, x, y, ScaleX, ScaleY);
+		} else if (state == PlayerFeeling::ANGRY) {
+			DrawSprite(sprites_angry3_idx, x, y, ScaleX, ScaleY);
+		} else if (state == PlayerFeeling::SMILE) {
+			DrawSprite(sprites_smile3_idx, x, y, ScaleX, ScaleY);
+		} else if (state == PlayerFeeling::SIGH) {
+			DrawSprite(sprites_sigh3_idx, x, y, ScaleX, ScaleY);
 		}
-	} else if (player == 3) {
-		if (state == 0) {
-			C2D_SpriteFromSheet(&sprite, sprites, sprites_char4_idx);
-		} else if (state == 1) {
-			C2D_SpriteFromSheet(&sprite, sprites, sprites_sigh4_idx);
-		} else if (state == 2) {
-			C2D_SpriteFromSheet(&sprite, sprites, sprites_smile4_idx);
-		} else if (state == 3) {
-			C2D_SpriteFromSheet(&sprite, sprites, sprites_angry4_idx);
-		} else if (state == 4) {
-			C2D_SpriteFromSheet(&sprite, sprites, sprites_proud4_idx);
+	} else if (player == PlayerChar::LEA) {
+		if (state == PlayerFeeling::NORMAL) {
+			DrawSprite(sprites_char4_idx, x, y, ScaleX, ScaleY);
+		} else if (state == PlayerFeeling::PROUD) {
+			DrawSprite(sprites_proud4_idx, x, y, ScaleX, ScaleY);
+		} else if (state == PlayerFeeling::ANGRY) {
+			DrawSprite(sprites_angry4_idx, x, y, ScaleX, ScaleY);
+		} else if (state == PlayerFeeling::SMILE) {
+			DrawSprite(sprites_smile4_idx, x, y, ScaleX, ScaleY);
+		} else if (state == PlayerFeeling::SIGH) {
+			DrawSprite(sprites_sigh4_idx, x, y, ScaleX, ScaleY);
 		}
 	}
-
-	C2D_SpriteRotateDegrees(&sprite, rotation);
-	C2D_SpriteSetPos(&sprite, x, y);
-	C2D_SpriteSetDepth(&sprite, 0.5);
-	C2D_DrawSprite(&sprite);
 }

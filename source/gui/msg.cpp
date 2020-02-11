@@ -149,6 +149,30 @@ void Msg::DisplayWaitMsg(std::string waitMsg, ...)
 	}
 }
 
+void Msg::DisplayPlayerSwitch(std::string waitMsg, ...)
+{
+	Gui::clearTextBufs();
+	C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
+	C2D_TargetClear(Top, BLACK);
+	C2D_TargetClear(Bottom, BLACK);
+	GFX::DrawTop();
+	Gui::Draw_Rect(0, 80, 400, 80, C2D_Color32(220, 60, 0, 200));
+	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8f, waitMsg))/2, 0.8f, WHITE, waitMsg, 390, 70);
+	Gui::DrawStringCentered(0, 214, 0.8f, WHITE, Lang::get("Y_CONTINUE"), 390);
+	GFX::DrawBottom();
+	Gui::Draw_Rect(100, 100, 140, 35, C2D_Color32(220, 60, 0, 200));
+	Gui::DrawStringCentered(-60+70, 105, 0.8f, WHITE, Lang::get("OK"), 140);
+	C3D_FrameEnd(0);
+
+	while(1)
+	{
+		hidScanInput();
+		hidTouchRead(&touch);
+		if((hidKeysDown() & KEY_Y) || (hidKeysDown() & KEY_TOUCH && touching(touch, promptBtn[2])))
+			break;
+	}
+}
+
 void Msg::HelperBox(std::string Msg) {
 	Gui::clearTextBufs();
 	C3D_FrameBegin(C3D_FRAME_SYNCDRAW);

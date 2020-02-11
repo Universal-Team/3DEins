@@ -39,6 +39,8 @@ namespace Msg
 	void NotImplementedYet(void); // Display a not Implemented Message.
 	void DisplayMsg(std::string Message); // Display just a Message.
 	void HelperBox(std::string Msg); // Helper Box?
+
+	void DisplayPlayerSwitch(std::string waitMsg, ...);
 }
 
 #endif
