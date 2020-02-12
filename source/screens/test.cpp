@@ -223,6 +223,11 @@ void Test::Player1Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 			TypeToPlay = Player1Hand[Player1Card].CT;
 			ColorToPlay = Player1Hand[Player1Card].CC;
 			CardHelper::statusHandler(Player::PLAYER_1, Player1Status, Player1Hand[Player1Card].CT);
+			// Special case for Pause / Return card.
+			if (Player1Hand[Player1Card].CT == CardType::RETURN || Player1Hand[Player1Card].CT == CardType::PAUSE) {
+				canContinue = true;
+			}
+
 			CardHelper::RemoveCard(Player::PLAYER_1, Player1Card);
 			if (Player1Hand.size() == 0) {
 				Msg::DisplayPlayerSwitch("Player 1 won!");
@@ -232,8 +237,11 @@ void Test::Player1Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 			if (Player1Card > (int)Player1Hand.size() -1) {
 				Player1Card = (int)Player1Hand.size() - 1;
 			}
-			Msg::DisplayPlayerSwitch("Player 1 has finished his round.\nPlayer 2: Continue!");
-			currentPlayer = Player::PLAYER_2;
+			if (!canContinue) {
+				Msg::DisplayPlayerSwitch("Player 1 has finished his round.\nPlayer 2: Continue!");
+				currentPlayer = Player::PLAYER_2;
+			}
+			canContinue = false;
 		}
 	}
 
@@ -262,6 +270,12 @@ void Test::Player2Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 			TypeToPlay = Player2Hand[Player2Card].CT;
 			ColorToPlay = Player2Hand[Player2Card].CC;
 			CardHelper::statusHandler(Player::PLAYER_2, Player2Status, Player2Hand[Player2Card].CT);
+
+			// Special case for Pause / Return card.
+			if (Player2Hand[Player2Card].CT == CardType::RETURN || Player2Hand[Player2Card].CT == CardType::PAUSE) {
+				canContinue = true;
+			}
+
 			CardHelper::RemoveCard(Player::PLAYER_2, Player2Card);
 			if (Player2Hand.size() == 0) {
 				Msg::DisplayPlayerSwitch("Player 2 won!");
@@ -271,8 +285,11 @@ void Test::Player2Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 			if (Player2Card > (int)Player2Hand.size() -1) {
 				Player2Card = (int)Player2Hand.size() - 1;
 			}
-			Msg::DisplayPlayerSwitch("Player 2 has finished his round.\nPlayer 1: Continue!");
-			currentPlayer = Player::PLAYER_1;
+			if (!canContinue) {
+				Msg::DisplayPlayerSwitch("Player 2 has finished his round.\nPlayer 1: Continue!");
+				currentPlayer = Player::PLAYER_1;
+			}
+			canContinue = false;
 		}
 	}
 

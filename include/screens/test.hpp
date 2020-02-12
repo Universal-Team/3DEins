@@ -38,7 +38,7 @@ public:
 	Test();
 private:
 	bool isPause = false;
-	bool canReturn = false;
+	bool canContinue = false;
 	bool canCounter = false; // In case the opponent has a Plus 2 / 4 too.
 	int Player1Card = 0; // Always set to 0.
 	int Player2Card = 0;
