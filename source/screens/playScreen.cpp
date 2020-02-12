@@ -24,7 +24,7 @@
 *         reasonable ways as different from the original version.
 */
 
-#include "test.hpp"
+#include "playScreen.hpp"
 
 #include <vector>
 
@@ -51,7 +51,7 @@ extern PlayerFeeling Player4Feeling;
 extern CardType TypeToPlay;
 extern CardColor ColorToPlay;
 
-void Test::DisplayPlayerHand() const {
+void PlayScreen::DisplayPlayerHand() const {
 	if (currentPlayer == Player::PLAYER_1) {
 		for (int i = 0; i < (int)Player1Hand.size(); i++) {
 			if (Player1Card < MAXSHOWNCARDS) {
@@ -115,7 +115,7 @@ void Test::DisplayPlayerHand() const {
 	}
 }
 
-void Test::DisplayPlayerHandSmall() const {
+void PlayScreen::DisplayPlayerHandSmall() const {
 	if (currentPlayer == Player::PLAYER_1) {
 		for (int i = 0; i < (int)Player1Hand.size(); i++) {
 			GFX::DrawCard(Player1Hand[i].CT, 2 + (i * 18), 140, Player1Hand[i].CC, 0.8, 0.8);
@@ -136,7 +136,7 @@ void Test::DisplayPlayerHandSmall() const {
 }
 
 
-void Test::Draw(void) const {
+void PlayScreen::Draw(void) const {
 	GFX::DrawTop(false);
 	// Draw Players & amount of cards.
 	DrawPlayers();
@@ -156,7 +156,7 @@ void Test::Draw(void) const {
 }
 
 // TODO.
-void Test::DrawPlayers() const {
+void PlayScreen::DrawPlayers() const {
 	// Player 1.
 	GFX::DrawPlayer(-5, 130, 0.9, 0.9, PlayerChar(Config::character), Player1Feeling);
 	Gui::DrawString(90, 200, 0.6f, WHITE, std::to_string(Player1Hand.size()));
@@ -165,7 +165,7 @@ void Test::DrawPlayers() const {
 	Gui::DrawString(90, 40, 0.6f, WHITE, std::to_string(Player2Hand.size()));
 }
 	
-Test::Test() {
+PlayScreen::PlayScreen() {
 	// Clear Player Hands.
 	Player1Hand.clear();
 	Player2Hand.clear();
@@ -190,7 +190,7 @@ Test::Test() {
 	CardHelper::AddCard(Player::PLAYER_2);
 }
 
-void Test::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
+void PlayScreen::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	RoundLogic(hDown, hHeld, touch);
 
 	// Always make it possible, to quit a game.
@@ -204,7 +204,7 @@ void Test::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 
 // For the Player hand.
-void Test::Player1Logic(u32 hDown, u32 hHeld, touchPosition touch) {
+void PlayScreen::Player1Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hDown & KEY_RIGHT) {
 		if (Player1Card < (int)Player1Hand.size()-1) {
 			Player1Card++;
@@ -251,7 +251,7 @@ void Test::Player1Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	}
 }
 
-void Test::Player2Logic(u32 hDown, u32 hHeld, touchPosition touch) {
+void PlayScreen::Player2Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hDown & KEY_RIGHT) {
 		if (Player2Card < (int)Player2Hand.size()-1) {
 			Player2Card++;
@@ -299,7 +299,7 @@ void Test::Player2Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	}
 }
 
-void Test::RoundLogic(u32 hDown, u32 hHeld, touchPosition touch) {
+void PlayScreen::RoundLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (currentPlayer == Player::PLAYER_1) {
 		Player1Logic(hDown, hHeld, touch);
 	} else if (currentPlayer == Player::PLAYER_2) {

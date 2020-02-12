@@ -24,18 +24,18 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef TEST_HPP
-#define TEST_HPP
+#ifndef PLAYSCREEN_HPP
+#define PLAYSCREEN_HPP
 
 #include "cardHelper.hpp"
 #include "common.hpp"
 
-class Test : public Screen
+class PlayScreen : public Screen
 {
 public:
 	void Draw(void) const override;
 	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
-	Test();
+	PlayScreen();
 private:
 	bool isPause = false;
 	bool canContinue = false;

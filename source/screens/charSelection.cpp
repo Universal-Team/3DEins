@@ -25,7 +25,7 @@
 */
 
 #include "charSelection.hpp"
-#include "test.hpp"
+#include "playScreen.hpp"
 
 extern bool touching(touchPosition touch, Structs::ButtonPos button);
 
@@ -61,7 +61,7 @@ void CharSelection::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hDown & KEY_A) {
 		Config::character = Selection;
 		Config::save();
-		Gui::setScreen(std::make_unique<Test>());
+		Gui::setScreen(std::make_unique<PlayScreen>());
 	}
 
 	if (hDown & KEY_R) {

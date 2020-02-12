@@ -29,7 +29,6 @@
 #include "credits.hpp"
 #include "langSelection.hpp"
 #include "mainMenu.hpp"
-#include "test.hpp"
 
 extern bool exiting;
 extern bool touching(touchPosition touch, Structs::ButtonPos button);
