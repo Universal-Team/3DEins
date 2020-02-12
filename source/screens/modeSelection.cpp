@@ -31,6 +31,7 @@ extern bool touching(touchPosition touch, Structs::ButtonPos button);
 
 // Player Amount is 2 by Initialize.
 int playerAmount = 2;
+int selectedMode = 1;
 
 void ModeSelection::Draw(void) const {
 	if (Mode == 1) {
@@ -83,8 +84,10 @@ void ModeSelection::MSelection(u32 hDown, u32 hHeld, touchPosition touch) {
 
 	if (hDown & KEY_A) {
 		if (Selection == 0) {
+			//selectedMode = 0; // 0 -> SinglePlayer.
 			Msg::NotImplementedYet(); // Single player not done yet.
 		} else if (Selection == 1) {
+			selectedMode = 1;
 			Mode = 2;
 		} else if (Selection == 2) {
 			Gui::screenBack();

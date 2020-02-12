@@ -25,7 +25,7 @@
 */
 
 #include "charSelection.hpp"
-#include "playScreen.hpp"
+#include "multiPlayScreen.hpp"
 
 // Player char's.
 int player1 = 0;
@@ -34,6 +34,7 @@ int player3 = 2;
 int player4 = 3;
 
 extern int playerAmount;
+extern int selectedMode;
 
 extern bool touching(touchPosition touch, Structs::ButtonPos button);
 
@@ -80,7 +81,9 @@ void CharSelection::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 	if (hDown & KEY_A) {
 		if (allSelected == true) {
-			Gui::setScreen(std::make_unique<PlayScreen>());
+			if (selectedMode == 1) {
+				Gui::setScreen(std::make_unique<MultiPlayScreen>());
+			}
 		}
 
 		if (currentPlayer != maxPlayers+1) {

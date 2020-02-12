@@ -24,7 +24,7 @@
 *         reasonable ways as different from the original version.
 */
 
-#include "playScreen.hpp"
+#include "multiPlayScreen.hpp"
 
 #include <vector>
 
@@ -41,7 +41,7 @@ extern int playerAmount;
 extern CardType TypeToPlay;
 extern CardColor ColorToPlay;
 
-void PlayScreen::DisplayPlayerHand() const {
+void MultiPlayScreen::DisplayPlayerHand() const {
 	if (currentPlayer == 1) {
 		for (int i = 0; i < (int)Player1Hand.size(); i++) {
 			if (Player1Card < MAXSHOWNCARDS) {
@@ -105,7 +105,7 @@ void PlayScreen::DisplayPlayerHand() const {
 	}
 }
 
-void PlayScreen::DisplayPlayerHandSmall() const {
+void MultiPlayScreen::DisplayPlayerHandSmall() const {
 	if (currentPlayer == 1) {
 		for (int i = 0; i < (int)Player1Hand.size(); i++) {
 			GFX::DrawCard(Player1Hand[i].CT, 2 + (i * 18), 140, Player1Hand[i].CC, 0.8, 0.8);
@@ -126,7 +126,7 @@ void PlayScreen::DisplayPlayerHandSmall() const {
 }
 
 
-void PlayScreen::Draw(void) const {
+void MultiPlayScreen::Draw(void) const {
 	GFX::DrawTop(false);
 	// Draw Players & amount of cards.
 	DrawPlayers();
@@ -140,7 +140,7 @@ void PlayScreen::Draw(void) const {
 }
 
 // TODO.
-void PlayScreen::DrawPlayers() const {
+void MultiPlayScreen::DrawPlayers() const {
 	// Player 1.
 	GFX::DrawPlayer(-5, 130, 0.9, 0.9, PlayerChar(player1), Player1Feeling);
 	Gui::DrawString(90, 200, 0.6f, WHITE, std::to_string(Player1Hand.size()));
@@ -161,7 +161,7 @@ void PlayScreen::DrawPlayers() const {
 	}
 }
 
-void PlayScreen::AddCard(int player) {
+void MultiPlayScreen::AddCard(int player) {
 	switch (player) {
 		case 1:
 			CardHelper::AddCard(Player1Hand);
@@ -178,7 +178,7 @@ void PlayScreen::AddCard(int player) {
 	}
 }
 
-void PlayScreen::RemoveCard(int player) {
+void MultiPlayScreen::RemoveCard(int player) {
 	switch (player) {
 		case 1:
 			CardHelper::RemoveCard(Player1Hand, Player1Card);
@@ -195,7 +195,7 @@ void PlayScreen::RemoveCard(int player) {
 	}
 }
 
-PlayScreen::PlayScreen() {
+MultiPlayScreen::MultiPlayScreen() {
 	// Set Player Amount.
 	maxPlayer = playerAmount;
 	// Clear Player Hands.
@@ -254,7 +254,7 @@ PlayScreen::PlayScreen() {
 	}
 }
 
-void PlayScreen::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
+void MultiPlayScreen::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	RoundLogic(hDown, hHeld, touch);
 
 	// Always make it possible, to quit a game.
@@ -272,7 +272,7 @@ void PlayScreen::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 
 // For the Player hand.
-void PlayScreen::Player1Logic(u32 hDown, u32 hHeld, touchPosition touch) {
+void MultiPlayScreen::Player1Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (Player1Break == true) {
 		Player1Break = false;
 		if (PlayDirection == Direction::LEFT) {
@@ -379,7 +379,7 @@ void PlayScreen::Player1Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	}
 }
 
-void PlayScreen::Player2Logic(u32 hDown, u32 hHeld, touchPosition touch) {
+void MultiPlayScreen::Player2Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (Player2Break == true) {
 		Player2Break = false;
 		if (PlayDirection == Direction::LEFT) {
@@ -485,7 +485,7 @@ void PlayScreen::Player2Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 }
 
 
-void PlayScreen::Player3Logic(u32 hDown, u32 hHeld, touchPosition touch) {
+void MultiPlayScreen::Player3Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (Player3Break == true) {
 		Player3Break = false;
 		if (PlayDirection == Direction::LEFT) {
@@ -581,7 +581,7 @@ void PlayScreen::Player3Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	}
 }
 
-void PlayScreen::Player4Logic(u32 hDown, u32 hHeld, touchPosition touch) {
+void MultiPlayScreen::Player4Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (Player4Break == true) {
 		Player4Break = false;
 		if (PlayDirection == Direction::LEFT) {
@@ -677,7 +677,7 @@ void PlayScreen::Player4Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 
 
-void PlayScreen::RoundLogic(u32 hDown, u32 hHeld, touchPosition touch) {
+void MultiPlayScreen::RoundLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (currentPlayer == 1) {
 		Player1Logic(hDown, hHeld, touch);
 	} else if (currentPlayer == 2) {

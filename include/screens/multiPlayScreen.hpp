@@ -24,18 +24,18 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef PLAYSCREEN_HPP
-#define PLAYSCREEN_HPP
+#ifndef MULTIPLAYSCREEN_HPP
+#define MULTIPLAYSCREEN_HPP
 
 #include "cardHelper.hpp"
 #include "common.hpp"
 
-class PlayScreen : public Screen
+class MultiPlayScreen : public Screen
 {
 public:
 	void Draw(void) const override;
 	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
-	PlayScreen();
+	MultiPlayScreen();
 private:
 	int maxPlayer = 2; // Up to 4.
 	int tempPlayer = 2; // This is a temp for the next player handle.
