@@ -55,100 +55,147 @@ void GFX::DrawSprite(int index, int x, int y, float ScaleX, float ScaleY) {
 
 void GFX::DrawCard(CardType CT, int x, int y, CardColor CC, float ScaleX, float ScaleY)
 {
-	if (CC == CardColor::GREEN) {
-		C2D_DrawRectSolid(x+2, y+3, 0.5f, 54*ScaleX-5, 80*ScaleY-5, Config::Green);
-	} else if (CC == CardColor::BLUE) {
-		C2D_DrawRectSolid(x+2, y+3, 0.5f, 54*ScaleX-5, 80*ScaleY-5, Config::Blue);
-	} else if (CC == CardColor::YELLOW) {
-		C2D_DrawRectSolid(x+2, y+3, 0.5f, 54*ScaleX-5, 80*ScaleY-5, Config::Yellow);
-	} else if (CC == CardColor::RED) {
-		C2D_DrawRectSolid(x+2, y+3, 0.5f, 54*ScaleX-5, 80*ScaleY-5, Config::Red);
-	} else if (CC == CardColor::SPECIAL) {
-		C2D_DrawRectSolid(x+2, y+3, 0.5f, 54*ScaleX-5, 80*ScaleY-5, C2D_Color32(0, 0, 0, 255));
+	// Card Color.
+	switch (CC) {
+		case CardColor::GREEN:
+			C2D_DrawRectSolid(x+2, y+3, 0.5f, 54*ScaleX-5, 80*ScaleY-5, Config::Green);
+			break;
+		case CardColor::BLUE:
+			C2D_DrawRectSolid(x+2, y+3, 0.5f, 54*ScaleX-5, 80*ScaleY-5, Config::Blue);
+			break;
+		case CardColor::YELLOW:
+			C2D_DrawRectSolid(x+2, y+3, 0.5f, 54*ScaleX-5, 80*ScaleY-5, Config::Yellow);
+			break;
+		case CardColor::RED:
+			C2D_DrawRectSolid(x+2, y+3, 0.5f, 54*ScaleX-5, 80*ScaleY-5, Config::Red);
+			break;
+		case CardColor::SPECIAL:
+			C2D_DrawRectSolid(x+2, y+3, 0.5f, 54*ScaleX-5, 80*ScaleY-5, C2D_Color32(0, 0, 0, 255));
+			break;
 	}
 
 	// Card Type.
-	if (CT == CardType::NUMBER_0) {
-		C2D_DrawImageAt(C2D_SpriteSheetGetImage(cards, 0), x, y, 0.5f, NULL, ScaleX, ScaleY);
-	} else if (CT == CardType::NUMBER_1) {
-		C2D_DrawImageAt(C2D_SpriteSheetGetImage(cards, 1), x, y, 0.5f, NULL, ScaleX, ScaleY);
-	} else if (CT == CardType::NUMBER_2) {
-		C2D_DrawImageAt(C2D_SpriteSheetGetImage(cards, 2), x, y, 0.5f, NULL, ScaleX, ScaleY);
-	} else if (CT == CardType::NUMBER_3) {
-		C2D_DrawImageAt(C2D_SpriteSheetGetImage(cards, 3), x, y, 0.5f, NULL, ScaleX, ScaleY);
-	} else if (CT == CardType::NUMBER_4) {
-		C2D_DrawImageAt(C2D_SpriteSheetGetImage(cards, 4), x, y, 0.5f, NULL, ScaleX, ScaleY);
-	} else if (CT == CardType::NUMBER_5) {
-		C2D_DrawImageAt(C2D_SpriteSheetGetImage(cards, 5), x, y, 0.5f, NULL, ScaleX, ScaleY);
-	} else if (CT == CardType::NUMBER_6) {
-		C2D_DrawImageAt(C2D_SpriteSheetGetImage(cards, 6), x, y, 0.5f, NULL, ScaleX, ScaleY);
-	} else if (CT == CardType::NUMBER_7) {
-		C2D_DrawImageAt(C2D_SpriteSheetGetImage(cards, 7), x, y, 0.5f, NULL, ScaleX, ScaleY);
-	} else if (CT == CardType::NUMBER_8) {
-		C2D_DrawImageAt(C2D_SpriteSheetGetImage(cards, 8), x, y, 0.5f, NULL, ScaleX, ScaleY);
-	} else if (CT == CardType::NUMBER_9) {
-		C2D_DrawImageAt(C2D_SpriteSheetGetImage(cards, 9), x, y, 0.5f, NULL, ScaleX, ScaleY);
-	} else if (CT == CardType::PAUSE) {
-		C2D_DrawImageAt(C2D_SpriteSheetGetImage(cards, 10), x, y, 0.5f, NULL, ScaleX, ScaleY);
-	} else if (CT == CardType::RETURN) {
-		C2D_DrawImageAt(C2D_SpriteSheetGetImage(cards, 11), x, y, 0.5f, NULL, ScaleX, ScaleY);
-	} else if (CT == CardType::PLUS2) {
-		C2D_DrawImageAt(C2D_SpriteSheetGetImage(cards, 12), x, y, 0.5f, NULL, ScaleX, ScaleY);
-	} else if (CT == CardType::WISH) {
-		C2D_DrawImageAt(C2D_SpriteSheetGetImage(cards, 13), x, y, 0.5f, NULL, ScaleX, ScaleY);
-	} else if (CT == CardType::PLUS4) {
-		C2D_DrawImageAt(C2D_SpriteSheetGetImage(cards, 14), x, y, 0.5f, NULL, ScaleX, ScaleY);
+	switch (CT) {
+		case CardType::NUMBER_0:
+			Gui::DrawSprite(cards, 0, x, y, ScaleX, ScaleY);
+			break;
+		case CardType::NUMBER_1:
+			Gui::DrawSprite(cards, 1, x, y, ScaleX, ScaleY);
+			break;
+		case CardType::NUMBER_2:
+			Gui::DrawSprite(cards, 2, x, y, ScaleX, ScaleY);
+			break;
+		case CardType::NUMBER_3:
+			Gui::DrawSprite(cards, 3, x, y, ScaleX, ScaleY);
+			break;
+		case CardType::NUMBER_4:
+			Gui::DrawSprite(cards, 4, x, y, ScaleX, ScaleY);
+			break;
+		case CardType::NUMBER_5:
+			Gui::DrawSprite(cards, 5, x, y, ScaleX, ScaleY);
+			break;
+		case CardType::NUMBER_6:
+			Gui::DrawSprite(cards, 6, x, y, ScaleX, ScaleY);
+			break;
+		case CardType::NUMBER_7:
+			Gui::DrawSprite(cards, 7, x, y, ScaleX, ScaleY);
+			break;
+		case CardType::NUMBER_8:
+			Gui::DrawSprite(cards, 8, x, y, ScaleX, ScaleY);
+			break;
+		case CardType::NUMBER_9:
+			Gui::DrawSprite(cards, 9, x, y, ScaleX, ScaleY);
+			break;
+		case CardType::PAUSE:
+			Gui::DrawSprite(cards, 10, x, y, ScaleX, ScaleY);
+			break;
+		case CardType::RETURN:
+			Gui::DrawSprite(cards, 11, x, y, ScaleX, ScaleY);
+			break;
+		case CardType::PLUS2:
+			Gui::DrawSprite(cards, 12, x, y, ScaleX, ScaleY);
+			break;
+		case CardType::WISH:
+			Gui::DrawSprite(cards, 13, x, y, ScaleX, ScaleY);
+			break;
+		case CardType::PLUS4:
+			Gui::DrawSprite(cards, 14, x, y, ScaleX, ScaleY);
+			break;
 	}
 }
 
 void GFX::DrawPlayer(int x, int y, float ScaleX, float ScaleY, PlayerChar player, PlayerFeeling state) {
 	if (player == PlayerChar::STACKZ) {
-		if (state == PlayerFeeling::NORMAL) {
-			DrawSprite(sprites_char1_idx, x, y, ScaleX, ScaleY);
-		} else if (state == PlayerFeeling::PROUD) {
-			DrawSprite(sprites_proud1_idx, x, y, ScaleX, ScaleY);
-		} else if (state == PlayerFeeling::ANGRY) {
-			DrawSprite(sprites_angry1_idx, x, y, ScaleX, ScaleY);
-		} else if (state == PlayerFeeling::SMILE) {
-			DrawSprite(sprites_smile1_idx, x, y, ScaleX, ScaleY);
-		} else if (state == PlayerFeeling::SIGH) {
-			DrawSprite(sprites_sigh1_idx, x, y, ScaleX, ScaleY);
+		switch (state) {
+			case PlayerFeeling::NORMAL:
+				DrawSprite(sprites_char1_idx, x, y, ScaleX, ScaleY);
+				break;
+			case PlayerFeeling::PROUD:
+				DrawSprite(sprites_proud1_idx, x, y, ScaleX, ScaleY);
+				break;
+			case PlayerFeeling::ANGRY:
+				DrawSprite(sprites_angry1_idx, x, y, ScaleX, ScaleY);
+				break;
+			case PlayerFeeling::SMILE:
+				DrawSprite(sprites_smile1_idx, x, y, ScaleX, ScaleY);
+				break;
+			case PlayerFeeling::SIGH:
+				DrawSprite(sprites_sigh1_idx, x, y, ScaleX, ScaleY);
+				break;
 		}
 	} else if (player == PlayerChar::CARL) {
-		if (state == PlayerFeeling::NORMAL) {
-			DrawSprite(sprites_char2_idx, x, y, ScaleX, ScaleY);
-		} else if (state == PlayerFeeling::PROUD) {
-			DrawSprite(sprites_proud2_idx, x, y, ScaleX, ScaleY);
-		} else if (state == PlayerFeeling::ANGRY) {
-			DrawSprite(sprites_angry2_idx, x, y, ScaleX, ScaleY);
-		} else if (state == PlayerFeeling::SMILE) {
-			DrawSprite(sprites_smile2_idx, x, y, ScaleX, ScaleY);
-		} else if (state == PlayerFeeling::SIGH) {
-			DrawSprite(sprites_sigh2_idx, x, y, ScaleX, ScaleY);
+		switch (state) {
+			case PlayerFeeling::NORMAL:
+				DrawSprite(sprites_char2_idx, x, y, ScaleX, ScaleY);
+				break;
+			case PlayerFeeling::PROUD:
+				DrawSprite(sprites_proud2_idx, x, y, ScaleX, ScaleY);
+				break;
+			case PlayerFeeling::ANGRY:
+				DrawSprite(sprites_angry2_idx, x, y, ScaleX, ScaleY);
+				break;
+			case PlayerFeeling::SMILE:
+				DrawSprite(sprites_smile2_idx, x, y, ScaleX, ScaleY);
+				break;
+			case PlayerFeeling::SIGH:
+				DrawSprite(sprites_sigh2_idx, x, y, ScaleX, ScaleY);
+				break;
 		}
 	} else if (player == PlayerChar::ISABEL) {
-		if (state == PlayerFeeling::NORMAL) {
-			DrawSprite(sprites_char3_idx, x, y, ScaleX, ScaleY);
-		} else if (state == PlayerFeeling::PROUD) {
-			DrawSprite(sprites_proud3_idx, x, y, ScaleX, ScaleY);
-		} else if (state == PlayerFeeling::ANGRY) {
-			DrawSprite(sprites_angry3_idx, x, y, ScaleX, ScaleY);
-		} else if (state == PlayerFeeling::SMILE) {
-			DrawSprite(sprites_smile3_idx, x, y, ScaleX, ScaleY);
-		} else if (state == PlayerFeeling::SIGH) {
-			DrawSprite(sprites_sigh3_idx, x, y, ScaleX, ScaleY);
+		switch (state) {
+			case PlayerFeeling::NORMAL:
+				DrawSprite(sprites_char3_idx, x, y, ScaleX, ScaleY);
+				break;
+			case PlayerFeeling::PROUD:
+				DrawSprite(sprites_proud3_idx, x, y, ScaleX, ScaleY);
+				break;
+			case PlayerFeeling::ANGRY:
+				DrawSprite(sprites_angry3_idx, x, y, ScaleX, ScaleY);
+				break;
+			case PlayerFeeling::SMILE:
+				DrawSprite(sprites_smile3_idx, x, y, ScaleX, ScaleY);
+				break;
+			case PlayerFeeling::SIGH:
+				DrawSprite(sprites_sigh3_idx, x, y, ScaleX, ScaleY);
+				break;
 		}
 	} else if (player == PlayerChar::LEA) {
-		if (state == PlayerFeeling::NORMAL) {
-			DrawSprite(sprites_char4_idx, x, y, ScaleX, ScaleY);
-		} else if (state == PlayerFeeling::PROUD) {
-			DrawSprite(sprites_proud4_idx, x, y, ScaleX, ScaleY);
-		} else if (state == PlayerFeeling::ANGRY) {
-			DrawSprite(sprites_angry4_idx, x, y, ScaleX, ScaleY);
-		} else if (state == PlayerFeeling::SMILE) {
-			DrawSprite(sprites_smile4_idx, x, y, ScaleX, ScaleY);
-		} else if (state == PlayerFeeling::SIGH) {
-			DrawSprite(sprites_sigh4_idx, x, y, ScaleX, ScaleY);
+		switch (state) {
+			case PlayerFeeling::NORMAL:
+				DrawSprite(sprites_char4_idx, x, y, ScaleX, ScaleY);
+				break;
+			case PlayerFeeling::PROUD:
+				DrawSprite(sprites_proud4_idx, x, y, ScaleX, ScaleY);
+				break;
+			case PlayerFeeling::ANGRY:
+				DrawSprite(sprites_angry4_idx, x, y, ScaleX, ScaleY);
+				break;
+			case PlayerFeeling::SMILE:
+				DrawSprite(sprites_smile4_idx, x, y, ScaleX, ScaleY);
+				break;
+			case PlayerFeeling::SIGH:
+				DrawSprite(sprites_sigh4_idx, x, y, ScaleX, ScaleY);
+				break;
 		}
 	}
 }

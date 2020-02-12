@@ -34,6 +34,7 @@
 	"PLAYER_2":					"Player 2",
 	"PLAYER_3":					"Player 3",
 	"PLAYER_4":					"Player 4",
+	"PLAYER_BREAK":				"Player %i needs to take a break.\nPlayer %i: Continue!",
 	"QUIT_GAME":				"Would you like to quit this game?",
 	"RED_COLOR":				"Red Color",
 	"SELECT_COLOR":				"Select the color you wish.",

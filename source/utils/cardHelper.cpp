@@ -28,37 +28,12 @@
 #include "common.hpp"
 #include "structs.hpp"
 
-// Player Targets and status.
-std::vector<CardStruct> Player1Hand;
-PlayerStatus Player1Status = PlayerStatus::NORMAL;
-PlayerFeeling Player1Feeling = PlayerFeeling::NORMAL;
-
-std::vector<CardStruct> Player2Hand;
-PlayerStatus Player2Status = PlayerStatus::NORMAL;
-PlayerFeeling Player2Feeling = PlayerFeeling::NORMAL;
-
-std::vector<CardStruct> Player3Hand;
-PlayerStatus Player3Status = PlayerStatus::NORMAL;
-PlayerFeeling Player3Feeling = PlayerFeeling::NORMAL;
-
-std::vector<CardStruct> Player4Hand;
-PlayerStatus Player4Status = PlayerStatus::NORMAL;
-PlayerFeeling Player4Feeling = PlayerFeeling::NORMAL;
-
-// Table card.
+// Table card. I'd like to keep this here, since it would be used in all 3DEins screens. ;P
 CardColor ColorToPlay; // The color which needs to be played.
 CardType TypeToPlay; // The type which needs to be played.
 
-void CardHelper::RemoveCard(Player player, int pos) {
-	if (player == Player::PLAYER_1) {
-		Player1Hand.erase(Player1Hand.begin()+pos);
-	} else if (player == Player::PLAYER_2) {
-		Player2Hand.erase(Player2Hand.begin()+pos);
-	} else if (player == Player::PLAYER_3) {
-		Player3Hand.erase(Player3Hand.begin()+pos);
-	} else if (player == Player::PLAYER_4) {
-		Player4Hand.erase(Player4Hand.begin()+pos);
-	}
+void CardHelper::RemoveCard(std::vector<CardStruct> &hand, int pos) {
+	hand.erase(hand.begin()+pos);
 }
 
 // Randomize Table card.
@@ -67,23 +42,15 @@ void CardHelper::RandomizeTableCard(void) {
 	ColorToPlay = CardColor(rand() % MAXCOLOR + 0);
 }
 
-void CardHelper::AddCard(Player player) {
+void CardHelper::AddCard(std::vector<CardStruct> &hand) {
 	CardType Card = CardType(rand() % MAXCARDTYPE + 0);
 	CardColor Color = CardColor(rand() % MAXCOLOR + 0);
 	// Checks for Wish & +4.
 	if (Card == CardType::WISH || Card == CardType::PLUS4) {
 		Color = CardColor::SPECIAL;
 	}
-
-	if (player == Player::PLAYER_1) {
-		Player1Hand.push_back({Card, Color});
-	} else if (player == Player::PLAYER_2) {
-		Player2Hand.push_back({Card, Color});
-	} else if (player == Player::PLAYER_3) {
-		Player3Hand.push_back({Card, Color});
-	} else if (player == Player::PLAYER_4) {
-		Player4Hand.push_back({Card, Color});
-	}
+	// Push the Card back to the hand.
+	hand.push_back({Card, Color});
 }
 
 std::vector<Structs::ButtonPos> colorPos = {
@@ -159,110 +126,79 @@ CardColor CardHelper::wishFunction() {
 	}
 }
 
-// TODO.
-void CardHelper::DrawEffect(Player player, CardType card) {
-	if (player == Player::PLAYER_1) {
-		switch(card) {
-			case CardType::NUMBER_0:
-			case CardType::NUMBER_1:
-			case CardType::NUMBER_2:
-			case CardType::NUMBER_3:
-			case CardType::NUMBER_4:
-			case CardType::NUMBER_5:
-			case CardType::NUMBER_6:
-			case CardType::NUMBER_7:
-			case CardType::NUMBER_8:
-			case CardType::NUMBER_9:
-				break;
-			case CardType::PLUS2:
-				break;
-			case CardType::PLUS4:
-				break;
-			case CardType::WISH:
-				break;
-			case CardType::PAUSE:
-				break;
-			case CardType::RETURN:
-				break;
-		}
+// Change direction.
+void CardHelper::ChangeDirection(Direction &direction) {
+	switch (direction) {
+		case Direction::RIGHT:
+			direction = Direction::LEFT;
+			break;
+		case Direction::LEFT:
+			direction = Direction::RIGHT;
+			break;
 	}
 }
 
 // TODO: Status handling like +2, +4, Wish etc.
-void CardHelper::statusHandler(Player player, PlayerStatus status, CardType card) {
-	specialHandle(player, card); // Set the Status with the special Handle function.
-
-	// Do the actual status part. TODO.
+void CardHelper::statusHandler(std::vector<CardStruct> &hand, PlayerStatus status, PlayerStatus &p, Direction &direction) {
+	if (status != PlayerStatus::NORMAL) {
+		switch (status) {
+			case PlayerStatus::DRAW_2:
+				AddCard(hand);
+				AddCard(hand);
+				break;
+			case PlayerStatus::DRAW_4:
+				AddCard(hand);
+				AddCard(hand);
+				break;
+			case PlayerStatus::WISH_COLOR:
+				ColorToPlay = wishFunction();
+				break;
+			case PlayerStatus::TAKE_BREAK:
+				break;
+			case PlayerStatus::CAN_RETURN:
+				break;
+			case PlayerStatus::DIRECTION_CHANGE:
+				ChangeDirection(direction);
+				break;
+			case PlayerStatus::HAS_NO_CARDS:
+				break; // I won! bruh.
+			case PlayerStatus::NORMAL:
+				break;
+				
+		}
+		p = PlayerStatus::NORMAL;
+	}
 }
 
-void CardHelper::specialHandle(Player player, CardType card) {
-	if (player == Player::PLAYER_1) {
-		switch(card) {
-			case CardType::NUMBER_0:
-			case CardType::NUMBER_1:
-			case CardType::NUMBER_2:
-			case CardType::NUMBER_3:
-			case CardType::NUMBER_4:
-			case CardType::NUMBER_5:
-			case CardType::NUMBER_6:
-			case CardType::NUMBER_7:
-			case CardType::NUMBER_8:
-			case CardType::NUMBER_9:
-				break;
-			case CardType::PLUS2:
-				AddCard(Player::PLAYER_2);
-				AddCard(Player::PLAYER_2);
-				break;
-			case CardType::PLUS4:
-				AddCard(Player::PLAYER_2);
-				AddCard(Player::PLAYER_2);
-				AddCard(Player::PLAYER_2);
-				AddCard(Player::PLAYER_2);
-				ColorToPlay = wishFunction();
-				break;
-			case CardType::WISH:
-				ColorToPlay = wishFunction();
-				break;
-			case CardType::PAUSE:
-				// The Pause function.
-				break;
-			case CardType::RETURN:
-				// The Return function.
-				break;
-		}
-	} else if (player == Player::PLAYER_2) {
-		switch(card) {
-			case CardType::NUMBER_0:
-			case CardType::NUMBER_1:
-			case CardType::NUMBER_2:
-			case CardType::NUMBER_3:
-			case CardType::NUMBER_4:
-			case CardType::NUMBER_5:
-			case CardType::NUMBER_6:
-			case CardType::NUMBER_7:
-			case CardType::NUMBER_8:
-			case CardType::NUMBER_9:
-				break;
-			case CardType::PLUS2:
-				AddCard(Player::PLAYER_1);
-				AddCard(Player::PLAYER_1);
-				break;
-			case CardType::PLUS4:
-				AddCard(Player::PLAYER_1);
-				AddCard(Player::PLAYER_1);
-				AddCard(Player::PLAYER_1);
-				AddCard(Player::PLAYER_1);
-				ColorToPlay = wishFunction();
-				break;
-			case CardType::WISH:
-				ColorToPlay = wishFunction();
-				break;
-			case CardType::PAUSE:
-				// The Pause function.
-				break;
-			case CardType::RETURN:
-				// The Return function.
-				break;
-		}
+void CardHelper::specialHandle(CardType card, PlayerStatus &p, PlayerStatus &nP) {
+	switch(card) {
+		case CardType::NUMBER_0:
+		case CardType::NUMBER_1:
+		case CardType::NUMBER_2:
+		case CardType::NUMBER_3:
+		case CardType::NUMBER_4:
+		case CardType::NUMBER_5:
+		case CardType::NUMBER_6:
+		case CardType::NUMBER_7:
+		case CardType::NUMBER_8:
+		case CardType::NUMBER_9:
+			p = PlayerStatus::NORMAL;
+			break;
+		case CardType::PLUS2:
+			nP = PlayerStatus::DRAW_2;
+			break;
+		case CardType::PLUS4:
+			nP = PlayerStatus::DRAW_4;
+			p = PlayerStatus::WISH_COLOR;
+			break;
+		case CardType::WISH:
+			p = PlayerStatus::WISH_COLOR;
+			break;
+		case CardType::PAUSE:
+			nP = PlayerStatus::TAKE_BREAK;
+			break;
+		case CardType::RETURN:
+			p = PlayerStatus::CAN_RETURN;
+			break;
 	}
 }

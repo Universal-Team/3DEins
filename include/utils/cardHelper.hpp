@@ -66,6 +66,11 @@ enum class Player {
     PLAYER_4
 };
 
+enum class Direction {
+	RIGHT,
+	LEFT
+};
+
 // TODO: Add Status handler.
 enum class PlayerStatus {
 	DRAW_2,
@@ -102,11 +107,11 @@ struct CardStruct {
 
 namespace CardHelper {
 	void RandomizeTableCard(void);
-	void statusHandler(Player player, PlayerStatus status, CardType card); // Handle Status like +2, +4, Wish etc.
-	void DrawEffect(Player player, CardType card);
-    void specialHandle(Player player, CardType card);
-    void AddCard(Player player);
-    void RemoveCard(Player player, int pos);
+	void statusHandler(std::vector<CardStruct> &hand, PlayerStatus status, PlayerStatus &p, Direction &direction); // Handle Status like +2, +4, Wish etc.
+    void specialHandle(CardType card, PlayerStatus &p, PlayerStatus &nP);
+    void AddCard(std::vector<CardStruct> &hand);
+    void RemoveCard(std::vector<CardStruct> &hand, int pos);
+	void ChangeDirection(Direction &direction);
 	CardColor wishFunction();
 }
 

@@ -37,21 +37,55 @@ public:
 	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
 	PlayScreen();
 private:
-	bool isPause = false;
-	bool canContinue = false;
+	// in case the player needs to break.
+	bool Player1Break = false;
+	bool Player2Break = false;
+	bool Player3Break = false;
+	bool Player4Break = false;
+	// In case the player can continue.
+	bool Player1Continue = false;
+	bool Player2Continue = false;
+	bool Player3Continue = false;
+	bool Player4Continue = false;
+
 	bool canCounter = false; // In case the opponent has a Plus 2 / 4 too.
-	int Player1Card = 0; // Always set to 0.
+
+	// Card indicator for Player 1-4.
+	int Player1Card = 0;
 	int Player2Card = 0;
 	int Player3Card = 0;
 	int Player4Card = 0;
-	Player currentPlayer = Player::PLAYER_1; // Player 1.
+
+	int currentPlayer = 1; // Player 1.
 	
+	// Player Hands and status.
+	std::vector<CardStruct> Player1Hand;
+	PlayerStatus Player1Status;
+	PlayerFeeling Player1Feeling = PlayerFeeling(0);
+
+	std::vector<CardStruct> Player2Hand;
+	PlayerStatus Player2Status;
+	PlayerFeeling Player2Feeling = PlayerFeeling(0);
+
+	std::vector<CardStruct> Player3Hand;
+	PlayerStatus Player3Status;
+	PlayerFeeling Player3Feeling = PlayerFeeling(0);
+
+	std::vector<CardStruct> Player4Hand;
+	PlayerStatus Player4Status;
+	PlayerFeeling Player4Feeling = PlayerFeeling(0);
+
 	void DisplayPlayerHand() const;
 	void DisplayPlayerHandSmall() const;
 	void DrawPlayers() const;
 
+	void AddCard(int player);
+	void RemoveCard(int player);
+
 	void Player1Logic(u32 hDown, u32 hHeld, touchPosition touch);
 	void Player2Logic(u32 hDown, u32 hHeld, touchPosition touch);
+	void Player3Logic(u32 hDown, u32 hHeld, touchPosition touch);
+	void Player4Logic(u32 hDown, u32 hHeld, touchPosition touch);
 	void RoundLogic(u32 hDown, u32 hHeld, touchPosition touch);
 	void OpponentLogic(void);
 };

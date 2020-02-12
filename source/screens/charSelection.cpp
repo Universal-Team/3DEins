@@ -27,6 +27,12 @@
 #include "charSelection.hpp"
 #include "playScreen.hpp"
 
+// Player char's.
+int player1 = 0;
+int player2 = 1;
+int player3 = 2;
+int player4 = 3;
+
 extern bool touching(touchPosition touch, Structs::ButtonPos button);
 
 // 4 Chars: StackZ, Carl, Isabel, Lea.
