@@ -174,7 +174,7 @@ void CardHelper::statusHandler(std::vector<CardStruct> &hand, PlayerStatus statu
 	}
 }
 
-void CardHelper::specialHandle(CardType card, PlayerStatus &p, PlayerStatus &nP) {
+void CardHelper::specialHandle(CardType card, PlayerStatus &p, PlayerStatus &nP, int maxPlayer) {
 	switch(card) {
 		case CardType::NUMBER_0:
 		case CardType::NUMBER_1:
@@ -199,10 +199,18 @@ void CardHelper::specialHandle(CardType card, PlayerStatus &p, PlayerStatus &nP)
 			p = PlayerStatus::WISH_COLOR;
 			break;
 		case CardType::PAUSE:
-			nP = PlayerStatus::TAKE_BREAK;
+			if (maxPlayer > 2) {
+				nP = PlayerStatus::TAKE_BREAK;
+			} else {
+				p = PlayerStatus::CAN_RETURN;
+			}
 			break;
 		case CardType::RETURN:
-			p = PlayerStatus::DIRECTION_CHANGE;
+			if (maxPlayer > 2) {
+				p = PlayerStatus::DIRECTION_CHANGE;
+			} else {
+				p = PlayerStatus::CAN_RETURN;
+			}
 			break;
 	}
 }

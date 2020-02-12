@@ -29,6 +29,7 @@
 #include "credits.hpp"
 #include "langSelection.hpp"
 #include "mainMenu.hpp"
+#include "modeSelection.hpp"
 
 extern bool exiting;
 extern bool touching(touchPosition touch, Structs::ButtonPos button);
@@ -72,7 +73,7 @@ void MainMenu::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hDown & KEY_TOUCH) {
 		if (touching(touch, mainButtons[0])) {
 			if (Msg::promptMsg2(Lang::get("NEW_GAME_PROMPT"))) {
-				Gui::setScreen(std::make_unique<CharSelection>());
+				Gui::setScreen(std::make_unique<ModeSelection>());
 			}
 		} else if (touching(touch, mainButtons[1])) {
 			Gui::setScreen(std::make_unique<ColorCard>());
@@ -87,7 +88,7 @@ void MainMenu::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hDown & KEY_A) {
 		if (Selection == 0) {
 			if (Msg::promptMsg2(Lang::get("NEW_GAME_PROMPT"))) {
-				Gui::setScreen(std::make_unique<CharSelection>());
+				Gui::setScreen(std::make_unique<ModeSelection>());
 			}
 		} else if (Selection == 1) {
 			Gui::setScreen(std::make_unique<ColorCard>());

@@ -35,6 +35,7 @@ extern int player1;
 extern int player2;
 extern int player3;
 extern int player4;
+extern int playerAmount;
 
 // Table card.
 extern CardType TypeToPlay;
@@ -131,15 +132,9 @@ void PlayScreen::Draw(void) const {
 	DrawPlayers();
 	GFX::DrawCard(TypeToPlay, 170, 80, ColorToPlay);
 	GFX::DrawBottom();
-	if (currentPlayer == 1) {
-		Gui::DrawStringCentered(0, 0, 0.7f, WHITE, Lang::get("ITS_PLAYER_1_TURN"));
-	} else if (currentPlayer == 2) {
-		Gui::DrawStringCentered(0, 0, 0.7f, WHITE, Lang::get("ITS_PLAYER_2_TURN"));
-	} else if (currentPlayer == 3) {
-		Gui::DrawStringCentered(0, 0, 0.7f, WHITE, Lang::get("ITS_PLAYER_3_TURN"));
-	} else if (currentPlayer == 4) {
-		Gui::DrawStringCentered(0, 0, 0.7f, WHITE, Lang::get("ITS_PLAYER_4_TURN"));
-	}
+	char message [100];
+	snprintf(message, sizeof(message), Lang::get("ITS_PLAYER_TURN").c_str(), currentPlayer);
+	Gui::DrawStringCentered(0, 0, 0.7f, WHITE, message);
 	DisplayPlayerHand();
 	DisplayPlayerHandSmall();
 }
@@ -152,13 +147,18 @@ void PlayScreen::DrawPlayers() const {
 	// Player 2.
 	GFX::DrawPlayer(-5, 0, 0.9, 0.9, PlayerChar(player2), Player2Feeling);
 	Gui::DrawString(90, 40, 0.6f, WHITE, std::to_string(Player2Hand.size()));
-
-	// Player 3.
-	GFX::DrawPlayer(300, 130, 0.9, 0.9, PlayerChar(player3), Player3Feeling);
-	Gui::DrawString(270, 40, 0.6f, WHITE, std::to_string(Player3Hand.size()));
-	// Player 4.
-	GFX::DrawPlayer(300, 0, 0.9, 0.9, PlayerChar(player4), Player4Feeling);
-	Gui::DrawString(270, 200, 0.6f, WHITE, std::to_string(Player4Hand.size()));
+	if (maxPlayer == 3) {
+		// Player 3.
+		GFX::DrawPlayer(300, 0, 0.9, 0.9, PlayerChar(player3), Player3Feeling);
+		Gui::DrawString(270, 40, 0.6f, WHITE, std::to_string(Player3Hand.size()));
+	} else if (maxPlayer == 4) {
+		// Player 3.
+		GFX::DrawPlayer(300, 0, 0.9, 0.9, PlayerChar(player3), Player3Feeling);
+		Gui::DrawString(270, 40, 0.6f, WHITE, std::to_string(Player3Hand.size()));
+		// Player 4.
+		GFX::DrawPlayer(300, 130, 0.9, 0.9, PlayerChar(player4), Player4Feeling);
+		Gui::DrawString(270, 200, 0.6f, WHITE, std::to_string(Player4Hand.size()));
+	}
 }
 
 void PlayScreen::AddCard(int player) {
@@ -196,11 +196,18 @@ void PlayScreen::RemoveCard(int player) {
 }
 
 PlayScreen::PlayScreen() {
+	// Set Player Amount.
+	maxPlayer = playerAmount;
 	// Clear Player Hands.
 	Player1Hand.clear();
 	Player2Hand.clear();
-	Player3Hand.clear();
-	Player4Hand.clear();
+
+	if (maxPlayer == 3) {
+		Player3Hand.clear();
+	} else if (maxPlayer == 4) {
+		Player3Hand.clear();
+		Player4Hand.clear();
+	}
 
 	// Randomize Table card.
 	CardHelper::RandomizeTableCard();
@@ -220,22 +227,31 @@ PlayScreen::PlayScreen() {
 	AddCard(2);
 	AddCard(2);
 	AddCard(2);
-
-	// Fill Player 3.
-	AddCard(3);
-	AddCard(3);
-	AddCard(3);
-	AddCard(3);
-	AddCard(3);
-	AddCard(3);
-
-	// Fill Player 4.
-	AddCard(4);
-	AddCard(4);
-	AddCard(4);
-	AddCard(4);
-	AddCard(4);
-	AddCard(4);
+	// Only fill Player 3 | 4, if used.
+	if (maxPlayer == 3) {
+		// Fill Player 3.
+		AddCard(3);
+		AddCard(3);
+		AddCard(3);
+		AddCard(3);
+		AddCard(3);
+		AddCard(3);
+	} else if (maxPlayer == 4) {
+		// Fill Player 3.
+		AddCard(3);
+		AddCard(3);
+		AddCard(3);
+		AddCard(3);
+		AddCard(3);
+		AddCard(3);
+		// Fill Player 4.
+		AddCard(4);
+		AddCard(4);
+		AddCard(4);
+		AddCard(4);
+		AddCard(4);
+		AddCard(4);
+	}
 }
 
 void PlayScreen::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
@@ -260,11 +276,15 @@ void PlayScreen::Player1Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (Player1Break == true) {
 		Player1Break = false;
 		if (PlayDirection == Direction::LEFT) {
-			Msg::DisplayPlayerSwitch("Player 1 must take a break.\nPlayer 2: Continue!");
+			char message [100];
+			snprintf(message, sizeof(message), Lang::get("PLAYER_BREAK").c_str(), 1, 2);
+			Msg::DisplayPlayerSwitch(message);
 			currentPlayer = 2;
 		} else if (PlayDirection == Direction::RIGHT) {
-			Msg::DisplayPlayerSwitch("Player 1 must take a break.\nPlayer 4: Continue!");
-			currentPlayer = 4;
+			char message [100];
+			snprintf(message, sizeof(message), Lang::get("PLAYER_BREAK").c_str(), 1, maxPlayer);
+			Msg::DisplayPlayerSwitch(message);
+			currentPlayer = maxPlayer;
 		}
 	}
 
@@ -274,10 +294,18 @@ void PlayScreen::Player1Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		}
 	}
 
+	if (hDown & KEY_R) {
+		Player1Card = (int)Player1Hand.size()-1;
+	}
+
 	if (hDown & KEY_LEFT ) {
 		if (Player1Card > 0) {
 			Player1Card--;
 		}
+	}
+
+	if (hDown & KEY_L) {
+		Player1Card = 0;
 	}
 
 	if (hDown & KEY_A) {
@@ -288,19 +316,28 @@ void PlayScreen::Player1Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 			// Handle.
 			if (PlayDirection == Direction::LEFT) {
-				CardHelper::specialHandle(Player1Hand[Player1Card].CT, Player1Status, Player2Status);
+				CardHelper::specialHandle(Player1Hand[Player1Card].CT, Player1Status, Player2Status, maxPlayer);
 				CardHelper::statusHandler(Player1Hand, Player1Status, Player1Status, PlayDirection, Player1Break);
 				CardHelper::statusHandler(Player2Hand, Player2Status, Player2Status, PlayDirection, Player2Break);
 			} else {
-				CardHelper::specialHandle(Player1Hand[Player1Card].CT, Player1Status, Player4Status);
+				CardHelper::specialHandle(Player1Hand[Player1Card].CT, Player1Status, Player4Status, maxPlayer);
 				CardHelper::statusHandler(Player1Hand, Player1Status, Player1Status, PlayDirection, Player1Break);
 				CardHelper::statusHandler(Player4Hand, Player4Status, Player4Status, PlayDirection, Player4Break);
+			}
+
+			// Special case handle for 2 Player.
+			if (maxPlayer < 3) {
+				if (Player1Hand[Player1Card].CT == CardType::RETURN || Player1Hand[Player1Card].CT == CardType::PAUSE) {
+					canContinue = true;
+				}
 			}
 
 			RemoveCard(1);
 
 			if (Player1Hand.size() == 0) {
-				Msg::DisplayPlayerSwitch("Player 1 won!");
+				char message [100];
+				snprintf(message, sizeof(message), Lang::get("PLAYER_WON").c_str(), currentPlayer);
+				Msg::DisplayPlayerSwitch(message);
 				Gui::screenBack();
 				return;
 			}
@@ -308,16 +345,21 @@ void PlayScreen::Player1Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 				Player1Card = (int)Player1Hand.size() - 1;
 			}
 
-			if (!Player1Continue) {
+
+			if (!canContinue) {
 				if (PlayDirection == Direction::LEFT) {
-					Msg::DisplayPlayerSwitch("Player 1 has finished his round.\nPlayer 2: Continue!");
+					char message [100];
+					snprintf(message, sizeof(message), Lang::get("PLAYER_NEXT").c_str(), 1, 2);
+					Msg::DisplayPlayerSwitch(message);
 					currentPlayer = 2;
 				} else if (PlayDirection == Direction::RIGHT) {
-					Msg::DisplayPlayerSwitch("Player 1 has finished his round.\nPlayer 4: Continue!");
-					currentPlayer = 4;
+					char message [100];
+					snprintf(message, sizeof(message), Lang::get("PLAYER_NEXT").c_str(), 1, maxPlayer);
+					Msg::DisplayPlayerSwitch(message);
+					currentPlayer = maxPlayer;
 				}
+				canContinue = false;
 			}
-			Player1Continue = false;
 		}
 	}
 
@@ -331,10 +373,16 @@ void PlayScreen::Player2Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (Player2Break == true) {
 		Player2Break = false;
 		if (PlayDirection == Direction::LEFT) {
-			Msg::DisplayPlayerSwitch("Player 2 must take a break.\nPlayer 3: Continue!");
-			currentPlayer = 3;
+			if (maxPlayer > 2)	tempPlayer = 3;
+			else				tempPlayer = 1;
+			char message [100];
+			snprintf(message, sizeof(message), Lang::get("PLAYER_BREAK").c_str(), 2, tempPlayer);
+			Msg::DisplayPlayerSwitch(message);
+			currentPlayer = tempPlayer;
 		} else if (PlayDirection == Direction::RIGHT) {
-			Msg::DisplayPlayerSwitch("Player 2 must take a break.\nPlayer 1: Continue!");
+			char message [100];
+			snprintf(message, sizeof(message), Lang::get("PLAYER_BREAK").c_str(), 2, 1);
+			Msg::DisplayPlayerSwitch(message);
 			currentPlayer = 1;
 		}
 	}
@@ -345,10 +393,18 @@ void PlayScreen::Player2Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		}
 	}
 
+	if (hDown & KEY_R) {
+		Player2Card = (int)Player2Hand.size()-1;
+	}
+
 	if (hDown & KEY_LEFT ) {
 		if (Player2Card > 0) {
 			Player2Card--;
 		}
+	}
+
+	if (hDown & KEY_L) {
+		Player2Card = 0;
 	}
 
 	if (hDown & KEY_A) {
@@ -359,35 +415,50 @@ void PlayScreen::Player2Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 			// Handle.
 			if (PlayDirection == Direction::LEFT) {
-				CardHelper::specialHandle(Player2Hand[Player2Card].CT, Player2Status, Player3Status);
+				CardHelper::specialHandle(Player2Hand[Player2Card].CT, Player2Status, Player3Status, maxPlayer);
 				CardHelper::statusHandler(Player2Hand, Player2Status, Player2Status, PlayDirection, Player2Break);
 				CardHelper::statusHandler(Player3Hand, Player3Status, Player3Status, PlayDirection, Player3Break);
 			} else {
-				CardHelper::specialHandle(Player2Hand[Player2Card].CT, Player2Status, Player1Status);
+				CardHelper::specialHandle(Player2Hand[Player2Card].CT, Player2Status, Player1Status, maxPlayer);
 				CardHelper::statusHandler(Player2Hand, Player2Status, Player2Status, PlayDirection, Player2Break);
 				CardHelper::statusHandler(Player1Hand, Player1Status, Player1Status, PlayDirection, Player1Break);
+			}
+
+			// Special case handle for 2 Player.
+			if (maxPlayer < 3) {
+				if (Player2Hand[Player2Card].CT == CardType::RETURN || Player2Hand[Player2Card].CT == CardType::PAUSE) {
+					canContinue = true;
+				}
 			}
 
 			RemoveCard(2);
 
 			if (Player2Hand.size() == 0) {
-				Msg::DisplayPlayerSwitch("Player 2 won!");
+				char message [100];
+				snprintf(message, sizeof(message), Lang::get("PLAYER_WON").c_str(), currentPlayer);
+				Msg::DisplayPlayerSwitch(message);
 				Gui::screenBack();
 				return;
 			}
 			if (Player2Card > (int)Player2Hand.size() -1) {
 				Player2Card = (int)Player2Hand.size() - 1;
 			}
-			if (!Player2Continue) {
+			if (!canContinue) {
 				if (PlayDirection == Direction::LEFT) {
-					Msg::DisplayPlayerSwitch("Player 2 has finished his round.\nPlayer 3: Continue!");
-					currentPlayer = 3;
+					if (maxPlayer > 2)	tempPlayer = 3;
+					else				tempPlayer = 1;
+					char message [100];
+					snprintf(message, sizeof(message), Lang::get("PLAYER_NEXT").c_str(), 2, tempPlayer);
+					Msg::DisplayPlayerSwitch(message);
+					currentPlayer = tempPlayer;
 				} else if (PlayDirection == Direction::RIGHT) {
-					Msg::DisplayPlayerSwitch("Player 2 has finished his round.\nPlayer 1: Continue!");
+					char message [100];
+					snprintf(message, sizeof(message), Lang::get("PLAYER_NEXT").c_str(), 2, 1);
+					Msg::DisplayPlayerSwitch(message);
 					currentPlayer = 1;
 				}
+				canContinue = false;
 			}
-			Player2Continue = false;
 		}
 	}
 
@@ -402,10 +473,16 @@ void PlayScreen::Player3Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (Player3Break == true) {
 		Player3Break = false;
 		if (PlayDirection == Direction::LEFT) {
-			Msg::DisplayPlayerSwitch("Player 3 must take a break.\nPlayer 4: Continue!");
-			currentPlayer = 4;
+			if (maxPlayer > 3)	tempPlayer = 4;
+			else	tempPlayer = 2;
+			char message [100];
+			snprintf(message, sizeof(message), Lang::get("PLAYER_BREAK").c_str(), 3, tempPlayer);
+			Msg::DisplayPlayerSwitch(message);
+			currentPlayer = tempPlayer;
 		} else if (PlayDirection == Direction::RIGHT) {
-			Msg::DisplayPlayerSwitch("Player 3 must take a break.\nPlayer 2: Continue!");
+			char message [100];
+			snprintf(message, sizeof(message), Lang::get("PLAYER_BREAK").c_str(), 3, 2);
+			Msg::DisplayPlayerSwitch(message);
 			currentPlayer = 2;
 		}
 	}
@@ -416,10 +493,18 @@ void PlayScreen::Player3Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		}
 	}
 
+	if (hDown & KEY_R) {
+		Player3Card = (int)Player3Hand.size()-1;
+	}
+
 	if (hDown & KEY_LEFT ) {
 		if (Player3Card > 0) {
 			Player3Card--;
 		}
+	}
+
+	if (hDown & KEY_L) {
+		Player3Card = 0;
 	}
 
 	if (hDown & KEY_A) {
@@ -430,11 +515,11 @@ void PlayScreen::Player3Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 			// Handle.
 			if (PlayDirection == Direction::LEFT) {
-				CardHelper::specialHandle(Player3Hand[Player3Card].CT, Player3Status, Player4Status);
+				CardHelper::specialHandle(Player3Hand[Player3Card].CT, Player3Status, Player4Status, maxPlayer);
 				CardHelper::statusHandler(Player3Hand, Player3Status, Player3Status, PlayDirection, Player3Break);
 				CardHelper::statusHandler(Player4Hand, Player4Status, Player4Status, PlayDirection, Player4Break);
 			} else {
-				CardHelper::specialHandle(Player3Hand[Player3Card].CT, Player3Status, Player2Status);
+				CardHelper::specialHandle(Player3Hand[Player3Card].CT, Player3Status, Player2Status, maxPlayer);
 				CardHelper::statusHandler(Player3Hand, Player3Status, Player3Status, PlayDirection, Player3Break);
 				CardHelper::statusHandler(Player2Hand, Player2Status, Player2Status, PlayDirection, Player2Break);
 			}
@@ -442,23 +527,30 @@ void PlayScreen::Player3Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 			RemoveCard(3);
 
 			if (Player3Hand.size() == 0) {
-				Msg::DisplayPlayerSwitch("Player 3 won!");
+				char message [100];
+				snprintf(message, sizeof(message), Lang::get("PLAYER_WON").c_str(), currentPlayer);
+				Msg::DisplayPlayerSwitch(message);
 				Gui::screenBack();
 				return;
 			}
 			if (Player3Card > (int)Player3Hand.size() -1) {
 				Player3Card = (int)Player3Hand.size() - 1;
 			}
-			if (!Player3Continue) {
+			if (!canContinue) {
 				if (PlayDirection == Direction::LEFT) {
-					Msg::DisplayPlayerSwitch("Player 3 has finished his round.\nPlayer 4: Continue!");
-					currentPlayer = 4;
+					if (maxPlayer > 3)	tempPlayer = 4;
+					else				tempPlayer = 2;
+					char message [100];
+					snprintf(message, sizeof(message), Lang::get("PLAYER_NEXT").c_str(), 3, tempPlayer);
+					Msg::DisplayPlayerSwitch(message);
+					currentPlayer = tempPlayer;
 				} else if (PlayDirection == Direction::RIGHT) {
-					Msg::DisplayPlayerSwitch("Player 3 has finished his round.\nPlayer 2: Continue!");
+					char message [100];
+					snprintf(message, sizeof(message), Lang::get("PLAYER_NEXT").c_str(), 3, 2);
+					Msg::DisplayPlayerSwitch(message);
 					currentPlayer = 2;
 				}
 			}
-			Player3Continue = false;
 		}
 	}
 
@@ -468,15 +560,18 @@ void PlayScreen::Player3Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	}
 }
 
-
 void PlayScreen::Player4Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (Player4Break == true) {
 		Player4Break = false;
 		if (PlayDirection == Direction::LEFT) {
-			Msg::DisplayPlayerSwitch("Player 4 must take a break.\nPlayer 1: Continue!");
+			char message [100];
+			snprintf(message, sizeof(message), Lang::get("PLAYER_BREAK").c_str(), 4, 1);
+			Msg::DisplayPlayerSwitch(message);
 			currentPlayer = 1;
 		} else if (PlayDirection == Direction::RIGHT) {
-			Msg::DisplayPlayerSwitch("Player 4 must take a break.\nPlayer 3: Continue!");
+			char message [100];
+			snprintf(message, sizeof(message), Lang::get("PLAYER_BREAK").c_str(), 4, 3);
+			Msg::DisplayPlayerSwitch(message);
 			currentPlayer = 3;
 		}
 	}
@@ -487,10 +582,18 @@ void PlayScreen::Player4Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		}
 	}
 
+	if (hDown & KEY_R) {
+		Player4Card = (int)Player4Hand.size()-1;
+	}
+
 	if (hDown & KEY_LEFT ) {
 		if (Player4Card > 0) {
 			Player4Card--;
 		}
+	}
+
+	if (hDown & KEY_L) {
+		Player4Card = 0;
 	}
 
 	if (hDown & KEY_A) {
@@ -501,11 +604,11 @@ void PlayScreen::Player4Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 			// Handle.
 			if (PlayDirection == Direction::LEFT) {
-				CardHelper::specialHandle(Player4Hand[Player4Card].CT, Player4Status, Player1Status);
+				CardHelper::specialHandle(Player4Hand[Player4Card].CT, Player4Status, Player1Status, maxPlayer);
 				CardHelper::statusHandler(Player4Hand, Player4Status, Player4Status, PlayDirection, Player4Break);
 				CardHelper::statusHandler(Player1Hand, Player1Status, Player1Status, PlayDirection, Player1Break);
 			} else {
-				CardHelper::specialHandle(Player4Hand[Player4Card].CT, Player4Status, Player3Status);
+				CardHelper::specialHandle(Player4Hand[Player4Card].CT, Player4Status, Player3Status, maxPlayer);
 				CardHelper::statusHandler(Player4Hand, Player4Status, Player4Status, PlayDirection, Player4Break);
 				CardHelper::statusHandler(Player3Hand, Player3Status, Player3Status, PlayDirection, Player3Break);
 			}
@@ -521,23 +624,28 @@ void PlayScreen::Player4Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 			RemoveCard(4);
 			if (Player4Hand.size() == 0) {
-				Msg::DisplayPlayerSwitch("Player 4 won!");
+				char message [100];
+				snprintf(message, sizeof(message), Lang::get("PLAYER_WON").c_str(), currentPlayer);
+				Msg::DisplayPlayerSwitch(message);
 				Gui::screenBack();
 				return;
 			}
 			if (Player4Card > (int)Player4Hand.size() -1) {
 				Player4Card = (int)Player4Hand.size() - 1;
 			}
-			if (!Player4Continue) {
+			if (!canContinue) {
 				if (PlayDirection == Direction::LEFT) {
-					Msg::DisplayPlayerSwitch("Player 4 has finished his round.\nPlayer 1: Continue!");
+					char message [100];
+					snprintf(message, sizeof(message), Lang::get("PLAYER_NEXT").c_str(), 4, 1);
+					Msg::DisplayPlayerSwitch(message);
 					currentPlayer = 1;
 				} else if (PlayDirection == Direction::RIGHT) {
-					Msg::DisplayPlayerSwitch("Player 4 has finished his round.\nPlayer 3: Continue!");
+					char message [100];
+					snprintf(message, sizeof(message), Lang::get("PLAYER_NEXT").c_str(), 4, 3);
+					Msg::DisplayPlayerSwitch(message);
 					currentPlayer = 3;
 				}
 			}
-			Player4Continue = false;
 		}
 	}
 

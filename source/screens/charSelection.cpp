@@ -33,7 +33,14 @@ int player2 = 1;
 int player3 = 2;
 int player4 = 3;
 
+extern int playerAmount;
+
 extern bool touching(touchPosition touch, Structs::ButtonPos button);
+
+CharSelection::CharSelection() {
+	// Get Max amount of Players.
+	maxPlayers = playerAmount;
+}
 
 // 4 Chars: StackZ, Carl, Isabel, Lea.
 void CharSelection::Draw(void) const {
@@ -43,6 +50,13 @@ void CharSelection::Draw(void) const {
 	GFX::DrawPlayer(95, 35, 1, 1, PlayerChar::CARL, PlayerFeeling(state));
 	GFX::DrawPlayer(195, 35, 1, 1, PlayerChar::ISABEL, PlayerFeeling(state));
 	GFX::DrawPlayer(295, 35, 1, 1, PlayerChar::LEA, PlayerFeeling(state));
+	if (currentPlayer != maxPlayers+1) {
+		char message [100];
+		snprintf(message, sizeof(message), Lang::get("PLAYER_SELECT").c_str(), currentPlayer);
+		Gui::DrawStringCentered(0, 216, 0.7f, WHITE, message);
+	} else {
+		Gui::DrawStringCentered(0, 216, 0.7f, WHITE, Lang::get("ALL_PLAYER_READY"));
+	}
 
 	Gui::Draw_Rect(10, 160, 80, 30, C2D_Color32(200, 80, 0, 255));
 	Gui::Draw_Rect(110, 160, 80, 30, C2D_Color32(200, 80, 0, 255));
@@ -65,9 +79,27 @@ void CharSelection::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	}
 
 	if (hDown & KEY_A) {
-		Config::character = Selection;
-		Config::save();
-		Gui::setScreen(std::make_unique<PlayScreen>());
+		if (allSelected == true) {
+			Gui::setScreen(std::make_unique<PlayScreen>());
+		}
+
+		if (currentPlayer != maxPlayers+1) {
+			if (currentPlayer == 1) {
+				player1 = Selection;
+			} else if (currentPlayer == 2) {
+				player2 = Selection;
+			} else if (currentPlayer == 3) {
+				player3 = Selection;
+			} else if (currentPlayer == 4) {
+				player4 = Selection;
+			}
+			currentPlayer++;
+		}
+
+		if (currentPlayer == maxPlayers+1) {
+			allSelected = true;
+		}
+
 	}
 
 	if (hDown & KEY_R) {

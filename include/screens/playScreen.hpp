@@ -37,19 +37,17 @@ public:
 	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
 	PlayScreen();
 private:
+	int maxPlayer = 2; // Up to 4.
+	int tempPlayer = 2; // This is a temp for the next player handle.
 	Direction PlayDirection = Direction::LEFT;
 	// in case the player needs to break.
 	bool Player1Break = false;
 	bool Player2Break = false;
 	bool Player3Break = false;
 	bool Player4Break = false;
-	// In case the player can continue.
-	bool Player1Continue = false;
-	bool Player2Continue = false;
-	bool Player3Continue = false;
-	bool Player4Continue = false;
 
-	bool canCounter = false; // In case the opponent has a Plus 2 / 4 too.
+	bool canContinue = false; // Return, if user can continue. Used in 2 Player mode.
+	bool canCounter = false; // In case the opponent has a Plus 2 / 4 too. TODO.
 
 	// Card indicator for Player 1-4.
 	int Player1Card = 0;

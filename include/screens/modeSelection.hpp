@@ -24,33 +24,35 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef CHARSELECTION_HPP
-#define CHARSELECTION_HPP
+#ifndef MODESELECTION_HPP
+#define MODESELECTION_HPP
 
+#include "cardHelper.hpp"
 #include "common.hpp"
 #include "structs.hpp"
 
 #include <vector>
 
-class CharSelection : public Screen
+class ModeSelection : public Screen
 {
 public:
 	void Draw(void) const override;
 	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
-	CharSelection();
 private:
 	int Selection = 0;
-	int state = 1;
-	bool allSelected = false;
-	int currentPlayer = 1;
-	int maxPlayers;
-	std::vector<Structs::ButtonPos> mainButtons = {
-		{0, 35, 120, 120}, // Player 1.
-		{95, 35, 120, 120}, // Player 2.
-		{195, 35, 120, 120}, // Player 3.
-		{295, 35, 120, 120}, // Player 4.
-	};
+	int amountSelection = 2;
+	int Mode = 1;
 
+	void DrawPlayerAmount(void) const;
+	void DrawMode(void) const;
+	void PlayerSelection(u32 hDown, u32 hHeld, touchPosition touch);
+	void MSelection(u32 hDown, u32 hHeld, touchPosition touch);
+
+	std::vector<Structs::ButtonPos> mainButtons = {
+		{90, 40, 140, 35}, // Single Player.
+		{90, 100, 140, 35}, // Multi Player.
+		{90, 160, 140, 35}, // Back.
+	};
 };
 
 #endif
