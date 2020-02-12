@@ -1,0 +1,22 @@
+--atlas -f rgba8888 -z auto
+
+cards/0.png
+cards/1.png
+cards/2.png
+cards/3.png
+cards/4.png
+cards/5.png
+cards/6.png
+cards/7.png
+cards/8.png
+cards/9.png
+
+cards/pause.png
+cards/ret.png
+cards/plus2.png
+
+cards/wish.png
+cards/plus4-wish.png
+
+cards/blank.png
+cards/outline.png

@@ -1,6 +1,6 @@
 /*
 *   This file is part of 3DEins
-*   Copyright (C) 2019 VoltZ
+*   Copyright (C) 2019-2020 DeadPhoenix8091, Epicpkmn11, Flame, RocketRobz, StackZ, TotallyNotGuy
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -23,18 +23,32 @@
 *         or requiring that modified versions of such material be marked in
 *         reasonable ways as different from the original version.
 */
-#ifndef TEST_HPP
-#define TEST_HPP
 
-#include "screens/screen.hpp"
+#ifndef CREDITS_HPP
+#define CREDITS_HPP
 
-class Test : public Screen
+#include "common.hpp"
+#include "structs.hpp"
+
+#include <vector>
+
+class Credits : public Screen
 {
 public:
 	void Draw(void) const override;
 	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
+
 private:
-	int currentCard = 0;
+	int DisplayMode = 1;
+	int delay = 120;
+	bool discordText = false;
+
+	void Loop();
+	void qr_code() const;
+
+	std::vector<Structs::ButtonPos> touchPos = {
+		{0, 210, 320, 30},
+	};
 };
 
 #endif

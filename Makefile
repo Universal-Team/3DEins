@@ -48,19 +48,21 @@ endif
 # Version number
 #---------------------------------------------------------------------------------
 VERSION_MAJOR := 0
-VERSION_MINOR := 0
-VERSION_MICRO := 1
+VERSION_MINOR := 1
+VERSION_MICRO := 0
 
+VERSION_STRING := "$(VERSION_MAJOR).$(VERSION_MINOR).$(VERSION_MICRO)"
 #---------------------------------------------------------------------------------
 TARGET		:=	3DEins
 BUILD		:=	build
-SOURCES		:=	source source/gui source/screens source/utils
+UNIVCORE	:= 	Universal-Core
+SOURCES		:=	$(UNIVCORE) source source/gui source/screens source/utils
 DATA		:=	data
-INCLUDES	:=	include include/gui include/screens include/utils
+INCLUDES	:=	$(UNIVCORE) include include/gui include/screens include/utils
 GRAPHICS	:=	assets/gfx
 ROMFS		:=	romfs
 GFXBUILD	:=	$(ROMFS)/gfx
-APP_AUTHOR	:=	VoltZ
+APP_AUTHOR	:=	Universal-Team
 APP_DESCRIPTION :=  A Cardgame for Nintendo 3DS.
 ICON		:=	app/icon.png
 BNR_IMAGE	:=  app/banner.png
@@ -72,6 +74,7 @@ RSF_FILE	:=	app/build-cia.rsf
 ARCH	:=	-march=armv6k -mtune=mpcore -mfloat-abi=hard -mtp=soft
 
 CFLAGS	:=	-g -Wall -Wno-psabi -O2 -mword-relocations \
+			-DV_STRING=\"$(VERSION_STRING)\" \
 			-fomit-frame-pointer -ffunction-sections \
 			$(ARCH)
 

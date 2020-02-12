@@ -1,6 +1,6 @@
 /*
 *   This file is part of 3DEins
-*   Copyright (C) 2019 VoltZ
+*   Copyright (C) 2019-2020 DeadPhoenix8091, Epicpkmn11, Flame, RocketRobz, StackZ, TotallyNotGuy
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -24,12 +24,34 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef SCREENCOMMON_HPP
-#define SCREENCOMMON_HPP
+#ifndef LANGSELECTION_HPP
+#define LANGSELECTION_HPP
 
-#include "gui/gui.hpp"
+#include "common.hpp"
+#include "structs.hpp"
 
-extern C3D_RenderTarget* top;
-extern C3D_RenderTarget* bottom;
+#include <vector>
+
+class LangSelection : public Screen
+{
+public:
+	void Draw(void) const override;
+	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
+	LangSelection();
+private:
+	int selectedLang = 0;
+	std::vector<Structs::ButtonPos> langBlocks = {
+		{37, 32, 20, 20},
+		{37, 72, 20, 20},
+		{37, 112, 20, 20},
+		{37, 152, 20, 20},
+		{37, 188, 20, 20},
+		{177, 32, 20, 20},
+		{177, 72, 20, 20},
+		{177, 112, 20, 20},
+		{177, 152, 20, 20},
+		{177, 188, 20, 20},
+	};
+};
 
 #endif

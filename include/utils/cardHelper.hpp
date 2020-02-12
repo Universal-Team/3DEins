@@ -1,6 +1,6 @@
 /*
 *   This file is part of 3DEins
-*   Copyright (C) 2019 VoltZ
+*   Copyright (C) 2019-2020 DeadPhoenix8091, Epicpkmn11, Flame, RocketRobz, StackZ, TotallyNotGuy
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -27,25 +27,87 @@
 #ifndef CARDHELPER_HPP
 #define CARDHELPER_HPP
 
-// Card Type getter.
-namespace CardGetter {
-    bool isNumberCard(int Gamecard);
-    bool isPlus2(int Gamecard);
-    bool isReturn(int Gamecard);
-    bool isExpose(int Gamecard);
-    bool isWish(int Gamecard);
-    bool isPlus4(int Gamecard);
+#include <string>
+#include <vector>
 
-    // Color getter!
-    bool isBlue(int Gamecard);
-    bool isGreen(int Gamecard);
-    bool isRed(int Gamecard);
-    bool isYellow(int Gamecard);
+#define MAXCOLOR	4 // Only 4 Colors, the 5th color is for special cards.
+#define MAXCARDTYPE	15
+
+enum class CardColor {
+	GREEN,
+	BLUE,
+	YELLOW,
+	RED,
+	SPECIAL
+};
+
+enum class CardType {
+	NUMBER_0,
+	NUMBER_1,
+	NUMBER_2,
+	NUMBER_3,
+	NUMBER_4,
+	NUMBER_5,
+	NUMBER_6,
+	NUMBER_7,
+	NUMBER_8,
+	NUMBER_9,
+	PAUSE,
+	RETURN,
+	PLUS2,
+	WISH,
+	PLUS4
+};
+
+enum class Player {
+    PLAYER_1,
+    PLAYER_2,
+    PLAYER_3,
+    PLAYER_4
+};
+
+// TODO: Add Status handler.
+enum class PlayerStatus {
+	DRAW_2,
+	DRAW_4,
+	WISH_COLOR,
+	TAKE_BREAK,
+	CAN_RETURN,
+	DIRECTION_CHANGE,
+	HAS_NO_CARDS,
+	NORMAL
+};
+
+// Player Feelings.
+enum class PlayerFeeling {
+	NORMAL,
+	PROUD,
+	ANGRY,
+	SMILE,
+	SIGH
+};
+
+enum class PlayerChar {
+	STACKZ,
+	CARL,
+	ISABEL,
+	LEA
+};
+
+// CardStruct.
+struct CardStruct {
+	CardType CT;
+	CardColor CC;
+};
+
+namespace CardHelper {
+	void RandomizeTableCard(void);
+	void statusHandler(Player player, PlayerStatus status, CardType card); // Handle Status like +2, +4, Wish etc.
+	void DrawEffect(Player player, CardType card);
+    void specialHandle(Player player, CardType card);
+    void AddCard(Player player);
+    void RemoveCard(Player player, int pos);
+	CardColor wishFunction();
 }
-
-namespace CardSetter {
-
-}
-
 
 #endif
