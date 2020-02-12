@@ -164,7 +164,7 @@ void CardHelper::statusHandler(std::vector<CardStruct> &hand, PlayerStatus statu
 				break; // I won! bruh.
 			case PlayerStatus::NORMAL:
 				break;
-				
+
 		}
 		p = PlayerStatus::NORMAL;
 	}
@@ -198,7 +198,7 @@ void CardHelper::specialHandle(CardType card, PlayerStatus &p, PlayerStatus &nP)
 			nP = PlayerStatus::TAKE_BREAK;
 			break;
 		case CardType::RETURN:
-			p = PlayerStatus::CAN_RETURN;
+			p = PlayerStatus::DIRECTION_CHANGE;
 			break;
 	}
 }

@@ -37,6 +37,7 @@ public:
 	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
 	PlayScreen();
 private:
+	Direction PlayDirection = Direction::LEFT;
 	// in case the player needs to break.
 	bool Player1Break = false;
 	bool Player2Break = false;

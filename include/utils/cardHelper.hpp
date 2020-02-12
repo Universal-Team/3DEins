@@ -59,13 +59,6 @@ enum class CardType {
 	PLUS4
 };
 
-enum class Player {
-    PLAYER_1,
-    PLAYER_2,
-    PLAYER_3,
-    PLAYER_4
-};
-
 enum class Direction {
 	RIGHT,
 	LEFT

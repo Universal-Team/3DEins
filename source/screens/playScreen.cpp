@@ -39,7 +39,6 @@ extern int player4;
 // Table card.
 extern CardType TypeToPlay;
 extern CardColor ColorToPlay;
-Direction PlayDirection = Direction::LEFT;
 
 void PlayScreen::DisplayPlayerHand() const {
 	if (currentPlayer == 1) {
