@@ -30,6 +30,7 @@
 	"NO":						"No",
 	"NOT_IMPLEMENTED":			"This is not implemented yet!",
 	"OK":						"Ok",
+	"PLAY_INSTRUCTIONS":		"\uE002: Draw Card\n\uE07B | \uE07C: Change Card\n\uE000: Play Card",
 	"PLAYER_1":					"Player 1",
 	"PLAYER_2":					"Player 2",
 	"PLAYER_3":					"Player 3",

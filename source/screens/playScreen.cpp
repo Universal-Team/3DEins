@@ -248,6 +248,10 @@ void PlayScreen::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 			return;
 		}
 	}
+
+	if (hHeld & KEY_SELECT) {
+		Msg::HelperBox(Lang::get("PLAY_INSTRUCTIONS"));
+	}
 }
 
 
@@ -285,23 +289,16 @@ void PlayScreen::Player1Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 			// Handle.
 			if (PlayDirection == Direction::LEFT) {
 				CardHelper::specialHandle(Player1Hand[Player1Card].CT, Player1Status, Player2Status);
-				CardHelper::statusHandler(Player1Hand, Player1Status, Player1Status, PlayDirection);
-				CardHelper::statusHandler(Player2Hand, Player2Status, Player2Status, PlayDirection);
+				CardHelper::statusHandler(Player1Hand, Player1Status, Player1Status, PlayDirection, Player1Break);
+				CardHelper::statusHandler(Player2Hand, Player2Status, Player2Status, PlayDirection, Player2Break);
 			} else {
 				CardHelper::specialHandle(Player1Hand[Player1Card].CT, Player1Status, Player4Status);
-				CardHelper::statusHandler(Player1Hand, Player1Status, Player1Status, PlayDirection);
-				CardHelper::statusHandler(Player4Hand, Player4Status, Player4Status, PlayDirection);
-			}
-
-			if (Player1Hand[Player1Card].CT == CardType::PAUSE) {
-				if (PlayDirection == Direction::LEFT) {
-					Player2Break = true;
-				} else if (PlayDirection == Direction::RIGHT) {
-					Player4Break = true;
-				}
+				CardHelper::statusHandler(Player1Hand, Player1Status, Player1Status, PlayDirection, Player1Break);
+				CardHelper::statusHandler(Player4Hand, Player4Status, Player4Status, PlayDirection, Player4Break);
 			}
 
 			RemoveCard(1);
+
 			if (Player1Hand.size() == 0) {
 				Msg::DisplayPlayerSwitch("Player 1 won!");
 				Gui::screenBack();
@@ -363,24 +360,16 @@ void PlayScreen::Player2Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 			// Handle.
 			if (PlayDirection == Direction::LEFT) {
 				CardHelper::specialHandle(Player2Hand[Player2Card].CT, Player2Status, Player3Status);
-				CardHelper::statusHandler(Player2Hand, Player2Status, Player2Status, PlayDirection);
-				CardHelper::statusHandler(Player3Hand, Player3Status, Player3Status, PlayDirection);
+				CardHelper::statusHandler(Player2Hand, Player2Status, Player2Status, PlayDirection, Player2Break);
+				CardHelper::statusHandler(Player3Hand, Player3Status, Player3Status, PlayDirection, Player3Break);
 			} else {
 				CardHelper::specialHandle(Player2Hand[Player2Card].CT, Player2Status, Player1Status);
-				CardHelper::statusHandler(Player2Hand, Player2Status, Player2Status, PlayDirection);
-				CardHelper::statusHandler(Player1Hand, Player1Status, Player1Status, PlayDirection);
-			}
-
-			// Special case for Pause card.
-			if (Player2Hand[Player2Card].CT == CardType::PAUSE) {
-				if (PlayDirection == Direction::LEFT) {
-					Player3Break = true;
-				} else if (PlayDirection == Direction::RIGHT) {
-					Player1Break = true;
-				}
+				CardHelper::statusHandler(Player2Hand, Player2Status, Player2Status, PlayDirection, Player2Break);
+				CardHelper::statusHandler(Player1Hand, Player1Status, Player1Status, PlayDirection, Player1Break);
 			}
 
 			RemoveCard(2);
+
 			if (Player2Hand.size() == 0) {
 				Msg::DisplayPlayerSwitch("Player 2 won!");
 				Gui::screenBack();
@@ -442,24 +431,16 @@ void PlayScreen::Player3Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 			// Handle.
 			if (PlayDirection == Direction::LEFT) {
 				CardHelper::specialHandle(Player3Hand[Player3Card].CT, Player3Status, Player4Status);
-				CardHelper::statusHandler(Player3Hand, Player3Status, Player3Status, PlayDirection);
-				CardHelper::statusHandler(Player4Hand, Player4Status, Player4Status, PlayDirection);
+				CardHelper::statusHandler(Player3Hand, Player3Status, Player3Status, PlayDirection, Player3Break);
+				CardHelper::statusHandler(Player4Hand, Player4Status, Player4Status, PlayDirection, Player4Break);
 			} else {
 				CardHelper::specialHandle(Player3Hand[Player3Card].CT, Player3Status, Player2Status);
-				CardHelper::statusHandler(Player3Hand, Player3Status, Player3Status, PlayDirection);
-				CardHelper::statusHandler(Player2Hand, Player2Status, Player2Status, PlayDirection);
-			}
-
-			// Special case for Pause card.
-			if (Player3Hand[Player3Card].CT == CardType::PAUSE) {
-				if (PlayDirection == Direction::LEFT) {
-					Player4Break = true;
-				} else if (PlayDirection == Direction::RIGHT) {
-					Player2Break = true;
-				}
+				CardHelper::statusHandler(Player3Hand, Player3Status, Player3Status, PlayDirection, Player3Break);
+				CardHelper::statusHandler(Player2Hand, Player2Status, Player2Status, PlayDirection, Player2Break);
 			}
 
 			RemoveCard(3);
+
 			if (Player3Hand.size() == 0) {
 				Msg::DisplayPlayerSwitch("Player 3 won!");
 				Gui::screenBack();
@@ -521,12 +502,12 @@ void PlayScreen::Player4Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 			// Handle.
 			if (PlayDirection == Direction::LEFT) {
 				CardHelper::specialHandle(Player4Hand[Player4Card].CT, Player4Status, Player1Status);
-				CardHelper::statusHandler(Player4Hand, Player4Status, Player4Status, PlayDirection);
-				CardHelper::statusHandler(Player1Hand, Player1Status, Player1Status, PlayDirection);
+				CardHelper::statusHandler(Player4Hand, Player4Status, Player4Status, PlayDirection, Player4Break);
+				CardHelper::statusHandler(Player1Hand, Player1Status, Player1Status, PlayDirection, Player1Break);
 			} else {
 				CardHelper::specialHandle(Player4Hand[Player4Card].CT, Player4Status, Player3Status);
-				CardHelper::statusHandler(Player4Hand, Player4Status, Player4Status, PlayDirection);
-				CardHelper::statusHandler(Player3Hand, Player3Status, Player3Status, PlayDirection);
+				CardHelper::statusHandler(Player4Hand, Player4Status, Player4Status, PlayDirection, Player4Break);
+				CardHelper::statusHandler(Player3Hand, Player3Status, Player3Status, PlayDirection, Player3Break);
 			}
 
 			// Special case for Pause card.
