@@ -31,19 +31,19 @@
 void GFX::DrawTop(bool useBars) {
 	Gui::ScreenDraw(Top);
 	if (useBars) {
-		Gui::Draw_Rect(0, 0, 400, 30, C2D_Color32(220, 60, 0, 200));
-		Gui::Draw_Rect(0, 30, 400, 180, C2D_Color32(220, 160, 0, 200));
-		Gui::Draw_Rect(0, 210, 400, 30, C2D_Color32(220, 60, 0, 200));
+		Gui::Draw_Rect(0, 0, 400, 30, Config::Bar);
+		Gui::Draw_Rect(0, 30, 400, 180, Config::BG);
+		Gui::Draw_Rect(0, 210, 400, 30, Config::Bar);
 	} else {
-		Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(220, 160, 0, 200));
+		Gui::Draw_Rect(0, 0, 400, 240, Config::BG);
 	}
 }
 
 void GFX::DrawBottom(void) {
 	Gui::ScreenDraw(Bottom);
-	Gui::Draw_Rect(0, 0, 320, 30, C2D_Color32(220, 60, 0, 200));
-	Gui::Draw_Rect(0, 30, 320, 180, C2D_Color32(220, 160, 0, 200));
-	Gui::Draw_Rect(0, 210, 320, 30, C2D_Color32(220, 60, 0, 200));
+	Gui::Draw_Rect(0, 0, 320, 30, Config::Bar);
+	Gui::Draw_Rect(0, 30, 320, 180, Config::BG);
+	Gui::Draw_Rect(0, 210, 320, 30, Config::Bar);
 }
 
 extern C2D_SpriteSheet cards;
@@ -51,6 +51,44 @@ extern C2D_SpriteSheet sprites;
 
 void GFX::DrawSprite(int index, int x, int y, float ScaleX, float ScaleY) {
 	Gui::DrawSprite(sprites, index, x, y, ScaleX, ScaleY);
+}
+
+void GFX::DrawCardSelector(int x, int y, float ScaleX, float ScaleY)
+{
+	static float timer         = 0.0f;
+	float highlight_multiplier = fmax(0.0, fabs(fmod(timer, 1.0) - 0.5) / 0.5);
+	u8 r                       = Config::Selector & 0xFF;
+	u8 g                       = (Config::Selector >> 8) & 0xFF;
+	u8 b                       = (Config::Selector >> 16) & 0xFF;
+	u32 color = C2D_Color32(r + (255 - r) * highlight_multiplier, g + (255 - g) * highlight_multiplier, b + (255 - b) * highlight_multiplier, 255);
+	C2D_ImageTint tint;
+	C2D_SetImageTint(&tint, C2D_TopLeft, color, 1);
+	C2D_SetImageTint(&tint, C2D_TopRight, color, 1);
+	C2D_SetImageTint(&tint, C2D_BotLeft, color, 1);
+	C2D_SetImageTint(&tint, C2D_BotRight, color, 1);
+	C2D_DrawImageAt(C2D_SpriteSheetGetImage(cards, cards_outline_idx), x, y, 0.5f, &tint, ScaleX, ScaleY);
+	timer += .030;
+}
+
+void GFX::DrawButtonSelector(int x, int y, float ScaleX, float ScaleY, bool useSmall)
+{
+	static float timer         = 0.0f;
+	float highlight_multiplier = fmax(0.0, fabs(fmod(timer, 1.0) - 0.5) / 0.5);
+	u8 r                       = Config::Selector & 0xFF;
+	u8 g                       = (Config::Selector >> 8) & 0xFF;
+	u8 b                       = (Config::Selector >> 16) & 0xFF;
+	u32 color = C2D_Color32(r + (255 - r) * highlight_multiplier, g + (255 - g) * highlight_multiplier, b + (255 - b) * highlight_multiplier, 255);
+	C2D_ImageTint tint;
+	C2D_SetImageTint(&tint, C2D_TopLeft, color, 1);
+	C2D_SetImageTint(&tint, C2D_TopRight, color, 1);
+	C2D_SetImageTint(&tint, C2D_BotLeft, color, 1);
+	C2D_SetImageTint(&tint, C2D_BotRight, color, 1);
+	if (useSmall) {
+		C2D_DrawImageAt(C2D_SpriteSheetGetImage(sprites, sprites_btnSelector2_idx), x, y, 0.5f, &tint, ScaleX, ScaleY);
+	} else {
+		C2D_DrawImageAt(C2D_SpriteSheetGetImage(sprites, sprites_btnSelector_idx), x, y, 0.5f, &tint, ScaleX, ScaleY);
+	}
+	timer += .030;
 }
 
 void GFX::DrawCard(CardType CT, int x, int y, CardColor CC, float ScaleX, float ScaleY)
@@ -106,10 +144,10 @@ void GFX::DrawCard(CardType CT, int x, int y, CardColor CC, float ScaleX, float 
 		case CardType::NUMBER_9:
 			Gui::DrawSprite(cards, 9, x, y, ScaleX, ScaleY);
 			break;
-		case CardType::PAUSE:
+		case CardType::SKIP:
 			Gui::DrawSprite(cards, 10, x, y, ScaleX, ScaleY);
 			break;
-		case CardType::RETURN:
+		case CardType::REVERSE:
 			Gui::DrawSprite(cards, 11, x, y, ScaleX, ScaleY);
 			break;
 		case CardType::PLUS2:

@@ -24,15 +24,15 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef COLORCARD_HPP
-#define COLORCARD_HPP
+#ifndef UISETTINGS_HPP
+#define UISETTINGS_HPP
 
 #include "common.hpp"
 #include "structs.hpp"
 
 #include <vector>
 
-class ColorCard : public Screen
+class UISettings : public Screen
 {
 public:
 	void Draw(void) const override;

@@ -46,30 +46,31 @@ CharSelection::CharSelection() {
 // 4 Chars: StackZ, Carl, Isabel, Lea.
 void CharSelection::Draw(void) const {
 	GFX::DrawTop();
-	Gui::DrawStringCentered(0, 0, 0.9f, WHITE, "3DEins - " + Lang::get("CHAR_SELECTION"), 320);
+	Gui::DrawStringCentered(0, 0, 0.9f, Config::Text, "3DEins - " + Lang::get("CHAR_SELECTION"), 320);
 	GFX::DrawPlayer(-5, 35, 1, 1, PlayerChar::STACKZ, PlayerFeeling(state));
 	GFX::DrawPlayer(95, 35, 1, 1, PlayerChar::CARL, PlayerFeeling(state));
 	GFX::DrawPlayer(195, 35, 1, 1, PlayerChar::ISABEL, PlayerFeeling(state));
 	GFX::DrawPlayer(295, 35, 1, 1, PlayerChar::LEA, PlayerFeeling(state));
+
 	if (currentPlayer != maxPlayers+1) {
 		char message [100];
 		snprintf(message, sizeof(message), Lang::get("PLAYER_SELECT").c_str(), currentPlayer);
-		Gui::DrawStringCentered(0, 216, 0.7f, WHITE, message);
+		Gui::DrawStringCentered(0, 216, 0.7f, Config::Text, message);
 	} else {
-		Gui::DrawStringCentered(0, 216, 0.7f, WHITE, Lang::get("ALL_PLAYER_READY"));
+		Gui::DrawStringCentered(0, 216, 0.7f, Config::Text, Lang::get("ALL_PLAYER_READY"));
 	}
 
-	Gui::Draw_Rect(10, 160, 80, 30, C2D_Color32(200, 80, 0, 255));
-	Gui::Draw_Rect(110, 160, 80, 30, C2D_Color32(200, 80, 0, 255));
-	Gui::Draw_Rect(210, 160, 80, 30, C2D_Color32(200, 80, 0, 255));
-	Gui::Draw_Rect(310, 160, 80, 30, C2D_Color32(200, 80, 0, 255));
+	Gui::Draw_Rect(10, 160, 80, 30, Config::Button);
+	Gui::Draw_Rect(110, 160, 80, 30, Config::Button);
+	Gui::Draw_Rect(210, 160, 80, 30, Config::Button);
+	Gui::Draw_Rect(310, 160, 80, 30, Config::Button);
+	GFX::DrawButtonSelector(10 + (Selection * 100), 160, 1, 1, true);
 
-	Gui::DrawString(25, 165, 0.7f, WHITE, "StackZ");
-	Gui::DrawString(133, 165, 0.7f, WHITE, "Carl");
-	Gui::DrawString(227, 165, 0.7f, WHITE, "Isabel");
-	Gui::DrawString(332, 165, 0.7f, WHITE, "Lea");
+	Gui::DrawString(25, 165, 0.7f, Config::Text, "StackZ");
+	Gui::DrawString(133, 165, 0.7f, Config::Text, "Carl");
+	Gui::DrawString(227, 165, 0.7f, Config::Text, "Isabel");
+	Gui::DrawString(332, 165, 0.7f, Config::Text, "Lea");
 
-	GFX::DrawSprite(sprites_pointer_idx, mainButtons[Selection].x+50, mainButtons[Selection].y+145);
 	GFX::DrawBottom();
 }
 

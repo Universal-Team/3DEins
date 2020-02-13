@@ -32,8 +32,10 @@
 #include <string>
 #include <unistd.h>
 
-int Config::lang, Config::character, Config::Red, Config::Yellow, Config::Blue, Config::Green;
-
+// Card & Lang.
+int Config::lang, Config::Red, Config::Yellow, Config::Blue, Config::Green, Config::Selector;
+// GUI.
+int Config::Button, Config::Bar, Config::BG, Config::Text;
 
 nlohmann::json configJson;
 
@@ -71,10 +73,35 @@ void Config::load() {
 		Config::lang = getInt("LANG");
 	}
 
-	if(!configJson.contains("CHAR")) {
-		Config::character = 0;
+	if(!configJson.contains("SELECTOR")) {
+		Config::Selector = C2D_Color32(200, 0, 0, 255);
 	} else {
-		Config::character = getInt("CHAR");
+		Config::Selector = getInt("SELECTOR");
+	}
+
+	// GUI.
+	if(!configJson.contains("BUTTON")) {
+		Config::Button = C2D_Color32(170, 60, 0, 200);
+	} else {
+		Config::Button = getInt("BUTTON");
+	}
+
+	if(!configJson.contains("BAR")) {
+		Config::Bar = C2D_Color32(220, 60, 0, 200);
+	} else {
+		Config::Bar = getInt("BAR");
+	}
+
+	if(!configJson.contains("BG")) {
+		Config::BG = C2D_Color32(220, 160, 0, 200);
+	} else {
+		Config::BG = getInt("BG");
+	}
+
+	if(!configJson.contains("TEXT")) {
+		Config::Text = C2D_Color32(255, 255, 255, 255);
+	} else {
+		Config::Text = getInt("TEXT");
 	}
 }
 
@@ -85,7 +112,13 @@ void Config::save() {
 	Config::setInt("BLUE", Config::Blue);
 	Config::setInt("GREEN", Config::Green);
 	Config::setInt("LANG", Config::lang);
-	Config::setInt("CHAR", Config::character);
+	Config::setInt("SELECTOR", Config::Selector);
+	// GUI.
+	Config::setInt("BUTTON", Config::Button);
+	Config::setInt("BAR", Config::Bar);
+	Config::setInt("BG", Config::BG);
+	Config::setInt("TEXT", Config::Text);
+
 	FILE* file = fopen("sdmc:/3ds/3DEins/Settings.json", "w");
 	if(file)	fwrite(configJson.dump(1, '\t').c_str(), 1, configJson.dump(1, '\t').size(), file);
 	fclose(file);
@@ -101,7 +134,13 @@ void Config::initializeNewConfig() {
 	setInt("BLUE", C2D_Color32(0, 0, 255, 255));
 	setInt("GREEN", C2D_Color32(0, 255, 0, 255));
 	setInt("LANG", 2);
-	setInt("CHAR", 0);
+	setInt("SELECTOR", C2D_Color32(200, 0, 0, 255));
+	// GUI.
+	Config::setInt("BUTTON", C2D_Color32(170, 60, 0, 200));
+	Config::setInt("BAR", C2D_Color32(220, 60, 0, 200));
+	Config::setInt("BG", C2D_Color32(220, 160, 0, 200));
+	Config::setInt("TEXT", C2D_Color32(255, 255, 255, 255));
+
 	if(file)	fwrite(configJson.dump(1, '\t').c_str(), 1, configJson.dump(1, '\t').size(), file);
 	fclose(file);
 }

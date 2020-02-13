@@ -51,27 +51,27 @@ void ModeSelection::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 void ModeSelection::DrawMode(void) const {
 	GFX::DrawTop();
-	Gui::DrawStringCentered(0, 0, 0.9f, WHITE, "3DEins - " + Lang::get("MODE_SELECTION"), 320);
+	Gui::DrawStringCentered(0, 0, 0.9f, Config::Text, "3DEins - " + Lang::get("MODE_SELECTION"), 320);
 	GFX::DrawBottom();
 	for (int i = 0; i < 3; i++) {
-		Gui::Draw_Rect(mainButtons[i].x, mainButtons[i].y, mainButtons[i].w, mainButtons[i].h, C2D_Color32(170, 60, 0, 200));
+		Gui::Draw_Rect(mainButtons[i].x, mainButtons[i].y, mainButtons[i].w, mainButtons[i].h, Config::Button);
 		if (Selection == i) {
-			GFX::DrawSprite(sprites_pointer_idx, mainButtons[i].x+130, mainButtons[i].y+25);
+			GFX::DrawButtonSelector(mainButtons[i].x, mainButtons[i].y);
 		}
 	}
-	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.6, Lang::get("SINGLE_PLAYER")))/2-80+17.5, 0.6, WHITE, Lang::get("SINGLE_PLAYER"), 130, 25);
-	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.6, Lang::get("MULTI_PLAYER")))/2-20+17.5, 0.6, WHITE, Lang::get("MULTI_PLAYER"), 130, 25);
-	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.6, Lang::get("BACK")))/2+75-17.5, 0.6, WHITE, Lang::get("BACK"), 130, 25);
+	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.6, Lang::get("SINGLE_PLAYER")))/2-80+17.5, 0.6, Config::Text, Lang::get("SINGLE_PLAYER"), 130, 25);
+	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.6, Lang::get("MULTI_PLAYER")))/2-20+17.5, 0.6, Config::Text, Lang::get("MULTI_PLAYER"), 130, 25);
+	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.6, Lang::get("BACK")))/2+75-17.5, 0.6, Config::Text, Lang::get("BACK"), 130, 25);
 }
 
 void ModeSelection::DrawPlayerAmount(void) const {
 	GFX::DrawTop();
-	Gui::DrawStringCentered(0, 0, 0.9f, WHITE, Lang::get("PLAYER_AMOUNT"), 320);
+	Gui::DrawStringCentered(0, 0, 0.9f, Config::Text, Lang::get("PLAYER_AMOUNT"), 320);
 	GFX::DrawBottom();
 	GFX::DrawCard(CardType::NUMBER_2, 20, 60, CardColor::RED, 1.4, 1.4);
 	GFX::DrawCard(CardType::NUMBER_3, 120, 60, CardColor::BLUE, 1.4, 1.4);
 	GFX::DrawCard(CardType::NUMBER_4, 220, 60, CardColor::YELLOW, 1.4, 1.4);
-	GFX::DrawSprite(sprites_pointer_idx, 60 + ((amountSelection - 2) * 90), 100);
+	GFX::DrawCardSelector(20 + ((amountSelection - 2) * 100), 60, 1.4, 1.4);
 }
 
 void ModeSelection::MSelection(u32 hDown, u32 hHeld, touchPosition touch) {

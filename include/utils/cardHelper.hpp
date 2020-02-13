@@ -52,8 +52,8 @@ enum class CardType {
 	NUMBER_7,
 	NUMBER_8,
 	NUMBER_9,
-	PAUSE,
-	RETURN,
+	SKIP,
+	REVERSE,
 	PLUS2,
 	WISH,
 	PLUS4
@@ -101,9 +101,9 @@ struct CardStruct {
 namespace CardHelper {
 	void RandomizeTableCard(void);
 	void statusHandler(std::vector<CardStruct> &hand, PlayerStatus status, PlayerStatus &p, Direction &direction, bool &isPaused); // Handle Status like +2, +4, Wish etc.
-    void specialHandle(CardType card, PlayerStatus &p, PlayerStatus &nP, int maxPlayer);
-    void AddCard(std::vector<CardStruct> &hand);
-    void RemoveCard(std::vector<CardStruct> &hand, int pos);
+	void specialHandle(CardType card, PlayerStatus &p, PlayerStatus &nP, int maxPlayer);
+	void AddCard(std::vector<CardStruct> &hand);
+	void RemoveCard(std::vector<CardStruct> &hand, int pos);
 	void ChangeDirection(Direction &direction);
 	CardColor wishFunction();
 }

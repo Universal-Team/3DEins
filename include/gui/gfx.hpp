@@ -38,6 +38,10 @@ namespace GFX
 	void DrawTop(bool useBars = true);
 	void DrawBottom(void);
 	void DrawSprite(int index, int x, int y, float ScaleX = 1, float ScaleY = 1);
+	// Selectors.
+	void DrawCardSelector(int x, int y, float ScaleX = 1, float ScaleY = 1);
+	void DrawButtonSelector(int x, int y, float ScaleX = 1, float ScaleY = 1, bool useSmall = false);
+	
 	void DrawCard(CardType CT, int x, int y, CardColor CC, float ScaleX = 1, float ScaleY = 1);
 
 	void DrawPlayer(int x, int y, float ScaleX, float ScaleY, PlayerChar player, PlayerFeeling state);

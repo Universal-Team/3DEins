@@ -34,27 +34,27 @@ LangSelection::LangSelection() {
 
 void LangSelection::Draw(void) const {
 	GFX::DrawTop();
-	Gui::DrawStringCentered(0, 0, 0.7f, WHITE, Lang::get("SELECT_LANG"), 400);
+	Gui::DrawStringCentered(0, 0, 0.7f, Config::Text, Lang::get("SELECT_LANG"), 400);
 	GFX::DrawBottom();
 
 	for (int language = 0; language < 10; language++) {
-		Gui::Draw_Rect(langBlocks[language].x, langBlocks[language].y, langBlocks[language].w, langBlocks[language].h, C2D_Color32(170, 60, 0, 200));
+		Gui::Draw_Rect(langBlocks[language].x, langBlocks[language].y, langBlocks[language].w, langBlocks[language].h, Config::Button);
 		if (Config::lang == language) {
-			Gui::Draw_Rect(langBlocks[language].x, langBlocks[language].y, langBlocks[language].w, langBlocks[language].h, C2D_Color32(230, 60, 0, 200));
+			Gui::Draw_Rect(langBlocks[language].x, langBlocks[language].y, langBlocks[language].w, langBlocks[language].h, Config::Selector);
 		}
 	}
 
-	Gui::DrawString(langBlocks[0].x+25, langBlocks[0].y, 0.7f, WHITE, "Bruh", 320);
-	Gui::DrawString(langBlocks[1].x+25, langBlocks[1].y, 0.7f, WHITE, "Deutsch", 320);
-	Gui::DrawString(langBlocks[2].x+25, langBlocks[2].y, 0.7f, WHITE, "English", 320);
-	Gui::DrawString(langBlocks[3].x+25, langBlocks[3].y, 0.7f, WHITE, "Español", 320);
-	Gui::DrawString(langBlocks[4].x+25, langBlocks[4].y, 0.7f, WHITE, "Français", 320);
+	Gui::DrawString(langBlocks[0].x+25, langBlocks[0].y, 0.7f, Config::Text, "Bruh", 320);
+	Gui::DrawString(langBlocks[1].x+25, langBlocks[1].y, 0.7f, Config::Text, "Deutsch", 320);
+	Gui::DrawString(langBlocks[2].x+25, langBlocks[2].y, 0.7f, Config::Text, "English", 320);
+	Gui::DrawString(langBlocks[3].x+25, langBlocks[3].y, 0.7f, Config::Text, "Español", 320);
+	Gui::DrawString(langBlocks[4].x+25, langBlocks[4].y, 0.7f, Config::Text, "Français", 320);
 
-	Gui::DrawString(langBlocks[5].x+25, langBlocks[5].y, 0.7f, WHITE, "Italiano", 320);
-	Gui::DrawString(langBlocks[6].x+25, langBlocks[6].y, 0.7f, WHITE, "Lietuvių", 320);
-	Gui::DrawString(langBlocks[7].x+25, langBlocks[7].y, 0.7f, WHITE, "Português", 320);
-	Gui::DrawString(langBlocks[8].x+25, langBlocks[8].y, 0.7f, WHITE, "Русский", 320);
-	Gui::DrawString(langBlocks[9].x+25, langBlocks[9].y, 0.7f, WHITE, "日本語", 320);
+	Gui::DrawString(langBlocks[5].x+25, langBlocks[5].y, 0.7f, Config::Text, "Italiano", 320);
+	Gui::DrawString(langBlocks[6].x+25, langBlocks[6].y, 0.7f, Config::Text, "Lietuvių", 320);
+	Gui::DrawString(langBlocks[7].x+25, langBlocks[7].y, 0.7f, Config::Text, "Português", 320);
+	Gui::DrawString(langBlocks[8].x+25, langBlocks[8].y, 0.7f, Config::Text, "Русский", 320);
+	Gui::DrawString(langBlocks[9].x+25, langBlocks[9].y, 0.7f, Config::Text, "日本語", 320);
 }
 
 void LangSelection::Logic(u32 hDown, u32 hHeld, touchPosition touch) {

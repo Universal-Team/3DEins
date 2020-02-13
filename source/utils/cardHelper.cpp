@@ -54,10 +54,10 @@ void CardHelper::AddCard(std::vector<CardStruct> &hand) {
 }
 
 std::vector<Structs::ButtonPos> colorPos = {
-	{20, 40, 100, 60}, // Red.
-	{200, 40, 100, 60}, // Blue.
-	{20, 110, 100, 60}, // Yellow.
-	{200, 110, 100, 60}, // Green.
+	{10, 70, 140, 40}, // Red.
+	{170, 70, 140, 40}, // Blue.
+	{10, 145, 140, 40}, // Yellow.
+	{170, 145, 140, 40}, // Green.
 };
 
 extern touchPosition touch;
@@ -76,11 +76,11 @@ CardColor CardHelper::wishFunction() {
 		Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.7f, Lang::get("SELECT_COLOR")))/2, 0.7f, WHITE, Lang::get("SELECT_COLOR"), 390, 70);
 		GFX::DrawBottom();
 		// Draw Color Selection.
-		Gui::Draw_Rect(20, 40, 100, 60, Config::Red);
-		Gui::Draw_Rect(200, 40, 100, 60, Config::Blue);
-		Gui::Draw_Rect(20, 110, 100, 60, Config::Yellow);
-		Gui::Draw_Rect(200, 110, 100, 60, Config::Green);
-		GFX::DrawSprite(sprites_pointer_idx, colorPos[selection].x+50, colorPos[selection].y+25);
+		Gui::Draw_Rect(10, 70, 140, 40, Config::Red);
+		Gui::Draw_Rect(170, 70, 140, 40, Config::Blue);
+		Gui::Draw_Rect(10, 145, 140, 40, Config::Yellow);
+		Gui::Draw_Rect(170, 145, 140, 40, Config::Green);
+		GFX::DrawButtonSelector(colorPos[selection].x, colorPos[selection].y);
 		C3D_FrameEnd(0);
 		// Selection part.
 		gspWaitForVBlank();
@@ -198,14 +198,14 @@ void CardHelper::specialHandle(CardType card, PlayerStatus &p, PlayerStatus &nP,
 		case CardType::WISH:
 			p = PlayerStatus::WISH_COLOR;
 			break;
-		case CardType::PAUSE:
+		case CardType::SKIP:
 			if (maxPlayer != 2) {
 				nP = PlayerStatus::TAKE_BREAK;
 			} else {
 				p = PlayerStatus::CAN_RETURN;
 			}
 			break;
-		case CardType::RETURN:
+		case CardType::REVERSE:
 			if (maxPlayer != 2) {
 				p = PlayerStatus::DIRECTION_CHANGE;
 			} else {

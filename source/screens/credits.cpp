@@ -31,13 +31,13 @@ extern bool touching(touchPosition touch, Structs::ButtonPos button);
 void Credits::Draw(void) const {
 	if (DisplayMode == 1) {
 		GFX::DrawTop();
-		Gui::DrawStringCentered(0, 0, 0.9f, WHITE, "3DEins - " + Lang::get("CREDITS"), 400);
-		Gui::DrawStringCentered(0, 30, 0.9f, WHITE, Lang::get("DEVELOPED_BY"), 390);
-		Gui::DrawStringCentered(0, 70, 0.9f, WHITE, Lang::get("MAIN_DEV"), 390);
+		Gui::DrawStringCentered(0, 0, 0.9f, Config::Text, "3DEins - " + Lang::get("CREDITS"), 400);
+		Gui::DrawStringCentered(0, 30, 0.9f, Config::Text, Lang::get("DEVELOPED_BY"), 390);
+		Gui::DrawStringCentered(0, 70, 0.9f, Config::Text, Lang::get("MAIN_DEV"), 390);
 		GFX::DrawSprite(sprites_stackZ_idx, 120, 100);
-		Gui::DrawString(395-Gui::GetStringWidth(0.7, Lang::get("CURRENT_VERSION") + V_STRING), 215, 0.7, WHITE, Lang::get("CURRENT_VERSION") + V_STRING, 400);
+		Gui::DrawString(395-Gui::GetStringWidth(0.7, Lang::get("CURRENT_VERSION") + V_STRING), 215, 0.7, Config::Text, Lang::get("CURRENT_VERSION") + V_STRING, 400);
 		GFX::DrawBottom();
-		Gui::DrawStringCentered(0, 217, 0.6f, WHITE, discordText ? Lang::get("SHOW_QR") : Lang::get("LINK"), 310);
+		Gui::DrawStringCentered(0, 217, 0.6f, Config::Text, discordText ? Lang::get("SHOW_QR") : Lang::get("LINK"), 310);
 	 } else if (DisplayMode == 2) {
 		qr_code();
 	}

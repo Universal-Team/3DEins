@@ -30,9 +30,9 @@
 #include <vector>
 
 std::vector<Structs::ButtonPos> promptBtn = {
-	{10, 100, 140, 35}, // Yes.
-	{170, 100, 140, 35}, // No.
-	{100, 100, 140, 35}, // OK.
+	{10, 100, 140, 40}, // Yes.
+	{170, 100, 140, 40}, // No.
+	{100, 100, 140, 40}, // OK.
 };
 
 extern touchPosition touch;
@@ -49,15 +49,15 @@ bool Msg::promptMsg2(std::string promptMsg)
 		C2D_TargetClear(Top, BLACK);
 		C2D_TargetClear(Bottom, BLACK);
 		GFX::DrawTop();
-		Gui::Draw_Rect(0, 80, 400, 80, C2D_Color32(220, 60, 0, 200));
-		Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8f, promptMsg))/2, 0.8f, WHITE, promptMsg, 390, 70);
+		Gui::Draw_Rect(0, 80, 400, 80, Config::Bar);
+		Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8f, promptMsg))/2, 0.8f, Config::Text, promptMsg, 390, 70);
 		GFX::DrawBottom();
 		// Draw Bottom Screen part.
-		Gui::Draw_Rect(10, 100, 140, 35, C2D_Color32(220, 60, 0, 200));
-		Gui::Draw_Rect(170, 100, 140, 35, C2D_Color32(220, 60, 0, 200));
-		Gui::DrawStringCentered(-150+70, 105, 0.8f, WHITE, Lang::get("YES"), 140);
-		Gui::DrawStringCentered(150-70, 105, 0.8f, WHITE, Lang::get("NO"), 140);
-		GFX::DrawSprite(sprites_pointer_idx, promptBtn[selection].x+120, promptBtn[selection].y+25);
+		Gui::Draw_Rect(10, 100, 140, 40, Config::Button);
+		Gui::Draw_Rect(170, 100, 140, 40, Config::Button);
+		Gui::DrawStringCentered(-150+70, 105, 0.8f, Config::Text, Lang::get("YES"), 140);
+		Gui::DrawStringCentered(150-70, 105, 0.8f, Config::Text, Lang::get("NO"), 140);
+		GFX::DrawButtonSelector(promptBtn[selection].x, promptBtn[selection].y);
 		C3D_FrameEnd(0);
 
 		// Selection part.
@@ -98,8 +98,8 @@ void Msg::DisplayWarnMsg(std::string Text)
 	C2D_TargetClear(Top, BLACK);
 	C2D_TargetClear(Bottom, BLACK);
 	GFX::DrawTop();
-	Gui::Draw_Rect(0, 80, 400, 80, C2D_Color32(220, 60, 0, 200));
-	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8f, Text))/2, 0.8f, WHITE, Text, 395, 70);
+	Gui::Draw_Rect(0, 80, 400, 80, Config::Bar);
+	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8f, Text))/2, 0.8f, Config::Text, Text, 395, 70);
 	GFX::DrawBottom();
 	C3D_FrameEnd(0);
 	for (int i = 0; i < 60*2; i++) {
@@ -115,8 +115,8 @@ void Msg::DisplayWarnMsg2(std::string Text)
 	C2D_TargetClear(Top, BLACK);
 	C2D_TargetClear(Bottom, BLACK);
 	GFX::DrawTop();
-	Gui::Draw_Rect(0, 80, 400, 80, C2D_Color32(220, 60, 0, 200));
-	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8f, Text))/2, 0.8f, WHITE, Text, 395, 70);
+	Gui::Draw_Rect(0, 80, 400, 80, Config::Bar);
+	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8f, Text))/2, 0.8f, Config::Text, Text, 395, 70);
 	GFX::DrawBottom();
 	C3D_FrameEnd(0);
 	for (int i = 0; i < 60*2; i++) {
@@ -132,12 +132,12 @@ void Msg::DisplayWaitMsg(std::string waitMsg, ...)
 	C2D_TargetClear(Top, BLACK);
 	C2D_TargetClear(Bottom, BLACK);
 	GFX::DrawTop();
-	Gui::Draw_Rect(0, 80, 400, 80, C2D_Color32(220, 60, 0, 200));
-	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8f, waitMsg))/2, 0.8f, WHITE, waitMsg, 390, 70);
-	Gui::DrawStringCentered(0, 214, 0.8f, WHITE, Lang::get("A_CONTINUE"), 390);
+	Gui::Draw_Rect(0, 80, 400, 80, Config::Bar);
+	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8f, waitMsg))/2, 0.8f, Config::Text, waitMsg, 390, 70);
+	Gui::DrawStringCentered(0, 214, 0.8f, Config::Text, Lang::get("A_CONTINUE"), 390);
 	GFX::DrawBottom();
-	Gui::Draw_Rect(100, 100, 140, 35, C2D_Color32(220, 60, 0, 200));
-	Gui::DrawStringCentered(-60+70, 105, 0.8f, WHITE, Lang::get("OK"), 140);
+	Gui::Draw_Rect(100, 100, 140, 40, Config::Button);
+	Gui::DrawStringCentered(-60+70, 105, 0.8f, Config::Text, Lang::get("OK"), 140);
 	C3D_FrameEnd(0);
 
 	while(1)
@@ -156,12 +156,13 @@ void Msg::DisplayPlayerSwitch(std::string waitMsg, ...)
 	C2D_TargetClear(Top, BLACK);
 	C2D_TargetClear(Bottom, BLACK);
 	GFX::DrawTop();
-	Gui::Draw_Rect(0, 80, 400, 80, C2D_Color32(220, 60, 0, 200));
-	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8f, waitMsg))/2, 0.8f, WHITE, waitMsg, 390, 70);
-	Gui::DrawStringCentered(0, 214, 0.8f, WHITE, Lang::get("Y_CONTINUE"), 390);
+	Gui::Draw_Rect(0, 80, 400, 80, Config::Bar);
+	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8f, waitMsg))/2, 0.8f, Config::Text, waitMsg, 390, 70);
+	Gui::DrawStringCentered(0, 214, 0.8f, Config::Text, Lang::get("Y_CONTINUE"), 390);
 	GFX::DrawBottom();
-	Gui::Draw_Rect(100, 100, 140, 35, C2D_Color32(220, 60, 0, 200));
-	Gui::DrawStringCentered(-60+70, 105, 0.8f, WHITE, Lang::get("OK"), 140);
+	Gui::Draw_Rect(100, 100, 140, 40, Config::Button);
+	GFX::DrawButtonSelector(100, 100);
+	Gui::DrawStringCentered(-60+70, 105, 0.8f, Config::Text, Lang::get("OK"), 140);
 	C3D_FrameEnd(0);
 
 	while(1)
@@ -180,9 +181,9 @@ void Msg::HelperBox(std::string Msg) {
 	Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(0, 0, 0, 190));
 	int textBoxHeight = Gui::GetStringHeight(0.6f, Msg) + 5;
 
-	Gui::Draw_Rect(40, 211 - textBoxHeight, 320, textBoxHeight, C2D_Color32(220, 60, 0, 200));
-	Gui::Draw_Rect(44, 215 - textBoxHeight, 312, textBoxHeight - 8, C2D_Color32(250, 60, 0, 200));
-	Gui::DrawStringCentered(0, 215 - textBoxHeight, 0.6, WHITE, Msg, 305, Gui::GetStringHeight(0.6f, Msg));
+	Gui::Draw_Rect(40, 211 - textBoxHeight, 320, textBoxHeight, Config::BG);
+	Gui::Draw_Rect(44, 215 - textBoxHeight, 312, textBoxHeight - 8, Config::Bar);
+	Gui::DrawStringCentered(0, 215 - textBoxHeight, 0.6, Config::Text, Msg, 305, Gui::GetStringHeight(0.6f, Msg));
 	Gui::ScreenDraw(Bottom);
 	Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(0, 0, 0, 190));
 	C3D_FrameEnd(0);
@@ -194,8 +195,8 @@ void Msg::DisplayMsg(std::string Message) {
 	C2D_TargetClear(Top, BLACK);
 	C2D_TargetClear(Bottom, BLACK);
 	GFX::DrawTop();
-	Gui::Draw_Rect(0, 80, 400, 80, C2D_Color32(220, 60, 0, 200));
-	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8f, Message))/2, 0.8f, WHITE, Message, 390, 70);
+	Gui::Draw_Rect(0, 80, 400, 80, Config::Bar);
+	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8f, Message))/2, 0.8f, Config::Text, Message, 390, 70);
 	GFX::DrawBottom();
 	C3D_FrameEnd(0);
 }

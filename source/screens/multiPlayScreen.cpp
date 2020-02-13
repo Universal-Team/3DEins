@@ -51,9 +51,9 @@ void MultiPlayScreen::DisplayPlayerHand() const {
 			}
 			if (i == Player1Card) {
 				if (Player1Card < MAXSHOWNCARDS) {
-					GFX::DrawSprite(sprites_pointer_idx, 19 + (i * 65), 78);
+					GFX::DrawCardSelector(3 + (i * 65), 50);
 				} else {
-					GFX::DrawSprite(sprites_pointer_idx, 19 + (4 * 65), 78);
+					GFX::DrawCardSelector(3 + (4 * 65), 50);
 				}
 			}
 		}
@@ -66,9 +66,9 @@ void MultiPlayScreen::DisplayPlayerHand() const {
 			}
 			if (i == Player2Card) {
 				if (Player2Card < MAXSHOWNCARDS) {
-					GFX::DrawSprite(sprites_pointer_idx, 19 + (i * 65), 78);
+					GFX::DrawCardSelector(3 + (i * 65), 50);
 				} else {
-					GFX::DrawSprite(sprites_pointer_idx, 19 + (4 * 65), 78);
+					GFX::DrawCardSelector(3 + (4 * 65), 50);
 				}
 			}
 		}
@@ -81,9 +81,9 @@ void MultiPlayScreen::DisplayPlayerHand() const {
 			}
 			if (i == Player3Card) {
 				if (Player3Card < MAXSHOWNCARDS) {
-					GFX::DrawSprite(sprites_pointer_idx, 19 + (i * 65), 78);
+					GFX::DrawCardSelector(3 + (i * 65), 50);
 				} else {
-					GFX::DrawSprite(sprites_pointer_idx, 19 + (4 * 65), 78);
+					GFX::DrawCardSelector(3 + (4 * 65), 50);
 				}
 			}
 		}
@@ -96,9 +96,9 @@ void MultiPlayScreen::DisplayPlayerHand() const {
 			}
 			if (i == Player4Card) {
 				if (Player4Card < MAXSHOWNCARDS) {
-					GFX::DrawSprite(sprites_pointer_idx, 19 + (i * 65), 78);
+					GFX::DrawCardSelector(3 + (i * 65), 50);
 				} else {
-					GFX::DrawSprite(sprites_pointer_idx, 19 + (4 * 65), 78);
+					GFX::DrawCardSelector(3 + (4 * 65), 50);
 				}
 			}
 		}
@@ -134,7 +134,7 @@ void MultiPlayScreen::Draw(void) const {
 	GFX::DrawBottom();
 	char message [100];
 	snprintf(message, sizeof(message), Lang::get("ITS_PLAYER_TURN").c_str(), currentPlayer);
-	Gui::DrawStringCentered(0, 0, 0.7f, WHITE, message);
+	Gui::DrawStringCentered(0, 0, 0.7f, Config::Text, message);
 	DisplayPlayerHand();
 	DisplayPlayerHandSmall();
 }
@@ -143,21 +143,21 @@ void MultiPlayScreen::Draw(void) const {
 void MultiPlayScreen::DrawPlayers() const {
 	// Player 1.
 	GFX::DrawPlayer(-5, 130, 0.9, 0.9, PlayerChar(player1), Player1Feeling);
-	Gui::DrawString(90, 200, 0.6f, WHITE, std::to_string(Player1Hand.size()));
+	Gui::DrawString(90, 200, 0.6f, Config::Text, std::to_string(Player1Hand.size()));
 	// Player 2.
 	GFX::DrawPlayer(-5, 0, 0.9, 0.9, PlayerChar(player2), Player2Feeling);
-	Gui::DrawString(90, 40, 0.6f, WHITE, std::to_string(Player2Hand.size()));
+	Gui::DrawString(90, 40, 0.6f, Config::Text, std::to_string(Player2Hand.size()));
 	if (maxPlayer == 3) {
 		// Player 3.
 		GFX::DrawPlayer(300, 0, 0.9, 0.9, PlayerChar(player3), Player3Feeling);
-		Gui::DrawString(270, 40, 0.6f, WHITE, std::to_string(Player3Hand.size()));
+		Gui::DrawString(270, 40, 0.6f, Config::Text, std::to_string(Player3Hand.size()));
 	} else if (maxPlayer == 4) {
 		// Player 3.
 		GFX::DrawPlayer(300, 0, 0.9, 0.9, PlayerChar(player3), Player3Feeling);
-		Gui::DrawString(270, 40, 0.6f, WHITE, std::to_string(Player3Hand.size()));
+		Gui::DrawString(270, 40, 0.6f, Config::Text, std::to_string(Player3Hand.size()));
 		// Player 4.
 		GFX::DrawPlayer(300, 130, 0.9, 0.9, PlayerChar(player4), Player4Feeling);
-		Gui::DrawString(270, 200, 0.6f, WHITE, std::to_string(Player4Hand.size()));
+		Gui::DrawString(270, 200, 0.6f, Config::Text, std::to_string(Player4Hand.size()));
 	}
 }
 
@@ -337,7 +337,7 @@ void MultiPlayScreen::Player1Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 			// Special case handle for 2 Player.
 			if (maxPlayer == 2) {
-				if (Player1Hand[Player1Card].CT == CardType::RETURN || Player1Hand[Player1Card].CT == CardType::PAUSE) {
+				if (Player1Hand[Player1Card].CT == CardType::REVERSE || Player1Hand[Player1Card].CT == CardType::SKIP) {
 					canContinue = true;
 				}
 			}
@@ -442,7 +442,7 @@ void MultiPlayScreen::Player2Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 			// Special case handle for 2 Player.
 			if (maxPlayer == 2) {
-				if (Player2Hand[Player2Card].CT == CardType::RETURN || Player2Hand[Player2Card].CT == CardType::PAUSE) {
+				if (Player2Hand[Player2Card].CT == CardType::REVERSE || Player2Hand[Player2Card].CT == CardType::SKIP) {
 					canContinue = true;
 				}
 			}
@@ -634,16 +634,8 @@ void MultiPlayScreen::Player4Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 				CardHelper::statusHandler(Player3Hand, Player3Status, Player3Status, PlayDirection, Player3Break);
 			}
 
-			// Special case for Pause card.
-			if (Player4Hand[Player4Card].CT == CardType::PAUSE) {
-				if (PlayDirection == Direction::LEFT) {
-					Player1Break = true;
-				} else if (PlayDirection == Direction::RIGHT) {
-					Player3Break = true;
-				}
-			}
-
 			RemoveCard(4);
+
 			if (Player4Hand.size() == 0) {
 				char message [100];
 				snprintf(message, sizeof(message), Lang::get("PLAYER_WON").c_str(), currentPlayer);

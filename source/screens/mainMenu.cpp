@@ -24,12 +24,12 @@
 *         reasonable ways as different from the original version.
 */
 
-#include "colorCard.hpp"
 #include "charSelection.hpp"
 #include "credits.hpp"
 #include "langSelection.hpp"
 #include "mainMenu.hpp"
 #include "modeSelection.hpp"
+#include "uiSettings.hpp"
 
 extern bool exiting;
 extern bool touching(touchPosition touch, Structs::ButtonPos button);
@@ -48,23 +48,23 @@ MainMenu::MainMenu() {
 
 void MainMenu::Draw(void) const {
 	GFX::DrawTop();
-	Gui::DrawString(100, 0, 0.9f, WHITE, "3DEins - " + Lang::get("MAINMENU"));
+	Gui::DrawString(100, 0, 0.9f, Config::Text, "3DEins - " + Lang::get("MAINMENU"));
 	GFX::DrawCard(Card1, 40, 65, Color1, 1.5, 1.5);
 	GFX::DrawCard(Card2, 160, 65, Color2, 1.5, 1.5);
 	GFX::DrawCard(Card3, 280, 65, Color3, 1.5, 1.5);
 
 	GFX::DrawBottom();
 	for (int i = 0; i < 4; i++) {
-		Gui::Draw_Rect(mainButtons[i].x, mainButtons[i].y, mainButtons[i].w, mainButtons[i].h, C2D_Color32(170, 60, 0, 200));
+		Gui::Draw_Rect(mainButtons[i].x, mainButtons[i].y, mainButtons[i].w, mainButtons[i].h, Config::Button);
 		if (Selection == i) {
-			GFX::DrawSprite(sprites_pointer_idx, mainButtons[i].x+130, mainButtons[i].y+25);
+			GFX::DrawButtonSelector(mainButtons[i].x, mainButtons[i].y);
 		}
 	}
 
-	Gui::DrawStringCentered(-80, mainButtons[0].y+12, 0.6f, WHITE, Lang::get("NEW_GAME"), 130);
-	Gui::DrawStringCentered(80, mainButtons[1].y+12, 0.6f, WHITE, Lang::get("CARD_COLORS"), 130);
-	Gui::DrawStringCentered(-80, mainButtons[2].y+12, 0.6f, WHITE, Lang::get("CREDITS"), 130);
-	Gui::DrawStringCentered(80, mainButtons[3].y+12, 0.6f, WHITE, Lang::get("LANGUAGE"), 130);
+	Gui::DrawStringCentered(-80, mainButtons[0].y+12, 0.6f, Config::Text, Lang::get("NEW_GAME"), 130);
+	Gui::DrawStringCentered(80, mainButtons[1].y+12, 0.6f, Config::Text, Lang::get("UI_SETTINGS"), 130);
+	Gui::DrawStringCentered(-80, mainButtons[2].y+12, 0.6f, Config::Text, Lang::get("CREDITS"), 130);
+	Gui::DrawStringCentered(80, mainButtons[3].y+12, 0.6f, Config::Text, Lang::get("LANGUAGE"), 130);
 }
 
 
@@ -76,7 +76,7 @@ void MainMenu::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 				Gui::setScreen(std::make_unique<ModeSelection>());
 			}
 		} else if (touching(touch, mainButtons[1])) {
-			Gui::setScreen(std::make_unique<ColorCard>());
+			Gui::setScreen(std::make_unique<UISettings>());
 		} else if (touching(touch, mainButtons[2])) {
 			Gui::setScreen(std::make_unique<Credits>());
 		} else if (touching(touch, mainButtons[3])) {
@@ -91,7 +91,7 @@ void MainMenu::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 				Gui::setScreen(std::make_unique<ModeSelection>());
 			}
 		} else if (Selection == 1) {
-			Gui::setScreen(std::make_unique<ColorCard>());
+			Gui::setScreen(std::make_unique<UISettings>());
 		} else if (Selection == 2) {
 			Gui::setScreen(std::make_unique<Credits>());
 		} else if (Selection == 3) {

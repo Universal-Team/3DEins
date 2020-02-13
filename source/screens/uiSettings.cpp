@@ -24,15 +24,15 @@
 *         reasonable ways as different from the original version.
 */
 
-#include "colorCard.hpp"
 #include "colorHelper.hpp"
 #include "keyboard.hpp"
+#include "uiSettings.hpp"
 
 extern C2D_SpriteSheet cards;
 extern bool touching(touchPosition touch, Structs::ButtonPos button);
 
 // Draw a preview of the color.
-void ColorCard::DrawPreview(void) const {
+void UISettings::DrawPreview(void) const {
 	if (colorMode == 0) {
 		C2D_DrawRectSolid(122, 67, 0.5f, 54*1.5-5, 80*1.5-5, Config::Red);
 		C2D_DrawRectSolid(242, 67, 0.5f, 54*1-5, 80*1-5, Config::Red);
@@ -45,15 +45,22 @@ void ColorCard::DrawPreview(void) const {
 	} else if (colorMode == 3) {
 		C2D_DrawRectSolid(122, 67, 0.5f, 54*1.5-5, 80*1.5-5, Config::Green);
 		C2D_DrawRectSolid(242, 67, 0.5f, 54*1-5, 80*1-5, Config::Green);
+	} else if (colorMode == 4) {
+		GFX::DrawCardSelector(120, 65, 1.5, 1.5);
+	} else if (colorMode == 5) {
+		Gui::Draw_Rect(130, 120, 150, 40, Config::Button);
 	}
-	C2D_DrawImageAt(C2D_SpriteSheetGetImage(cards, cardSelection), 120, 65, 0.5f, NULL, 1.5, 1.5);
-	C2D_DrawImageAt(C2D_SpriteSheetGetImage(cards, cardSelection), 240, 65, 0.5f, NULL);
+
+	if (colorMode < 4) {
+		C2D_DrawImageAt(C2D_SpriteSheetGetImage(cards, cardSelection), 120, 65, 0.5f, NULL, 1.5, 1.5);
+		C2D_DrawImageAt(C2D_SpriteSheetGetImage(cards, cardSelection), 240, 65, 0.5f, NULL);
+	}
 }
 
 
-void ColorCard::Draw(void) const {
+void UISettings::Draw(void) const {
 	GFX::DrawTop();
-	Gui::DrawStringCentered(0, 0, 0.9f, WHITE, "3DEins - " + Lang::get("CARD_COLOR_CHANGER"), 320);
+	Gui::DrawStringCentered(0, 0, 0.9f, Config::Text, "3DEins - " + Lang::get("UI_SETTINGS"), 320);
 	DrawPreview();
 	GFX::DrawBottom();
 
@@ -62,29 +69,54 @@ void ColorCard::Draw(void) const {
 	Gui::Draw_Rect(buttons[2].x, buttons[2].y, 95, 41, C2D_Color32(0, 0, 255, 255));
 
 	if (colorMode == 0) {
-		Gui::DrawStringCentered(0, 60, 0.7f, WHITE, Lang::get("RED_COLOR"), 320);
+		Gui::DrawStringCentered(0, 60, 0.7f, WHITE, Lang::get("CARD_RED"), 320);
 		Gui::DrawString(40, 98, 0.7f, WHITE, ColorHelper::getColorName(Config::Red, 2).c_str(), 400);
 		Gui::DrawString(140, 98, 0.7f, WHITE, ColorHelper::getColorName(Config::Red, 1).c_str(), 400);
 		Gui::DrawString(245, 98, 0.7f, WHITE, ColorHelper::getColorName(Config::Red, 0).c_str(), 400);
 	} else if (colorMode == 1) {
-		Gui::DrawStringCentered(0, 60, 0.7f, WHITE, Lang::get("BLUE_COLOR"), 320);
+		Gui::DrawStringCentered(0, 60, 0.7f, WHITE, Lang::get("CARD_BLUE"), 320);
 		Gui::DrawString(40, 98, 0.7f, WHITE, ColorHelper::getColorName(Config::Blue, 2).c_str(), 400);
 		Gui::DrawString(140, 98, 0.7f, WHITE, ColorHelper::getColorName(Config::Blue, 1).c_str(), 400);
 		Gui::DrawString(245, 98, 0.7f, WHITE, ColorHelper::getColorName(Config::Blue, 0).c_str(), 400);
 	} else if (colorMode == 2) {
-		Gui::DrawStringCentered(0, 60, 0.7f, WHITE, Lang::get("YELLOW_COLOR"), 320);
+		Gui::DrawStringCentered(0, 60, 0.7f, WHITE, Lang::get("CARD_YELLOW"), 320);
 		Gui::DrawString(40, 98, 0.7f, WHITE, ColorHelper::getColorName(Config::Yellow, 2).c_str(), 400);
 		Gui::DrawString(140, 98, 0.7f, WHITE, ColorHelper::getColorName(Config::Yellow, 1).c_str(), 400);
 		Gui::DrawString(245, 98, 0.7f, WHITE, ColorHelper::getColorName(Config::Yellow, 0).c_str(), 400);
 	} else if (colorMode == 3) {
-		Gui::DrawStringCentered(0, 60, 0.7f, WHITE, Lang::get("GREEN_COLOR"), 320);
+		Gui::DrawStringCentered(0, 60, 0.7f, WHITE, Lang::get("CARD_GREEN"), 320);
 		Gui::DrawString(40, 98, 0.7f, WHITE, ColorHelper::getColorName(Config::Green, 2).c_str(), 400);
 		Gui::DrawString(140, 98, 0.7f, WHITE, ColorHelper::getColorName(Config::Green, 1).c_str(), 400);
 		Gui::DrawString(245, 98, 0.7f, WHITE, ColorHelper::getColorName(Config::Green, 0).c_str(), 400);
+	} else if (colorMode == 4) {
+		Gui::DrawStringCentered(0, 60, 0.7f, WHITE, Lang::get("SELECTOR_COLOR"), 320);
+		Gui::DrawString(40, 98, 0.7f, WHITE, ColorHelper::getColorName(Config::Selector, 2).c_str(), 400);
+		Gui::DrawString(140, 98, 0.7f, WHITE, ColorHelper::getColorName(Config::Selector, 1).c_str(), 400);
+		Gui::DrawString(245, 98, 0.7f, WHITE, ColorHelper::getColorName(Config::Selector, 0).c_str(), 400);
+	} else if (colorMode == 5) {
+		Gui::DrawStringCentered(0, 60, 0.7f, WHITE, Lang::get("BUTTON_COLOR"), 320);
+		Gui::DrawString(40, 98, 0.7f, WHITE, ColorHelper::getColorName(Config::Button, 2).c_str(), 400);
+		Gui::DrawString(140, 98, 0.7f, WHITE, ColorHelper::getColorName(Config::Button, 1).c_str(), 400);
+		Gui::DrawString(245, 98, 0.7f, WHITE, ColorHelper::getColorName(Config::Button, 0).c_str(), 400);
+	} else if (colorMode == 6) {
+		Gui::DrawStringCentered(0, 60, 0.7f, WHITE, Lang::get("BAR_COLOR"), 320);
+		Gui::DrawString(40, 98, 0.7f, WHITE, ColorHelper::getColorName(Config::Bar, 2).c_str(), 400);
+		Gui::DrawString(140, 98, 0.7f, WHITE, ColorHelper::getColorName(Config::Bar, 1).c_str(), 400);
+		Gui::DrawString(245, 98, 0.7f, WHITE, ColorHelper::getColorName(Config::Bar, 0).c_str(), 400);
+	} else if (colorMode == 7) {
+		Gui::DrawStringCentered(0, 60, 0.7f, WHITE, Lang::get("BG_COLOR"), 320);
+		Gui::DrawString(40, 98, 0.7f, WHITE, ColorHelper::getColorName(Config::BG, 2).c_str(), 400);
+		Gui::DrawString(140, 98, 0.7f, WHITE, ColorHelper::getColorName(Config::BG, 1).c_str(), 400);
+		Gui::DrawString(245, 98, 0.7f, WHITE, ColorHelper::getColorName(Config::BG, 0).c_str(), 400);
+	} else if (colorMode == 8) {
+		Gui::DrawStringCentered(0, 60, 0.7f, WHITE, Lang::get("TEXT_COLOR"), 320);
+		Gui::DrawString(40, 98, 0.7f, WHITE, ColorHelper::getColorName(Config::Text, 2).c_str(), 400);
+		Gui::DrawString(140, 98, 0.7f, WHITE, ColorHelper::getColorName(Config::Text, 1).c_str(), 400);
+		Gui::DrawString(245, 98, 0.7f, WHITE, ColorHelper::getColorName(Config::Text, 0).c_str(), 400);
 	}
 }
 
-void ColorCard::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
+void UISettings::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	int red;
 	int green;
 	int blue;
@@ -100,7 +132,7 @@ void ColorCard::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	}
 
 	if (hDown & KEY_RIGHT) {
-		if(colorMode < 3)	colorMode++;
+		if(colorMode < 8)	colorMode++;
 	}
 
 	if (hDown & KEY_R) {
@@ -128,9 +160,19 @@ void ColorCard::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 					Config::Yellow = RGBA8(red, ColorHelper::getColorValue(Config::Yellow, 1), ColorHelper::getColorValue(Config::Yellow, 0), 255);
 				} else if (colorMode == 3) {
 					Config::Green = RGBA8(red, ColorHelper::getColorValue(Config::Green, 1), ColorHelper::getColorValue(Config::Green, 0), 255);
+				} else if (colorMode == 4) {
+					Config::Selector = RGBA8(red, ColorHelper::getColorValue(Config::Selector, 1), ColorHelper::getColorValue(Config::Selector, 0), 255);
+				} else if (colorMode == 5) {
+					Config::Button = RGBA8(red, ColorHelper::getColorValue(Config::Button, 1), ColorHelper::getColorValue(Config::Button, 0), 200);
+				} else if (colorMode == 6) {
+					Config::Bar = RGBA8(red, ColorHelper::getColorValue(Config::Bar, 1), ColorHelper::getColorValue(Config::Bar, 0), 200);
+				} else if (colorMode == 7) {
+					Config::BG = RGBA8(red, ColorHelper::getColorValue(Config::BG, 1), ColorHelper::getColorValue(Config::BG, 0), 200);
+				} else if (colorMode == 8) {
+					Config::Text = RGBA8(red, ColorHelper::getColorValue(Config::Text, 1), ColorHelper::getColorValue(Config::Text, 0), 255);
 				}
 			}
-		} else if (touching(touch, buttons[1]) && colorMode != 7) {
+		} else if (touching(touch, buttons[1])) {
 			int temp = Input::getUint(255, Lang::get("ENTER_GREEN_RGB"));
 			if(temp != -1) {
 				green = temp;
@@ -142,6 +184,16 @@ void ColorCard::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 					Config::Yellow = RGBA8(ColorHelper::getColorValue(Config::Yellow, 2), green, ColorHelper::getColorValue(Config::Yellow, 0), 255);
 				} else if (colorMode == 3) {
 					Config::Green = RGBA8(ColorHelper::getColorValue(Config::Green, 2), green, ColorHelper::getColorValue(Config::Green, 0), 255);
+				} else if (colorMode == 4) {
+					Config::Selector = RGBA8(ColorHelper::getColorValue(Config::Selector, 2), green, ColorHelper::getColorValue(Config::Selector, 0), 255);
+				} else if (colorMode == 5) {
+					Config::Button = RGBA8(ColorHelper::getColorValue(Config::Button, 2), green, ColorHelper::getColorValue(Config::Button, 0), 200);
+				} else if (colorMode == 6) {
+					Config::Bar = RGBA8(ColorHelper::getColorValue(Config::Bar, 2), green, ColorHelper::getColorValue(Config::Bar, 0), 200);
+				} else if (colorMode == 7) {
+					Config::BG = RGBA8(ColorHelper::getColorValue(Config::BG, 2), green, ColorHelper::getColorValue(Config::BG, 0), 200);
+				} else if (colorMode == 8) {
+					Config::Text = RGBA8(ColorHelper::getColorValue(Config::Text, 2), green, ColorHelper::getColorValue(Config::Text, 0), 255);
 				}
 			}
 		} else if (touching(touch, buttons[2])) {
@@ -156,6 +208,16 @@ void ColorCard::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 					Config::Yellow = RGBA8(ColorHelper::getColorValue(Config::Yellow, 2), ColorHelper::getColorValue(Config::Yellow, 1), blue, 255);
 				} else if (colorMode == 3) {
 					Config::Green = RGBA8(ColorHelper::getColorValue(Config::Green, 2), ColorHelper::getColorValue(Config::Green, 1), blue, 255);
+				} else if (colorMode == 4) {
+					Config::Selector = RGBA8(ColorHelper::getColorValue(Config::Selector, 2), ColorHelper::getColorValue(Config::Selector, 1), blue, 255);
+				} else if (colorMode == 5) {
+					Config::Button = RGBA8(ColorHelper::getColorValue(Config::Button, 2), ColorHelper::getColorValue(Config::Button, 1), blue, 200);
+				} else if (colorMode == 6) {
+					Config::Bar = RGBA8(ColorHelper::getColorValue(Config::Bar, 2), ColorHelper::getColorValue(Config::Bar, 1), blue, 200);
+				} else if (colorMode == 7) {
+					Config::BG = RGBA8(ColorHelper::getColorValue(Config::BG, 2), ColorHelper::getColorValue(Config::BG, 1), blue, 200);
+				} else if (colorMode == 8) {
+					Config::Text = RGBA8(ColorHelper::getColorValue(Config::Text, 2), ColorHelper::getColorValue(Config::Text, 1), blue, 255);
 				}
 			}
 		}
