@@ -368,8 +368,8 @@ void MultiPlayScreen::Player1Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 					Msg::DisplayPlayerSwitch(message);
 					currentPlayer = maxPlayer;
 				}
-				canContinue = false;
 			}
+			canContinue = false;
 		}
 	}
 
@@ -473,8 +473,8 @@ void MultiPlayScreen::Player2Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 					Msg::DisplayPlayerSwitch(message);
 					currentPlayer = 1;
 				}
-				canContinue = false;
 			}
+			canContinue = false;
 		}
 	}
 

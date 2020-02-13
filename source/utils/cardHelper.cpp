@@ -199,14 +199,14 @@ void CardHelper::specialHandle(CardType card, PlayerStatus &p, PlayerStatus &nP,
 			p = PlayerStatus::WISH_COLOR;
 			break;
 		case CardType::SKIP:
-			if (maxPlayer != 2) {
+			if (maxPlayer > 2) {
 				nP = PlayerStatus::TAKE_BREAK;
 			} else {
 				p = PlayerStatus::CAN_RETURN;
 			}
 			break;
 		case CardType::REVERSE:
-			if (maxPlayer != 2) {
+			if (maxPlayer > 2) {
 				p = PlayerStatus::DIRECTION_CHANGE;
 			} else {
 				p = PlayerStatus::CAN_RETURN;
