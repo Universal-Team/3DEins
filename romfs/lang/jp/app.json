@@ -29,7 +29,7 @@
 	"NEW_GAME": "新しいゲーム",
 	"NEW_GAME_PROMPT": "Would you like to start a new game?\n3DEins isn't fully implemented right now.",
 	"NO": "いいえ",
-	"NOT_IMPLEMENTED": "This is not implemented yet!",
+	"NOT_IMPLEMENTED": "これはまだ失踪されていません!",
 	"OK": "Ok",
 	"PLAY_INSTRUCTIONS": ": Draw Card\n | : Change Card\n: Play Card\n | : Go to first/last card",
 	"PLAYER_1": "プレイヤー1",
@@ -46,8 +46,8 @@
 	"SELECT_COLOR": "Select the color you wish.",
 	"SELECT_LANG": "Choose the current language.",
 	"SHOW_QR": "Click here to show the QR Code.",
-	"SINGLE_PLAYER": "Single Player",
-	"Y_CONTINUE": "Press  to continue.",
-	"YELLOW_COLOR": "Yellow Color",
-	"YES": "Yes"
+	"SINGLE_PLAYER": "シングルプレーヤー",
+	"Y_CONTINUE": "を押して続行します",
+	"YELLOW_COLOR": "黄色の色",
+	"YES": "はい"
 }
