@@ -35,4 +35,13 @@
 #include "msg.hpp"
 #include "screenCommon.hpp"
 
+enum class STATE {
+	SINGLEPLAYER,
+	MULTIPLAYER,
+	MAINMENU,
+	SETTINGS,
+	LANGUAGE,
+	COLORCHANGER
+};
+
 #endif

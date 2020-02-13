@@ -28,8 +28,40 @@
 #include "keyboard.hpp"
 #include "uiSettings.hpp"
 
+#include <unistd.h>
+
 extern C2D_SpriteSheet cards;
 extern bool touching(touchPosition touch, Structs::ButtonPos button);
+
+// Get current lang.
+UISettings::UISettings() {
+	selectedLang = Config::lang;
+}
+
+void UISettings::Draw(void) const {
+	if (Mode == 0) {
+		DrawSubMenu();
+	} else if (Mode == 1) {
+		DrawColor();
+	} else if (Mode == 2) {
+		DrawLanguage();
+	} else if (Mode == 3) {
+		DrawCardScreen();
+	}
+}
+
+void UISettings::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
+	if (Mode == 0) {
+		SubMenuLogic(hDown, hHeld, touch);
+	} else if (Mode == 1) {
+		ColorLogic(hDown, hHeld, touch);
+	} else if (Mode == 2) {
+		LanguageLogic(hDown, hHeld, touch);
+	} else if (Mode == 3) {
+		CardLogic(hDown, hHeld, touch);
+	}
+}
+
 
 // Draw a preview of the color.
 void UISettings::DrawPreview(void) const {
@@ -57,8 +89,130 @@ void UISettings::DrawPreview(void) const {
 	}
 }
 
+void UISettings::DrawLanguage(void) const {
+	GFX::DrawTop();
+	Gui::DrawStringCentered(0, 0, 0.7f, Config::Text, Lang::get("SELECT_LANG"), 400);
+	GFX::DrawBottom();
 
-void UISettings::Draw(void) const {
+	for (int language = 0; language < 10; language++) {
+		Gui::Draw_Rect(langBlocks[language].x, langBlocks[language].y, langBlocks[language].w, langBlocks[language].h, Config::Button);
+		if (Config::lang == language) {
+			Gui::Draw_Rect(langBlocks[language].x, langBlocks[language].y, langBlocks[language].w, langBlocks[language].h, Config::Selector);
+		}
+	}
+
+	Gui::DrawString(langBlocks[0].x+25, langBlocks[0].y, 0.7f, Config::Text, "Bruh", 320);
+	Gui::DrawString(langBlocks[1].x+25, langBlocks[1].y, 0.7f, Config::Text, "Deutsch", 320);
+	Gui::DrawString(langBlocks[2].x+25, langBlocks[2].y, 0.7f, Config::Text, "English", 320);
+	Gui::DrawString(langBlocks[3].x+25, langBlocks[3].y, 0.7f, Config::Text, "Español", 320);
+	Gui::DrawString(langBlocks[4].x+25, langBlocks[4].y, 0.7f, Config::Text, "Français", 320);
+
+	Gui::DrawString(langBlocks[5].x+25, langBlocks[5].y, 0.7f, Config::Text, "Italiano", 320);
+	Gui::DrawString(langBlocks[6].x+25, langBlocks[6].y, 0.7f, Config::Text, "Lietuvių", 320);
+	Gui::DrawString(langBlocks[7].x+25, langBlocks[7].y, 0.7f, Config::Text, "Português", 320);
+	Gui::DrawString(langBlocks[8].x+25, langBlocks[8].y, 0.7f, Config::Text, "Русский", 320);
+	Gui::DrawString(langBlocks[9].x+25, langBlocks[9].y, 0.7f, Config::Text, "日本語", 320);
+}
+
+void UISettings::DrawSubMenu(void) const {
+	GFX::DrawTop();
+	Gui::DrawStringCentered(0, 0, 0.7f, Config::Text, "3DEins - " + Lang::get("UI_SETTINGS"), 400);
+	GFX::DrawBottom();
+	for (int i = 0; i < 3; i++) {
+		Gui::Draw_Rect(mainButtons[i].x, mainButtons[i].y, mainButtons[i].w, mainButtons[i].h, Config::Button);
+		if (i == subSelection) {
+			GFX::DrawButtonSelector(mainButtons[i].x, mainButtons[i].y);
+		}
+	}
+	Gui::DrawStringCentered(0, mainButtons[0].y+10, 0.6f, WHITE, Lang::get("COLORS"));
+	Gui::DrawStringCentered(0, mainButtons[1].y+10, 0.6f, WHITE, Lang::get("LANGUAGE"));
+	Gui::DrawStringCentered(0, mainButtons[2].y+10, 0.6f, WHITE, Lang::get("CARD_CHANGER"));
+}
+
+void UISettings::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
+	if (hDown & KEY_DOWN) {
+		if (subSelection < 2)	subSelection++;
+	}
+	if (hDown & KEY_UP) {
+		if (subSelection > 0)	subSelection--;
+	}
+
+	if (hDown & KEY_A) {
+		switch (subSelection) {
+			case 0:
+				Mode = 1;
+				break;
+			case 1:
+				Mode = 2;
+				break;
+			case 2:
+				Mode = 3;
+				break;
+		}
+	}
+
+	if (hDown & KEY_B) {
+		Gui::screenBack();
+		return;
+	}
+}
+
+
+void UISettings::LanguageLogic(u32 hDown, u32 hHeld, touchPosition touch) {
+	if (hDown & KEY_TOUCH) {
+		for (int language = 0; language < 10; language++) {
+			if (touching(touch, langBlocks[language])) {
+				selectedLang = language;
+				Config::lang = language;
+				Lang::load(Config::lang);
+			}
+		}
+	}
+
+	if (hDown & KEY_UP) {
+		if(selectedLang > 0) {
+			selectedLang--;
+			Config::lang = selectedLang;
+			Lang::load(Config::lang);
+		}
+	}
+
+	if (hDown & KEY_DOWN) {
+		if(selectedLang < 9) {
+			selectedLang++;
+			Config::lang = selectedLang;
+			Lang::load(Config::lang);
+		}
+	}
+
+
+	if (hDown & KEY_LEFT) {
+		if (selectedLang > 4) {
+			selectedLang -= 5;
+			Config::lang = selectedLang;
+			Lang::load(Config::lang);
+		}
+	}
+
+	if (hDown & KEY_RIGHT) {
+		if (selectedLang < 5) {
+			selectedLang += 5;
+			Config::lang = selectedLang;
+			Lang::load(Config::lang);
+		}
+	}
+
+	if (hHeld & KEY_SELECT) {
+		Msg::HelperBox(Lang::get("LANGUAGE_INSTRUCTIONS"));
+	}
+	
+	if (hDown & KEY_B) {
+		Mode = 0;
+	}
+}
+
+
+void UISettings::DrawColor(void) const {
 	GFX::DrawTop();
 	Gui::DrawStringCentered(0, 0, 0.9f, Config::Text, "3DEins - " + Lang::get("UI_SETTINGS"), 320);
 	DrawPreview();
@@ -116,15 +270,13 @@ void UISettings::Draw(void) const {
 	}
 }
 
-void UISettings::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
+void UISettings::ColorLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	int red;
 	int green;
 	int blue;
 
 	if (hDown & KEY_B) {
-		Config::save();
-		Gui::screenBack();
-		return;
+		Mode = 0;
 	}
 
 	if (hDown & KEY_LEFT) {
@@ -222,4 +374,85 @@ void UISettings::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 			}
 		}
 	}
+}
+
+// TODO.
+void UISettings::DrawCardScreen(void) const {
+	GFX::DrawFileBrowseBG();
+	Gui::DrawStringCentered(0, 0, 0.7f, Config::Text, "3DEins - " + Lang::get("CARD_CHANGER"), 400);
+	std::string dirs;
+	for (uint i=(selectedSheet<5) ? 0 : selectedSheet-5;i<dirContents.size()&&i<((selectedSheet<5) ? 6 : selectedSheet+1);i++) {
+		if (i == selectedSheet) {
+			dirs += "> " + dirContents[i].name + "\n\n";
+		} else {
+			dirs += dirContents[i].name + "\n\n";
+		}
+	}
+	for (uint i=0;i<((dirContents.size()<6) ? 6-dirContents.size() : 0);i++) {
+		dirs += "\n\n";
+	}
+	Gui::DrawString(26, 32, 0.65f, WHITE, dirs.c_str(), 360);
+	GFX::DrawFileBrowseBG(false);
+}
+
+// TODO.
+void UISettings::CardLogic(u32 hDown, u32 hHeld, touchPosition touch) {
+	if (keyRepeatDelay)	keyRepeatDelay--;
+
+	if (dirChanged) {
+		dirContents.clear();
+		chdir("sdmc:/3ds/3DEins/cards/");
+		std::vector<DirEntry> dirContentsTemp;
+		getDirectoryContents(dirContentsTemp, {"t3x"});
+		for(uint i=0;i<dirContentsTemp.size();i++) {
+			dirContents.push_back(dirContentsTemp[i]);
+		}
+		dirChanged = false;
+	}
+
+	if (hHeld & KEY_UP) {
+		if (selectedSheet > 0 && !keyRepeatDelay) {
+			selectedSheet--;
+			keyRepeatDelay = 6;
+		}
+	} else if (hHeld & KEY_DOWN && !keyRepeatDelay) {
+		if (selectedSheet < dirContents.size()-1) {
+			selectedSheet++;
+			keyRepeatDelay = 6;
+		}
+	}
+
+	if (hDown & KEY_A) {
+		if (dirContents.size() != 0) {
+			std::string path = dirContents[selectedSheet].name;
+			loadSheet(path);
+		}
+	}
+
+	if (hDown & KEY_B) {
+		Mode = 0;
+	}
+}
+
+// Check if Card Spritesheet even EXIST and some other checks...
+bool UISettings::checkForValidate(std::string file) {
+	if(access(file.c_str(), F_OK) != -1 ) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
+// Load Sheet. ;)
+Result UISettings::loadSheet(std::string path) {
+	if (checkForValidate(path)) {
+		char message [100];
+		snprintf(message, sizeof(message), Lang::get("LOADING_SHEET_PROMPT").c_str(), path.c_str());
+		if (Msg::promptMsg2(message)) {
+			Gui::unloadSheet(cards);
+			Msg::DisplayMsg(Lang::get("LOADING_SHEET"));
+			Gui::loadSheet(path.c_str(), cards);
+		}
+	}
+	return 0;
 }

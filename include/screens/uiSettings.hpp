@@ -28,6 +28,7 @@
 #define UISETTINGS_HPP
 
 #include "common.hpp"
+#include "fileBrowse.hpp"
 #include "structs.hpp"
 
 #include <vector>
@@ -37,15 +38,58 @@ class UISettings : public Screen
 public:
 	void Draw(void) const override;
 	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
+	UISettings();
 private:
-	int colorMode = 0;
-	int cardSelection = 0;
+	int Mode = 0; // Sub Menu.
+
+	/*	Colors 1.	*/
+	void DrawColor(void) const;
+	void ColorLogic(u32 hDown, u32 hHeld, touchPosition touch);
 	void DrawPreview(void) const;
 	std::vector<Structs::ButtonPos> buttons = {
 		{10, 85, 95, 41},
 		{115, 85, 95, 41},
 		{220, 85, 95, 41},
 	};
+	int colorMode = 0;
+	int cardSelection = 0;
+
+	/*	Language 2.	*/
+	int selectedLang = 0;
+	std::vector<Structs::ButtonPos> langBlocks = {
+		{37, 32, 20, 20},
+		{37, 72, 20, 20},
+		{37, 112, 20, 20},
+		{37, 152, 20, 20},
+		{37, 188, 20, 20},
+		{177, 32, 20, 20},
+		{177, 72, 20, 20},
+		{177, 112, 20, 20},
+		{177, 152, 20, 20},
+		{177, 188, 20, 20},
+	};
+	void DrawLanguage(void) const;
+	void LanguageLogic(u32 hDown, u32 hHeld, touchPosition touch);
+
+	/*	Card Style Change 3.	*/
+	void DrawCardScreen(void) const;
+	void CardLogic(u32 hDown, u32 hHeld, touchPosition touch);
+	bool checkForValidate(std::string file);
+	Result loadSheet(std::string path);
+	uint selectedSheet = 0;
+	int keyRepeatDelay = 0;
+	mutable bool dirChanged = true;
+	std::vector<DirEntry> dirContents;
+
+	/*	Sub Menu 0.	*/
+	std::vector<Structs::ButtonPos> mainButtons = {
+		{90, 40, 140, 35}, // Colors.
+		{90, 100, 140, 35}, // Language.
+		{90, 160, 140, 35}, // Card Style Change.
+	};
+	int subSelection = 0;
+	void DrawSubMenu(void) const;
+	void SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch);
 };
 
 #endif

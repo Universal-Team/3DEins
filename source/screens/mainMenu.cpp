@@ -26,7 +26,6 @@
 
 #include "charSelection.hpp"
 #include "credits.hpp"
-#include "langSelection.hpp"
 #include "mainMenu.hpp"
 #include "modeSelection.hpp"
 #include "uiSettings.hpp"
@@ -64,7 +63,7 @@ void MainMenu::Draw(void) const {
 	Gui::DrawStringCentered(-80, mainButtons[0].y+12, 0.6f, Config::Text, Lang::get("NEW_GAME"), 130);
 	Gui::DrawStringCentered(80, mainButtons[1].y+12, 0.6f, Config::Text, Lang::get("UI_SETTINGS"), 130);
 	Gui::DrawStringCentered(-80, mainButtons[2].y+12, 0.6f, Config::Text, Lang::get("CREDITS"), 130);
-	Gui::DrawStringCentered(80, mainButtons[3].y+12, 0.6f, Config::Text, Lang::get("LANGUAGE"), 130);
+	Gui::DrawStringCentered(80, mainButtons[3].y+12, 0.6f, Config::Text, "???", 130);
 }
 
 
@@ -80,7 +79,7 @@ void MainMenu::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		} else if (touching(touch, mainButtons[2])) {
 			Gui::setScreen(std::make_unique<Credits>());
 		} else if (touching(touch, mainButtons[3])) {
-			Gui::setScreen(std::make_unique<LangSelection>());
+			// Gui::setScreen(std::make_unique<LangSelection>());
 		}
 	}
 
@@ -95,7 +94,7 @@ void MainMenu::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		} else if (Selection == 2) {
 			Gui::setScreen(std::make_unique<Credits>());
 		} else if (Selection == 3) {
-			Gui::setScreen(std::make_unique<LangSelection>());
+			// Gui::setScreen(std::make_unique<LangSelection>());
 		}
 	}
 

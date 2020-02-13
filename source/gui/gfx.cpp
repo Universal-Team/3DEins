@@ -46,6 +46,30 @@ void GFX::DrawBottom(void) {
 	Gui::Draw_Rect(0, 210, 320, 30, Config::Bar);
 }
 
+void GFX::DrawFileBrowseBG(bool isTop) {
+	if (isTop == true) {
+		Gui::ScreenDraw(Top);
+		Gui::Draw_Rect(0, 0, 400, 27, Config::Bar);
+		Gui::Draw_Rect(0, 27, 400, 31, Config::BG);
+		Gui::Draw_Rect(0, 58, 400, 31, Config::Bar);
+		Gui::Draw_Rect(0, 89, 400, 31, Config::BG);
+		Gui::Draw_Rect(0, 120, 400, 31, Config::Bar);
+		Gui::Draw_Rect(0, 151, 400, 31, Config::BG);
+		Gui::Draw_Rect(0, 182, 400, 31, Config::Bar);
+		Gui::Draw_Rect(0, 213, 400, 27, Config::BG);
+	} else {
+		Gui::ScreenDraw(Bottom);
+		Gui::Draw_Rect(0, 0, 320, 27, Config::Bar);
+		Gui::Draw_Rect(0, 27, 320, 31, Config::BG);
+		Gui::Draw_Rect(0, 58, 320, 31, Config::Bar);
+		Gui::Draw_Rect(0, 89, 320, 31, Config::BG);
+		Gui::Draw_Rect(0, 120, 320, 31, Config::Bar);
+		Gui::Draw_Rect(0, 151, 320, 31, Config::BG);
+		Gui::Draw_Rect(0, 182, 320, 31, Config::Bar);
+		Gui::Draw_Rect(0, 213, 320, 27, Config::BG);
+	}
+}
+
 extern C2D_SpriteSheet cards;
 extern C2D_SpriteSheet sprites;
 
@@ -66,7 +90,7 @@ void GFX::DrawCardSelector(int x, int y, float ScaleX, float ScaleY)
 	C2D_SetImageTint(&tint, C2D_TopRight, color, 1);
 	C2D_SetImageTint(&tint, C2D_BotLeft, color, 1);
 	C2D_SetImageTint(&tint, C2D_BotRight, color, 1);
-	C2D_DrawImageAt(C2D_SpriteSheetGetImage(cards, cards_outline_idx), x, y, 0.5f, &tint, ScaleX, ScaleY);
+	C2D_DrawImageAt(C2D_SpriteSheetGetImage(sprites, sprites_outline_idx), x, y, 0.5f, &tint, ScaleX, ScaleY);
 	timer += .030;
 }
 

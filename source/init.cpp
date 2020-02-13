@@ -59,6 +59,7 @@ Result Init::Initialize() {
 	sdmcInit();
 	mkdir("sdmc:/3ds", 0777);	// For DSP dump
 	mkdir("sdmc:/3ds/3DEins", 0777); // main Path.
+	mkdir("sdmc:/3ds/3DEins/cards", 0777); // Card Sheet path.
 	if(access("sdmc:/3ds/3DEins/Settings.json", F_OK) == -1 ) {
 		Config::initializeNewConfig();
 	}
@@ -67,12 +68,12 @@ Result Init::Initialize() {
 	osSetSpeedupEnable(true);	// Enable speed-up for New 3DS users.
 	srand(time(NULL));
 	Gui::setScreen(std::make_unique<MainMenu>());
-    return 0;
+	return 0;
 }
 
 Result Init::MainLoop() {
-    // Initialize everything.
-    Initialize();
+	// Initialize everything.
+	Initialize();
 	// Loop as long as the status is not exiting.
 	while (aptMainLoop() && !exiting)
 	{
@@ -88,9 +89,9 @@ Result Init::MainLoop() {
 		Gui::mainLoop(hDown, hHeld, touch);
 		C3D_FrameEnd(0);
 	}
-    // Exit all services and exit the app.
-    Exit();
-    return 0;
+	// Exit all services and exit the app.
+	Exit();
+	return 0;
 }
 
 Result Init::Exit() {
