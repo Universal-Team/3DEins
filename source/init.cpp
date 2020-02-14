@@ -77,7 +77,7 @@ Result Init::Initialize() {
 		Lang::load(0);
 	}
 
-	Msg::DisplayMsg(Lang::get("LOADING_SHEET"));
+	Msg::DisplayMsg(Lang::get("LOADING_SPRITESHEET"));
 	Gui::loadSheet("romfs:/gfx/cards.t3x", cards);
 	Gui::loadSheet("romfs:/gfx/sprites.t3x", sprites);
 	osSetSpeedupEnable(true);	// Enable speed-up for New 3DS users.

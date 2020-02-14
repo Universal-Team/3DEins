@@ -142,6 +142,7 @@ void Msg::DisplayWaitMsg(std::string waitMsg, ...)
 
 	while(1)
 	{
+		gspWaitForVBlank();
 		hidScanInput();
 		hidTouchRead(&touch);
 		if((hidKeysDown() & KEY_A) || (hidKeysDown() & KEY_TOUCH && touching(touch, promptBtn[2])))
@@ -167,6 +168,7 @@ void Msg::DisplayPlayerSwitch(std::string waitMsg, ...)
 
 	while(1)
 	{
+		gspWaitForVBlank();
 		hidScanInput();
 		hidTouchRead(&touch);
 		if((hidKeysDown() & KEY_Y) || (hidKeysDown() & KEY_TOUCH && touching(touch, promptBtn[2])))

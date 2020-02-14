@@ -42,19 +42,30 @@ public:
 private:
 	int Mode = 0; // Sub Menu.
 
+	/*	Sub Menu 0.	*/
+	std::vector<Structs::ButtonPos> mainButtons = {
+		{90, 40, 140, 40}, // Colors.
+		{90, 100, 140, 40}, // Language.
+		{90, 160, 140, 40}, // Card Style Change.
+	};
+	int subSelection = 0;
+	void DrawSubMenu(void) const;
+	void SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch);
+
 	/*	Colors 1.	*/
 	void DrawColor(void) const;
 	void ColorLogic(u32 hDown, u32 hHeld, touchPosition touch);
 	void DrawPreview(void) const;
+	int colorMode = 0;
 	std::vector<Structs::ButtonPos> buttons = {
 		{10, 85, 95, 41},
 		{115, 85, 95, 41},
 		{220, 85, 95, 41},
 	};
-	int colorMode = 0;
-	int cardSelection = 0;
 
 	/*	Language 2.	*/
+	void DrawLanguage(void) const;
+	void LanguageLogic(u32 hDown, u32 hHeld, touchPosition touch);
 	int selectedLang = 0;
 	std::vector<Structs::ButtonPos> langBlocks = {
 		{37, 32, 20, 20},
@@ -68,8 +79,6 @@ private:
 		{177, 152, 20, 20},
 		{177, 188, 20, 20},
 	};
-	void DrawLanguage(void) const;
-	void LanguageLogic(u32 hDown, u32 hHeld, touchPosition touch);
 
 	/*	Card Style Change 3.	*/
 	void DrawCardScreen(void) const;
@@ -80,16 +89,6 @@ private:
 	int keyRepeatDelay = 0;
 	mutable bool dirChanged = true;
 	std::vector<DirEntry> dirContents;
-
-	/*	Sub Menu 0.	*/
-	std::vector<Structs::ButtonPos> mainButtons = {
-		{90, 40, 140, 40}, // Colors.
-		{90, 100, 140, 40}, // Language.
-		{90, 160, 140, 40}, // Card Style Change.
-	};
-	int subSelection = 0;
-	void DrawSubMenu(void) const;
-	void SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch);
 };
 
 #endif

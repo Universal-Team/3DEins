@@ -377,6 +377,21 @@ void MultiPlayScreen::Player1Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hDown & KEY_X) {
 		AddCard(1);
 	}
+
+	// Skip to the next player.
+	if (hDown & KEY_Y) {
+		if (PlayDirection == Direction::LEFT) {
+			char message [100];
+			snprintf(message, sizeof(message), Lang::get("PLAYER_NEXT").c_str(), 1, 2);
+			Msg::DisplayPlayerSwitch(message);
+			currentPlayer = 2;
+		} else if (PlayDirection == Direction::RIGHT) {
+			char message [100];
+			snprintf(message, sizeof(message), Lang::get("PLAYER_NEXT").c_str(), 1, maxPlayer);
+			Msg::DisplayPlayerSwitch(message);
+			currentPlayer = maxPlayer;
+		}
+	}
 }
 
 void MultiPlayScreen::Player2Logic(u32 hDown, u32 hHeld, touchPosition touch) {
@@ -482,6 +497,23 @@ void MultiPlayScreen::Player2Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hDown & KEY_X) {
 		AddCard(2);
 	}
+
+	// Skip to the next player.
+	if (hDown & KEY_Y) {
+		if (PlayDirection == Direction::LEFT) {
+			if (maxPlayer > 2)	tempPlayer = 3;
+			else				tempPlayer = 1;
+			char message [100];
+			snprintf(message, sizeof(message), Lang::get("PLAYER_NEXT").c_str(), 2, tempPlayer);
+			Msg::DisplayPlayerSwitch(message);
+			currentPlayer = tempPlayer;
+		} else if (PlayDirection == Direction::RIGHT) {
+			char message [100];
+			snprintf(message, sizeof(message), Lang::get("PLAYER_NEXT").c_str(), 2, 1);
+			Msg::DisplayPlayerSwitch(message);
+			currentPlayer = 1;
+		}
+	}
 }
 
 
@@ -579,6 +611,23 @@ void MultiPlayScreen::Player3Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hDown & KEY_X) {
 		AddCard(3);
 	}
+
+	// Skip to the next player.
+	if (hDown & KEY_Y) {
+		if (PlayDirection == Direction::LEFT) {
+			if (maxPlayer > 3)	tempPlayer = 4;
+			else				tempPlayer = 1;
+			char message [100];
+			snprintf(message, sizeof(message), Lang::get("PLAYER_NEXT").c_str(), 3, tempPlayer);
+			Msg::DisplayPlayerSwitch(message);
+			currentPlayer = tempPlayer;
+		} else if (PlayDirection == Direction::RIGHT) {
+			char message [100];
+			snprintf(message, sizeof(message), Lang::get("PLAYER_NEXT").c_str(), 3, 2);
+			Msg::DisplayPlayerSwitch(message);
+			currentPlayer = 2;
+		}
+	}
 }
 
 void MultiPlayScreen::Player4Logic(u32 hDown, u32 hHeld, touchPosition touch) {
@@ -664,6 +713,21 @@ void MultiPlayScreen::Player4Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	// User cannot set, so draw a card.
 	if (hDown & KEY_X) {
 		AddCard(4);
+	}
+
+	// Skip to the next player.
+	if (hDown & KEY_Y) {
+		if (PlayDirection == Direction::LEFT) {
+			char message [100];
+			snprintf(message, sizeof(message), Lang::get("PLAYER_NEXT").c_str(), 4, 1);
+			Msg::DisplayPlayerSwitch(message);
+			currentPlayer = 1;
+		} else if (PlayDirection == Direction::RIGHT) {
+			char message [100];
+			snprintf(message, sizeof(message), Lang::get("PLAYER_NEXT").c_str(), 4, 3);
+			Msg::DisplayPlayerSwitch(message);
+			currentPlayer = 3;
+		}
 	}
 }
 
