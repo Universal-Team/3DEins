@@ -41,6 +41,7 @@
 	"PLAYER_4": "プレイヤー4",
 	"PLAYER_AMOUNT": "何人のプレイヤーがプレイしますか？",
 	"PLAYER_BREAK": "プレイヤー%iは休憩する必要があります。\nプレイヤー%i：続ける！",
+	"PLAYER_GOT_BRUHED": "Player %i got bruhed!",
 	"PLAYER_NEXT": "プレイヤー%iの番が完了しました。\nプレイヤー%i：続ける！",
 	"PLAYER_SELECT": "プレイヤー%i：キャラクターを選択します",
 	"PLAYER_WON": "プレイヤー%i勝！",
