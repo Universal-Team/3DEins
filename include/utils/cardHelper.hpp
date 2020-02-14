@@ -31,7 +31,7 @@
 #include <vector>
 
 #define MAXCOLOR	4 // Only 4 Colors, the 5th color is for special cards.
-#define MAXCARDTYPE	15
+#define MAXCARDTYPE	16 // 16 with BRUH.
 
 enum class CardColor {
 	GREEN,
@@ -56,7 +56,8 @@ enum class CardType {
 	REVERSE,
 	PLUS2,
 	WISH,
-	PLUS4
+	PLUS4,
+	BRUH
 };
 
 enum class Direction {

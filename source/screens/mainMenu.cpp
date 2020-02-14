@@ -68,7 +68,6 @@ void MainMenu::Draw(void) const {
 
 
 void MainMenu::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
-
 	if (hDown & KEY_TOUCH) {
 		if (touching(touch, mainButtons[0])) {
 			if (Msg::promptMsg2(Lang::get("NEW_GAME_PROMPT"))) {

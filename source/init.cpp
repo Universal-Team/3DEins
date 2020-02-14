@@ -34,7 +34,9 @@
 #include <time.h>
 #include <unistd.h>
 
+bool dspFound = false;
 bool exiting = false;
+sound *bruhSFX = NULL;
 touchPosition touch;
 bool isDay = false;
 
@@ -51,6 +53,11 @@ bool touching(touchPosition touch, Structs::ButtonPos button) {
 		return false;
 }
 
+void loadSoundEffects(void) {
+	if (dspFound == true) {
+		bruhSFX = new sound("romfs:/bruh.wav", 1, false);
+	}
+}
 
 Result Init::Initialize() {
 	gfxInitDefault();
@@ -83,6 +90,12 @@ Result Init::Initialize() {
 	osSetSpeedupEnable(true);	// Enable speed-up for New 3DS users.
 	srand(time(NULL));
 	Gui::setScreen(std::make_unique<MainMenu>());
+
+	if (access("sdmc:/3ds/dspfirm.cdc", F_OK ) != -1 ) {
+		ndspInit();
+		dspFound = true;
+		loadSoundEffects();
+	}
 	return 0;
 }
 
@@ -110,6 +123,11 @@ Result Init::MainLoop() {
 }
 
 Result Init::Exit() {
+	delete bruhSFX;
+	if (dspFound == true) {
+		ndspExit();
+	}
+
 	Gui::exit();
 	Gui::unloadSheet(cards);
 	Gui::unloadSheet(sprites);

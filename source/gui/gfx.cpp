@@ -176,6 +176,9 @@ void GFX::DrawCard(CardType CT, int x, int y, CardColor CC, float ScaleX, float 
 				case CardType::PLUS4:
 					Gui::DrawSprite(cards, 58, x, y, ScaleX, ScaleY);
 					break;
+				case CardType::BRUH:
+					Gui::DrawSprite(sprites, sprites_bruh_idx, x, y, ScaleX, ScaleY);
+					break;
 			}
 		} else if (CC == CardColor::GREEN) {
 			switch (CT) {
@@ -223,6 +226,9 @@ void GFX::DrawCard(CardType CT, int x, int y, CardColor CC, float ScaleX, float 
 					break;
 				case CardType::PLUS4:
 					Gui::DrawSprite(cards, 59, x, y, ScaleX, ScaleY);
+					break;
+				case CardType::BRUH:
+					Gui::DrawSprite(sprites, sprites_bruh_idx, x, y, ScaleX, ScaleY);
 					break;
 			}
 		} else if (CC == CardColor::RED) {
@@ -272,6 +278,9 @@ void GFX::DrawCard(CardType CT, int x, int y, CardColor CC, float ScaleX, float 
 				case CardType::PLUS4:
 					Gui::DrawSprite(cards, 60, x, y, ScaleX, ScaleY);
 					break;
+				case CardType::BRUH:
+					Gui::DrawSprite(sprites, sprites_bruh_idx, x, y, ScaleX, ScaleY);
+					break;
 			}
 		} else if (CC == CardColor::YELLOW) {
 			switch (CT) {
@@ -320,6 +329,9 @@ void GFX::DrawCard(CardType CT, int x, int y, CardColor CC, float ScaleX, float 
 				case CardType::PLUS4:
 					Gui::DrawSprite(cards, 61, x, y, ScaleX, ScaleY);
 					break;
+				case CardType::BRUH:
+					Gui::DrawSprite(sprites, sprites_bruh_idx, x, y, ScaleX, ScaleY);
+					break;
 			}
 		} else if (CC == CardColor::SPECIAL) {
 			switch (CT) {
@@ -342,6 +354,9 @@ void GFX::DrawCard(CardType CT, int x, int y, CardColor CC, float ScaleX, float 
 					break;
 				case CardType::PLUS4:
 					Gui::DrawSprite(cards, 57, x, y, ScaleX, ScaleY);
+					break;
+				case CardType::BRUH:
+					Gui::DrawSprite(sprites, sprites_bruh_idx, x, y, ScaleX, ScaleY);
 					break;
 			}
 		}

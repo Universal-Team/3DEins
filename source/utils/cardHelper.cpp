@@ -212,5 +212,7 @@ void CardHelper::specialHandle(CardType card, PlayerStatus &p, PlayerStatus &nP,
 				p = PlayerStatus::CAN_RETURN;
 			}
 			break;
+		case CardType::BRUH:
+			break; // Handled in the Play screen.
 	}
 }

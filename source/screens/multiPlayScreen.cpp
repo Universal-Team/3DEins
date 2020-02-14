@@ -288,6 +288,12 @@ void MultiPlayScreen::Player1Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		}
 	}
 
+	if (setBruh == 1 && bruhEnabled == true) {
+		Msg::Bruh(1);
+		CardHelper::RandomizeTableCard();
+		bruhEnabled = false;
+	}
+
 	if (hDown & KEY_RIGHT) {
 		if (Player1Card < (int)Player1Hand.size()-1) {
 			Player1Card++;
@@ -310,7 +316,7 @@ void MultiPlayScreen::Player1Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 	if (hDown & KEY_A) {
 		// Check if cardType or CardColor are identical.
-		if (Player1Hand[Player1Card].CT == TypeToPlay || Player1Hand[Player1Card].CC == ColorToPlay || Player1Hand[Player1Card].CT == CardType::WISH || Player1Hand[Player1Card].CT == CardType::PLUS4) {
+		if (Player1Hand[Player1Card].CT == TypeToPlay || Player1Hand[Player1Card].CC == ColorToPlay || Player1Hand[Player1Card].CT == CardType::WISH || Player1Hand[Player1Card].CT == CardType::PLUS4 || Player1Hand[Player1Card].CT == CardType::BRUH) {
 			TypeToPlay = Player1Hand[Player1Card].CT;
 			ColorToPlay = Player1Hand[Player1Card].CC;
 
@@ -339,6 +345,17 @@ void MultiPlayScreen::Player1Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 			if (maxPlayer == 2) {
 				if (Player1Hand[Player1Card].CT == CardType::REVERSE || Player1Hand[Player1Card].CT == CardType::SKIP) {
 					canContinue = true;
+				}
+			}
+
+			// Give a Bruh to the next player! xD
+			if (Player1Hand[Player1Card].CT == CardType::BRUH) {
+				if (PlayDirection == Direction::LEFT) {
+					setBruh = 2;
+					bruhEnabled = true;
+				} else if (PlayDirection == Direction::RIGHT) {
+					setBruh = maxPlayer;
+					bruhEnabled = true;
 				}
 			}
 
@@ -412,6 +429,12 @@ void MultiPlayScreen::Player2Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		}
 	}
 
+	if (setBruh == 2 && bruhEnabled == true) {
+		Msg::Bruh(2);
+		CardHelper::RandomizeTableCard();
+		bruhEnabled = false;
+	}
+
 	if (hDown & KEY_RIGHT) {
 		if (Player2Card < (int)Player2Hand.size()-1) {
 			Player2Card++;
@@ -434,7 +457,7 @@ void MultiPlayScreen::Player2Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 	if (hDown & KEY_A) {
 		// Check if cardType or CardColor are identical.
-		if (Player2Hand[Player2Card].CT == TypeToPlay || Player2Hand[Player2Card].CC == ColorToPlay || Player2Hand[Player2Card].CT == CardType::WISH || Player2Hand[Player2Card].CT == CardType::PLUS4) {
+		if (Player2Hand[Player2Card].CT == TypeToPlay || Player2Hand[Player2Card].CC == ColorToPlay || Player2Hand[Player2Card].CT == CardType::WISH || Player2Hand[Player2Card].CT == CardType::PLUS4 || Player2Hand[Player2Card].CT == CardType::BRUH) {
 			TypeToPlay = Player2Hand[Player2Card].CT;
 			ColorToPlay = Player2Hand[Player2Card].CC;
 
@@ -459,6 +482,18 @@ void MultiPlayScreen::Player2Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 			if (maxPlayer == 2) {
 				if (Player2Hand[Player2Card].CT == CardType::REVERSE || Player2Hand[Player2Card].CT == CardType::SKIP) {
 					canContinue = true;
+				}
+			}
+
+			// Give a Bruh to the next player! xD
+			if (Player2Hand[Player2Card].CT == CardType::BRUH) {
+				if (PlayDirection == Direction::LEFT) {
+					if (maxPlayer > 2)	setBruh = 3;
+					else				setBruh = 1;
+					bruhEnabled = true;
+				} else if (PlayDirection == Direction::RIGHT) {
+					setBruh = 1;
+					bruhEnabled = true;
 				}
 			}
 
@@ -535,6 +570,12 @@ void MultiPlayScreen::Player3Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		}
 	}
 
+	if (setBruh == 3 && bruhEnabled == true) {
+		Msg::Bruh(3);
+		CardHelper::RandomizeTableCard();
+		bruhEnabled = false;
+	}
+
 	if (hDown & KEY_RIGHT) {
 		if (Player3Card < (int)Player3Hand.size()-1) {
 			Player3Card++;
@@ -557,7 +598,7 @@ void MultiPlayScreen::Player3Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 	if (hDown & KEY_A) {
 		// Check if cardType or CardColor are identical.
-		if (Player3Hand[Player3Card].CT == TypeToPlay || Player3Hand[Player3Card].CC == ColorToPlay || Player3Hand[Player3Card].CT == CardType::WISH || Player3Hand[Player3Card].CT == CardType::PLUS4) {
+		if (Player3Hand[Player3Card].CT == TypeToPlay || Player3Hand[Player3Card].CC == ColorToPlay || Player3Hand[Player3Card].CT == CardType::WISH || Player3Hand[Player3Card].CT == CardType::PLUS4 || Player3Hand[Player3Card].CT == CardType::BRUH) {
 			TypeToPlay = Player3Hand[Player3Card].CT;
 			ColorToPlay = Player3Hand[Player3Card].CC;
 
@@ -576,6 +617,18 @@ void MultiPlayScreen::Player3Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 				CardHelper::specialHandle(Player3Hand[Player3Card].CT, Player3Status, Player2Status, maxPlayer);
 				CardHelper::statusHandler(Player3Hand, Player3Status, Player3Status, PlayDirection, Player3Break);
 				CardHelper::statusHandler(Player2Hand, Player2Status, Player2Status, PlayDirection, Player2Break);
+			}
+
+			// Give a Bruh to the next player! xD
+			if (Player3Hand[Player3Card].CT == CardType::BRUH) {
+				if (PlayDirection == Direction::LEFT) {
+					if (maxPlayer > 3)	setBruh = 4;
+					else				setBruh = 1;
+					bruhEnabled = true;
+				} else if (PlayDirection == Direction::RIGHT) {
+					setBruh = 2;
+					bruhEnabled = true;
+				}
 			}
 
 			RemoveCard(3);
@@ -646,6 +699,12 @@ void MultiPlayScreen::Player4Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		}
 	}
 
+	if (setBruh == 4 && bruhEnabled == true) {
+		Msg::Bruh(4);
+		CardHelper::RandomizeTableCard();
+		bruhEnabled = false;
+	}
+
 	if (hDown & KEY_RIGHT) {
 		if (Player4Card < (int)Player4Hand.size()-1) {
 			Player4Card++;
@@ -668,7 +727,7 @@ void MultiPlayScreen::Player4Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 	if (hDown & KEY_A) {
 		// Check if cardType or CardColor are identical.
-		if (Player4Hand[Player4Card].CT == TypeToPlay || Player4Hand[Player4Card].CC == ColorToPlay || Player4Hand[Player4Card].CT == CardType::WISH || Player4Hand[Player4Card].CT == CardType::PLUS4) {
+		if (Player4Hand[Player4Card].CT == TypeToPlay || Player4Hand[Player4Card].CC == ColorToPlay || Player4Hand[Player4Card].CT == CardType::WISH || Player4Hand[Player4Card].CT == CardType::PLUS4 || Player4Hand[Player4Card].CT == CardType::BRUH) {
 			TypeToPlay = Player4Hand[Player4Card].CT;
 			ColorToPlay = Player4Hand[Player4Card].CC;
 
@@ -681,6 +740,17 @@ void MultiPlayScreen::Player4Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 				CardHelper::specialHandle(Player4Hand[Player4Card].CT, Player4Status, Player3Status, maxPlayer);
 				CardHelper::statusHandler(Player4Hand, Player4Status, Player4Status, PlayDirection, Player4Break);
 				CardHelper::statusHandler(Player3Hand, Player3Status, Player3Status, PlayDirection, Player3Break);
+			}
+
+			// Give a Bruh to the next player! xD
+			if (Player4Hand[Player4Card].CT == CardType::BRUH) {
+				if (PlayDirection == Direction::LEFT) {
+					setBruh = 1;
+					bruhEnabled = true;
+				} else if (PlayDirection == Direction::RIGHT) {
+					setBruh = 3;
+					bruhEnabled = true;
+				}
 			}
 
 			RemoveCard(4);

@@ -34,6 +34,9 @@
 #include "lang.hpp"
 #include "msg.hpp"
 #include "screenCommon.hpp"
+#include "sound.h"
+
+void bruh();
 
 enum class STATE {
 	SINGLEPLAYER,

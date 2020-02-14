@@ -46,6 +46,8 @@ private:
 	bool Player3Break = false;
 	bool Player4Break = false;
 
+	bool bruhEnabled = false;
+	int setBruh = 0;
 	bool canContinue = false; // Return, if user can continue. Used in 2 Player mode.
 	bool canCounter = false; // In case the opponent has a Plus 2 / 4 too. TODO.
 

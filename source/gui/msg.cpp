@@ -203,6 +203,12 @@ void Msg::DisplayMsg(std::string Message) {
 	C3D_FrameEnd(0);
 }
 
+void Msg::Bruh(int player) {
+	bruh(); // Play Bruh SFX.
+	char message [100];
+	snprintf(message, sizeof(message), Lang::get("PLAYER_GOT_BRUHED").c_str(), player);
+	Msg::DisplayWaitMsg(message);
+}
 
 void Msg::NotImplementedYet(void) {
 	Msg::DisplayWaitMsg(Lang::get("NOT_IMPLEMENTED"));
