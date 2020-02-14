@@ -1,5 +1,5 @@
 {
-	"A_CONTINUE": "Drück \\uE000 zum fortfahren.",
+	"A_CONTINUE": "Drück  zum fortfahren.",
 	"ALL_PLAYER_READY": "Alle Spieler sind bereit!",
 	"BACK": "Zurück",
 	"BAR_COLOR": "Balkenfarbe",
@@ -7,7 +7,7 @@
 	"BUTTON_COLOR": "Schaltflächenfarbe",
 	"CARD_BLUE": "Blaue Kartenfarbe",
 	"CARD_CHANGER": "Kartenwechsel",
-	"CARD_COLOR_INSTRUCTIONS": "\\uE07B | \\uE07C: Farbauswahl\n\\uE052 | \\uE053: Kartenauswahl\n\\uE001: Zurück\nTouch: RGB ändern",
+	"CARD_COLOR_INSTRUCTIONS": " | : Farbauswahl\n | : Kartenauswahl\n: Zurück\nTouch: RGB ändern",
 	"CARD_GREEN": "Grüne Kartenfarbe",
 	"CARD_RED": "Rote Kartenfarbe",
 	"CARD_YELLOW": "Gelbe Kartenfarbe",
