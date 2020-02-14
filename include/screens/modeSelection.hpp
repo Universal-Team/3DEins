@@ -49,9 +49,9 @@ private:
 	void MSelection(u32 hDown, u32 hHeld, touchPosition touch);
 
 	std::vector<Structs::ButtonPos> mainButtons = {
-		{90, 40, 140, 35}, // Single Player.
-		{90, 100, 140, 35}, // Multi Player.
-		{90, 160, 140, 35}, // Back.
+		{90, 40, 140, 40}, // Single Player.
+		{90, 100, 140, 40}, // Multi Player.
+		{90, 160, 140, 40}, // Back.
 	};
 };
 

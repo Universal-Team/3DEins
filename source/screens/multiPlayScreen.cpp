@@ -45,60 +45,60 @@ void MultiPlayScreen::DisplayPlayerHand() const {
 	if (currentPlayer == 1) {
 		for (int i = 0; i < (int)Player1Hand.size(); i++) {
 			if (Player1Card < MAXSHOWNCARDS) {
-				GFX::DrawCard(Player1Hand[i].CT, 3 + (i * 65), 50, Player1Hand[i].CC);
+				GFX::DrawCard(Player1Hand[i].CT, 1 + (i * 65), 50, Player1Hand[i].CC);
 			} else {
-				GFX::DrawCard(Player1Hand[i+Player1Card-4].CT, 3 + (i * 65), 50, Player1Hand[i+Player1Card-4].CC);
+				GFX::DrawCard(Player1Hand[i+Player1Card-4].CT, 1 + (i * 65), 50, Player1Hand[i+Player1Card-4].CC);
 			}
 			if (i == Player1Card) {
 				if (Player1Card < MAXSHOWNCARDS) {
-					GFX::DrawCardSelector(3 + (i * 65), 50);
+					GFX::DrawCardSelector(1 + (i * 65), 50);
 				} else {
-					GFX::DrawCardSelector(3 + (4 * 65), 50);
+					GFX::DrawCardSelector(1 + (4 * 65), 50);
 				}
 			}
 		}
 	} else if (currentPlayer == 2) {
 		for (int i = 0; i < (int)Player2Hand.size(); i++) {
 			if (Player2Card < MAXSHOWNCARDS) {
-				GFX::DrawCard(Player2Hand[i].CT, 3 + (i * 65), 50, Player2Hand[i].CC);
+				GFX::DrawCard(Player2Hand[i].CT, 1 + (i * 65), 50, Player2Hand[i].CC);
 			} else {
-				GFX::DrawCard(Player2Hand[i+Player2Card-4].CT, 3 + (i * 65), 50, Player2Hand[i+Player2Card-4].CC);
+				GFX::DrawCard(Player2Hand[i+Player2Card-4].CT, 1 + (i * 65), 50, Player2Hand[i+Player2Card-4].CC);
 			}
 			if (i == Player2Card) {
 				if (Player2Card < MAXSHOWNCARDS) {
-					GFX::DrawCardSelector(3 + (i * 65), 50);
+					GFX::DrawCardSelector(1 + (i * 65), 50);
 				} else {
-					GFX::DrawCardSelector(3 + (4 * 65), 50);
+					GFX::DrawCardSelector(1 + (4 * 65), 50);
 				}
 			}
 		}
 	} else if (currentPlayer == 3) {
 		for (int i = 0; i < (int)Player3Hand.size(); i++) {
 			if (Player3Card < MAXSHOWNCARDS) {
-				GFX::DrawCard(Player3Hand[i].CT, 3 + (i * 65), 50, Player3Hand[i].CC);
+				GFX::DrawCard(Player3Hand[i].CT, 1 + (i * 65), 50, Player3Hand[i].CC);
 			} else {
-				GFX::DrawCard(Player3Hand[i+Player3Card-4].CT, 3 + (i * 65), 50, Player3Hand[i+Player3Card-4].CC);
+				GFX::DrawCard(Player3Hand[i+Player3Card-4].CT, 1 + (i * 65), 50, Player3Hand[i+Player3Card-4].CC);
 			}
 			if (i == Player3Card) {
 				if (Player3Card < MAXSHOWNCARDS) {
-					GFX::DrawCardSelector(3 + (i * 65), 50);
+					GFX::DrawCardSelector(1 + (i * 65), 50);
 				} else {
-					GFX::DrawCardSelector(3 + (4 * 65), 50);
+					GFX::DrawCardSelector(1 + (4 * 65), 50);
 				}
 			}
 		}
 	} else if (currentPlayer == 4) {
 		for (int i = 0; i < (int)Player4Hand.size(); i++) {
 			if (Player4Card < MAXSHOWNCARDS) {
-				GFX::DrawCard(Player4Hand[i].CT, 3 + (i * 65), 50, Player4Hand[i].CC);
+				GFX::DrawCard(Player4Hand[i].CT, 1 + (i * 65), 50, Player4Hand[i].CC);
 			} else {
-				GFX::DrawCard(Player4Hand[i+Player4Card-4].CT, 3 + (i * 65), 50, Player4Hand[i+Player4Card-4].CC);
+				GFX::DrawCard(Player4Hand[i+Player4Card-4].CT, 1 + (i * 65), 50, Player4Hand[i+Player4Card-4].CC);
 			}
 			if (i == Player4Card) {
 				if (Player4Card < MAXSHOWNCARDS) {
-					GFX::DrawCardSelector(3 + (i * 65), 50);
+					GFX::DrawCardSelector(1 + (i * 65), 50);
 				} else {
-					GFX::DrawCardSelector(3 + (4 * 65), 50);
+					GFX::DrawCardSelector(1 + (4 * 65), 50);
 				}
 			}
 		}
@@ -108,19 +108,19 @@ void MultiPlayScreen::DisplayPlayerHand() const {
 void MultiPlayScreen::DisplayPlayerHandSmall() const {
 	if (currentPlayer == 1) {
 		for (int i = 0; i < (int)Player1Hand.size(); i++) {
-			GFX::DrawCard(Player1Hand[i].CT, 2 + (i * 18), 140, Player1Hand[i].CC, 0.8, 0.8);
+			GFX::DrawCard(Player1Hand[i].CT, 2 + (i * 18), 150, Player1Hand[i].CC, 0.8, 0.8);
 		}
 	} else if (currentPlayer == 2) {
 		for (int i = 0; i < (int)Player2Hand.size(); i++) {
-			GFX::DrawCard(Player2Hand[i].CT, 2 + (i * 18), 140, Player2Hand[i].CC, 0.8, 0.8);
+			GFX::DrawCard(Player2Hand[i].CT, 2 + (i * 18), 150, Player2Hand[i].CC, 0.8, 0.8);
 		}
 	} else if (currentPlayer == 3) {
 		for (int i = 0; i < (int)Player3Hand.size(); i++) {
-			GFX::DrawCard(Player3Hand[i].CT, 2 + (i * 18), 140, Player3Hand[i].CC, 0.8, 0.8);
+			GFX::DrawCard(Player3Hand[i].CT, 2 + (i * 18), 150, Player3Hand[i].CC, 0.8, 0.8);
 		}
 	} else if (currentPlayer == 4) {
 		for (int i = 0; i < (int)Player4Hand.size(); i++) {
-			GFX::DrawCard(Player4Hand[i].CT, 2 + (i * 18), 140, Player4Hand[i].CC, 0.8, 0.8);
+			GFX::DrawCard(Player4Hand[i].CT, 2 + (i * 18), 150, Player4Hand[i].CC, 0.8, 0.8);
 		}
 	}
 }
@@ -131,7 +131,7 @@ void MultiPlayScreen::Draw(void) const {
 	// Draw Players & amount of cards.
 	DrawPlayers();
 	GFX::DrawCard(TypeToPlay, 170, 80, ColorToPlay);
-	GFX::DrawBottom();
+	GFX::DrawBottom(false);
 	char message [100];
 	snprintf(message, sizeof(message), Lang::get("ITS_PLAYER_TURN").c_str(), currentPlayer);
 	Gui::DrawStringCentered(0, 0, 0.7f, Config::Text, message);

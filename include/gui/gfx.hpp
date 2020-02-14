@@ -36,7 +36,7 @@ namespace GFX
 {
 	// Basic GUI.
 	void DrawTop(bool useBars = true);
-	void DrawBottom(void);
+	void DrawBottom(bool useBars = true);
 	void DrawFileBrowseBG(bool isTop = true);
 	void DrawSprite(int index, int x, int y, float ScaleX = 1, float ScaleY = 1);
 	// Selectors.

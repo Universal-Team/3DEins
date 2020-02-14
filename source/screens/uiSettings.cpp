@@ -66,17 +66,17 @@ void UISettings::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 // Draw a preview of the color.
 void UISettings::DrawPreview(void) const {
 	if (colorMode == 0) {
-		C2D_DrawRectSolid(122, 67, 0.5f, 54*1.5-5, 80*1.5-5, Config::Red);
-		C2D_DrawRectSolid(242, 67, 0.5f, 54*1-5, 80*1-5, Config::Red);
+		C2D_DrawRectSolid(122, 67, 0.5f, 54*1.5+3, 80*1.5+4, Config::Red);
+		C2D_DrawRectSolid(242, 67, 0.5f, 54*1+3, 80*1+4, Config::Red);
 	} else if (colorMode == 1) {
-		C2D_DrawRectSolid(122, 67, 0.5f, 54*1.5-5, 80*1.5-5, Config::Blue);
-		C2D_DrawRectSolid(242, 67, 0.5f, 54*1-5, 80*1-5, Config::Blue);
+		C2D_DrawRectSolid(122, 67, 0.5f, 54*1.5+3, 80*1.5+4, Config::Blue);
+		C2D_DrawRectSolid(242, 67, 0.5f, 54*1+3, 80*1+4, Config::Blue);
 	} else if (colorMode == 2) {
-		C2D_DrawRectSolid(122, 67, 0.5f, 54*1.5-5, 80*1.5-5, Config::Yellow);
-		C2D_DrawRectSolid(242, 67, 0.5f, 54*1-5, 80*1-5, Config::Yellow);
+		C2D_DrawRectSolid(122, 67, 0.5f, 54*1.5+3, 80*1.5+4, Config::Yellow);
+		C2D_DrawRectSolid(242, 67, 0.5f, 54*1+3, 80*1+4, Config::Yellow);
 	} else if (colorMode == 3) {
-		C2D_DrawRectSolid(122, 67, 0.5f, 54*1.5-5, 80*1.5-5, Config::Green);
-		C2D_DrawRectSolid(242, 67, 0.5f, 54*1-5, 80*1-5, Config::Green);
+		C2D_DrawRectSolid(122, 67, 0.5f, 54*1.5+3, 80*1.5+4, Config::Green);
+		C2D_DrawRectSolid(242, 67, 0.5f, 54*1+3, 80*1+4, Config::Green);
 	} else if (colorMode == 4) {
 		GFX::DrawCardSelector(120, 65, 1.5, 1.5);
 	} else if (colorMode == 5) {

@@ -83,9 +83,9 @@ private:
 
 	/*	Sub Menu 0.	*/
 	std::vector<Structs::ButtonPos> mainButtons = {
-		{90, 40, 140, 35}, // Colors.
-		{90, 100, 140, 35}, // Language.
-		{90, 160, 140, 35}, // Card Style Change.
+		{90, 40, 140, 40}, // Colors.
+		{90, 100, 140, 40}, // Language.
+		{90, 160, 140, 40}, // Card Style Change.
 	};
 	int subSelection = 0;
 	void DrawSubMenu(void) const;

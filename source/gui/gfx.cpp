@@ -39,11 +39,17 @@ void GFX::DrawTop(bool useBars) {
 	}
 }
 
-void GFX::DrawBottom(void) {
+// False actually only draws 1 bar on the top screen. Special case for the Game screen. xD
+void GFX::DrawBottom(bool useBars) {
 	Gui::ScreenDraw(Bottom);
-	Gui::Draw_Rect(0, 0, 320, 30, Config::Bar);
-	Gui::Draw_Rect(0, 30, 320, 180, Config::BG);
-	Gui::Draw_Rect(0, 210, 320, 30, Config::Bar);
+	if (useBars) {
+		Gui::Draw_Rect(0, 0, 320, 30, Config::Bar);
+		Gui::Draw_Rect(0, 30, 320, 180, Config::BG);
+		Gui::Draw_Rect(0, 210, 320, 30, Config::Bar);
+	} else {
+		Gui::Draw_Rect(0, 0, 320, 30, Config::Bar);
+		Gui::Draw_Rect(0, 30, 320, 210, Config::BG);
+	}
 }
 
 void GFX::DrawFileBrowseBG(bool isTop) {
@@ -120,19 +126,19 @@ void GFX::DrawCard(CardType CT, int x, int y, CardColor CC, float ScaleX, float 
 	// Card Color.
 	switch (CC) {
 		case CardColor::GREEN:
-			C2D_DrawRectSolid(x+2, y+3, 0.5f, 54*ScaleX-5, 80*ScaleY-5, Config::Green);
+			C2D_DrawRectSolid(x+2, y+3, 0.5f, 54*ScaleX+3, 80*ScaleY+4, Config::Green);
 			break;
 		case CardColor::BLUE:
-			C2D_DrawRectSolid(x+2, y+3, 0.5f, 54*ScaleX-5, 80*ScaleY-5, Config::Blue);
+			C2D_DrawRectSolid(x+2, y+3, 0.5f, 54*ScaleX+3, 80*ScaleY+4, Config::Blue);
 			break;
 		case CardColor::YELLOW:
-			C2D_DrawRectSolid(x+2, y+3, 0.5f, 54*ScaleX-5, 80*ScaleY-5, Config::Yellow);
+			C2D_DrawRectSolid(x+2, y+3, 0.5f, 54*ScaleX+3, 80*ScaleY+4, Config::Yellow);
 			break;
 		case CardColor::RED:
-			C2D_DrawRectSolid(x+2, y+3, 0.5f, 54*ScaleX-5, 80*ScaleY-5, Config::Red);
+			C2D_DrawRectSolid(x+2, y+3, 0.5f, 54*ScaleX+3, 80*ScaleY+4, Config::Red);
 			break;
 		case CardColor::SPECIAL:
-			C2D_DrawRectSolid(x+2, y+3, 0.5f, 54*ScaleX-5, 80*ScaleY-5, C2D_Color32(0, 0, 0, 255));
+			C2D_DrawRectSolid(x+2, y+3, 0.5f, 54*ScaleX+3, 80*ScaleY+4, C2D_Color32(0, 0, 0, 255));
 			break;
 	}
 
