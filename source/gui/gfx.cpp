@@ -28,6 +28,8 @@
 #include "common.hpp"
 #include "config.hpp"
 
+extern bool isDay;
+
 void GFX::DrawTop(bool useBars) {
 	Gui::ScreenDraw(Top);
 	if (useBars) {
@@ -123,72 +125,226 @@ void GFX::DrawButtonSelector(int x, int y, float ScaleX, float ScaleY, bool useS
 
 void GFX::DrawCard(CardType CT, int x, int y, CardColor CC, float ScaleX, float ScaleY)
 {
-	// Card Color.
-	switch (CC) {
-		case CardColor::GREEN:
-			C2D_DrawRectSolid(x+2, y+3, 0.5f, 54*ScaleX+3, 80*ScaleY+4, Config::Green);
-			break;
-		case CardColor::BLUE:
-			C2D_DrawRectSolid(x+2, y+3, 0.5f, 54*ScaleX+3, 80*ScaleY+4, Config::Blue);
-			break;
-		case CardColor::YELLOW:
-			C2D_DrawRectSolid(x+2, y+3, 0.5f, 54*ScaleX+3, 80*ScaleY+4, Config::Yellow);
-			break;
-		case CardColor::RED:
-			C2D_DrawRectSolid(x+2, y+3, 0.5f, 54*ScaleX+3, 80*ScaleY+4, Config::Red);
-			break;
-		case CardColor::SPECIAL:
-			C2D_DrawRectSolid(x+2, y+3, 0.5f, 54*ScaleX+3, 80*ScaleY+4, C2D_Color32(0, 0, 0, 255));
-			break;
-	}
-
-	// Card Type.
-	switch (CT) {
-		case CardType::NUMBER_0:
-			Gui::DrawSprite(cards, 0, x, y, ScaleX, ScaleY);
-			break;
-		case CardType::NUMBER_1:
-			Gui::DrawSprite(cards, 1, x, y, ScaleX, ScaleY);
-			break;
-		case CardType::NUMBER_2:
-			Gui::DrawSprite(cards, 2, x, y, ScaleX, ScaleY);
-			break;
-		case CardType::NUMBER_3:
-			Gui::DrawSprite(cards, 3, x, y, ScaleX, ScaleY);
-			break;
-		case CardType::NUMBER_4:
-			Gui::DrawSprite(cards, 4, x, y, ScaleX, ScaleY);
-			break;
-		case CardType::NUMBER_5:
-			Gui::DrawSprite(cards, 5, x, y, ScaleX, ScaleY);
-			break;
-		case CardType::NUMBER_6:
-			Gui::DrawSprite(cards, 6, x, y, ScaleX, ScaleY);
-			break;
-		case CardType::NUMBER_7:
-			Gui::DrawSprite(cards, 7, x, y, ScaleX, ScaleY);
-			break;
-		case CardType::NUMBER_8:
-			Gui::DrawSprite(cards, 8, x, y, ScaleX, ScaleY);
-			break;
-		case CardType::NUMBER_9:
-			Gui::DrawSprite(cards, 9, x, y, ScaleX, ScaleY);
-			break;
-		case CardType::SKIP:
-			Gui::DrawSprite(cards, 10, x, y, ScaleX, ScaleY);
-			break;
-		case CardType::REVERSE:
-			Gui::DrawSprite(cards, 11, x, y, ScaleX, ScaleY);
-			break;
-		case CardType::PLUS2:
-			Gui::DrawSprite(cards, 12, x, y, ScaleX, ScaleY);
-			break;
-		case CardType::WISH:
-			Gui::DrawSprite(cards, 13, x, y, ScaleX, ScaleY);
-			break;
-		case CardType::PLUS4:
-			Gui::DrawSprite(cards, 14, x, y, ScaleX, ScaleY);
-			break;
+	if (isDay == true) {
+		Gui::DrawSprite(sprites, sprites_bruh_idx, x, y, ScaleX, ScaleY);
+	} else if (isDay == false) {
+		// Card Color.
+		if (CC == CardColor::BLUE) {
+			switch (CT) {
+				case CardType::NUMBER_0:
+					Gui::DrawSprite(cards, 0, x, y, ScaleX, ScaleY);
+					break;
+				case CardType::NUMBER_1:
+					Gui::DrawSprite(cards, 4, x, y, ScaleX, ScaleY);
+					break;
+				case CardType::NUMBER_2:
+					Gui::DrawSprite(cards, 8, x, y, ScaleX, ScaleY);
+					break;
+				case CardType::NUMBER_3:
+					Gui::DrawSprite(cards, 12, x, y, ScaleX, ScaleY);
+					break;
+				case CardType::NUMBER_4:
+					Gui::DrawSprite(cards, 16, x, y, ScaleX, ScaleY);
+					break;
+				case CardType::NUMBER_5:
+					Gui::DrawSprite(cards, 20, x, y, ScaleX, ScaleY);
+					break;
+				case CardType::NUMBER_6:
+					Gui::DrawSprite(cards, 24, x, y, ScaleX, ScaleY);
+					break;
+				case CardType::NUMBER_7:
+					Gui::DrawSprite(cards, 28, x, y, ScaleX, ScaleY);
+					break;
+				case CardType::NUMBER_8:
+					Gui::DrawSprite(cards, 32, x, y, ScaleX, ScaleY);
+					break;
+				case CardType::NUMBER_9:
+					Gui::DrawSprite(cards, 36, x, y, ScaleX, ScaleY);
+					break;
+				case CardType::SKIP:
+					Gui::DrawSprite(cards, 40, x, y, ScaleX, ScaleY);
+					break;
+				case CardType::REVERSE:
+					Gui::DrawSprite(cards, 44, x, y, ScaleX, ScaleY);
+					break;
+				case CardType::PLUS2:
+					Gui::DrawSprite(cards, 48, x, y, ScaleX, ScaleY);
+					break;
+				case CardType::WISH:
+					Gui::DrawSprite(cards, 53, x, y, ScaleX, ScaleY);
+					break;
+				case CardType::PLUS4:
+					Gui::DrawSprite(cards, 58, x, y, ScaleX, ScaleY);
+					break;
+			}
+		} else if (CC == CardColor::GREEN) {
+			switch (CT) {
+				case CardType::NUMBER_0:
+					Gui::DrawSprite(cards, 1, x, y, ScaleX, ScaleY);
+					break;
+				case CardType::NUMBER_1:
+					Gui::DrawSprite(cards, 5, x, y, ScaleX, ScaleY);
+					break;
+				case CardType::NUMBER_2:
+					Gui::DrawSprite(cards, 9, x, y, ScaleX, ScaleY);
+					break;
+				case CardType::NUMBER_3:
+					Gui::DrawSprite(cards, 13, x, y, ScaleX, ScaleY);
+					break;
+				case CardType::NUMBER_4:
+					Gui::DrawSprite(cards, 17, x, y, ScaleX, ScaleY);
+					break;
+				case CardType::NUMBER_5:
+					Gui::DrawSprite(cards, 21, x, y, ScaleX, ScaleY);
+					break;
+				case CardType::NUMBER_6:
+					Gui::DrawSprite(cards, 25, x, y, ScaleX, ScaleY);
+					break;
+				case CardType::NUMBER_7:
+					Gui::DrawSprite(cards, 29, x, y, ScaleX, ScaleY);
+					break;
+				case CardType::NUMBER_8:
+					Gui::DrawSprite(cards, 33, x, y, ScaleX, ScaleY);
+					break;
+				case CardType::NUMBER_9:
+					Gui::DrawSprite(cards, 37, x, y, ScaleX, ScaleY);
+					break;
+				case CardType::SKIP:
+					Gui::DrawSprite(cards, 41, x, y, ScaleX, ScaleY);
+					break;
+				case CardType::REVERSE:
+					Gui::DrawSprite(cards, 45, x, y, ScaleX, ScaleY);
+					break;
+				case CardType::PLUS2:
+					Gui::DrawSprite(cards, 49, x, y, ScaleX, ScaleY);
+					break;
+				case CardType::WISH:
+					Gui::DrawSprite(cards, 54, x, y, ScaleX, ScaleY);
+					break;
+				case CardType::PLUS4:
+					Gui::DrawSprite(cards, 59, x, y, ScaleX, ScaleY);
+					break;
+			}
+		} else if (CC == CardColor::RED) {
+			switch (CT) {
+				case CardType::NUMBER_0:
+					Gui::DrawSprite(cards, 2, x, y, ScaleX, ScaleY);
+					break;
+				case CardType::NUMBER_1:
+					Gui::DrawSprite(cards, 6, x, y, ScaleX, ScaleY);
+					break;
+				case CardType::NUMBER_2:
+					Gui::DrawSprite(cards, 10, x, y, ScaleX, ScaleY);
+					break;
+				case CardType::NUMBER_3:
+					Gui::DrawSprite(cards, 14, x, y, ScaleX, ScaleY);
+					break;
+				case CardType::NUMBER_4:
+					Gui::DrawSprite(cards, 18, x, y, ScaleX, ScaleY);
+					break;
+				case CardType::NUMBER_5:
+					Gui::DrawSprite(cards, 22, x, y, ScaleX, ScaleY);
+					break;
+				case CardType::NUMBER_6:
+					Gui::DrawSprite(cards, 26, x, y, ScaleX, ScaleY);
+					break;
+				case CardType::NUMBER_7:
+					Gui::DrawSprite(cards, 30, x, y, ScaleX, ScaleY);
+					break;
+				case CardType::NUMBER_8:
+					Gui::DrawSprite(cards, 34, x, y, ScaleX, ScaleY);
+					break;
+				case CardType::NUMBER_9:
+					Gui::DrawSprite(cards, 38, x, y, ScaleX, ScaleY);
+					break;
+				case CardType::SKIP:
+					Gui::DrawSprite(cards, 42, x, y, ScaleX, ScaleY);
+					break;
+				case CardType::REVERSE:
+					Gui::DrawSprite(cards, 46, x, y, ScaleX, ScaleY);
+					break;
+				case CardType::PLUS2:
+					Gui::DrawSprite(cards, 50, x, y, ScaleX, ScaleY);
+					break;
+				case CardType::WISH:
+					Gui::DrawSprite(cards, 55, x, y, ScaleX, ScaleY);
+					break;
+				case CardType::PLUS4:
+					Gui::DrawSprite(cards, 60, x, y, ScaleX, ScaleY);
+					break;
+			}
+		} else if (CC == CardColor::YELLOW) {
+			switch (CT) {
+				case CardType::NUMBER_0:
+					Gui::DrawSprite(cards, 3, x, y, ScaleX, ScaleY);
+					break;
+				case CardType::NUMBER_1:
+					Gui::DrawSprite(cards, 7, x, y, ScaleX, ScaleY);
+					break;
+				case CardType::NUMBER_2:
+					Gui::DrawSprite(cards, 11, x, y, ScaleX, ScaleY);
+					break;
+				case CardType::NUMBER_3:
+					Gui::DrawSprite(cards, 15, x, y, ScaleX, ScaleY);
+					break;
+				case CardType::NUMBER_4:
+					Gui::DrawSprite(cards, 19, x, y, ScaleX, ScaleY);
+					break;
+				case CardType::NUMBER_5:
+					Gui::DrawSprite(cards, 23, x, y, ScaleX, ScaleY);
+					break;
+				case CardType::NUMBER_6:
+					Gui::DrawSprite(cards, 27, x, y, ScaleX, ScaleY);
+					break;
+				case CardType::NUMBER_7:
+					Gui::DrawSprite(cards, 31, x, y, ScaleX, ScaleY);
+					break;
+				case CardType::NUMBER_8:
+					Gui::DrawSprite(cards, 35, x, y, ScaleX, ScaleY);
+					break;
+				case CardType::NUMBER_9:
+					Gui::DrawSprite(cards, 39, x, y, ScaleX, ScaleY);
+					break;
+				case CardType::SKIP:
+					Gui::DrawSprite(cards, 43, x, y, ScaleX, ScaleY);
+					break;
+				case CardType::REVERSE:
+					Gui::DrawSprite(cards, 47, x, y, ScaleX, ScaleY);
+					break;
+				case CardType::PLUS2:
+					Gui::DrawSprite(cards, 51, x, y, ScaleX, ScaleY);
+					break;
+				case CardType::WISH:
+					Gui::DrawSprite(cards, 56, x, y, ScaleX, ScaleY);
+					break;
+				case CardType::PLUS4:
+					Gui::DrawSprite(cards, 61, x, y, ScaleX, ScaleY);
+					break;
+			}
+		} else if (CC == CardColor::SPECIAL) {
+			switch (CT) {
+				case CardType::NUMBER_0:
+				case CardType::NUMBER_1:
+				case CardType::NUMBER_2:
+				case CardType::NUMBER_3:
+				case CardType::NUMBER_4:
+				case CardType::NUMBER_5:
+				case CardType::NUMBER_6:
+				case CardType::NUMBER_7:
+				case CardType::NUMBER_8:
+				case CardType::NUMBER_9:
+				case CardType::SKIP:
+				case CardType::REVERSE:
+				case CardType::PLUS2:
+					break;
+				case CardType::WISH:
+					Gui::DrawSprite(cards, 52, x, y, ScaleX, ScaleY);
+					break;
+				case CardType::PLUS4:
+					Gui::DrawSprite(cards, 57, x, y, ScaleX, ScaleY);
+					break;
+			}
+		}
 	}
 }
 

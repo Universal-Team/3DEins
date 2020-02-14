@@ -31,10 +31,12 @@
 
 #include <3ds.h>
 #include <dirent.h>
+#include <time.h>
 #include <unistd.h>
 
 bool exiting = false;
 touchPosition touch;
+bool isDay = false;
 
 // Include all spritesheet's.
 C2D_SpriteSheet cards;
@@ -54,8 +56,6 @@ Result Init::Initialize() {
 	gfxInitDefault();
 	romfsInit();
 	Gui::init();
-	Gui::loadSheet("romfs:/gfx/cards.t3x", cards);
-	Gui::loadSheet("romfs:/gfx/sprites.t3x", sprites);
 	sdmcInit();
 	mkdir("sdmc:/3ds", 0777);	// For DSP dump
 	mkdir("sdmc:/3ds/3DEins", 0777); // main Path.
@@ -64,7 +64,22 @@ Result Init::Initialize() {
 		Config::initializeNewConfig();
 	}
 	Config::load();
-	Lang::load(Config::getLang("LANG"));
+
+	const time_t current = time(NULL);
+	if(gmtime(&current)->tm_mon == 3 && gmtime(&current)->tm_mday == 1) {
+		isDay = true;
+	}
+
+	// Only on *THE DAY*. ;P
+	if (isDay != true) {
+		Lang::load(Config::getLang("LANG"));
+	} else {
+		Lang::load(0);
+	}
+
+	Msg::DisplayMsg(Lang::get("LOADING_SHEET"));
+	Gui::loadSheet("romfs:/gfx/cards.t3x", cards);
+	Gui::loadSheet("romfs:/gfx/sprites.t3x", sprites);
 	osSetSpeedupEnable(true);	// Enable speed-up for New 3DS users.
 	srand(time(NULL));
 	Gui::setScreen(std::make_unique<MainMenu>());

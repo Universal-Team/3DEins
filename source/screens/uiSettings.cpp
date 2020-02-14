@@ -32,10 +32,15 @@
 
 extern C2D_SpriteSheet cards;
 extern bool touching(touchPosition touch, Structs::ButtonPos button);
+extern bool isDay;
 
 // Get current lang.
 UISettings::UISettings() {
-	selectedLang = Config::lang;
+	if (isDay) {
+		selectedLang = 0;
+	} else {
+		selectedLang = Config::lang;
+	}
 }
 
 void UISettings::Draw(void) const {
@@ -159,46 +164,54 @@ void UISettings::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 
 void UISettings::LanguageLogic(u32 hDown, u32 hHeld, touchPosition touch) {
-	if (hDown & KEY_TOUCH) {
-		for (int language = 0; language < 10; language++) {
-			if (touching(touch, langBlocks[language])) {
-				selectedLang = language;
-				Config::lang = language;
-				Lang::load(Config::lang);
+	if (isDay != true) {
+		if (hDown & KEY_TOUCH) {
+			for (int language = 0; language < 10; language++) {
+				if (touching(touch, langBlocks[language])) {
+					selectedLang = language;
+					Config::lang = language;
+					Lang::load(Config::lang);
+				}
 			}
 		}
 	}
 
-	if (hDown & KEY_UP) {
-		if(selectedLang > 0) {
-			selectedLang--;
-			Config::lang = selectedLang;
-			Lang::load(Config::lang);
+	if (isDay != true) {
+		if (hDown & KEY_UP) {
+			if(selectedLang > 0) {
+				selectedLang--;
+				Config::lang = selectedLang;
+				Lang::load(Config::lang);
+			}
 		}
-	}
 
-	if (hDown & KEY_DOWN) {
-		if(selectedLang < 9) {
-			selectedLang++;
-			Config::lang = selectedLang;
-			Lang::load(Config::lang);
+		if (hDown & KEY_DOWN) {
+			if(selectedLang < 9) {
+				selectedLang++;
+				Config::lang = selectedLang;
+				Lang::load(Config::lang);
+			}
 		}
-	}
 
-
-	if (hDown & KEY_LEFT) {
-		if (selectedLang > 4) {
-			selectedLang -= 5;
-			Config::lang = selectedLang;
-			Lang::load(Config::lang);
+		if (hDown & KEY_LEFT) {
+			if (selectedLang > 4) {
+				selectedLang -= 5;
+				Config::lang = selectedLang;
+				Lang::load(Config::lang);
+			}
 		}
-	}
 
-	if (hDown & KEY_RIGHT) {
-		if (selectedLang < 5) {
-			selectedLang += 5;
-			Config::lang = selectedLang;
-			Lang::load(Config::lang);
+		if (hDown & KEY_RIGHT) {
+			if (selectedLang < 5) {
+				selectedLang += 5;
+				Config::lang = selectedLang;
+				Lang::load(Config::lang);
+			}
+		}
+	} else {
+		// Of course make it disable again, we don't want to force someone to not able to play it.
+		if (hDown & KEY_L && hDown & KEY_R) {
+			isDay = false;
 		}
 	}
 
