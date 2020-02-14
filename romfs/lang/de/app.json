@@ -41,6 +41,7 @@
 	"PLAYER_4": "Spieler 4",
 	"PLAYER_AMOUNT": "Wie viele Spieler sollten spielen?",
 	"PLAYER_BREAK": "Spieler %i muss eine Pause einlegen.\nSpieler %i: Weiter!",
+	"PLAYER_GOT_BRUHED": "Player %i got bruhed!",
 	"PLAYER_NEXT": "Spieler %i hat seine Runde beendet.\nSpieler %i: Weiter!",
 	"PLAYER_SELECT": "Spieler %i: Wählen Sie Ihren Charakter.",
 	"PLAYER_WON": "Spieler %i hat gewonnen!",
