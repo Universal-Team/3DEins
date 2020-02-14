@@ -41,6 +41,7 @@
 	"PLAYER_4": "Player 4",
 	"PLAYER_AMOUNT": "How many Players should play?",
 	"PLAYER_BREAK": "Player %i needs to take a break.\nPlayer %i: Continue!",
+	"PLAYER_GOT_BRUHED": "Player %i got bruhed!",
 	"PLAYER_NEXT": "Player %i has finished his round.\nPlayer %i: Continue!",
 	"PLAYER_SELECT": "Player %i: Select your Character.",
 	"PLAYER_WON": "Player %i won!",
