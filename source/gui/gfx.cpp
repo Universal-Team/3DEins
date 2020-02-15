@@ -59,21 +59,21 @@ void GFX::DrawFileBrowseBG(bool isTop) {
 		Gui::ScreenDraw(Top);
 		Gui::Draw_Rect(0, 0, 400, 27, Config::Bar);
 		Gui::Draw_Rect(0, 27, 400, 31, Config::BG);
-		Gui::Draw_Rect(0, 58, 400, 31, Config::Button);
+		Gui::Draw_Rect(0, 58, 400, 31, Config::Bar & C2D_Color32(255, 255, 255, 200));
 		Gui::Draw_Rect(0, 89, 400, 31, Config::BG);
-		Gui::Draw_Rect(0, 120, 400, 31, Config::Button);
+		Gui::Draw_Rect(0, 120, 400, 31, Config::Bar & C2D_Color32(255, 255, 255, 200));
 		Gui::Draw_Rect(0, 151, 400, 31, Config::BG);
-		Gui::Draw_Rect(0, 182, 400, 31, Config::Button);
+		Gui::Draw_Rect(0, 182, 400, 31, Config::Bar & C2D_Color32(255, 255, 255, 200));
 		Gui::Draw_Rect(0, 213, 400, 27, Config::Bar);
 	} else {
 		Gui::ScreenDraw(Bottom);
 		Gui::Draw_Rect(0, 0, 320, 27, Config::Bar);
 		Gui::Draw_Rect(0, 27, 320, 31, Config::BG);
-		Gui::Draw_Rect(0, 58, 320, 31, Config::Button);
+		Gui::Draw_Rect(0, 58, 320, 31, Config::Bar & C2D_Color32(255, 255, 255, 200));
 		Gui::Draw_Rect(0, 89, 320, 31, Config::BG);
-		Gui::Draw_Rect(0, 120, 320, 31, Config::Button);
+		Gui::Draw_Rect(0, 120, 320, 31, Config::Bar & C2D_Color32(255, 255, 255, 200));
 		Gui::Draw_Rect(0, 151, 320, 31, Config::BG);
-		Gui::Draw_Rect(0, 182, 320, 31, Config::Button);
+		Gui::Draw_Rect(0, 182, 320, 31, Config::Bar & C2D_Color32(255, 255, 255, 200));
 		Gui::Draw_Rect(0, 213, 320, 27, Config::Bar);
 	}
 }

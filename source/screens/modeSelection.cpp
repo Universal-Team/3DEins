@@ -94,6 +94,18 @@ void ModeSelection::MSelection(u32 hDown, u32 hHeld, touchPosition touch) {
 			return;
 		}
 	}
+
+	if (hDown & KEY_TOUCH) {
+		if (touching(touch, mainButtons[0])) {
+			Msg::NotImplementedYet();
+		} else if (touching(touch, mainButtons[1])) {
+			selectedMode = 1;
+			Mode = 2;
+		} else if (touching(touch, mainButtons[2])) {
+			Gui::screenBack();
+			return;
+		}
+	}
 }
 
 void ModeSelection::PlayerSelection(u32 hDown, u32 hHeld, touchPosition touch) {
@@ -111,5 +123,18 @@ void ModeSelection::PlayerSelection(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hDown & KEY_A) {
 		playerAmount = amountSelection;
 		Gui::setScreen(std::make_unique<CharSelection>());
+	}
+
+	if (hDown & KEY_TOUCH) {
+		if (touching(touch, cardButtons[0])) {
+			playerAmount = 2;
+			Gui::setScreen(std::make_unique<CharSelection>());
+		} else if (touching(touch, cardButtons[1])) {
+			playerAmount = 3;
+			Gui::setScreen(std::make_unique<CharSelection>());
+		} else if (touching(touch, cardButtons[2])) {
+			playerAmount = 4;
+			Gui::setScreen(std::make_unique<CharSelection>());
+		}
 	}
 }

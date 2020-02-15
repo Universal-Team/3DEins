@@ -66,7 +66,7 @@ Result Init::Initialize() {
 	sdmcInit();
 	mkdir("sdmc:/3ds", 0777);	// For DSP dump
 	mkdir("sdmc:/3ds/3DEins", 0777); // main Path.
-	mkdir("sdmc:/3ds/3DEins/cards", 0777); // Card Sheet path.
+	mkdir("sdmc:/3ds/3DEins/sets", 0777); // Card set path.
 	if(access("sdmc:/3ds/3DEins/Settings.json", F_OK) == -1 ) {
 		Config::initializeNewConfig();
 	}

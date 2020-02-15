@@ -109,18 +109,18 @@ extern bool touching(touchPosition touch, Structs::ButtonPos button);
 void Input::DrawHex()
 {
 	for(uint i=0;i<(sizeof(HexStruct)/sizeof(HexStruct[0]));i++) {
-		Gui::Draw_Rect(HexStruct[i].x, HexStruct[i].y, 30, 20, C2D_Color32(220, 60, 0, 200));
+		Gui::Draw_Rect(HexStruct[i].x, HexStruct[i].y, 30, 20, Config::Bar);
 		char c[2] = {HexStruct[i].character[0]};
-		Gui::DrawString(HexStruct[i].x+12, HexStruct[i].y+4, 0.5f, WHITE, c, 50);
+		Gui::DrawString(HexStruct[i].x+12, HexStruct[i].y+4, 0.5f, Config::Text, c, 50);
 	}
 }
 
 void Input::DrawNumpad()
 {
 	for(uint i=0;i<(sizeof(NumpadStruct)/sizeof(NumpadStruct[0]));i++) {
-		Gui::Draw_Rect(NumpadStruct[i].x, NumpadStruct[i].y, 60, 50, C2D_Color32(220, 60, 0, 200));
+		Gui::Draw_Rect(NumpadStruct[i].x, NumpadStruct[i].y, 60, 50, Config::Bar);
 		char c[2] = {NumpadStruct[i].character[0]};
-		Gui::DrawString(NumpadStruct[i].x+25, NumpadStruct[i].y+15, 0.72f, WHITE, c, 50);
+		Gui::DrawString(NumpadStruct[i].x+25, NumpadStruct[i].y+15, 0.72f, Config::Text, c, 50);
 	}
 }
 
@@ -149,11 +149,11 @@ std::string Input::Numpad(uint maxLength, std::string Text)
 			C2D_TargetClear(Top, BLACK);
 			C2D_TargetClear(Bottom, BLACK);
 			GFX::DrawTop();
-			Gui::DrawStringCentered(0, 2, 0.7f, WHITE, Text, 400);
-			Gui::DrawString(180, 217, 0.8, WHITE, (string+(cursorBlink-- > 0 ? "_" : "")).c_str(), 380);
+			Gui::DrawStringCentered(0, 2, 0.7f, Config::Text, Text, 400);
+			Gui::DrawString(180, 217, 0.8, Config::Text, (string+(cursorBlink-- > 0 ? "_" : "")).c_str(), 380);
 			if(cursorBlink < -20)	cursorBlink = 20;
 			Gui::ScreenDraw(Bottom);
-			Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(220, 60, 0, 200));
+			Gui::Draw_Rect(0, 0, 320, 240, Config::BG);
 			DrawNumpad();
 			scanKeys();
 			hDown = keysDown();
@@ -223,11 +223,11 @@ std::string Input::getHex(int max, std::string Text)
 			C2D_TargetClear(Top, BLACK);
 			C2D_TargetClear(Bottom, BLACK);
 			GFX::DrawTop();
-			Gui::DrawStringCentered(0, 2, 0.7f, WHITE, Text, 400);
-			Gui::DrawString(180, 217, 0.65, WHITE, (string+(cursorBlink-- > 0 ? "_" : "")).c_str(), 380);
+			Gui::DrawStringCentered(0, 2, 0.7f, Config::Text, Text, 400);
+			Gui::DrawString(180, 217, 0.65, Config::Text, (string+(cursorBlink-- > 0 ? "_" : "")).c_str(), 380);
 			if(cursorBlink < -20)	cursorBlink = 20;
 			Gui::ScreenDraw(Bottom);
-			Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(220, 60, 0, 200));
+			Gui::Draw_Rect(0, 0, 320, 240, Config::BG);
 			DrawHex();
 			scanKeys();
 			hDown = keysDown();

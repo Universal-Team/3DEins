@@ -44,6 +44,11 @@
 #define BLACK 					C2D_Color32(0, 0, 0, 255)
 #define WHITE 					C2D_Color32(255, 255, 255, 255)
 #define TRANSPARENT				C2D_Color32(0, 0, 0, 0)
+// Card default colors.
+#define CARD_RED				C2D_Color32(255, 85, 85, 255)
+#define CARD_BLUE				C2D_Color32(85, 85, 255, 255)
+#define CARD_GREEN				C2D_Color32(85, 170, 85, 255)
+#define CARD_YELLOW				C2D_Color32(255, 170, 0, 255)
 
 typedef u32 Color;
 

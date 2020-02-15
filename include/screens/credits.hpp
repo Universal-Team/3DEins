@@ -42,6 +42,7 @@ private:
 	int DisplayMode = 1;
 	int delay = 120;
 	bool discordText = false;
+	int creditsPage = 1; // 1 -> Translator!
 
 	void Loop();
 	void qr_code() const;

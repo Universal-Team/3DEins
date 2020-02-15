@@ -24,49 +24,42 @@
 *         reasonable ways as different from the original version.
 */
 
+#include "common.hpp"
 #include "config.hpp"
 #include "json.hpp"
 
 #include <3ds.h>
 #include <citro2d.h>
+#include <regex>
 #include <string>
 #include <unistd.h>
 
 // Card & Lang.
-int Config::lang, Config::Red, Config::Yellow, Config::Blue, Config::Green, Config::Selector;
+u32 Config::Red, Config::Yellow, Config::Blue, Config::Green;
 // GUI.
-int Config::Button, Config::Bar, Config::BG, Config::Text;
+int Config::lang, Config::Selector, Config::Button, Config::Bar, Config::BG, Config::Text;
 
 nlohmann::json configJson;
+nlohmann::json cardColors;
+
+// Get the colors.
+u32 getColor(std::string colorString) {
+	if(colorString.length() < 7 || std::regex_search(colorString.substr(1), std::regex("[^0-9a-f]"))) { // invalid color
+		return 0;
+	}
+
+	int r = std::stoi(colorString.substr(1, 2), nullptr, 16);
+	int g = std::stoi(colorString.substr(3, 2), nullptr, 16);
+	int b = std::stoi(colorString.substr(5, 2), nullptr, 16);
+	return RGBA8(r, g, b, 0xFF);
+}
 
 void Config::load() {
 	FILE* file = fopen("sdmc:/3ds/3DEins/Settings.json", "r");
 	if(file)	configJson = nlohmann::json::parse(file, nullptr, false);
 	fclose(file);
-	if(!configJson.contains("RED")) {
-		Config::Red = C2D_Color32(255, 0, 0, 255);
-	} else {
-		Config::Red = getInt("RED");
-	}
 
-	if(!configJson.contains("YELLOW")) {
-		Config::Yellow = C2D_Color32(200, 200, 0, 255);
-	} else {
-		Config::Yellow = getInt("YELLOW");
-	}
-
-	if(!configJson.contains("BLUE")) {
-		Config::Blue = C2D_Color32(0, 0, 255, 255);
-	} else {
-		Config::Blue = getInt("BLUE");
-	}
-
-	if(!configJson.contains("GREEN")) {
-		Config::Green = C2D_Color32(0, 255, 0, 255);
-	} else {
-		Config::Green = getInt("GREEN");
-	}
-
+	loadCardColors("romfs:/Colors.json");
 	if(!configJson.contains("LANG")) {
 		Config::lang = 2;
 	} else {
@@ -105,6 +98,39 @@ void Config::load() {
 	}
 }
 
+// Get String of the JSON.
+std::string getString(nlohmann::json json, const std::string &key, const std::string &key2) {
+	if(!json.contains(key))	return "MISSING: " + key;
+	if(!json.at(key).is_object())	return "NOT OBJECT: " + key;
+
+	if(!json.at(key).contains(key2))	return "MISSING: " + key + "." + key2;
+	if(!json.at(key).at(key2).is_string())	return "NOT STRING: " + key + "." + key2;
+
+	return json.at(key).at(key2).get_ref<const std::string&>();
+}
+
+void loadColors(void) {
+	u32 colorTemp;
+	colorTemp = getColor(getString(cardColors, "info", "RED"));
+	Config::Red = colorTemp == 0 ? CARD_RED : colorTemp;
+
+	colorTemp = getColor(getString(cardColors, "info", "BLUE"));
+	Config::Blue = colorTemp == 0 ? CARD_BLUE : colorTemp;
+
+	colorTemp = getColor(getString(cardColors, "info", "YELLOW"));
+	Config::Yellow = colorTemp == 0 ? CARD_YELLOW : colorTemp;
+
+	colorTemp = getColor(getString(cardColors, "info", "GREEN"));
+	Config::Green = colorTemp == 0 ? CARD_GREEN : colorTemp;
+}
+
+void Config::loadCardColors(std::string colors) {
+	FILE* file = fopen(colors.c_str(), "r");
+	if(file)	cardColors = nlohmann::json::parse(file, nullptr, false);
+	fclose(file);
+	// Load Card Colors.
+	loadColors();
+}
 
 void Config::save() {
 	Config::setInt("RED", Config::Red);

@@ -77,9 +77,9 @@ void UISettings::DrawSubMenu(void) const {
 			GFX::DrawButtonSelector(mainButtons[i].x, mainButtons[i].y);
 		}
 	}
-	Gui::DrawStringCentered(0, mainButtons[0].y+10, 0.6f, WHITE, Lang::get("COLORS"));
-	Gui::DrawStringCentered(0, mainButtons[1].y+10, 0.6f, WHITE, Lang::get("LANGUAGE"));
-	Gui::DrawStringCentered(0, mainButtons[2].y+10, 0.6f, WHITE, Lang::get("CARD_CHANGER"));
+	Gui::DrawStringCentered(0, mainButtons[0].y+10, 0.6f, Config::Text, Lang::get("COLORS"));
+	Gui::DrawStringCentered(0, mainButtons[1].y+10, 0.6f, Config::Text, Lang::get("LANGUAGE"));
+	Gui::DrawStringCentered(0, mainButtons[2].y+10, 0.6f, Config::Text, Lang::get("CARDSETS"));
 }
 
 void UISettings::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
@@ -107,6 +107,16 @@ void UISettings::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hDown & KEY_B) {
 		Gui::screenBack();
 		return;
+	}
+
+	if (hDown & KEY_TOUCH) {
+		if (touching(touch, mainButtons[0])) {
+			Mode = 1;
+		} else if (touching(touch, mainButtons[1])) {
+			Mode = 2;
+		} else if (touching(touch, mainButtons[2])) {
+			Mode = 3;
+		}
 	}
 }
 
@@ -320,7 +330,7 @@ void UISettings::LanguageLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 // TODO.
 void UISettings::DrawCardScreen(void) const {
 	GFX::DrawFileBrowseBG();
-	Gui::DrawStringCentered(0, 0, 0.7f, Config::Text, "3DEins - " + Lang::get("CARD_CHANGER"), 400);
+	Gui::DrawStringCentered(0, 0, 0.7f, Config::Text, "3DEins - " + Lang::get("CARDSETS"), 400);
 	std::string dirs;
 	for (uint i=(selectedSheet<5) ? 0 : selectedSheet-5;i<dirContents.size()&&i<((selectedSheet<5) ? 6 : selectedSheet+1);i++) {
 		if (i == selectedSheet) {
@@ -333,6 +343,7 @@ void UISettings::DrawCardScreen(void) const {
 		dirs += "\n\n";
 	}
 	Gui::DrawString(26, 32, 0.53f, Config::Text, dirs.c_str(), 360);
+	Gui::DrawStringCentered(0, 215, 0.6f, Config::Text, Lang::get("REFRESH"), 390);
 	GFX::DrawFileBrowseBG(false);
 }
 
@@ -342,13 +353,17 @@ void UISettings::CardLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 	if (dirChanged) {
 		dirContents.clear();
-		chdir("sdmc:/3ds/3DEins/cards/");
+		chdir("sdmc:/3ds/3DEins/sets/");
 		std::vector<DirEntry> dirContentsTemp;
-		getDirectoryContents(dirContentsTemp, {"t3x"});
+		getDirectoryContents(dirContentsTemp, {});
 		for(uint i=0;i<dirContentsTemp.size();i++) {
 			dirContents.push_back(dirContentsTemp[i]);
 		}
 		dirChanged = false;
+	}
+	// Refresh.
+	if (hDown & KEY_START) {
+		dirChanged = true;
 	}
 
 	if (hHeld & KEY_UP) {
@@ -366,7 +381,7 @@ void UISettings::CardLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hDown & KEY_A) {
 		if (dirContents.size() != 0) {
 			std::string path = dirContents[selectedSheet].name;
-			loadSheet(path);
+			loadSet(path);
 		}
 	}
 
@@ -385,14 +400,27 @@ bool UISettings::checkForValidate(std::string file) {
 }
 
 // Load Sheet. ;)
-Result UISettings::loadSheet(std::string path) {
-	if (checkForValidate(path)) {
-		char message [100];
-		snprintf(message, sizeof(message), Lang::get("LOADING_SPRSHEET_PROMPT").c_str(), path.c_str());
-		if (Msg::promptMsg2(message)) {
-			Gui::unloadSheet(cards);
-			Msg::DisplayMsg(Lang::get("LOADING_SPRITESHEET"));
-			Gui::loadSheet(path.c_str(), cards);
+Result UISettings::loadSet(std::string folder) {
+	if (checkForValidate(folder)) {
+		if (checkForValidate(folder + "/Colors.json")) {
+			if (checkForValidate(folder + "/cards.t3x")) {
+				char message [100];
+				snprintf(message, sizeof(message), Lang::get("LOADING_SET_PROMPT").c_str(), folder.c_str());
+				if (Msg::promptMsg2(message)) {
+					Gui::unloadSheet(cards);
+					Msg::DisplayMsg(Lang::get("LOADING_SPRITESHEET"));
+					Gui::loadSheet((folder + "/cards.t3x").c_str(), cards);
+					Config::loadCardColors((folder + "/Colors.json").c_str());
+				}
+			} else {
+				char message [100];
+				snprintf(message, sizeof(message), Lang::get("FILE_NOT_EXIST").c_str(), "cards.t3x");
+				Msg::DisplayWaitMsg(message);
+			}
+		} else {
+			char message [100];
+			snprintf(message, sizeof(message), Lang::get("FILE_NOT_EXIST").c_str(), "Colors.json");
+			Msg::DisplayWaitMsg(message);
 		}
 	}
 	return 0;

@@ -84,7 +84,7 @@ private:
 	void DrawCardScreen(void) const;
 	void CardLogic(u32 hDown, u32 hHeld, touchPosition touch);
 	bool checkForValidate(std::string file);
-	Result loadSheet(std::string path);
+	Result loadSet(std::string folder);
 	uint selectedSheet = 0;
 	int keyRepeatDelay = 0;
 	mutable bool dirChanged = true;

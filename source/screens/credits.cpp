@@ -37,6 +37,19 @@ void Credits::Draw(void) const {
 		GFX::DrawSprite(sprites_stackZ_idx, 120, 100);
 		Gui::DrawString(395-Gui::GetStringWidth(0.7, Lang::get("CURRENT_VERSION") + V_STRING), 215, 0.7, Config::Text, Lang::get("CURRENT_VERSION") + V_STRING, 400);
 		GFX::DrawBottom();
+
+		// TODO.
+		if (creditsPage == 1) {
+			Gui::DrawStringCentered(0, -2, 0.7f, Config::Text, Lang::get("TRANSLATORS"), 320);
+		} else if (creditsPage == 2) {
+			Gui::DrawStringCentered(0, -2, 0.7f, Config::Text, "Universal-Team", 320);
+			Gui::DrawStringCentered(0, 35, 0.7f, Config::Text, "DeadPhoenix");
+			Gui::DrawStringCentered(0, 65, 0.7f, Config::Text, "Flame");
+			Gui::DrawStringCentered(0, 95, 0.7f, Config::Text, "Pk11");
+			Gui::DrawStringCentered(0, 125, 0.7f, Config::Text, "RocketRobz");
+			Gui::DrawStringCentered(0, 155, 0.7f, Config::Text, "StackZ");
+			Gui::DrawStringCentered(0, 185, 0.7f, Config::Text, "TotallyNotGuy");
+		}
 		Gui::DrawStringCentered(0, 217, 0.6f, Config::Text, discordText ? Lang::get("SHOW_QR") : Lang::get("LINK"), 310);
 	 } else if (DisplayMode == 2) {
 		qr_code();
@@ -48,6 +61,14 @@ void Credits::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (DisplayMode == 1) {
 		if (hHeld & KEY_SELECT) {
 			Msg::HelperBox(Lang::get("CREDITS_INSTRUCTIONS"));
+		}
+
+		if (hDown & KEY_RIGHT) {
+			if (creditsPage < 2)	creditsPage++;
+		}
+
+		if (hDown & KEY_LEFT) {
+			if (creditsPage > 0)	creditsPage--;
 		}
 
 		if (hDown & KEY_B) {

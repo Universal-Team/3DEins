@@ -29,6 +29,9 @@
 
 #include "cardHelper.hpp"
 #include "common.hpp"
+#include "structs.hpp"
+
+#include <vector>
 
 class MultiPlayScreen : public Screen
 {
@@ -89,6 +92,14 @@ private:
 	void Player4Logic(u32 hDown, u32 hHeld, touchPosition touch);
 	void RoundLogic(u32 hDown, u32 hHeld, touchPosition touch);
 	void OpponentLogic(void);
+
+	std::vector<Structs::ButtonPos> buttonPos = {
+		{1, 50, 60, 90}, // 1.
+		{66, 50, 60, 90}, // 2.
+		{131, 50, 60, 90}, // 3.
+		{186, 50, 60, 90}, // 4.
+		{261, 50, 60, 90}, // 5.
+	};
 };
 
 #endif
