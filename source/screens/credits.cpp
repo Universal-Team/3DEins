@@ -68,7 +68,7 @@ void Credits::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		}
 
 		if (hDown & KEY_LEFT) {
-			if (creditsPage > 0)	creditsPage--;
+			if (creditsPage > 1)	creditsPage--;
 		}
 
 		if (hDown & KEY_B) {
