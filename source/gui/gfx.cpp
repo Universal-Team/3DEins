@@ -79,6 +79,7 @@ void GFX::DrawFileBrowseBG(bool isTop) {
 }
 
 extern C2D_SpriteSheet cards;
+extern C2D_SpriteSheet characters;
 extern C2D_SpriteSheet sprites;
 
 void GFX::DrawSprite(int index, int x, int y, float ScaleX, float ScaleY) {
@@ -363,78 +364,35 @@ void GFX::DrawCard(CardType CT, int x, int y, CardColor CC, float ScaleX, float 
 	}
 }
 
-void GFX::DrawPlayer(int x, int y, float ScaleX, float ScaleY, PlayerChar player, PlayerFeeling state) {
-	if (player == PlayerChar::STACKZ) {
-		switch (state) {
-			case PlayerFeeling::NORMAL:
-				DrawSprite(sprites_char1_idx, x, y, ScaleX, ScaleY);
-				break;
-			case PlayerFeeling::PROUD:
-				DrawSprite(sprites_proud1_idx, x, y, ScaleX, ScaleY);
-				break;
-			case PlayerFeeling::ANGRY:
-				DrawSprite(sprites_angry1_idx, x, y, ScaleX, ScaleY);
-				break;
-			case PlayerFeeling::SMILE:
-				DrawSprite(sprites_smile1_idx, x, y, ScaleX, ScaleY);
-				break;
-			case PlayerFeeling::SIGH:
-				DrawSprite(sprites_sigh1_idx, x, y, ScaleX, ScaleY);
-				break;
-		}
-	} else if (player == PlayerChar::CARL) {
-		switch (state) {
-			case PlayerFeeling::NORMAL:
-				DrawSprite(sprites_char2_idx, x, y, ScaleX, ScaleY);
-				break;
-			case PlayerFeeling::PROUD:
-				DrawSprite(sprites_proud2_idx, x, y, ScaleX, ScaleY);
-				break;
-			case PlayerFeeling::ANGRY:
-				DrawSprite(sprites_angry2_idx, x, y, ScaleX, ScaleY);
-				break;
-			case PlayerFeeling::SMILE:
-				DrawSprite(sprites_smile2_idx, x, y, ScaleX, ScaleY);
-				break;
-			case PlayerFeeling::SIGH:
-				DrawSprite(sprites_sigh2_idx, x, y, ScaleX, ScaleY);
-				break;
-		}
-	} else if (player == PlayerChar::ISABEL) {
-		switch (state) {
-			case PlayerFeeling::NORMAL:
-				DrawSprite(sprites_char3_idx, x, y, ScaleX, ScaleY);
-				break;
-			case PlayerFeeling::PROUD:
-				DrawSprite(sprites_proud3_idx, x, y, ScaleX, ScaleY);
-				break;
-			case PlayerFeeling::ANGRY:
-				DrawSprite(sprites_angry3_idx, x, y, ScaleX, ScaleY);
-				break;
-			case PlayerFeeling::SMILE:
-				DrawSprite(sprites_smile3_idx, x, y, ScaleX, ScaleY);
-				break;
-			case PlayerFeeling::SIGH:
-				DrawSprite(sprites_sigh3_idx, x, y, ScaleX, ScaleY);
-				break;
-		}
-	} else if (player == PlayerChar::LEA) {
-		switch (state) {
-			case PlayerFeeling::NORMAL:
-				DrawSprite(sprites_char4_idx, x, y, ScaleX, ScaleY);
-				break;
-			case PlayerFeeling::PROUD:
-				DrawSprite(sprites_proud4_idx, x, y, ScaleX, ScaleY);
-				break;
-			case PlayerFeeling::ANGRY:
-				DrawSprite(sprites_angry4_idx, x, y, ScaleX, ScaleY);
-				break;
-			case PlayerFeeling::SMILE:
-				DrawSprite(sprites_smile4_idx, x, y, ScaleX, ScaleY);
-				break;
-			case PlayerFeeling::SIGH:
-				DrawSprite(sprites_sigh4_idx, x, y, ScaleX, ScaleY);
-				break;
-		}
+void GFX::DrawChar(int image, int x, int y, float ScaleX, float ScaleY) {
+	Gui::DrawSprite(characters, image, x, y, ScaleX, ScaleY);
+}
+
+void GFX::DrawPlayer(int x, int y, float ScaleX, float ScaleY, int player) {
+	switch (player) {
+		case 0:
+			DrawChar(chars_char1_idx, x, y, ScaleX, ScaleY);
+			break;
+		case 1:
+			DrawChar(chars_char2_idx, x, y, ScaleX, ScaleY);
+			break;
+		case 2:
+			DrawChar(chars_char3_idx, x, y, ScaleX, ScaleY);
+			break;
+		case 3:
+			DrawChar(chars_char4_idx, x, y, ScaleX, ScaleY);
+			break;
+		case 4:
+			DrawChar(chars_char5_idx, x, y, ScaleX, ScaleY);
+			break;
+		case 5:
+			DrawChar(chars_char6_idx, x, y, ScaleX, ScaleY);
+			break;
+		case 6:
+			DrawChar(chars_char7_idx, x, y, ScaleX, ScaleY);
+			break;
+		case 7:
+			DrawChar(chars_char8_idx, x, y, ScaleX, ScaleY);
+			break;
 	}
 }

@@ -39,8 +39,10 @@ u32 Config::Red, Config::Yellow, Config::Blue, Config::Green;
 // GUI.
 int Config::lang, Config::Selector, Config::Button, Config::Bar, Config::BG, Config::Text;
 
+// Player names.
+std::string Config::Player1, Config::Player2, Config::Player3, Config::Player4;
 nlohmann::json configJson;
-nlohmann::json cardColors;
+nlohmann::json setJson;
 
 // Get the colors.
 u32 getColor(std::string colorString) {
@@ -59,7 +61,7 @@ void Config::load() {
 	if(file)	configJson = nlohmann::json::parse(file, nullptr, false);
 	fclose(file);
 
-	loadCardColors("romfs:/Colors.json");
+	loadSet("romfs:/Set.json");
 	if(!configJson.contains("LANG")) {
 		Config::lang = 2;
 	} else {
@@ -109,27 +111,25 @@ std::string getString(nlohmann::json json, const std::string &key, const std::st
 	return json.at(key).at(key2).get_ref<const std::string&>();
 }
 
-void loadColors(void) {
+void loadSetStuff(void) {
 	u32 colorTemp;
-	colorTemp = getColor(getString(cardColors, "info", "RED"));
+	// Colors.
+	colorTemp = getColor(getString(setJson, "info", "Red"));
 	Config::Red = colorTemp == 0 ? CARD_RED : colorTemp;
-
-	colorTemp = getColor(getString(cardColors, "info", "BLUE"));
+	colorTemp = getColor(getString(setJson, "info", "Blue"));
 	Config::Blue = colorTemp == 0 ? CARD_BLUE : colorTemp;
-
-	colorTemp = getColor(getString(cardColors, "info", "YELLOW"));
+	colorTemp = getColor(getString(setJson, "info", "Yellow"));
 	Config::Yellow = colorTemp == 0 ? CARD_YELLOW : colorTemp;
-
-	colorTemp = getColor(getString(cardColors, "info", "GREEN"));
+	colorTemp = getColor(getString(setJson, "info", "Green"));
 	Config::Green = colorTemp == 0 ? CARD_GREEN : colorTemp;
 }
 
-void Config::loadCardColors(std::string colors) {
-	FILE* file = fopen(colors.c_str(), "r");
-	if(file)	cardColors = nlohmann::json::parse(file, nullptr, false);
+void Config::loadSet(std::string sets) {
+	FILE* file = fopen(sets.c_str(), "r");
+	if(file)	setJson = nlohmann::json::parse(file, nullptr, false);
 	fclose(file);
 	// Load Card Colors.
-	loadColors();
+	loadSetStuff();
 }
 
 void Config::save() {

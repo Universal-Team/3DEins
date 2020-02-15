@@ -42,6 +42,7 @@ bool isDay = false;
 
 // Include all spritesheet's.
 C2D_SpriteSheet cards;
+C2D_SpriteSheet characters;
 C2D_SpriteSheet sprites;
 
 
@@ -86,6 +87,7 @@ Result Init::Initialize() {
 
 	Msg::DisplayMsg(Lang::get("LOADING_SPRITESHEET"));
 	Gui::loadSheet("romfs:/gfx/cards.t3x", cards);
+	Gui::loadSheet("romfs:/gfx/chars.t3x", characters);
 	Gui::loadSheet("romfs:/gfx/sprites.t3x", sprites);
 	osSetSpeedupEnable(true);	// Enable speed-up for New 3DS users.
 	srand(time(NULL));
@@ -96,6 +98,12 @@ Result Init::Initialize() {
 		dspFound = true;
 		loadSoundEffects();
 	}
+
+	// Initialize all Players at begin.
+	Config::Player1 = Lang::get("PLAYER") + " " + std::to_string(1);
+	Config::Player2 = Lang::get("PLAYER") + " " + std::to_string(2);
+	Config::Player3 = Lang::get("PLAYER") + " " + std::to_string(3);
+	Config::Player4 = Lang::get("PLAYER") + " " + std::to_string(4);
 	return 0;
 }
 
@@ -130,6 +138,7 @@ Result Init::Exit() {
 
 	Gui::exit();
 	Gui::unloadSheet(cards);
+	Gui::unloadSheet(characters);
 	Gui::unloadSheet(sprites);
 	Config::save();
 	gfxExit();

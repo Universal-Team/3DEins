@@ -40,14 +40,20 @@ all: $(GFXBUILD) $(DEPSDIR) $(T3XFILES)
 clean:
 	@echo clean ...
 	@rm -fr out/cards.t3x
+	@rm -fr out/chars.t3x
 #---------------------------------------------------------------------------------
-$(GFXBUILD)/%.t3x:	%.t3s
+$(GFXBUILD)/cards.t3x:	cards.t3s
 #---------------------------------------------------------------------------------
 	@echo build cards SpriteSheet...
 	@tex3ds -i $< -o $(GFXBUILD)/cards.t3x
 	@echo Done!
 
 #---------------------------------------------------------------------------------
+$(GFXBUILD)/chars.t3x:	chars.t3s
+#---------------------------------------------------------------------------------
+	@echo build chars SpriteSheet...
+	@tex3ds -i $< -o $(GFXBUILD)/chars.t3x
+	@echo Done!
 
 #---------------------------------------------------------------------------------
 .PRECIOUS	:	%.t3x

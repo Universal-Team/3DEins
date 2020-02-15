@@ -402,7 +402,7 @@ bool UISettings::checkForValidate(std::string file) {
 // Load Sheet. ;)
 Result UISettings::loadSet(std::string folder) {
 	if (checkForValidate(folder)) {
-		if (checkForValidate(folder + "/Colors.json")) {
+		if (checkForValidate(folder + "/Set.json")) {
 			if (checkForValidate(folder + "/cards.t3x")) {
 				char message [100];
 				snprintf(message, sizeof(message), Lang::get("LOADING_SET_PROMPT").c_str(), folder.c_str());
@@ -410,7 +410,7 @@ Result UISettings::loadSet(std::string folder) {
 					Gui::unloadSheet(cards);
 					Msg::DisplayMsg(Lang::get("LOADING_SPRITESHEET"));
 					Gui::loadSheet((folder + "/cards.t3x").c_str(), cards);
-					Config::loadCardColors((folder + "/Colors.json").c_str());
+					Config::loadSet((folder + "/Set.json").c_str());
 				}
 			} else {
 				char message [100];
@@ -419,7 +419,7 @@ Result UISettings::loadSet(std::string folder) {
 			}
 		} else {
 			char message [100];
-			snprintf(message, sizeof(message), Lang::get("FILE_NOT_EXIST").c_str(), "Colors.json");
+			snprintf(message, sizeof(message), Lang::get("FILE_NOT_EXIST").c_str(), "Set.json");
 			Msg::DisplayWaitMsg(message);
 		}
 	}

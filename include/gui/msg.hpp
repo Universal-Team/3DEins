@@ -40,7 +40,7 @@ namespace Msg
 	void DisplayMsg(std::string Message); // Display just a Message.
 	void HelperBox(std::string Msg); // Helper Box?
 	void DisplayPlayerSwitch(std::string waitMsg, ...);
-	void Bruh(int player); // Player which should be bruhed.
+	void Bruh(std::string player); // Player which should be bruhed.
 }
 
 #endif

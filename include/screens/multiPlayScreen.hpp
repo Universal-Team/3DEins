@@ -65,19 +65,15 @@ private:
 	// Player Hands and status.
 	std::vector<CardStruct> Player1Hand;
 	PlayerStatus Player1Status;
-	PlayerFeeling Player1Feeling = PlayerFeeling(0);
 
 	std::vector<CardStruct> Player2Hand;
 	PlayerStatus Player2Status;
-	PlayerFeeling Player2Feeling = PlayerFeeling(0);
 
 	std::vector<CardStruct> Player3Hand;
 	PlayerStatus Player3Status;
-	PlayerFeeling Player3Feeling = PlayerFeeling(0);
 
 	std::vector<CardStruct> Player4Hand;
 	PlayerStatus Player4Status;
-	PlayerFeeling Player4Feeling = PlayerFeeling(0);
 
 	void DisplayPlayerHand() const;
 	void DisplayPlayerHandSmall() const;

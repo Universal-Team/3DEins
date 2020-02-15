@@ -44,6 +44,7 @@ private:
 	bool allSelected = false;
 	int currentPlayer = 1;
 	int maxPlayers;
+	int playerPage = 1;
 	std::vector<Structs::ButtonPos> mainButtons = {
 		{0, 35, 120, 120}, // Player 1.
 		{95, 35, 120, 120}, // Player 2.

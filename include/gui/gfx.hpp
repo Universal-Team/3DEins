@@ -30,6 +30,7 @@
 #include "cardHelper.hpp"
 #include "colorHelper.hpp"
 #include "cards.h"
+#include "chars.h"
 #include "sprites.h"
 
 namespace GFX
@@ -44,8 +45,8 @@ namespace GFX
 	void DrawButtonSelector(int x, int y, float ScaleX = 1, float ScaleY = 1, bool useSmall = false);
 	
 	void DrawCard(CardType CT, int x, int y, CardColor CC, float ScaleX = 1, float ScaleY = 1);
-
-	void DrawPlayer(int x, int y, float ScaleX, float ScaleY, PlayerChar player, PlayerFeeling state);
+	void DrawChar(int image, int x, int y, float ScaleX = 1, float ScaleY = 1);
+	void DrawPlayer(int x, int y, float ScaleX, float ScaleY, int player);
 }
 
 #endif

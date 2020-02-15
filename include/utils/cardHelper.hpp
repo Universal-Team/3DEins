@@ -77,22 +77,6 @@ enum class PlayerStatus {
 	NORMAL
 };
 
-// Player Feelings.
-enum class PlayerFeeling {
-	NORMAL,
-	PROUD,
-	ANGRY,
-	SMILE,
-	SIGH
-};
-
-enum class PlayerChar {
-	STACKZ,
-	CARL,
-	ISABEL,
-	LEA
-};
-
 // CardStruct.
 struct CardStruct {
 	CardType CT;

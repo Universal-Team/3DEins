@@ -125,6 +125,19 @@ void MultiPlayScreen::DisplayPlayerHandSmall() const {
 	}
 }
 
+// Return the name of the player.
+std::string getPlayerName(int player) {
+	if (player == 1) {
+		return Config::Player1;
+	} else if (player == 2) {
+		return Config::Player2;
+	} else if (player == 3) {
+		return Config::Player3;
+	} else if (player == 4) {
+		return Config::Player4;
+	}
+}
+
 
 void MultiPlayScreen::Draw(void) const {
 	GFX::DrawTop(false);
@@ -133,7 +146,8 @@ void MultiPlayScreen::Draw(void) const {
 	GFX::DrawCard(TypeToPlay, 170, 80, ColorToPlay);
 	GFX::DrawBottom(false);
 	char message [100];
-	snprintf(message, sizeof(message), Lang::get("ITS_PLAYER_TURN").c_str(), currentPlayer);
+	std::string pn = getPlayerName(currentPlayer);
+	snprintf(message, sizeof(message), Lang::get("ITS_PLAYER_TURN").c_str(), pn.c_str());
 	Gui::DrawStringCentered(0, 0, 0.7f, Config::Text, message);
 	DisplayPlayerHand();
 	DisplayPlayerHandSmall();
@@ -142,21 +156,21 @@ void MultiPlayScreen::Draw(void) const {
 // TODO.
 void MultiPlayScreen::DrawPlayers() const {
 	// Player 1.
-	GFX::DrawPlayer(-5, 130, 0.9, 0.9, PlayerChar(player1), Player1Feeling);
+	GFX::DrawPlayer(-5, 130, 0.9, 0.9, player1);
 	Gui::DrawString(90, 200, 0.6f, Config::Text, std::to_string(Player1Hand.size()));
 	// Player 2.
-	GFX::DrawPlayer(-5, 0, 0.9, 0.9, PlayerChar(player2), Player2Feeling);
+	GFX::DrawPlayer(-5, 0, 0.9, 0.9, player2);
 	Gui::DrawString(90, 40, 0.6f, Config::Text, std::to_string(Player2Hand.size()));
 	if (maxPlayer == 3) {
 		// Player 3.
-		GFX::DrawPlayer(300, 0, 0.9, 0.9, PlayerChar(player3), Player3Feeling);
+		GFX::DrawPlayer(300, 0, 0.9, 0.9, player3);
 		Gui::DrawString(270, 40, 0.6f, Config::Text, std::to_string(Player3Hand.size()));
 	} else if (maxPlayer == 4) {
 		// Player 3.
-		GFX::DrawPlayer(300, 0, 0.9, 0.9, PlayerChar(player3), Player3Feeling);
+		GFX::DrawPlayer(300, 0, 0.9, 0.9, player3);
 		Gui::DrawString(270, 40, 0.6f, Config::Text, std::to_string(Player3Hand.size()));
 		// Player 4.
-		GFX::DrawPlayer(300, 130, 0.9, 0.9, PlayerChar(player4), Player4Feeling);
+		GFX::DrawPlayer(300, 130, 0.9, 0.9, player4);
 		Gui::DrawString(270, 200, 0.6f, Config::Text, std::to_string(Player4Hand.size()));
 	}
 }
@@ -277,19 +291,19 @@ void MultiPlayScreen::Player1Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		Player1Break = false;
 		if (PlayDirection == Direction::LEFT) {
 			char message [100];
-			snprintf(message, sizeof(message), Lang::get("PLAYER_BREAK").c_str(), 1, 2);
+			snprintf(message, sizeof(message), Lang::get("PLAYER_BREAK").c_str(), getPlayerName(player1).c_str(), getPlayerName(player2).c_str());
 			Msg::DisplayPlayerSwitch(message);
 			currentPlayer = 2;
 		} else if (PlayDirection == Direction::RIGHT) {
 			char message [100];
-			snprintf(message, sizeof(message), Lang::get("PLAYER_BREAK").c_str(), 1, maxPlayer);
+			snprintf(message, sizeof(message), Lang::get("PLAYER_BREAK").c_str(), getPlayerName(1).c_str(), getPlayerName(maxPlayer).c_str());
 			Msg::DisplayPlayerSwitch(message);
 			currentPlayer = maxPlayer;
 		}
 	}
 
 	if (setBruh == 1 && bruhEnabled == true) {
-		Msg::Bruh(1);
+		Msg::Bruh(getPlayerName(1));
 		CardHelper::RandomizeTableCard();
 		bruhEnabled = false;
 	}
@@ -363,7 +377,7 @@ void MultiPlayScreen::Player1Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 			if (Player1Hand.size() == 0) {
 				char message [100];
-				snprintf(message, sizeof(message), Lang::get("PLAYER_WON").c_str(), currentPlayer);
+				snprintf(message, sizeof(message), Lang::get("PLAYER_WON").c_str(), getPlayerName(currentPlayer).c_str());
 				Msg::DisplayPlayerSwitch(message);
 				Gui::screenBack();
 				return;
@@ -376,12 +390,12 @@ void MultiPlayScreen::Player1Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 			if (!canContinue) {
 				if (PlayDirection == Direction::LEFT) {
 					char message [100];
-					snprintf(message, sizeof(message), Lang::get("PLAYER_NEXT").c_str(), 1, 2);
+					snprintf(message, sizeof(message), Lang::get("PLAYER_NEXT").c_str(), getPlayerName(1).c_str(), getPlayerName(2).c_str());
 					Msg::DisplayPlayerSwitch(message);
 					currentPlayer = 2;
 				} else if (PlayDirection == Direction::RIGHT) {
 					char message [100];
-					snprintf(message, sizeof(message), Lang::get("PLAYER_NEXT").c_str(), 1, maxPlayer);
+					snprintf(message, sizeof(message), Lang::get("PLAYER_NEXT").c_str(), getPlayerName(1).c_str(), getPlayerName(maxPlayer).c_str());
 					Msg::DisplayPlayerSwitch(message);
 					currentPlayer = maxPlayer;
 				}
@@ -399,12 +413,12 @@ void MultiPlayScreen::Player1Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hDown & KEY_Y) {
 		if (PlayDirection == Direction::LEFT) {
 			char message [100];
-			snprintf(message, sizeof(message), Lang::get("PLAYER_NEXT").c_str(), 1, 2);
+			snprintf(message, sizeof(message), Lang::get("PLAYER_NEXT").c_str(), getPlayerName(1).c_str(), getPlayerName(2).c_str());
 			Msg::DisplayPlayerSwitch(message);
 			currentPlayer = 2;
 		} else if (PlayDirection == Direction::RIGHT) {
 			char message [100];
-			snprintf(message, sizeof(message), Lang::get("PLAYER_NEXT").c_str(), 1, maxPlayer);
+			snprintf(message, sizeof(message), Lang::get("PLAYER_NEXT").c_str(), getPlayerName(1).c_str(), getPlayerName(maxPlayer).c_str());
 			Msg::DisplayPlayerSwitch(message);
 			currentPlayer = maxPlayer;
 		}
@@ -418,19 +432,19 @@ void MultiPlayScreen::Player2Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 			if (maxPlayer > 2)	tempPlayer = 3;
 			else				tempPlayer = 1;
 			char message [100];
-			snprintf(message, sizeof(message), Lang::get("PLAYER_BREAK").c_str(), 2, tempPlayer);
+			snprintf(message, sizeof(message), Lang::get("PLAYER_BREAK").c_str(), getPlayerName(2).c_str(), getPlayerName(tempPlayer).c_str());
 			Msg::DisplayPlayerSwitch(message);
 			currentPlayer = tempPlayer;
 		} else if (PlayDirection == Direction::RIGHT) {
 			char message [100];
-			snprintf(message, sizeof(message), Lang::get("PLAYER_BREAK").c_str(), 2, 1);
+			snprintf(message, sizeof(message), Lang::get("PLAYER_BREAK").c_str(), getPlayerName(2).c_str(), getPlayerName(1).c_str());
 			Msg::DisplayPlayerSwitch(message);
 			currentPlayer = 1;
 		}
 	}
 
 	if (setBruh == 2 && bruhEnabled == true) {
-		Msg::Bruh(2);
+		Msg::Bruh(getPlayerName(2));
 		CardHelper::RandomizeTableCard();
 		bruhEnabled = false;
 	}
@@ -501,7 +515,7 @@ void MultiPlayScreen::Player2Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 			if (Player2Hand.size() == 0) {
 				char message [100];
-				snprintf(message, sizeof(message), Lang::get("PLAYER_WON").c_str(), currentPlayer);
+				snprintf(message, sizeof(message), Lang::get("PLAYER_WON").c_str(), getPlayerName(currentPlayer).c_str());
 				Msg::DisplayPlayerSwitch(message);
 				Gui::screenBack();
 				return;
@@ -514,12 +528,12 @@ void MultiPlayScreen::Player2Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 					if (maxPlayer > 2)	tempPlayer = 3;
 					else				tempPlayer = 1;
 					char message [100];
-					snprintf(message, sizeof(message), Lang::get("PLAYER_NEXT").c_str(), 2, tempPlayer);
+					snprintf(message, sizeof(message), Lang::get("PLAYER_NEXT").c_str(), getPlayerName(2).c_str(), getPlayerName(tempPlayer).c_str());
 					Msg::DisplayPlayerSwitch(message);
 					currentPlayer = tempPlayer;
 				} else if (PlayDirection == Direction::RIGHT) {
 					char message [100];
-					snprintf(message, sizeof(message), Lang::get("PLAYER_NEXT").c_str(), 2, 1);
+					snprintf(message, sizeof(message), Lang::get("PLAYER_NEXT").c_str(),getPlayerName(2).c_str(), getPlayerName(1).c_str());
 					Msg::DisplayPlayerSwitch(message);
 					currentPlayer = 1;
 				}
@@ -539,12 +553,12 @@ void MultiPlayScreen::Player2Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 			if (maxPlayer > 2)	tempPlayer = 3;
 			else				tempPlayer = 1;
 			char message [100];
-			snprintf(message, sizeof(message), Lang::get("PLAYER_NEXT").c_str(), 2, tempPlayer);
+			snprintf(message, sizeof(message), Lang::get("PLAYER_NEXT").c_str(), getPlayerName(2).c_str(), getPlayerName(tempPlayer).c_str());
 			Msg::DisplayPlayerSwitch(message);
 			currentPlayer = tempPlayer;
 		} else if (PlayDirection == Direction::RIGHT) {
 			char message [100];
-			snprintf(message, sizeof(message), Lang::get("PLAYER_NEXT").c_str(), 2, 1);
+			snprintf(message, sizeof(message), Lang::get("PLAYER_NEXT").c_str(), getPlayerName(2).c_str(), getPlayerName(1).c_str());
 			Msg::DisplayPlayerSwitch(message);
 			currentPlayer = 1;
 		}
@@ -559,19 +573,19 @@ void MultiPlayScreen::Player3Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 			if (maxPlayer > 3)	tempPlayer = 4;
 			else	tempPlayer = 2;
 			char message [100];
-			snprintf(message, sizeof(message), Lang::get("PLAYER_BREAK").c_str(), 3, tempPlayer);
+			snprintf(message, sizeof(message), Lang::get("PLAYER_BREAK").c_str(), getPlayerName(3).c_str(), getPlayerName(tempPlayer).c_str());
 			Msg::DisplayPlayerSwitch(message);
 			currentPlayer = tempPlayer;
 		} else if (PlayDirection == Direction::RIGHT) {
 			char message [100];
-			snprintf(message, sizeof(message), Lang::get("PLAYER_BREAK").c_str(), 3, 2);
+			snprintf(message, sizeof(message), Lang::get("PLAYER_BREAK").c_str(), getPlayerName(3).c_str(), getPlayerName(2).c_str());
 			Msg::DisplayPlayerSwitch(message);
 			currentPlayer = 2;
 		}
 	}
 
 	if (setBruh == 3 && bruhEnabled == true) {
-		Msg::Bruh(3);
+		Msg::Bruh(getPlayerName(3));
 		CardHelper::RandomizeTableCard();
 		bruhEnabled = false;
 	}
@@ -635,7 +649,7 @@ void MultiPlayScreen::Player3Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 			if (Player3Hand.size() == 0) {
 				char message [100];
-				snprintf(message, sizeof(message), Lang::get("PLAYER_WON").c_str(), currentPlayer);
+				snprintf(message, sizeof(message), Lang::get("PLAYER_WON").c_str(), getPlayerName(currentPlayer).c_str());
 				Msg::DisplayPlayerSwitch(message);
 				Gui::screenBack();
 				return;
@@ -648,12 +662,12 @@ void MultiPlayScreen::Player3Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 				if (maxPlayer > 3)	tempPlayer = 4;
 				else				tempPlayer = 1;
 				char message [100];
-				snprintf(message, sizeof(message), Lang::get("PLAYER_NEXT").c_str(), 3, tempPlayer);
+				snprintf(message, sizeof(message), Lang::get("PLAYER_NEXT").c_str(), getPlayerName(3).c_str(), getPlayerName(tempPlayer).c_str());
 				Msg::DisplayPlayerSwitch(message);
 				currentPlayer = tempPlayer;
 			} else if (PlayDirection == Direction::RIGHT) {
 				char message [100];
-				snprintf(message, sizeof(message), Lang::get("PLAYER_NEXT").c_str(), 3, 2);
+				snprintf(message, sizeof(message), Lang::get("PLAYER_NEXT").c_str(), getPlayerName(3).c_str(), getPlayerName(2).c_str());
 				Msg::DisplayPlayerSwitch(message);
 				currentPlayer = 2;
 			}
@@ -671,12 +685,12 @@ void MultiPlayScreen::Player3Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 			if (maxPlayer > 3)	tempPlayer = 4;
 			else				tempPlayer = 1;
 			char message [100];
-			snprintf(message, sizeof(message), Lang::get("PLAYER_NEXT").c_str(), 3, tempPlayer);
+			snprintf(message, sizeof(message), Lang::get("PLAYER_NEXT").c_str(), getPlayerName(3).c_str(), getPlayerName(tempPlayer).c_str());
 			Msg::DisplayPlayerSwitch(message);
 			currentPlayer = tempPlayer;
 		} else if (PlayDirection == Direction::RIGHT) {
 			char message [100];
-			snprintf(message, sizeof(message), Lang::get("PLAYER_NEXT").c_str(), 3, 2);
+			snprintf(message, sizeof(message), Lang::get("PLAYER_NEXT").c_str(), getPlayerName(3).c_str(), getPlayerName(2).c_str());
 			Msg::DisplayPlayerSwitch(message);
 			currentPlayer = 2;
 		}
@@ -688,19 +702,19 @@ void MultiPlayScreen::Player4Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		Player4Break = false;
 		if (PlayDirection == Direction::LEFT) {
 			char message [100];
-			snprintf(message, sizeof(message), Lang::get("PLAYER_BREAK").c_str(), 4, 1);
+			snprintf(message, sizeof(message), Lang::get("PLAYER_BREAK").c_str(), getPlayerName(4).c_str(), getPlayerName(1).c_str());
 			Msg::DisplayPlayerSwitch(message);
 			currentPlayer = 1;
 		} else if (PlayDirection == Direction::RIGHT) {
 			char message [100];
-			snprintf(message, sizeof(message), Lang::get("PLAYER_BREAK").c_str(), 4, 3);
+			snprintf(message, sizeof(message), Lang::get("PLAYER_BREAK").c_str(), getPlayerName(4).c_str(), getPlayerName(3).c_str());
 			Msg::DisplayPlayerSwitch(message);
 			currentPlayer = 3;
 		}
 	}
 
 	if (setBruh == 4 && bruhEnabled == true) {
-		Msg::Bruh(4);
+		Msg::Bruh(getPlayerName(4));
 		CardHelper::RandomizeTableCard();
 		bruhEnabled = false;
 	}
@@ -757,7 +771,7 @@ void MultiPlayScreen::Player4Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 			if (Player4Hand.size() == 0) {
 				char message [100];
-				snprintf(message, sizeof(message), Lang::get("PLAYER_WON").c_str(), currentPlayer);
+				snprintf(message, sizeof(message), Lang::get("PLAYER_WON").c_str(), getPlayerName(currentPlayer).c_str());
 				Msg::DisplayPlayerSwitch(message);
 				Gui::screenBack();
 				return;
@@ -768,12 +782,12 @@ void MultiPlayScreen::Player4Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 			if (PlayDirection == Direction::LEFT) {
 				char message [100];
-				snprintf(message, sizeof(message), Lang::get("PLAYER_NEXT").c_str(), 4, 1);
+				snprintf(message, sizeof(message), Lang::get("PLAYER_NEXT").c_str(), getPlayerName(4).c_str(), getPlayerName(1).c_str());
 				Msg::DisplayPlayerSwitch(message);
 				currentPlayer = 1;
 			} else if (PlayDirection == Direction::RIGHT) {
 				char message [100];
-				snprintf(message, sizeof(message), Lang::get("PLAYER_NEXT").c_str(), 4, 3);
+				snprintf(message, sizeof(message), Lang::get("PLAYER_NEXT").c_str(), getPlayerName(4).c_str(), getPlayerName(3).c_str());
 				Msg::DisplayPlayerSwitch(message);
 				currentPlayer = 3;
 			}
@@ -789,12 +803,12 @@ void MultiPlayScreen::Player4Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hDown & KEY_Y) {
 		if (PlayDirection == Direction::LEFT) {
 			char message [100];
-			snprintf(message, sizeof(message), Lang::get("PLAYER_NEXT").c_str(), 4, 1);
+			snprintf(message, sizeof(message), Lang::get("PLAYER_NEXT").c_str(), getPlayerName(4).c_str(), getPlayerName(1).c_str());
 			Msg::DisplayPlayerSwitch(message);
 			currentPlayer = 1;
 		} else if (PlayDirection == Direction::RIGHT) {
 			char message [100];
-			snprintf(message, sizeof(message), Lang::get("PLAYER_NEXT").c_str(), 4, 3);
+			snprintf(message, sizeof(message), Lang::get("PLAYER_NEXT").c_str(), getPlayerName(4).c_str(), getPlayerName(3).c_str());
 			Msg::DisplayPlayerSwitch(message);
 			currentPlayer = 3;
 		}

@@ -25,6 +25,7 @@
 */
 
 #include "charSelection.hpp"
+#include "keyboard.hpp"
 #include "multiPlayScreen.hpp"
 
 // Player char's.
@@ -47,10 +48,17 @@ CharSelection::CharSelection() {
 void CharSelection::Draw(void) const {
 	GFX::DrawTop();
 	Gui::DrawStringCentered(0, 0, 0.9f, Config::Text, "3DEins - " + Lang::get("CHAR_SELECTION"), 320);
-	GFX::DrawPlayer(-5, 35, 1, 1, PlayerChar::STACKZ, PlayerFeeling(state));
-	GFX::DrawPlayer(95, 35, 1, 1, PlayerChar::CARL, PlayerFeeling(state));
-	GFX::DrawPlayer(195, 35, 1, 1, PlayerChar::ISABEL, PlayerFeeling(state));
-	GFX::DrawPlayer(295, 35, 1, 1, PlayerChar::LEA, PlayerFeeling(state));
+	if (playerPage == 1) {
+		GFX::DrawPlayer(-5, 35, 1, 1, 0);
+		GFX::DrawPlayer(95, 35, 1, 1, 1);
+		GFX::DrawPlayer(195, 35, 1, 1, 2);
+		GFX::DrawPlayer(295, 35, 1, 1, 3);
+	} else if (playerPage == 2) {
+		GFX::DrawPlayer(-5, 35, 1, 1, 4);
+		GFX::DrawPlayer(95, 35, 1, 1, 5);
+		GFX::DrawPlayer(195, 35, 1, 1, 6);
+		GFX::DrawPlayer(295, 35, 1, 1, 7);
+	}
 
 	if (currentPlayer != maxPlayers+1) {
 		char message [100];
@@ -64,12 +72,11 @@ void CharSelection::Draw(void) const {
 	Gui::Draw_Rect(110, 160, 80, 30, Config::Button);
 	Gui::Draw_Rect(210, 160, 80, 30, Config::Button);
 	Gui::Draw_Rect(310, 160, 80, 30, Config::Button);
-	GFX::DrawButtonSelector(10 + (Selection * 100), 160, 1, 1, true);
-
-	Gui::DrawString(25, 165, 0.7f, Config::Text, "StackZ");
-	Gui::DrawString(133, 165, 0.7f, Config::Text, "Carl");
-	Gui::DrawString(227, 165, 0.7f, Config::Text, "Isabel");
-	Gui::DrawString(332, 165, 0.7f, Config::Text, "Lea");
+	if (playerPage == 1) {
+		GFX::DrawButtonSelector(10 + (Selection * 100), 160, 1, 1, true);
+	} else {
+		GFX::DrawButtonSelector(10 + ((Selection-4) * 100), 160, 1, 1, true);
+	}
 
 	GFX::DrawBottom();
 }
@@ -78,6 +85,20 @@ void CharSelection::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hDown & KEY_B) {
 		Gui::screenBack();
 		return;
+	}
+
+	if (hDown & KEY_R) {
+		if (playerPage == 1) {
+			Selection += 4;
+			playerPage = 2;
+		}
+	}
+
+	if (hDown & KEY_L) {
+		if (playerPage == 2) {
+			Selection -= 4;
+			playerPage = 1;
+		}
 	}
 
 	if (hDown & KEY_A) {
@@ -90,12 +111,28 @@ void CharSelection::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		if (currentPlayer != maxPlayers+1) {
 			if (currentPlayer == 1) {
 				player1 = Selection;
+				std::string temp = Input::getString(Lang::get("ENTER_PLAYERNAME"));
+				if (temp != "") {
+					Config::Player1 = temp;
+				}
 			} else if (currentPlayer == 2) {
 				player2 = Selection;
+				std::string temp = Input::getString(Lang::get("ENTER_PLAYERNAME"));
+				if (temp != "") {
+					Config::Player2 = temp;
+				}
 			} else if (currentPlayer == 3) {
 				player3 = Selection;
+				std::string temp = Input::getString(Lang::get("ENTER_PLAYERNAME"));
+				if (temp != "") {
+					Config::Player3 = temp;
+				}
 			} else if (currentPlayer == 4) {
 				player4 = Selection;
+				std::string temp = Input::getString(Lang::get("ENTER_PLAYERNAME"));
+				if (temp != "") {
+					Config::Player4 = temp;
+				}
 			}
 			currentPlayer++;
 		}
@@ -106,20 +143,20 @@ void CharSelection::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 	}
 
-	if (hDown & KEY_R) {
-		if (state < 4)	state++;
-	}
-
-	if (hDown & KEY_L) {
-		if (state > 0)	state--;
-	}
-
 	if (hDown & KEY_RIGHT) {
-		if (Selection < 3)	Selection++;
+		if (playerPage == 1) {
+			if (Selection < 3)	Selection++;
+		} else if (playerPage == 2) {
+			if (Selection < 7)	Selection++;
+		}
 	}
 
 	if (hDown & KEY_LEFT) {
-		if (Selection > 0)	Selection--;
+		if (playerPage == 1) {
+			if (Selection > 0)	Selection--;
+		} else if (playerPage == 2) {
+			if (Selection > 4)	Selection--;
+		}
 	}
 
 	if (hHeld & KEY_SELECT) {

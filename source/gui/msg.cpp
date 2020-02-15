@@ -203,10 +203,10 @@ void Msg::DisplayMsg(std::string Message) {
 	C3D_FrameEnd(0);
 }
 
-void Msg::Bruh(int player) {
+void Msg::Bruh(std::string player) {
 	bruh(); // Play Bruh SFX.
 	char message [100];
-	snprintf(message, sizeof(message), Lang::get("PLAYER_GOT_BRUHED").c_str(), player);
+	snprintf(message, sizeof(message), Lang::get("PLAYER_GOT_BRUHED").c_str(), player.c_str());
 	Msg::DisplayWaitMsg(message);
 }
 
