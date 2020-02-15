@@ -135,6 +135,8 @@ std::string getPlayerName(int player) {
 		return Config::Player3;
 	} else if (player == 4) {
 		return Config::Player4;
+	} else {
+		return ""; // Should never be the case.
 	}
 }
 
@@ -156,10 +158,10 @@ void MultiPlayScreen::Draw(void) const {
 // TODO.
 void MultiPlayScreen::DrawPlayers() const {
 	// Player 1.
-	GFX::DrawPlayer(-5, 130, 0.9, 0.9, player1);
+	GFX::DrawPlayer(0, 130, 0.9, 0.9, player1);
 	Gui::DrawString(90, 200, 0.6f, Config::Text, std::to_string(Player1Hand.size()));
 	// Player 2.
-	GFX::DrawPlayer(-5, 0, 0.9, 0.9, player2);
+	GFX::DrawPlayer(0, 0, 0.9, 0.9, player2);
 	Gui::DrawString(90, 40, 0.6f, Config::Text, std::to_string(Player2Hand.size()));
 	if (maxPlayer == 3) {
 		// Player 3.
