@@ -41,7 +41,7 @@
 	"PLAYER_AMOUNT": "何人のプレイヤーがプレイしますか？",
 	"PLAYER_BREAK": "%sは休憩が必要です。\n%s：続ける！",
 	"PLAYER_GOT_BRUHED": "%sはｂｒｕｈされました！",
-	"PLAYER_NEXT": "%s has finished their round.\n%s: Continue!",
+	"PLAYER_NEXT": "%sは番を完了しました。\n%s：続ける！",
 	"PLAYER_SELECT": "プレイヤー%i：キャラクターを選択します",
 	"PLAYER_WON": "%s勝！",
 	"QUIT_GAME": "このゲームを終了しますか？",
