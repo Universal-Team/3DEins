@@ -75,19 +75,19 @@ void Config::load() {
 
 	// GUI.
 	if(!configJson.contains("BUTTON")) {
-		Config::Button = C2D_Color32(170, 60, 0, 200);
+		Config::Button = C2D_Color32(170, 60, 0, 255);
 	} else {
 		Config::Button = getInt("BUTTON");
 	}
 
 	if(!configJson.contains("BAR")) {
-		Config::Bar = C2D_Color32(220, 60, 0, 200);
+		Config::Bar = C2D_Color32(220, 60, 0, 255);
 	} else {
 		Config::Bar = getInt("BAR");
 	}
 
 	if(!configJson.contains("BG")) {
-		Config::BG = C2D_Color32(220, 160, 0, 200);
+		Config::BG = C2D_Color32(220, 160, 0, 255);
 	} else {
 		Config::BG = getInt("BG");
 	}
@@ -175,9 +175,9 @@ void Config::initializeNewConfig() {
 	setInt("LANG", 2);
 	setInt("SELECTOR", C2D_Color32(200, 0, 0, 255));
 	// GUI.
-	Config::setInt("BUTTON", C2D_Color32(170, 60, 0, 200));
-	Config::setInt("BAR", C2D_Color32(220, 60, 0, 200));
-	Config::setInt("BG", C2D_Color32(220, 160, 0, 200));
+	Config::setInt("BUTTON", C2D_Color32(170, 60, 0, 255));
+	Config::setInt("BAR", C2D_Color32(220, 60, 0, 255));
+	Config::setInt("BG", C2D_Color32(220, 160, 0, 255));
 	Config::setInt("TEXT", C2D_Color32(255, 255, 255, 255));
 
 	if(file)	fwrite(configJson.dump(1, '\t').c_str(), 1, configJson.dump(1, '\t').size(), file);
