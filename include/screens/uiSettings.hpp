@@ -28,7 +28,6 @@
 #define UISETTINGS_HPP
 
 #include "common.hpp"
-#include "fileBrowse.hpp"
 #include "structs.hpp"
 
 #include <vector>
@@ -38,7 +37,6 @@ class UISettings : public Screen
 public:
 	void Draw(void) const override;
 	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
-	UISettings();
 private:
 	int Mode = 0; // Sub Menu.
 
@@ -49,46 +47,6 @@ private:
 		{90, 160, 140, 40}, // Card Style Change.
 	};
 	int subSelection = 0;
-	void DrawSubMenu(void) const;
-	void SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch);
-
-	/*	Colors 1.	*/
-	void DrawColor(void) const;
-	void ColorLogic(u32 hDown, u32 hHeld, touchPosition touch);
-	void DrawPreview(void) const;
-	int colorMode = 0;
-	std::vector<Structs::ButtonPos> buttons = {
-		{10, 85, 95, 41},
-		{115, 85, 95, 41},
-		{220, 85, 95, 41},
-	};
-
-	/*	Language 2.	*/
-	void DrawLanguage(void) const;
-	void LanguageLogic(u32 hDown, u32 hHeld, touchPosition touch);
-	int selectedLang = 0;
-	std::vector<Structs::ButtonPos> langBlocks = {
-		{37, 32, 20, 20},
-		{37, 72, 20, 20},
-		{37, 112, 20, 20},
-		{37, 152, 20, 20},
-		{37, 188, 20, 20},
-		{177, 32, 20, 20},
-		{177, 72, 20, 20},
-		{177, 112, 20, 20},
-		{177, 152, 20, 20},
-		{177, 188, 20, 20},
-	};
-
-	/*	Card Style Change 3.	*/
-	void DrawCardScreen(void) const;
-	void CardLogic(u32 hDown, u32 hHeld, touchPosition touch);
-	bool checkForValidate(std::string file);
-	Result loadSet(std::string folder);
-	uint selectedSheet = 0;
-	int keyRepeatDelay = 0;
-	mutable bool dirChanged = true;
-	std::vector<DirEntry> dirContents;
 };
 
 #endif

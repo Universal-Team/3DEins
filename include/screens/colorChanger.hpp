@@ -24,24 +24,27 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef CONFIG_HPP
-#define CONFIG_HPP
+#ifndef COLORCHANGER_HPP
+#define COLORCHANGER_HPP
 
-#include <string>
+#include "common.hpp"
+#include "structs.hpp"
 
-namespace Config {
-	void load();
-	void save();
-	void initializeNewConfig();
-	// Load Card Colors.
-	void loadSet(std::string sets);
+#include <vector>
 
-	int getInt(const std::string &key);
-	void setInt(const std::string &key, int v);
-	int getLang(const std::string &key);
-	extern uint32_t Red, Yellow, Blue, Green, Selector, Button, Bar, BG, Text;
-	extern int lang;
-	extern std::string Player1, Player2, Player3, Player4;
-}
+class ColorChanger : public Screen
+{
+public:
+	void Draw(void) const override;
+	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
+private:
+	void DrawPreview(void) const;
+	int colorMode = 0;
+	std::vector<Structs::ButtonPos> buttons = {
+		{10, 85, 95, 41},
+		{115, 85, 95, 41},
+		{220, 85, 95, 41},
+	};
+};
 
 #endif

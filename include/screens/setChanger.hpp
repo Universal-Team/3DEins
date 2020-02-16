@@ -24,24 +24,28 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef CONFIG_HPP
-#define CONFIG_HPP
+#ifndef SETCHANGER_HPP
+#define SETCHANGER_HPP
 
-#include <string>
+#include "common.hpp"
+#include "fileBrowse.hpp"
+#include "structs.hpp"
 
-namespace Config {
-	void load();
-	void save();
-	void initializeNewConfig();
-	// Load Card Colors.
-	void loadSet(std::string sets);
+#include <vector>
 
-	int getInt(const std::string &key);
-	void setInt(const std::string &key, int v);
-	int getLang(const std::string &key);
-	extern uint32_t Red, Yellow, Blue, Green, Selector, Button, Bar, BG, Text;
-	extern int lang;
-	extern std::string Player1, Player2, Player3, Player4;
-}
+class SetChanger : public Screen
+{
+public:
+	void Draw(void) const override;
+	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
+	SetChanger();
+private:
+	bool checkForValidate(std::string file);
+	Result loadSet(std::string folder);
+	uint selectedSet = 0;
+	int keyRepeatDelay = 0;
+	mutable bool dirChanged = true;
+	std::vector<DirEntry> dirContents;
+};
 
 #endif

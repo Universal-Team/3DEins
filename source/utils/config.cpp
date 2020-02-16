@@ -35,9 +35,9 @@
 #include <unistd.h>
 
 // Card & Lang.
-u32 Config::Red, Config::Yellow, Config::Blue, Config::Green;
+u32 Config::Red, Config::Yellow, Config::Blue, Config::Green, Config::Selector, Config::Button, Config::Bar, Config::BG, Config::Text;
 // GUI.
-int Config::lang, Config::Selector, Config::Button, Config::Bar, Config::BG, Config::Text;
+int Config::lang;
 
 // Player names.
 std::string Config::Player1, Config::Player2, Config::Player3, Config::Player4;
@@ -61,7 +61,6 @@ void Config::load() {
 	if(file)	configJson = nlohmann::json::parse(file, nullptr, false);
 	fclose(file);
 
-	loadSet("romfs:/Set.json");
 	if(!configJson.contains("LANG")) {
 		Config::lang = 2;
 	} else {
@@ -98,6 +97,8 @@ void Config::load() {
 	} else {
 		Config::Text = getInt("TEXT");
 	}
+
+	loadSet("romfs:/Set.json");
 }
 
 // Get String of the JSON.
@@ -122,6 +123,18 @@ void loadSetStuff(void) {
 	Config::Yellow = colorTemp == 0 ? CARD_YELLOW : colorTemp;
 	colorTemp = getColor(getString(setJson, "info", "Green"));
 	Config::Green = colorTemp == 0 ? CARD_GREEN : colorTemp;
+
+	// GUI.
+	colorTemp = getColor(getString(setJson, "info", "BarColor"));
+	Config::Bar = colorTemp == 0 ? Config::Bar : colorTemp;
+	colorTemp = getColor(getString(setJson, "info", "BGColor"));
+	Config::BG = colorTemp == 0 ? Config::BG : colorTemp;
+	colorTemp = getColor(getString(setJson, "info", "Selector"));
+	Config::Selector = colorTemp == 0 ? Config::Selector : colorTemp;
+	colorTemp = getColor(getString(setJson, "info", "TextColor"));
+	Config::Text = colorTemp == 0 ? Config::Text : colorTemp;
+	colorTemp = getColor(getString(setJson, "info", "ButtonColor"));
+	Config::Button = colorTemp == 0 ? Config::Button : colorTemp;
 }
 
 void Config::loadSet(std::string sets) {
