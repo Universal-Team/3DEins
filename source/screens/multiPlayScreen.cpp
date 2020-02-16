@@ -145,6 +145,16 @@ void MultiPlayScreen::Draw(void) const {
 	GFX::DrawTop(false);
 	// Draw Players & amount of cards.
 	DrawPlayers();
+	if (currentPlayer == 1) {
+		GFX::DrawSelectedPlayer(130, 200);
+	} else if (currentPlayer == 2) {
+		GFX::DrawSelectedPlayer(130, 70);
+	} else if (currentPlayer == 3) {
+		GFX::DrawSelectedPlayer(250, 70);
+	} else if (currentPlayer == 4) {
+		GFX::DrawSelectedPlayer(250, 200);
+	}
+
 	GFX::DrawCard(TypeToPlay, 170, 80, ColorToPlay);
 	GFX::DrawBottom(false);
 	char message [100];

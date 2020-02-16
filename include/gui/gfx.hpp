@@ -43,6 +43,7 @@ namespace GFX
 	// Selectors.
 	void DrawCardSelector(int x, int y, float ScaleX = 1, float ScaleY = 1);
 	void DrawButtonSelector(int x, int y, float ScaleX = 1, float ScaleY = 1, bool useSmall = false);
+	void DrawSelectedPlayer(int x, int y, float ScaleX = 1, float ScaleY = 1);
 	
 	void DrawCard(CardType CT, int x, int y, CardColor CC, float ScaleX = 1, float ScaleY = 1);
 	void DrawChar(int image, int x, int y, float ScaleX = 1, float ScaleY = 1);

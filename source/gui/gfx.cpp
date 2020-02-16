@@ -86,6 +86,15 @@ void GFX::DrawSprite(int index, int x, int y, float ScaleX, float ScaleY) {
 	Gui::DrawSprite(sprites, index, x, y, ScaleX, ScaleY);
 }
 
+void GFX::DrawSelectedPlayer(int x, int y, float ScaleX, float ScaleY) {
+	C2D_ImageTint tint;
+	C2D_SetImageTint(&tint, C2D_TopLeft, Config::Selector, 0.5f);
+	C2D_SetImageTint(&tint, C2D_TopRight, Config::Selector, 0.5f);
+	C2D_SetImageTint(&tint, C2D_BotLeft, Config::Selector, 0.5f);
+	C2D_SetImageTint(&tint, C2D_BotRight, Config::Selector, 0.5f);
+	C2D_DrawImageAt(C2D_SpriteSheetGetImage(sprites, sprites_selectedPlayer_idx), x, y, 0.5f, &tint, ScaleX, ScaleY);
+}
+
 void GFX::DrawCardSelector(int x, int y, float ScaleX, float ScaleY)
 {
 	static float timer         = 0.0f;
