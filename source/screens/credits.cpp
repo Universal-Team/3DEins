@@ -41,6 +41,8 @@ void Credits::Draw(void) const {
 		// TODO.
 		if (creditsPage == 1) {
 			Gui::DrawStringCentered(0, -2, 0.7f, Config::Text, Lang::get("TRANSLATORS"), 320);
+			Gui::DrawString(5, 30, 0.6f, Config::Text, "- _mapple²\n- antoine62\n- Pk11\n- StackZ\n- YoSoy");
+			Gui::DrawString(180, 30, 0.6f, Config::Text, "Русский\nFrançais\n日本語\nDeutsch, English\nEspañol");
 		} else if (creditsPage == 2) {
 			Gui::DrawStringCentered(0, -2, 0.7f, Config::Text, "Universal-Team", 320);
 			Gui::DrawStringCentered(0, 35, 0.7f, Config::Text, "DeadPhoenix");
