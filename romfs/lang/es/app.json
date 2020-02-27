@@ -41,7 +41,7 @@
 	"PLAYER_AMOUNT": "¿Cuántos jugadores deben jugar?",
 	"PLAYER_BREAK": "%s necesita tomar un descanso.\n%s: ¡Continua!",
 	"PLAYER_GOT_BRUHED": "¡%s ha sido bruhed!",
-	"PLAYER_NEXT": "%s has finished their round.\n%s: Continue!",
+	"PLAYER_NEXT": "%s ha terminado su ronda.\n%s: ¡Continua!",
 	"PLAYER_SELECT": "Jugador %i: Selecciona tu personaje.",
 	"PLAYER_WON": "¡%s ganó!",
 	"QUIT_GAME": "¿Te gustaría salir de este juego?",
