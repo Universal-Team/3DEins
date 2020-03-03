@@ -29,6 +29,7 @@
 #include <vector>
 
 #define MAXSHOWNCARDS 5
+extern bool touching(touchPosition touch, Structs::ButtonPos button);
 
 // Player chars.
 extern int player1;
@@ -140,8 +141,7 @@ std::string getPlayerName(int player) {
 	}
 }
 
-
-void MultiPlayScreen::Draw(void) const {
+void MultiPlayScreen::DrawPlay(void) const {
 	GFX::DrawTop(false);
 	// Draw Players & amount of cards.
 	DrawPlayers();
@@ -163,6 +163,30 @@ void MultiPlayScreen::Draw(void) const {
 	Gui::DrawStringCentered(0, 0, 0.7f, Config::Text, message);
 	DisplayPlayerHand();
 	DisplayPlayerHandSmall();
+}
+
+void MultiPlayScreen::DrawSubMenu(void) const {
+	Animation::DrawSubBG();
+	Gui::DrawString(100, 0, 0.9f, Config::Text, "3DEins - " + Lang::get("GAME_PAUSED"));
+	GFX::DrawBottom();
+	for (int i = 0; i < 3; i++) {
+		Gui::Draw_Rect(breakBtn[i].x, breakBtn[i].y, breakBtn[i].w, breakBtn[i].h, Config::Button);
+		if (selection == i) {
+			GFX::DrawButtonSelector(breakBtn[i].x, breakBtn[i].y);
+		}
+	}
+	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.6, Lang::get("RESUME")))/2-80+17.5, 0.6, Config::Text, Lang::get("RESUME"), 130, 25);
+	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.6, Lang::get("RESTART")))/2-20+17.5, 0.6, Config::Text, Lang::get("RESTART"), 130, 25);
+	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.6, Lang::get("EXIT_GAME")))/2+75-17.5, 0.6, Config::Text, Lang::get("EXIT_GAME"), 130, 25);
+}
+
+
+void MultiPlayScreen::Draw(void) const {
+	if (isSubMenu) {
+		DrawSubMenu();
+	} else {
+		DrawPlay();
+	}
 }
 
 // TODO.
@@ -221,9 +245,7 @@ void MultiPlayScreen::RemoveCard(int player) {
 	}
 }
 
-MultiPlayScreen::MultiPlayScreen() {
-	// Set Player Amount.
-	maxPlayer = playerAmount;
+void MultiPlayScreen::restart() {
 	// Clear Player Hands.
 	Player1Hand.clear();
 	Player2Hand.clear();
@@ -280,19 +302,72 @@ MultiPlayScreen::MultiPlayScreen() {
 	}
 }
 
-void MultiPlayScreen::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
-	RoundLogic(hDown, hHeld, touch);
 
-	// Always make it possible, to quit a game.
-	if (hDown & KEY_START) {
-		if (Msg::promptMsg2(Lang::get("QUIT_GAME"))) {
-			Gui::screenBack();
-			return;
+MultiPlayScreen::MultiPlayScreen() {
+	// Set Player Amount.
+	maxPlayer = playerAmount;
+	// restart | start a new game.
+	restart();
+}
+
+void MultiPlayScreen::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
+	if (hDown & KEY_A) {
+		switch (selection) {
+			case 0:
+				isSubMenu = false;
+				break;
+			case 1:
+				if (Msg::promptMsg(Lang::get("RESTART_GAME"))) {
+					restart();
+					isSubMenu = false;
+				}
+				break;
+			case 2:
+				if (Msg::promptMsg(Lang::get("QUIT_GAME"))) {
+					Gui::screenBack();
+					return;
+				}
+				break;
 		}
 	}
 
-	if (hHeld & KEY_SELECT) {
-		Msg::HelperBox(Lang::get("PLAY_INSTRUCTIONS"));
+	if (hDown & KEY_DOWN) {
+		if (selection < 2)	selection++;
+	} else if (hDown & KEY_UP) {
+		if (selection > 0)	selection--;
+	}
+
+	if (hDown & KEY_TOUCH) {
+		if (touching(touch, breakBtn[0])) {
+			isSubMenu = false;
+		} else if (touching(touch, breakBtn[1])) {
+			if (Msg::promptMsg(Lang::get("RESTART_GAME"))) {
+				restart();
+				isSubMenu = false;
+			}
+		} else if (touching(touch, breakBtn[2])) {
+			if (Msg::promptMsg(Lang::get("QUIT_GAME"))) {
+				Gui::screenBack();
+				return;
+			}
+		}
+	}
+}
+
+void MultiPlayScreen::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
+	if (isSubMenu) {
+		SubMenuLogic(hDown, hHeld, touch);
+	} else {
+		RoundLogic(hDown, hHeld, touch);
+
+		// Pressing Start goes to the Sub Menu.
+		if (hDown & KEY_START) {
+			isSubMenu = true;
+		}
+
+		if (hHeld & KEY_SELECT) {
+			Msg::HelperBox(Lang::get("PLAY_INSTRUCTIONS"));
+		}
 	}
 }
 

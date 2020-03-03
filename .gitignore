@@ -11,3 +11,4 @@
 *.o
 build/cards.h
 build/sprites.h
+*.t3x

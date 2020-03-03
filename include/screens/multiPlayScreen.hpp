@@ -40,6 +40,7 @@ public:
 	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
 	MultiPlayScreen();
 private:
+	int selection = 0;
 	int maxPlayer = 2; // Up to 4.
 	int tempPlayer = 2; // This is a temp for the next player handle.
 	Direction PlayDirection = Direction::LEFT;
@@ -48,6 +49,7 @@ private:
 	bool Player2Break = false;
 	bool Player3Break = false;
 	bool Player4Break = false;
+	bool isSubMenu = false;
 
 	bool bruhEnabled = false;
 	int setBruh = 0;
@@ -78,6 +80,8 @@ private:
 	void DisplayPlayerHand() const;
 	void DisplayPlayerHandSmall() const;
 	void DrawPlayers() const;
+	void restart();
+	void DrawPlay(void) const;
 
 	void AddCard(int player);
 	void RemoveCard(int player);
@@ -88,6 +92,15 @@ private:
 	void Player4Logic(u32 hDown, u32 hHeld, touchPosition touch);
 	void RoundLogic(u32 hDown, u32 hHeld, touchPosition touch);
 	void OpponentLogic(void);
+
+	void DrawSubMenu(void) const;
+	void SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch);
+
+	std::vector<Structs::ButtonPos> breakBtn = {
+		{90, 40, 140, 40},  // Resume.
+		{90, 100, 140, 40}, // Exit.
+		{90, 160, 140, 40}, // ?.
+	};
 
 	std::vector<Structs::ButtonPos> buttonPos = {
 		{1, 50, 60, 90}, // 1.

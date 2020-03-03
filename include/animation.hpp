@@ -24,28 +24,14 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef COMMON_HPP
-#define COMMON_HPP
+#ifndef ANIMATION_HPP
+#define ANIMATION_HPP
 
-// This is the new "screenCommon.hpp", lol.
-#include "animation.hpp"
-#include "config.hpp"
-#include "gfx.hpp"
-#include "gui.hpp"
-#include "lang.hpp"
-#include "msg.hpp"
-#include "screenCommon.hpp"
-#include "sound.h"
+#include <3ds.h>
 
-void bruh();
-
-enum class STATE {
-	SINGLEPLAYER,
-	MULTIPLAYER,
-	MAINMENU,
-	SETTINGS,
-	LANGUAGE,
-	COLORCHANGER
-};
+namespace Animation {
+	// Animated Sub Background.
+	void DrawSubBG();
+}
 
 #endif
