@@ -40,19 +40,27 @@ public:
 	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
 	MultiPlayScreen();
 private:
+	// Sub Menu Selection | Modes.
 	int selection = 0;
+	int subMode = 0;
+
+	// Player Handle.
 	int maxPlayer = 2; // Up to 4.
 	int tempPlayer = 2; // This is a temp for the next player handle.
+
+	// Play Direction.
 	Direction PlayDirection = Direction::LEFT;
-	// in case the player needs to break.
-	bool Player1Break = false;
-	bool Player2Break = false;
-	bool Player3Break = false;
-	bool Player4Break = false;
+
+	// in case the player needs to take a break.
+	bool PlayerBreak = false;
+
+	// Sub Menu enabler.
 	bool isSubMenu = false;
 
-	bool bruhEnabled = false;
-	int setBruh = 0;
+	// Bruh Card Enabler.
+	int setBruh = 0; // 0 -> Disabled.
+
+	// Continue | Counter enabler.
 	bool canContinue = false; // Return, if user can continue. Used in 2 Player mode.
 	bool canCounter = false; // In case the opponent has a Plus 2 / 4 too. TODO.
 
@@ -65,27 +73,40 @@ private:
 	int currentPlayer = 1; // Player 1.
 	
 	// Player Hands and status.
+
+	// Player 1 Structs.
 	std::vector<CardStruct> Player1Hand;
 	PlayerStatus Player1Status;
 
+	// Player 2 Structs.
 	std::vector<CardStruct> Player2Hand;
 	PlayerStatus Player2Status;
 
+	// Player 3 Structs.
 	std::vector<CardStruct> Player3Hand;
 	PlayerStatus Player3Status;
 
+	// Player 4 Structs.
 	std::vector<CardStruct> Player4Hand;
 	PlayerStatus Player4Status;
 
+	// Display Helper.
 	void DisplayPlayerHand() const;
 	void DisplayPlayerHandSmall() const;
 	void DrawPlayers() const;
-	void restart();
-	void DrawPlay(void) const;
 
+	// Game functions.
+	void restart();
 	void AddCard(int player);
 	void RemoveCard(int player);
 
+	// Draw actual game screen.
+	void DrawPlay(void) const;
+
+	// Get the amount of remaining cards.
+	int getPlayerCards(int player) const;
+
+	// Logic's.
 	void Player1Logic(u32 hDown, u32 hHeld, touchPosition touch);
 	void Player2Logic(u32 hDown, u32 hHeld, touchPosition touch);
 	void Player3Logic(u32 hDown, u32 hHeld, touchPosition touch);
@@ -93,15 +114,19 @@ private:
 	void RoundLogic(u32 hDown, u32 hHeld, touchPosition touch);
 	void OpponentLogic(void);
 
+	// Sub menu | Statistics stuff.
 	void DrawSubMenu(void) const;
 	void SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch);
+	void DrawStats(void) const;
 
+	// Button Struct for the Sub Menu.
 	std::vector<Structs::ButtonPos> breakBtn = {
 		{90, 40, 140, 40},  // Resume.
-		{90, 100, 140, 40}, // Exit.
-		{90, 160, 140, 40}, // ?.
+		{90, 100, 140, 40}, // Restart.
+		{90, 160, 140, 40}, // Exit game.
 	};
 
+	// TODO: Add Touch to cards.
 	std::vector<Structs::ButtonPos> buttonPos = {
 		{1, 50, 60, 90}, // 1.
 		{66, 50, 60, 90}, // 2.

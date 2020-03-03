@@ -139,10 +139,7 @@ void CardHelper::ChangeDirection(Direction &direction) {
 }
 
 // TODO: Status handling like +2, +4, Wish etc.
-void CardHelper::statusHandler(std::vector<CardStruct> &hand, PlayerStatus status, PlayerStatus &p, Direction &direction, bool &isPaused) {
-	if (isPaused == true) {
-		isPaused = false; // Reset it to false first. ;)
-	}
+void CardHelper::statusHandler(std::vector<CardStruct> &hand, PlayerStatus status, PlayerStatus &p, Direction &direction) {
 	if (status != PlayerStatus::NORMAL) {
 		switch (status) {
 			case PlayerStatus::DRAW_2:
@@ -157,7 +154,7 @@ void CardHelper::statusHandler(std::vector<CardStruct> &hand, PlayerStatus statu
 				ColorToPlay = wishFunction();
 				break;
 			case PlayerStatus::TAKE_BREAK:
-				isPaused = true;
+				// Handled on screen.
 				break;
 			case PlayerStatus::CAN_RETURN:
 				break;
