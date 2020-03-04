@@ -1,6 +1,7 @@
 {
 	"A_CONTINUE": "を押して続行します",
 	"ALL_PLAYER_READY": "すべてのプレイヤーは準備ができています",
+	"ALLOW_BRUH_CARD": "Allow Bruh Card",
 	"BACK": "戻る",
 	"BAR_COLOR": "バーの色",
 	"BG_COLOR": "背景の色",
@@ -16,6 +17,7 @@
 	"CREDITS_INSTRUCTIONS_2": "：戻る",
 	"CURRENT_VERSION": "現在のバージョン：",
 	"DEVELOPED_BY": "開発: Universal-Team",
+	"DRAW_1_MSG": "You can only draw 1 Card at a time!",
 	"ENTER_BLUE_RGB": "ブルーRGB値を入力してください",
 	"ENTER_GREEN_RGB": "グリーンRGB値を入力してください",
 	"ENTER_PLAYERNAME": "プレイヤー名を入力します。",
@@ -23,6 +25,7 @@
 	"EXIT_GAME": "Exit game",
 	"FILE_NOT_EXIST": "%sは存在しません！",
 	"GAME_PAUSED": "Game paused.",
+	"GAME_SETTINGS": "Game Settings",
 	"ITS_PLAYER_TURN": "%sの番です！",
 	"LANGUAGE": "言語",
 	"LANGUAGE_INSTRUCTIONS": "十字キー｜タッチ：言語選択",
