@@ -48,7 +48,7 @@ void CardHelper::AddCard(std::vector<CardStruct> &hand) {
 	if (Config::allowBruh) {
 		Card = CardType(rand() % MAXCARDTYPE + 0);
 	} else {
-		Card = CardType(rand() % MAXCARDTYPE-1 + 0);
+		Card = CardType(rand() % MAXCARDTYPE-1 + 0); // -1 because without Bruh.
 	}
 	
 	CardColor Color = CardColor(rand() % MAXCOLOR + 0);
@@ -240,4 +240,79 @@ bool CardHelper::checkForPlayableCard(const std::vector<CardStruct> &CS, const C
 		}
 	}
 	return false;
+}
+
+std::string CardHelper::returnCardColorName(const CardColor &CC) {
+	switch (CC) {
+		case CardColor::GREEN:
+			return Lang::get("CARD_COLOR_GREEN");
+			break;
+		case CardColor::BLUE:
+			return Lang::get("CARD_COLOR_BLUE");
+			break;
+		case CardColor::YELLOW:
+			return Lang::get("CARD_COLOR_YELLOW");
+			break;
+		case CardColor::RED:
+			return Lang::get("CARD_COLOR_RED");
+			break;
+		case CardColor::SPECIAL:
+			return Lang::get("CARD_COLOR_BLACK");
+			break;
+	}
+	return ""; // Should never happen.
+}
+
+std::string CardHelper::returnCardTypeName(const CardType &CT) {
+	switch (CT) {
+		case CardType::NUMBER_0:
+			return Lang::get("CARD_0");
+			break;
+		case CardType::NUMBER_1:
+			return Lang::get("CARD_1");
+			break;
+		case CardType::NUMBER_2:
+			return Lang::get("CARD_2");
+			break;
+		case CardType::NUMBER_3:
+			return Lang::get("CARD_3");
+			break;
+		case CardType::NUMBER_4:
+			return Lang::get("CARD_4");
+			break;
+		case CardType::NUMBER_5:
+			return Lang::get("CARD_5");
+			break;
+		case CardType::NUMBER_6:
+			return Lang::get("CARD_6");
+			break;
+		case CardType::NUMBER_7:
+			return Lang::get("CARD_7");
+			break;
+		case CardType::NUMBER_8:
+			return Lang::get("CARD_8");
+			break;
+		case CardType::NUMBER_9:
+			return Lang::get("CARD_9");
+			break;
+		case CardType::SKIP:
+			return Lang::get("CARD_SKIP");
+			break;
+		case CardType::REVERSE:
+			return Lang::get("CARD_REVERSE");
+			break;
+		case CardType::PLUS2:
+			return Lang::get("CARD_PLUS2");
+			break;
+		case CardType::WISH:
+			return Lang::get("CARD_WILD");
+			break;
+		case CardType::PLUS4:
+			return Lang::get("CARD_WILD4");
+			break;
+		case CardType::BRUH:
+			return Lang::get("CARD_BRUH");
+			break;
+	}
+	return ""; // Should never happen.
 }

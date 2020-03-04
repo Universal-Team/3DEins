@@ -652,6 +652,12 @@ void MultiPlayScreen::Player1Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 			Msg::DisplayPlayerSwitch(Lang::get("DRAW_1_MSG"));
 		}
 	}
+
+	// This is for Colorblind users.
+	if (hHeld & KEY_B) {
+		Msg::HelperBox(Lang::get("TABLECARD") + CardHelper::returnCardTypeName(TypeToPlay) + " - " + CardHelper::returnCardColorName(ColorToPlay)
+		+ "\n\n" + Lang::get("CURRENT_CARD") + CardHelper::returnCardTypeName(Player1Hand[Player1Card].CT) + " - " + CardHelper::returnCardColorName(Player1Hand[Player1Card].CC));
+	}
 }
 
 void MultiPlayScreen::Player2Logic(u32 hDown, u32 hHeld, touchPosition touch) {
@@ -804,6 +810,12 @@ void MultiPlayScreen::Player2Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 			Msg::DisplayPlayerSwitch(Lang::get("DRAW_1_MSG"));
 		}
 	}
+
+	// This is for Colorblind users.
+	if (hHeld & KEY_B) {
+		Msg::HelperBox(Lang::get("TABLECARD") + CardHelper::returnCardTypeName(TypeToPlay) + " - " + CardHelper::returnCardColorName(ColorToPlay)
+		+ "\n\n" + Lang::get("CURRENT_CARD") + CardHelper::returnCardTypeName(Player2Hand[Player2Card].CT) + " - " + CardHelper::returnCardColorName(Player2Hand[Player2Card].CC));
+	}
 }
 
 
@@ -946,6 +958,12 @@ void MultiPlayScreen::Player3Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 			Msg::DisplayPlayerSwitch(Lang::get("DRAW_1_MSG"));
 		}
 	}
+
+	// This is for Colorblind users.
+	if (hHeld & KEY_B) {
+		Msg::HelperBox(Lang::get("TABLECARD") + CardHelper::returnCardTypeName(TypeToPlay) + " - " + CardHelper::returnCardColorName(ColorToPlay)
+		+ "\n\n" + Lang::get("CURRENT_CARD") + CardHelper::returnCardTypeName(Player3Hand[Player3Card].CT) + " - " + CardHelper::returnCardColorName(Player3Hand[Player3Card].CC));
+	}
 }
 
 void MultiPlayScreen::Player4Logic(u32 hDown, u32 hHeld, touchPosition touch) {
@@ -1074,6 +1092,12 @@ void MultiPlayScreen::Player4Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		} else {
 			Msg::DisplayPlayerSwitch(Lang::get("DRAW_1_MSG"));
 		}
+	}
+
+	// This is for Colorblind users.
+	if (hHeld & KEY_B) {
+		Msg::HelperBox(Lang::get("TABLECARD") + CardHelper::returnCardTypeName(TypeToPlay) + " - " + CardHelper::returnCardColorName(ColorToPlay)
+		+ "\n\n" + Lang::get("CURRENT_CARD") + CardHelper::returnCardTypeName(Player4Hand[Player4Card].CT) + " - " + CardHelper::returnCardColorName(Player4Hand[Player4Card].CC));
 	}
 }
 

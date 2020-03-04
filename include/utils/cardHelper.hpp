@@ -31,7 +31,7 @@
 #include <vector>
 
 #define MAXCOLOR	4 // Only 4 Colors, the 5th color is for special cards.
-#define MAXCARDTYPE	16 // 16 with BRUH.
+#define MAXCARDTYPE	15 // 15 with BRUH. Actually 16, but a vector|enum starts at 0, -> 15.
 
 enum class CardColor {
 	GREEN,
@@ -95,6 +95,10 @@ namespace CardHelper {
 	bool checkForCounter(const std::vector<CardStruct> &CS, const std::vector<CardType> &CT);
 	// Check, if a playable card is found on the Playerhand.
 	bool checkForPlayableCard(const std::vector<CardStruct> &CS, const CardType &CT, const CardColor &CC);
+
+	// Return names for colorblind users.
+	std::string returnCardColorName(const CardColor &CC);
+	std::string returnCardTypeName(const CardType &CT);
 }
 
 #endif
