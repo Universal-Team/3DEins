@@ -36,12 +36,16 @@ namespace Config {
 	// Load Card Colors.
 	void loadSet(std::string sets);
 
+	bool getBool(const std::string &key);
+	void setBool(const std::string &key, bool v);
+	
 	int getInt(const std::string &key);
 	void setInt(const std::string &key, int v);
 	int getLang(const std::string &key);
 	extern uint32_t Red, Yellow, Blue, Green, Selector, Button, Bar, BG, Text;
 	extern int lang;
 	extern std::string Player1, Player2, Player3, Player4;
+	extern bool allowBruh;
 }
 
 #endif

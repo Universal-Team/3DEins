@@ -25,6 +25,7 @@
 */
 
 #include "colorChanger.hpp"
+#include "gameSettings.hpp"
 #include "langSelection.hpp"
 #include "setChanger.hpp"
 #include "uiSettings.hpp"
@@ -35,23 +36,29 @@ void UISettings::Draw(void) const {
 	GFX::DrawTop();
 	Gui::DrawStringCentered(0, 0, 0.7f, Config::Text, "3DEins - " + Lang::get("UI_SETTINGS"), 400);
 	GFX::DrawBottom();
-	for (int i = 0; i < 3; i++) {
+	for (int i = 0; i < 4; i++) {
 		Gui::Draw_Rect(mainButtons[i].x, mainButtons[i].y, mainButtons[i].w, mainButtons[i].h, Config::Button);
-		if (i == subSelection) {
+		if (subSelection == i) {
 			GFX::DrawButtonSelector(mainButtons[i].x, mainButtons[i].y);
 		}
 	}
-	Gui::DrawStringCentered(0, mainButtons[0].y+10, 0.6f, Config::Text, Lang::get("COLORS"));
-	Gui::DrawStringCentered(0, mainButtons[1].y+10, 0.6f, Config::Text, Lang::get("LANGUAGE"));
-	Gui::DrawStringCentered(0, mainButtons[2].y+10, 0.6f, Config::Text, Lang::get("CARDSETS"));
+	Gui::DrawStringCentered(-80, mainButtons[0].y+12, 0.6f, Config::Text, Lang::get("COLORS"), 130);
+	Gui::DrawStringCentered(80, mainButtons[1].y+12, 0.6f, Config::Text, Lang::get("LANGUAGE"), 130);
+	Gui::DrawStringCentered(-80, mainButtons[2].y+12, 0.6f, Config::Text, Lang::get("CARDSETS"), 130);
+	Gui::DrawStringCentered(80, mainButtons[3].y+12, 0.6f, Config::Text, Lang::get("GAME_SETTINGS"), 130);
 }
 
 void UISettings::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
-	if (hDown & KEY_DOWN) {
-		if (subSelection < 2)	subSelection++;
-	}
-	if (hDown & KEY_UP) {
-		if (subSelection > 0)	subSelection--;
+	if (hDown & KEY_TOUCH) {
+		if (touching(touch, mainButtons[0])) {
+			Gui::setScreen(std::make_unique<ColorChanger>());
+		} else if (touching(touch, mainButtons[1])) {
+			Gui::setScreen(std::make_unique<LangSelection>());
+		} else if (touching(touch, mainButtons[2])) {
+			Gui::setScreen(std::make_unique<SetChanger>());
+		} else if (touching(touch, mainButtons[3])) {
+			Gui::setScreen(std::make_unique<GameSettings>());
+		}
 	}
 
 	if (hDown & KEY_A) {
@@ -65,6 +72,9 @@ void UISettings::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 			case 2:
 				Gui::setScreen(std::make_unique<SetChanger>());
 				break;
+			case 3:
+				Gui::setScreen(std::make_unique<GameSettings>());
+				break;
 		}
 	}
 
@@ -73,13 +83,13 @@ void UISettings::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		return;
 	}
 
-	if (hDown & KEY_TOUCH) {
-		if (touching(touch, mainButtons[0])) {
-			Gui::setScreen(std::make_unique<ColorChanger>());
-		} else if (touching(touch, mainButtons[1])) {
-			Gui::setScreen(std::make_unique<LangSelection>());
-		} else if (touching(touch, mainButtons[2])) {
-			Gui::setScreen(std::make_unique<SetChanger>());
-		}
+	if(hDown & KEY_UP) {
+		if(subSelection > 1)	subSelection -= 2;
+	} else if(hDown & KEY_DOWN) {
+		if(subSelection < 3 && subSelection != 2 && subSelection != 3)	subSelection += 2;
+	} else if (hDown & KEY_LEFT) {
+		if (subSelection%2) subSelection--;
+	} else if (hDown & KEY_RIGHT) {
+		if (!(subSelection%2)) subSelection++;
 	}
 }

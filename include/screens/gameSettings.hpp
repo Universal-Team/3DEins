@@ -24,27 +24,24 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef UISETTINGS_HPP
-#define UISETTINGS_HPP
+#ifndef GAMESETTINGS_HPP
+#define GAMESETTINGS_HPP
 
 #include "common.hpp"
 #include "structs.hpp"
 
 #include <vector>
 
-class UISettings : public Screen
+class GameSettings : public Screen
 {
 public:
 	void Draw(void) const override;
 	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
 private:
-	std::vector<Structs::ButtonPos> mainButtons = {
-		{10, 70, 140, 40}, // Colors.
-		{170, 70, 140, 40}, // Language.
-		{10, 145, 140, 40}, // Cardsets
-		{170, 145, 140, 40}, // game Settings.
+	int gamePage = 0;
+	std::vector<Structs::ButtonPos> buttons = {
+		{115, 85, 95, 41},
 	};
-	int subSelection = 0;
 };
 
 #endif

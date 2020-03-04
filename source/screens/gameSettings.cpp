@@ -24,27 +24,38 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef UISETTINGS_HPP
-#define UISETTINGS_HPP
+#include "gameSettings.hpp"
 
-#include "common.hpp"
-#include "structs.hpp"
+extern bool touching(touchPosition touch, Structs::ButtonPos button);
 
-#include <vector>
+void GameSettings::Draw(void) const {
+	GFX::DrawTop();
+	Gui::DrawStringCentered(0, 0, 0.9f, Config::Text, "3DEins - " + Lang::get("GAME_SETTINGS"), 320);
+	GFX::DrawBottom();
+	Gui::Draw_Rect(buttons[0].x, buttons[0].y, 95, 41, Config::Button);
+	// Settings Pages.
+	if (gamePage == 0) {
+		Gui::DrawStringCentered(0, 60, 0.7f, Config::Text, Lang::get("ALLOW_BRUH_CARD"), 320);
+		if (Config::allowBruh) {
+			Gui::DrawString(140, 98, 0.7f, Config::Text, Lang::get("YES"), 400);
+		} else {
+			Gui::DrawString(140, 98, 0.7f, Config::Text, Lang::get("NO"), 400);
+		}
+	}
+}
 
-class UISettings : public Screen
-{
-public:
-	void Draw(void) const override;
-	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
-private:
-	std::vector<Structs::ButtonPos> mainButtons = {
-		{10, 70, 140, 40}, // Colors.
-		{170, 70, 140, 40}, // Language.
-		{10, 145, 140, 40}, // Cardsets
-		{170, 145, 140, 40}, // game Settings.
-	};
-	int subSelection = 0;
-};
+void GameSettings::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
+	if (hDown & KEY_B) {
+		Gui::screenBack();
+		return;
+	}
 
-#endif
+	if (hDown & KEY_TOUCH) {
+		if (touching(touch, buttons[0])) {
+			if (gamePage == 0) {
+				if (Config::allowBruh)	Config::allowBruh = false;
+				else				Config::allowBruh = true;
+			}
+		}
+	}
+}

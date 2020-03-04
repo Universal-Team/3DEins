@@ -174,6 +174,52 @@ int getPlayerAvatar(int player) {
 	return 1; // Should never happen.
 }
 
+// Currently only for +2.
+bool MultiPlayScreen::PlayerCanCounter(int player) const {
+	switch (player) {
+		case 1:
+			if (CardHelper::checkForCounter(Player1Hand, cardtype))	return true;
+			else	return false;
+			break;
+		case 2:
+			if (CardHelper::checkForCounter(Player2Hand, cardtype))	return true;
+			else	return false;
+			break;
+		case 3:
+			if (CardHelper::checkForCounter(Player3Hand, cardtype))	return true;
+			else	return false;
+			break;
+		case 4:
+			if (CardHelper::checkForCounter(Player4Hand, cardtype))	return true;
+			else	return false;
+			break;
+	}
+	return false; // Should never happen.
+}
+
+// Check if user can play.
+bool MultiPlayScreen::CanPlayerPlay(int player) const {
+	switch (player) {
+		case 1:
+			if (CardHelper::checkForPlayableCard(Player1Hand, TypeToPlay, ColorToPlay))	return true;
+			else	return false;
+			break;
+		case 2:
+			if (CardHelper::checkForPlayableCard(Player2Hand, TypeToPlay, ColorToPlay))	return true;
+			else	return false;
+			break;
+		case 3:
+			if (CardHelper::checkForPlayableCard(Player3Hand, TypeToPlay, ColorToPlay))	return true;
+			else	return false;
+			break;
+		case 4:
+			if (CardHelper::checkForPlayableCard(Player4Hand, TypeToPlay, ColorToPlay))	return true;
+			else	return false;
+			break;
+	}
+	return false; // Should never happen.
+}
+
 // Return the remaining cards.
 int MultiPlayScreen::getPlayerCards(int player) const {
 	switch (player) {
@@ -316,30 +362,26 @@ void MultiPlayScreen::RemoveCard(int player) {
 }
 
 void MultiPlayScreen::restart() {
-	// Reset Direction & current Player.
+	// Reset stuff.
 	currentPlayer = 1;
 	PlayDirection = Direction::LEFT;
-
+	hasDrawn = false;
 	// Reset Card Indicator.
 	Player1Card = 0;
 	Player2Card = 0;
 	Player3Card = 0;
 	Player4Card = 0;
-
 	// Clear Player Hands.
 	Player1Hand.clear();
 	Player2Hand.clear();
-
 	if (maxPlayer == 3) {
 		Player3Hand.clear();
 	} else if (maxPlayer == 4) {
 		Player3Hand.clear();
 		Player4Hand.clear();
 	}
-
 	// Randomize Table card.
 	CardHelper::RandomizeTableCard();
-
 	// Fill Player 1.
 	AddCard(1);
 	AddCard(1);
@@ -347,7 +389,6 @@ void MultiPlayScreen::restart() {
 	AddCard(1);
 	AddCard(1);
 	AddCard(1);
-
 	// Fill Player 2.
 	AddCard(2);
 	AddCard(2);
@@ -555,6 +596,7 @@ void MultiPlayScreen::Player1Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 			}
 
 			RemoveCard(1);
+			hasDrawn = false;
 
 			if (Player1Hand.size() == 0) {
 				char message [100];
@@ -585,23 +627,29 @@ void MultiPlayScreen::Player1Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		}
 	}
 
-	// User cannot set, so draw a card.
+	// Player cannot set, so draw a card. If user cannot play after it, skip to next player.
 	if (hDown & KEY_X) {
-		AddCard(1);
-	}
-
-	// Skip to the next player.
-	if (hDown & KEY_Y) {
-		if (PlayDirection == Direction::LEFT) {
-			char message [100];
-			snprintf(message, sizeof(message), Lang::get("PLAYER_NEXT").c_str(), getPlayerName(1).c_str(), getPlayerName(2).c_str());
-			Msg::DisplayPlayerSwitch(message);
-			currentPlayer = 2;
-		} else if (PlayDirection == Direction::RIGHT) {
-			char message [100];
-			snprintf(message, sizeof(message), Lang::get("PLAYER_NEXT").c_str(), getPlayerName(1).c_str(), getPlayerName(maxPlayer).c_str());
-			Msg::DisplayPlayerSwitch(message);
-			currentPlayer = maxPlayer;
+		if (!hasDrawn) {
+			AddCard(1);
+			// Do not allow multiple draws.
+			hasDrawn = true;
+			if (!CanPlayerPlay(currentPlayer)) {
+				// Reset hasDrawn.
+				hasDrawn = false;
+				if (PlayDirection == Direction::LEFT) {
+					char message [100];
+						snprintf(message, sizeof(message), Lang::get("PLAYER_NEXT").c_str(), getPlayerName(1).c_str(), getPlayerName(2).c_str());
+				Msg::DisplayPlayerSwitch(message);
+					currentPlayer = 2;
+				} else if (PlayDirection == Direction::RIGHT) {
+					char message [100];
+					snprintf(message, sizeof(message), Lang::get("PLAYER_NEXT").c_str(), getPlayerName(1).c_str(), getPlayerName(maxPlayer).c_str());
+					Msg::DisplayPlayerSwitch(message);
+					currentPlayer = maxPlayer;
+				}
+			}
+		} else {
+			Msg::DisplayPlayerSwitch(Lang::get("DRAW_1_MSG"));
 		}
 	}
 }
@@ -698,6 +746,7 @@ void MultiPlayScreen::Player2Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 			}
 
 			RemoveCard(2);
+			hasDrawn = false;
 
 			if (Player2Hand.size() == 0) {
 				char message [100];
@@ -728,25 +777,31 @@ void MultiPlayScreen::Player2Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		}
 	}
 
-	// User cannot set, so draw a card.
+	// Player cannot set, so draw a card. If user cannot play after it, skip to next player.
 	if (hDown & KEY_X) {
-		AddCard(2);
-	}
-
-	// Skip to the next player.
-	if (hDown & KEY_Y) {
-		if (PlayDirection == Direction::LEFT) {
-			if (maxPlayer > 2)	tempPlayer = 3;
-			else				tempPlayer = 1;
-			char message [100];
-			snprintf(message, sizeof(message), Lang::get("PLAYER_NEXT").c_str(), getPlayerName(2).c_str(), getPlayerName(tempPlayer).c_str());
-			Msg::DisplayPlayerSwitch(message);
-			currentPlayer = tempPlayer;
-		} else if (PlayDirection == Direction::RIGHT) {
-			char message [100];
-			snprintf(message, sizeof(message), Lang::get("PLAYER_NEXT").c_str(), getPlayerName(2).c_str(), getPlayerName(1).c_str());
-			Msg::DisplayPlayerSwitch(message);
-			currentPlayer = 1;
+		if (!hasDrawn) {
+			AddCard(2);
+			// Do not allow multiple draws.
+			hasDrawn = true;
+			if (!CanPlayerPlay(currentPlayer)) {
+				// Reset hasDrawn state.
+				hasDrawn = false;
+				if (PlayDirection == Direction::LEFT) {
+					if (maxPlayer > 2)	tempPlayer = 3;
+					else				tempPlayer = 1;
+					char message [100];
+					snprintf(message, sizeof(message), Lang::get("PLAYER_NEXT").c_str(), getPlayerName(2).c_str(), getPlayerName(tempPlayer).c_str());
+					Msg::DisplayPlayerSwitch(message);
+					currentPlayer = tempPlayer;
+				} else if (PlayDirection == Direction::RIGHT) {
+					char message [100];
+					snprintf(message, sizeof(message), Lang::get("PLAYER_NEXT").c_str(), getPlayerName(2).c_str(), getPlayerName(1).c_str());
+					Msg::DisplayPlayerSwitch(message);
+					currentPlayer = 1;
+				}
+			}
+		} else {
+			Msg::DisplayPlayerSwitch(Lang::get("DRAW_1_MSG"));
 		}
 	}
 }
@@ -835,6 +890,7 @@ void MultiPlayScreen::Player3Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 			}
 
 			RemoveCard(3);
+			hasDrawn = false;
 
 			if (Player3Hand.size() == 0) {
 				char message [100];
@@ -863,25 +919,31 @@ void MultiPlayScreen::Player3Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		}
 	}
 
-	// User cannot set, so draw a card.
+	// Player cannot set, so draw a card. If user cannot play after it, skip to next player.
 	if (hDown & KEY_X) {
-		AddCard(3);
-	}
-
-	// Skip to the next player.
-	if (hDown & KEY_Y) {
-		if (PlayDirection == Direction::LEFT) {
-			if (maxPlayer > 3)	tempPlayer = 4;
-			else				tempPlayer = 1;
-			char message [100];
-			snprintf(message, sizeof(message), Lang::get("PLAYER_NEXT").c_str(), getPlayerName(3).c_str(), getPlayerName(tempPlayer).c_str());
-			Msg::DisplayPlayerSwitch(message);
-			currentPlayer = tempPlayer;
-		} else if (PlayDirection == Direction::RIGHT) {
-			char message [100];
-			snprintf(message, sizeof(message), Lang::get("PLAYER_NEXT").c_str(), getPlayerName(3).c_str(), getPlayerName(2).c_str());
-			Msg::DisplayPlayerSwitch(message);
-			currentPlayer = 2;
+		if (!hasDrawn) {
+			AddCard(3);
+			// Do not allow multiple draws.
+			hasDrawn = true;
+			if (!CanPlayerPlay(currentPlayer)) {
+				// Reset hasDrawn state.
+				hasDrawn = false;
+				if (PlayDirection == Direction::LEFT) {
+					if (maxPlayer > 3)	tempPlayer = 4;
+					else				tempPlayer = 1;
+					char message [100];
+					snprintf(message, sizeof(message), Lang::get("PLAYER_NEXT").c_str(), getPlayerName(3).c_str(), getPlayerName(tempPlayer).c_str());
+					Msg::DisplayPlayerSwitch(message);
+					currentPlayer = tempPlayer;
+				} else if (PlayDirection == Direction::RIGHT) {
+					char message [100];
+					snprintf(message, sizeof(message), Lang::get("PLAYER_NEXT").c_str(), getPlayerName(3).c_str(), getPlayerName(2).c_str());
+					Msg::DisplayPlayerSwitch(message);
+					currentPlayer = 2;
+				}
+			}
+		} else {
+			Msg::DisplayPlayerSwitch(Lang::get("DRAW_1_MSG"));
 		}
 	}
 }
@@ -960,6 +1022,7 @@ void MultiPlayScreen::Player4Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 			}
 
 			RemoveCard(4);
+			hasDrawn = false;
 
 			if (Player4Hand.size() == 0) {
 				char message [100];
@@ -986,37 +1049,47 @@ void MultiPlayScreen::Player4Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		}
 	}
 
-	// User cannot set, so draw a card.
-	if (hDown & KEY_X) {
-		AddCard(4);
-	}
 
-	// Skip to the next player.
-	if (hDown & KEY_Y) {
-		if (PlayDirection == Direction::LEFT) {
-			char message [100];
-			snprintf(message, sizeof(message), Lang::get("PLAYER_NEXT").c_str(), getPlayerName(4).c_str(), getPlayerName(1).c_str());
-			Msg::DisplayPlayerSwitch(message);
-			currentPlayer = 1;
-		} else if (PlayDirection == Direction::RIGHT) {
-			char message [100];
-			snprintf(message, sizeof(message), Lang::get("PLAYER_NEXT").c_str(), getPlayerName(4).c_str(), getPlayerName(3).c_str());
-			Msg::DisplayPlayerSwitch(message);
-			currentPlayer = 3;
+	// Player cannot set, so draw a card. If user cannot play after it, skip to next player.
+	if (hDown & KEY_X) {
+		if (!hasDrawn) {
+			AddCard(4);
+			// Do not allow multiple Draws.
+			hasDrawn = true;
+			if (!CanPlayerPlay(currentPlayer)) {
+				// Reset hasDrawn state.
+				hasDrawn = false;
+				if (PlayDirection == Direction::LEFT) {
+					char message [100];
+					snprintf(message, sizeof(message), Lang::get("PLAYER_NEXT").c_str(), getPlayerName(4).c_str(), getPlayerName(1).c_str());
+					Msg::DisplayPlayerSwitch(message);
+					currentPlayer = 1;
+				} else if (PlayDirection == Direction::RIGHT) {
+					char message [100];
+					snprintf(message, sizeof(message), Lang::get("PLAYER_NEXT").c_str(), getPlayerName(4).c_str(), getPlayerName(3).c_str());
+					Msg::DisplayPlayerSwitch(message);
+					currentPlayer = 3;
+				}
+			}
+		} else {
+			Msg::DisplayPlayerSwitch(Lang::get("DRAW_1_MSG"));
 		}
 	}
 }
 
-
-
 void MultiPlayScreen::RoundLogic(u32 hDown, u32 hHeld, touchPosition touch) {
-	if (currentPlayer == 1) {
-		Player1Logic(hDown, hHeld, touch);
-	} else if (currentPlayer == 2) {
-		Player2Logic(hDown, hHeld, touch);
-	} else if (currentPlayer == 3) {
-		Player3Logic(hDown, hHeld, touch);
-	} else if (currentPlayer == 4) {
-		Player4Logic(hDown, hHeld, touch);
+	switch (currentPlayer) {
+		case 1:
+			Player1Logic(hDown, hHeld, touch);
+			break;
+		case 2:
+			Player2Logic(hDown, hHeld, touch);
+			break;
+		case 3:
+			Player3Logic(hDown, hHeld, touch);
+			break;
+		case 4:
+			Player4Logic(hDown, hHeld, touch);
+			break;
 	}
 }

@@ -91,6 +91,10 @@ namespace CardHelper {
 	void RemoveCard(std::vector<CardStruct> &hand, int pos);
 	void ChangeDirection(Direction &direction);
 	CardColor wishFunction();
+	// Check, if the player can counter a card or something. I did it as a vector, in case for checking for +2 & +4 and more.
+	bool checkForCounter(const std::vector<CardStruct> &CS, const std::vector<CardType> &CT);
+	// Check, if a playable card is found on the Playerhand.
+	bool checkForPlayableCard(const std::vector<CardStruct> &CS, const CardType &CT, const CardColor &CC);
 }
 
 #endif

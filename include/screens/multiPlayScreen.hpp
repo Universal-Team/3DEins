@@ -63,6 +63,7 @@ private:
 	// Continue | Counter enabler.
 	bool canContinue = false; // Return, if user can continue. Used in 2 Player mode.
 	bool canCounter = false; // In case the opponent has a Plus 2 / 4 too. TODO.
+	bool hasDrawn = false; // Only 1 Draw is allowed!
 
 	// Card indicator for Player 1-4.
 	int Player1Card = 0;
@@ -99,6 +100,9 @@ private:
 	void restart();
 	void AddCard(int player);
 	void RemoveCard(int player);
+	const std::vector<CardType> cardtype = {CardType::PLUS2};
+	bool PlayerCanCounter(int player) const;
+	bool CanPlayerPlay(int player) const;
 
 	// Draw actual game screen.
 	void DrawPlay(void) const;

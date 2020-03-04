@@ -28,6 +28,7 @@
 #include "credits.hpp"
 #include "mainMenu.hpp"
 #include "modeSelection.hpp"
+// #include "rulesScreen.hpp"
 #include "uiSettings.hpp"
 
 extern bool exiting;
@@ -78,22 +79,27 @@ void MainMenu::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		} else if (touching(touch, mainButtons[2])) {
 			Gui::setScreen(std::make_unique<Credits>());
 		} else if (touching(touch, mainButtons[3])) {
-			// Gui::setScreen(std::make_unique<LangSelection>());
+			// Gui::setScreen(std::make_unique<RulesScreen>());
 		}
 	}
 
 
 	if (hDown & KEY_A) {
-		if (Selection == 0) {
-			if (Msg::promptMsg2(Lang::get("NEW_GAME_PROMPT"))) {
-				Gui::setScreen(std::make_unique<ModeSelection>());
-			}
-		} else if (Selection == 1) {
-			Gui::setScreen(std::make_unique<UISettings>());
-		} else if (Selection == 2) {
-			Gui::setScreen(std::make_unique<Credits>());
-		} else if (Selection == 3) {
-			// Gui::setScreen(std::make_unique<LangSelection>());
+		switch (Selection) {
+			case 0:
+				if (Msg::promptMsg2(Lang::get("NEW_GAME_PROMPT"))) {
+					Gui::setScreen(std::make_unique<ModeSelection>());
+				}
+				break;
+			case 1:
+				Gui::setScreen(std::make_unique<UISettings>());
+				break;
+			case 2:
+				Gui::setScreen(std::make_unique<Credits>());
+				break;
+			case 3:
+				// Gui::setScreen(std::make_unique<RulesScreen>()); :eyes:
+				break;
 		}
 	}
 

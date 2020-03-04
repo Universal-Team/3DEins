@@ -38,6 +38,7 @@
 u32 Config::Red, Config::Yellow, Config::Blue, Config::Green, Config::Selector, Config::Button, Config::Bar, Config::BG, Config::Text;
 // GUI.
 int Config::lang;
+bool Config::allowBruh;
 
 // Player names.
 std::string Config::Player1, Config::Player2, Config::Player3, Config::Player4;
@@ -96,6 +97,12 @@ void Config::load() {
 		Config::Text = C2D_Color32(255, 255, 255, 255);
 	} else {
 		Config::Text = getInt("TEXT");
+	}
+
+	if(!configJson.contains("ALLOW_BRUH")) {
+		Config::allowBruh = true;
+	} else {
+		Config::allowBruh = getBool("ALLOW_BRUH");
 	}
 
 	loadSet("romfs:/Set.json");
@@ -157,6 +164,8 @@ void Config::save() {
 	Config::setInt("BAR", Config::Bar);
 	Config::setInt("BG", Config::BG);
 	Config::setInt("TEXT", Config::Text);
+	// Game Stuff.
+	Config::setBool("ALLOW_BRUH", Config::allowBruh);
 
 	FILE* file = fopen("sdmc:/3ds/3DEins/Settings.json", "w");
 	if(file)	fwrite(configJson.dump(1, '\t').c_str(), 1, configJson.dump(1, '\t').size(), file);
@@ -179,9 +188,21 @@ void Config::initializeNewConfig() {
 	Config::setInt("BAR", C2D_Color32(220, 60, 0, 255));
 	Config::setInt("BG", C2D_Color32(220, 160, 0, 255));
 	Config::setInt("TEXT", C2D_Color32(255, 255, 255, 255));
-
+	// Game stuff.
+	Config::setBool("ALLOW_BRUH", true);
+	
 	if(file)	fwrite(configJson.dump(1, '\t').c_str(), 1, configJson.dump(1, '\t').size(), file);
 	fclose(file);
+}
+
+bool Config::getBool(const std::string &key) {
+	if(!configJson.contains(key)) {
+		return false;
+	}
+	return configJson.at(key).get_ref<const bool&>();
+}
+void Config::setBool(const std::string &key, bool v) {
+	configJson[key] = v;
 }
 
 int Config::getInt(const std::string &key) {

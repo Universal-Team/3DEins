@@ -44,14 +44,34 @@ BANNERTOOL 	?= bannertool
 
 endif
 
+# If on a tagged commit, say `Release` and don't show the commit
+ifneq ($(shell echo $(shell git tag -l --points-at HEAD) | head -c 1),)
+GIT_VER := "Release $(shell git tag -l --points-at HEAD)"
+else
+GIT_VER := "Nightly $(shell git tag -l)-$(shell git rev-parse --short HEAD)"
+endif
+
 #---------------------------------------------------------------------------------
 # Version number
 #---------------------------------------------------------------------------------
+ifneq ($(shell echo $(shell git describe --tags) | head -c 2 | tail -c 1),)
+VERSION_MAJOR := $(shell echo $(shell git describe --tags) | head -c 2 | tail -c 1)
+else
 VERSION_MAJOR := 0
-VERSION_MINOR := 1
-VERSION_MICRO := 0
+endif
 
-VERSION_STRING := "$(VERSION_MAJOR).$(VERSION_MINOR).$(VERSION_MICRO)"
+ifneq ($(shell echo $(shell git describe --tags) | head -c 4 | tail -c 1),)
+VERSION_MINOR := $(shell echo $(shell git describe --tags) | head -c 4 | tail -c 1)
+else
+VERSION_MINOR := 1
+endif
+
+ifneq ($(shell echo $(shell git describe --tags) | head -c 6 | tail -c 1),)
+VERSION_MICRO := $(shell echo $(shell git describe --tags) | head -c 6 | tail -c 1)
+else
+VERSION_MICRO := 0
+endif
+
 #---------------------------------------------------------------------------------
 TARGET		:=	3DEins
 BUILD		:=	build
@@ -74,7 +94,7 @@ RSF_FILE	:=	app/build-cia.rsf
 ARCH	:=	-march=armv6k -mtune=mpcore -mfloat-abi=hard -mtp=soft
 
 CFLAGS	:=	-g -Wall -Wno-psabi -O2 -mword-relocations \
-			-DV_STRING=\"$(VERSION_STRING)\" \
+			-DV_STRING=\"$(GIT_VER)\" \
 			-fomit-frame-pointer -ffunction-sections \
 			$(ARCH)
 

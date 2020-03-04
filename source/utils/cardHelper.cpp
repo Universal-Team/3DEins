@@ -43,10 +43,17 @@ void CardHelper::RandomizeTableCard(void) {
 }
 
 void CardHelper::AddCard(std::vector<CardStruct> &hand) {
-	CardType Card = CardType(rand() % MAXCARDTYPE + 0);
+	CardType Card;
+	// Bruh Specialcase.
+	if (Config::allowBruh) {
+		Card = CardType(rand() % MAXCARDTYPE + 0);
+	} else {
+		Card = CardType(rand() % MAXCARDTYPE-1 + 0);
+	}
+	
 	CardColor Color = CardColor(rand() % MAXCOLOR + 0);
 	// Checks for Wish & +4.
-	if (Card == CardType::WISH || Card == CardType::PLUS4) {
+	if (Card == CardType::WISH || Card == CardType::PLUS4 || Card == CardType::BRUH) {
 		Color = CardColor::SPECIAL;
 	}
 	// Push the Card back to the hand.
@@ -212,4 +219,25 @@ void CardHelper::specialHandle(CardType card, PlayerStatus &p, PlayerStatus &nP,
 		case CardType::BRUH:
 			break; // Handled in the Play screen.
 	}
+}
+
+// Checks, if a specific card is found on the Player's hand.
+bool CardHelper::checkForCounter(const std::vector<CardStruct> &CS, const std::vector<CardType> &CT) {
+	for (int i = 0; i < (int)CS.size(); i++) {
+		for (int c = 0; c < (int)CT.size(); c++) {
+			if (CS[i].CT == CT[c]) {
+				return true;
+			}
+		}
+	}
+	return false;
+}
+
+bool CardHelper::checkForPlayableCard(const std::vector<CardStruct> &CS, const CardType &CT, const CardColor &CC) {
+	for (int i = 0; i < (int)CS.size(); i++) {
+		if (CS[i].CT == CT || CS[i].CC == CC || CS[i].CT == CardType::PLUS4 || CS[i].CT == CardType::WISH || CS[i].CT == CardType::BRUH) {
+			return true;
+		}
+	}
+	return false;
 }
