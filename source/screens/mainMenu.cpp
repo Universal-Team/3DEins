@@ -28,7 +28,7 @@
 #include "credits.hpp"
 #include "mainMenu.hpp"
 #include "modeSelection.hpp"
-// #include "rulesScreen.hpp"
+#include "rulesScreen.hpp"
 #include "uiSettings.hpp"
 
 extern bool exiting;
@@ -64,7 +64,7 @@ void MainMenu::Draw(void) const {
 	Gui::DrawStringCentered(-80, mainButtons[0].y+12, 0.6f, Config::Text, Lang::get("NEW_GAME"), 130);
 	Gui::DrawStringCentered(80, mainButtons[1].y+12, 0.6f, Config::Text, Lang::get("UI_SETTINGS"), 130);
 	Gui::DrawStringCentered(-80, mainButtons[2].y+12, 0.6f, Config::Text, Lang::get("CREDITS"), 130);
-	Gui::DrawStringCentered(80, mainButtons[3].y+12, 0.6f, Config::Text, "???", 130);
+	Gui::DrawStringCentered(80, mainButtons[3].y+12, 0.6f, Config::Text, Lang::get("RULES"), 130);
 }
 
 
@@ -79,7 +79,7 @@ void MainMenu::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		} else if (touching(touch, mainButtons[2])) {
 			Gui::setScreen(std::make_unique<Credits>());
 		} else if (touching(touch, mainButtons[3])) {
-			// Gui::setScreen(std::make_unique<RulesScreen>());
+			Gui::setScreen(std::make_unique<RulesScreen>());
 		}
 	}
 
@@ -98,7 +98,7 @@ void MainMenu::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 				Gui::setScreen(std::make_unique<Credits>());
 				break;
 			case 3:
-				// Gui::setScreen(std::make_unique<RulesScreen>()); :eyes:
+				Gui::setScreen(std::make_unique<RulesScreen>());
 				break;
 		}
 	}

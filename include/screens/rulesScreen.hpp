@@ -24,14 +24,44 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef ANIMATION_HPP
-#define ANIMATION_HPP
+#ifndef RULESSCREEN_HPP
+#define RULESSCREEN_HPP
 
-#include <3ds.h>
+#include "common.hpp"
+#include "structs.hpp"
 
-namespace Animation {
-	// Animated Sub Background.
-	void DrawSubBG(bool isTop = true);
-}
+#include <vector>
+
+class RulesScreen : public Screen
+{
+public:
+	void Draw(void) const override;
+	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
+private:
+	void DrawDescription(void) const;
+	void DisplayCards(void) const;
+	int rulePage = 0;
+
+	std::vector<Structs::ButtonPos> cards = {
+		{0, 0, 48, 72},
+		{52, 0, 48, 72},
+		{104, 0, 48, 72},
+		{156, 0, 48, 72},
+		{208, 0, 48, 72},
+		{260, 0, 48, 72},
+
+		{0, 80, 48, 72},
+		{52, 80, 48, 72},
+		{104, 80, 48, 72},
+		{156, 80, 48, 72},
+
+		{208, 80, 48, 72},
+		{260, 80, 48, 72},
+		{0, 160, 48, 72},
+		{52, 160, 48, 72},
+		{104, 160, 48, 72},
+		{156, 160, 48, 72},
+	};
+};
 
 #endif

@@ -316,3 +316,57 @@ std::string CardHelper::returnCardTypeName(const CardType &CT) {
 	}
 	return ""; // Should never happen.
 }
+
+int CardHelper::returnPoints(const CardType &CT) {
+	switch (CT) {
+		case CardType::NUMBER_0:
+			return 0;
+			break;
+		case CardType::NUMBER_1:
+			return 1;
+			break;
+		case CardType::NUMBER_2:
+			return 2;
+			break;
+		case CardType::NUMBER_3:
+			return 3;
+			break;
+		case CardType::NUMBER_4:
+			return 4;
+			break;
+		case CardType::NUMBER_5:
+			return 5;
+			break;
+		case CardType::NUMBER_6:
+			return 6;
+			break;
+		case CardType::NUMBER_7:
+			return 7;
+			break;
+		case CardType::NUMBER_8:
+			return 8;
+			break;
+		case CardType::NUMBER_9:
+			return 9;
+			break;
+		case CardType::SKIP:
+			return 20;
+			break;
+		case CardType::REVERSE:
+			return 20;
+			break;
+		case CardType::PLUS2:
+			return 20;
+			break;
+		case CardType::WISH:
+			return 50;
+			break;
+		case CardType::PLUS4:
+			return 50;
+			break;
+		case CardType::BRUH:
+			return 30;
+			break;
+	}
+	return 0; // Should never happen.
+}

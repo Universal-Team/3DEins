@@ -269,18 +269,22 @@ void MultiPlayScreen::DrawPlay(void) const {
 }
 
 void MultiPlayScreen::DrawStats(void) const {
-	GFX::DrawTop();
+	Animation::DrawSubBG();
+	Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(0, 0, 0, 210)); // Darken the screen.
 	Gui::DrawStringCentered(0, 0, 0.9f, Config::Text, "3DEins - " + Lang::get("STATS"), 320);
 	GFX::DrawPlayer(30, 35, 1, 1, getPlayerAvatar(subMode));
 	Gui::DrawString(210, 70, 0.7f, Config::Text, Lang::get("PLAYERNAME") + getPlayerName(subMode), 160);
 	Gui::DrawString(210, 120, 0.7f, Config::Text, Lang::get("CARDS_LEFT") + std::to_string(getPlayerCards(subMode)), 160);
-	GFX::DrawBottom();
+	Animation::DrawSubBG(false);
+	Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(0, 0, 0, 210)); // Darken the screen.
 }
 
 void MultiPlayScreen::DrawSubMenu(void) const {
 	Animation::DrawSubBG();
+	Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(0, 0, 0, 210)); // Darken the screen.
 	Gui::DrawString(100, 0, 0.9f, Config::Text, "3DEins - " + Lang::get("GAME_PAUSED"));
-	GFX::DrawBottom();
+	Animation::DrawSubBG(false);
+	Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(0, 0, 0, 210)); // Darken the screen.
 	for (int i = 0; i < 3; i++) {
 		Gui::Draw_Rect(breakBtn[i].x, breakBtn[i].y, breakBtn[i].w, breakBtn[i].h, Config::Button);
 		if (selection == i) {

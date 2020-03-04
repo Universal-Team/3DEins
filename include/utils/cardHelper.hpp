@@ -99,6 +99,9 @@ namespace CardHelper {
 	// Return names for colorblind users.
 	std::string returnCardColorName(const CardColor &CC);
 	std::string returnCardTypeName(const CardType &CT);
+
+	// Return Points.
+	int returnPoints(const CardType &CT);
 }
 
 #endif
