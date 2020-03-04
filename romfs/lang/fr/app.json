@@ -1,6 +1,7 @@
 {
 	"A_CONTINUE": "Appuyer sur  pour continuer.",
 	"ALL_PLAYER_READY": "Tout les joueurs sont prêts!",
+	"ALLOW_BRUH_CARD": "Allow Bruh Card",
 	"BACK": "Retour",
 	"BAR_COLOR": "Couleur de la barre",
 	"BG_COLOR": "Couleur de fond",
@@ -16,6 +17,7 @@
 	"CREDITS_INSTRUCTIONS_2": ": Retour",
 	"CURRENT_VERSION": "Version actuelle: ",
 	"DEVELOPED_BY": "Développé par : Universal-Team.",
+	"DRAW_1_MSG": "You can only draw 1 Card at a time!",
 	"ENTER_BLUE_RGB": "Entrez la valeur bleu du RGB.",
 	"ENTER_GREEN_RGB": "Entrez la valeur verte du RGB.",
 	"ENTER_PLAYERNAME": "Saisissez le nom du joueur.",
@@ -23,6 +25,7 @@
 	"EXIT_GAME": "Quitter le jeu",
 	"FILE_NOT_EXIST": "%s n'existe pas!",
 	"GAME_PAUSED": "Jeu en pause.",
+	"GAME_SETTINGS": "Game Settings",
 	"ITS_PLAYER_TURN": "C'est au tour de %s!",
 	"LANGUAGE": "Langue",
 	"LANGUAGE_INSTRUCTIONS": "D-Pad | Écran: Sélection de la langue\n : Retour",
