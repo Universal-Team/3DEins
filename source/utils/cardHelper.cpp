@@ -146,7 +146,7 @@ void CardHelper::ChangeDirection(Direction &direction) {
 }
 
 // TODO: Status handling like +2, +4, Wish etc.
-void CardHelper::statusHandler(std::vector<CardStruct> &hand, PlayerStatus status, PlayerStatus &p, Direction &direction) {
+void CardHelper::statusHandler(std::vector<CardStruct> &hand, PlayerStatus &status, Direction &direction) {
 	if (status != PlayerStatus::NORMAL) {
 		switch (status) {
 			case PlayerStatus::DRAW_2:
@@ -154,6 +154,8 @@ void CardHelper::statusHandler(std::vector<CardStruct> &hand, PlayerStatus statu
 				AddCard(hand);
 				break;
 			case PlayerStatus::DRAW_4:
+				AddCard(hand);
+				AddCard(hand);
 				AddCard(hand);
 				AddCard(hand);
 				break;
@@ -174,7 +176,7 @@ void CardHelper::statusHandler(std::vector<CardStruct> &hand, PlayerStatus statu
 				break;
 
 		}
-		p = PlayerStatus::NORMAL;
+		status = PlayerStatus::NORMAL;
 	}
 }
 

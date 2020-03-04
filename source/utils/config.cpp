@@ -37,7 +37,7 @@
 // Card & Lang.
 u32 Config::Red, Config::Yellow, Config::Blue, Config::Green, Config::Selector, Config::Button, Config::Bar, Config::BG, Config::Text;
 // GUI.
-int Config::lang;
+int Config::lang, Config::speed;
 bool Config::allowBruh;
 
 // Player names.
@@ -105,6 +105,12 @@ void Config::load() {
 		Config::allowBruh = getBool("ALLOW_BRUH");
 	}
 
+	if(!configJson.contains("ANIMATION_SPEED")) {
+		Config::speed = 2;
+	} else {
+		Config::speed = getInt("ANIMATION_SPEED");
+	}
+
 	loadSet("romfs:/Set.json");
 }
 
@@ -164,6 +170,7 @@ void Config::save() {
 	Config::setInt("BAR", Config::Bar);
 	Config::setInt("BG", Config::BG);
 	Config::setInt("TEXT", Config::Text);
+	Config::setInt("ANIMATION_SPEED", Config::speed);
 	// Game Stuff.
 	Config::setBool("ALLOW_BRUH", Config::allowBruh);
 
@@ -188,6 +195,7 @@ void Config::initializeNewConfig() {
 	Config::setInt("BAR", C2D_Color32(220, 60, 0, 255));
 	Config::setInt("BG", C2D_Color32(220, 160, 0, 255));
 	Config::setInt("TEXT", C2D_Color32(255, 255, 255, 255));
+	Config::setInt("ANIMATION_SPEED", 2);
 	// Game stuff.
 	Config::setBool("ALLOW_BRUH", true);
 	

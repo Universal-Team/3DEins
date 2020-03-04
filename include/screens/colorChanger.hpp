@@ -45,6 +45,8 @@ private:
 		{115, 85, 95, 41},
 		{220, 85, 95, 41},
 	};
+
+	Structs::ButtonPos btn = { 90, 100, 140, 40 };
 };
 
 #endif

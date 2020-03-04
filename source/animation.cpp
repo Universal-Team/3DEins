@@ -31,8 +31,8 @@ bool animated_cardMoveDelay = false;
 
 void Animation::DrawSubBG(bool isTop) {
 	if (!animated_cardMoveDelay) {
-		animated_cardYPos[0] -= 2;
-		animated_cardYPos[1] += 2;
+		animated_cardYPos[0] -= Config::speed;
+		animated_cardYPos[1] += Config::speed;
 		if (animated_cardYPos[0] <= -240) animated_cardYPos[0] = 0;
 		if (animated_cardYPos[1] >= +240) animated_cardYPos[1] = 0;
 	}

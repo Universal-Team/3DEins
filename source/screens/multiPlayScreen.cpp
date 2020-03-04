@@ -271,10 +271,13 @@ void MultiPlayScreen::DrawPlay(void) const {
 void MultiPlayScreen::DrawStats(void) const {
 	Animation::DrawSubBG();
 	Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(0, 0, 0, 210)); // Darken the screen.
-	Gui::DrawStringCentered(0, 0, 0.9f, Config::Text, "3DEins - " + Lang::get("STATS"), 320);
-	GFX::DrawPlayer(30, 35, 1, 1, getPlayerAvatar(subMode));
-	Gui::DrawString(210, 70, 0.7f, Config::Text, Lang::get("PLAYERNAME") + getPlayerName(subMode), 160);
-	Gui::DrawString(210, 120, 0.7f, Config::Text, Lang::get("CARDS_LEFT") + std::to_string(getPlayerCards(subMode)), 160);
+	Gui::DrawStringCentered(0, 0, 0.8f, Config::Text, "3DEins - " + Lang::get("STATS"), 400);
+	GFX::DrawPlayer(30, 50, 1, 1, getPlayerAvatar(subMode));
+	Gui::DrawString(190, 55, 0.7f, Config::Text, Lang::get("POSITION") + std::to_string(subMode) + " | " + std::to_string(maxPlayer), 200);
+	Gui::DrawString(190, 85, 0.7f, Config::Text, Lang::get("PLAYERNAME") + getPlayerName(subMode), 200);
+	Gui::DrawString(190, 115, 0.7f, Config::Text, Lang::get("CARDS_LEFT") + std::to_string(getPlayerCards(subMode)), 200);
+	Gui::DrawString(190, 145, 0.7f, Config::Text, Lang::get("POINTS") + "0", 200);
+	Gui::DrawStringCentered(0, 216, 0.75f, Config::Text, Lang::get("STATS_INFO"), 400);
 	Animation::DrawSubBG(false);
 	Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(0, 0, 0, 210)); // Darken the screen.
 }
@@ -282,7 +285,9 @@ void MultiPlayScreen::DrawStats(void) const {
 void MultiPlayScreen::DrawSubMenu(void) const {
 	Animation::DrawSubBG();
 	Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(0, 0, 0, 210)); // Darken the screen.
-	Gui::DrawString(100, 0, 0.9f, Config::Text, "3DEins - " + Lang::get("GAME_PAUSED"));
+	Gui::DrawStringCentered(0, 0, 0.8f, Config::Text, "3DEins - " + Lang::get("GAME_PAUSED"), 400);
+	Gui::DrawStringCentered(0, 216, 0.75f, Config::Text, Lang::get("STATS_INFO"), 400);
+	
 	Animation::DrawSubBG(false);
 	Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(0, 0, 0, 210)); // Darken the screen.
 	for (int i = 0; i < 3; i++) {
@@ -558,21 +563,21 @@ void MultiPlayScreen::Player1Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 			// Handle.
 			if (PlayDirection == Direction::LEFT) {
 				CardHelper::specialHandle(Player1Hand[Player1Card].CT, Player1Status, Player2Status, maxPlayer);
-				CardHelper::statusHandler(Player1Hand, Player1Status, Player1Status, PlayDirection);
-				CardHelper::statusHandler(Player2Hand, Player2Status, Player2Status, PlayDirection);
+				CardHelper::statusHandler(Player1Hand, Player1Status, PlayDirection);
+				CardHelper::statusHandler(Player2Hand, Player2Status, PlayDirection);
 			} else {
 				if (maxPlayer == 4) {
 					CardHelper::specialHandle(Player1Hand[Player1Card].CT, Player1Status, Player4Status, maxPlayer);
-					CardHelper::statusHandler(Player1Hand, Player1Status, Player1Status, PlayDirection);
-					CardHelper::statusHandler(Player4Hand, Player4Status, Player4Status, PlayDirection);
+					CardHelper::statusHandler(Player1Hand, Player1Status, PlayDirection);
+					CardHelper::statusHandler(Player4Hand, Player4Status, PlayDirection);
 				} else if (maxPlayer == 3) {
 					CardHelper::specialHandle(Player1Hand[Player1Card].CT, Player1Status, Player3Status, maxPlayer);
-					CardHelper::statusHandler(Player1Hand, Player1Status, Player1Status, PlayDirection);
-					CardHelper::statusHandler(Player3Hand, Player3Status, Player3Status, PlayDirection);
-				} else {
+					CardHelper::statusHandler(Player1Hand, Player1Status, PlayDirection);
+					CardHelper::statusHandler(Player3Hand, Player3Status, PlayDirection);
+				} else if (maxPlayer == 2) {
 					CardHelper::specialHandle(Player1Hand[Player1Card].CT, Player1Status, Player2Status, maxPlayer);
-					CardHelper::statusHandler(Player1Hand, Player1Status, Player1Status, PlayDirection);
-					CardHelper::statusHandler(Player2Hand, Player2Status, Player2Status, PlayDirection);
+					CardHelper::statusHandler(Player1Hand, Player1Status, PlayDirection);
+					CardHelper::statusHandler(Player2Hand, Player2Status, PlayDirection);
 				}
 			}
 
@@ -642,8 +647,8 @@ void MultiPlayScreen::Player1Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 				hasDrawn = false;
 				if (PlayDirection == Direction::LEFT) {
 					char message [100];
-						snprintf(message, sizeof(message), Lang::get("PLAYER_NEXT").c_str(), getPlayerName(1).c_str(), getPlayerName(2).c_str());
-				Msg::DisplayPlayerSwitch(message);
+					snprintf(message, sizeof(message), Lang::get("PLAYER_NEXT").c_str(), getPlayerName(1).c_str(), getPlayerName(2).c_str());
+					Msg::DisplayPlayerSwitch(message);
 					currentPlayer = 2;
 				} else if (PlayDirection == Direction::RIGHT) {
 					char message [100];
@@ -718,17 +723,17 @@ void MultiPlayScreen::Player2Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 			if (PlayDirection == Direction::LEFT) {
 				if (maxPlayer == 3) {
 					CardHelper::specialHandle(Player2Hand[Player2Card].CT, Player2Status, Player3Status, maxPlayer);
-					CardHelper::statusHandler(Player2Hand, Player2Status, Player2Status, PlayDirection);
-					CardHelper::statusHandler(Player3Hand, Player3Status, Player3Status, PlayDirection);
+					CardHelper::statusHandler(Player2Hand, Player2Status, PlayDirection);
+					CardHelper::statusHandler(Player3Hand, Player3Status, PlayDirection);
 				} else {
 					CardHelper::specialHandle(Player2Hand[Player2Card].CT, Player2Status, Player1Status, maxPlayer);
-					CardHelper::statusHandler(Player2Hand, Player2Status, Player2Status, PlayDirection);
-					CardHelper::statusHandler(Player1Hand, Player1Status, Player1Status, PlayDirection);
+					CardHelper::statusHandler(Player2Hand, Player2Status, PlayDirection);
+					CardHelper::statusHandler(Player1Hand, Player1Status, PlayDirection);
 				}
 			} else {
 				CardHelper::specialHandle(Player2Hand[Player2Card].CT, Player2Status, Player1Status, maxPlayer);
-				CardHelper::statusHandler(Player2Hand, Player2Status, Player2Status, PlayDirection);
-				CardHelper::statusHandler(Player1Hand, Player1Status, Player1Status, PlayDirection);
+				CardHelper::statusHandler(Player2Hand, Player2Status, PlayDirection);
+				CardHelper::statusHandler(Player1Hand, Player1Status, PlayDirection);
 			}
 
 			// Special case handle for 2 Player.
@@ -877,17 +882,17 @@ void MultiPlayScreen::Player3Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 			if (PlayDirection == Direction::LEFT) {
 				if (maxPlayer == 4) {
 					CardHelper::specialHandle(Player3Hand[Player3Card].CT, Player3Status, Player4Status, maxPlayer);
-					CardHelper::statusHandler(Player3Hand, Player3Status, Player3Status, PlayDirection);
-					CardHelper::statusHandler(Player4Hand, Player4Status, Player4Status, PlayDirection);
+					CardHelper::statusHandler(Player3Hand, Player3Status, PlayDirection);
+					CardHelper::statusHandler(Player4Hand, Player4Status, PlayDirection);
 				} else {
 					CardHelper::specialHandle(Player3Hand[Player3Card].CT, Player3Status, Player1Status, maxPlayer);
-					CardHelper::statusHandler(Player3Hand, Player3Status, Player3Status, PlayDirection);
-					CardHelper::statusHandler(Player1Hand, Player1Status, Player1Status, PlayDirection);
+					CardHelper::statusHandler(Player3Hand, Player3Status, PlayDirection);
+					CardHelper::statusHandler(Player1Hand, Player1Status, PlayDirection);
 				}
 			} else {
 				CardHelper::specialHandle(Player3Hand[Player3Card].CT, Player3Status, Player2Status, maxPlayer);
-				CardHelper::statusHandler(Player3Hand, Player3Status, Player3Status, PlayDirection);
-				CardHelper::statusHandler(Player2Hand, Player2Status, Player2Status, PlayDirection);
+				CardHelper::statusHandler(Player3Hand, Player3Status, PlayDirection);
+				CardHelper::statusHandler(Player2Hand, Player2Status, PlayDirection);
 			}
 
 			// Skip special handle.
@@ -1021,12 +1026,12 @@ void MultiPlayScreen::Player4Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 			// Handle.
 			if (PlayDirection == Direction::LEFT) {
 				CardHelper::specialHandle(Player4Hand[Player4Card].CT, Player4Status, Player1Status, maxPlayer);
-				CardHelper::statusHandler(Player4Hand, Player4Status, Player4Status, PlayDirection);
-				CardHelper::statusHandler(Player1Hand, Player1Status, Player1Status, PlayDirection);
+				CardHelper::statusHandler(Player4Hand, Player4Status, PlayDirection);
+				CardHelper::statusHandler(Player1Hand, Player1Status, PlayDirection);
 			} else {
 				CardHelper::specialHandle(Player4Hand[Player4Card].CT, Player4Status, Player3Status, maxPlayer);
-				CardHelper::statusHandler(Player4Hand, Player4Status, Player4Status, PlayDirection);
-				CardHelper::statusHandler(Player3Hand, Player3Status, Player3Status, PlayDirection);
+				CardHelper::statusHandler(Player4Hand, Player4Status, PlayDirection);
+				CardHelper::statusHandler(Player3Hand, Player3Status, PlayDirection);
 			}
 
 			// Skip special handle.

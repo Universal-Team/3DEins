@@ -33,6 +33,8 @@
 #include "chars.h"
 #include "sprites.h"
 
+#include <vector>
+
 namespace GFX
 {
 	// Basic GUI.
@@ -48,6 +50,8 @@ namespace GFX
 	void DrawCard(CardType CT, int x, int y, CardColor CC, float ScaleX = 1, float ScaleY = 1);
 	void DrawChar(int image, int x, int y, float ScaleX = 1, float ScaleY = 1);
 	void DrawPlayer(int x, int y, float ScaleX, float ScaleY, int player);
+
+	int ListSelection(int current, const std::vector<std::string> &list, const std::string &Msg);
 }
 
 #endif
