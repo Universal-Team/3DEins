@@ -84,10 +84,10 @@ void ModeSelection::MSelection(u32 hDown, u32 hHeld, touchPosition touch) {
 
 	if (hDown & KEY_A) {
 		if (Selection == 0) {
-			//selectedMode = 0; // 0 -> SinglePlayer.
-			Msg::NotImplementedYet(); // Single player not done yet.
-		} else if (Selection == 1) {
 			selectedMode = 1;
+			Mode = 2;
+		} else if (Selection == 1) {
+			selectedMode = 0;
 			Mode = 2;
 		} else if (Selection == 2) {
 			Gui::screenBack();
@@ -97,9 +97,10 @@ void ModeSelection::MSelection(u32 hDown, u32 hHeld, touchPosition touch) {
 
 	if (hDown & KEY_TOUCH) {
 		if (touching(touch, mainButtons[0])) {
-			Msg::NotImplementedYet();
-		} else if (touching(touch, mainButtons[1])) {
 			selectedMode = 1;
+			Mode = 2;
+		} else if (touching(touch, mainButtons[1])) {
+			selectedMode = 0;
 			Mode = 2;
 		} else if (touching(touch, mainButtons[2])) {
 			Gui::screenBack();

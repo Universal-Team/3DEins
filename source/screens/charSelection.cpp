@@ -27,6 +27,7 @@
 #include "charSelection.hpp"
 #include "keyboard.hpp"
 #include "multiPlayScreen.hpp"
+#include "singlePlayScreen.hpp"
 
 // Player char's.
 int player1 = 0;
@@ -42,6 +43,7 @@ extern bool touching(touchPosition touch, Structs::ButtonPos button);
 CharSelection::CharSelection() {
 	// Get Max amount of Players.
 	maxPlayers = playerAmount;
+	singleMode = selectedMode;
 }
 
 // 4 Chars: StackZ, Carl, Isabel, Lea.
@@ -101,46 +103,53 @@ void CharSelection::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		}
 	}
 
-	if (hDown & KEY_A) {
-		if (allSelected == true) {
-			if (selectedMode == 1) {
+	if (singleMode == 0) {
+		if (hDown & KEY_A) {
+			if (allSelected == true) {
 				Gui::setScreen(std::make_unique<MultiPlayScreen>());
 			}
-		}
-
-		if (currentPlayer != maxPlayers+1) {
-			if (currentPlayer == 1) {
-				player1 = Selection;
-				std::string temp = Input::getString(Lang::get("ENTER_PLAYERNAME"));
-				if (temp != "") {
-					Config::Player1 = temp;
+			if (currentPlayer != maxPlayers+1) {
+				if (currentPlayer == 1) {
+					player1 = Selection;
+					std::string temp = Input::getString(Lang::get("ENTER_PLAYERNAME"));
+					if (temp != "") {
+						Config::Player1 = temp;
+					}
+				} else if (currentPlayer == 2) {
+					player2 = Selection;
+					std::string temp = Input::getString(Lang::get("ENTER_PLAYERNAME"));
+					if (temp != "") {
+						Config::Player2 = temp;
+					}
+				} else if (currentPlayer == 3) {
+					player3 = Selection;
+					std::string temp = Input::getString(Lang::get("ENTER_PLAYERNAME"));
+					if (temp != "") {
+						Config::Player3 = temp;
+					}
+				} else if (currentPlayer == 4) {
+					player4 = Selection;
+					std::string temp = Input::getString(Lang::get("ENTER_PLAYERNAME"));
+					if (temp != "") {
+						Config::Player4 = temp;
+					}
 				}
-			} else if (currentPlayer == 2) {
-				player2 = Selection;
-				std::string temp = Input::getString(Lang::get("ENTER_PLAYERNAME"));
-				if (temp != "") {
-					Config::Player2 = temp;
-				}
-			} else if (currentPlayer == 3) {
-				player3 = Selection;
-				std::string temp = Input::getString(Lang::get("ENTER_PLAYERNAME"));
-				if (temp != "") {
-					Config::Player3 = temp;
-				}
-			} else if (currentPlayer == 4) {
-				player4 = Selection;
-				std::string temp = Input::getString(Lang::get("ENTER_PLAYERNAME"));
-				if (temp != "") {
-					Config::Player4 = temp;
-				}
+				currentPlayer++;
 			}
-			currentPlayer++;
-		}
 
-		if (currentPlayer == maxPlayers+1) {
-			allSelected = true;
+			if (currentPlayer == maxPlayers+1) {
+				allSelected = true;
+			}
 		}
-
+	} else if (singleMode == 1) {
+		if (hDown & KEY_A) {
+			player1 = Selection;
+			std::string temp = Input::getString(Lang::get("ENTER_PLAYERNAME"));
+			if (temp != "") {
+				Config::Player1 = temp;
+			}
+			Gui::setScreen(std::make_unique<SinglePlayScreen>());
+		}
 	}
 
 	if (hDown & KEY_RIGHT) {

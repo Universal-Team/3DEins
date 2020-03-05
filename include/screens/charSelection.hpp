@@ -41,6 +41,7 @@ public:
 private:
 	int Selection = 0;
 	int state = 1;
+	int singleMode;
 	bool allSelected = false;
 	int currentPlayer = 1;
 	int maxPlayers;
