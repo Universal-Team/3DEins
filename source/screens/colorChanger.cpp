@@ -110,7 +110,7 @@ void ColorChanger::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	}
 
 	if (hDown & KEY_TOUCH) {
-		if (touching(touch, buttons[0])) {
+		if (touching(touch, buttons[0]) && colorMode != 5) {
 			int temp = Input::getUint(255, Lang::get("ENTER_RED_RGB"));
 			if(temp != -1) {
 				red = temp;
@@ -145,7 +145,7 @@ void ColorChanger::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 			// Special case 'colorMode' 5.
 		} else if (touching(touch, btn) && colorMode == 5) {
 			Config::speed = GFX::ListSelection(Config::speed, SpeedLevel, Lang::get("SPEEDLEVEL"));
-		} else if (touching(touch, buttons[2])) {
+		} else if (touching(touch, buttons[2]) && colorMode != 5) {
 			int temp = Input::getUint(255, Lang::get("ENTER_BLUE_RGB"));
 			if(temp != -1) {
 				blue = temp;

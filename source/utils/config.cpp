@@ -37,7 +37,7 @@
 // Card & Lang.
 u32 Config::Red, Config::Yellow, Config::Blue, Config::Green, Config::Selector, Config::Button, Config::Bar, Config::BG, Config::Text;
 // GUI.
-int Config::lang, Config::speed;
+int Config::lang, Config::speed, Config::POINTS;
 bool Config::allowBruh;
 
 // Player names.
@@ -111,6 +111,12 @@ void Config::load() {
 		Config::speed = getInt("ANIMATION_SPEED");
 	}
 
+	if(!configJson.contains("POINTS")) {
+		Config::POINTS = 250;
+	} else {
+		Config::POINTS = getInt("POINTS");
+	}
+
 	loadSet("romfs:/Set.json");
 }
 
@@ -173,6 +179,7 @@ void Config::save() {
 	Config::setInt("ANIMATION_SPEED", Config::speed);
 	// Game Stuff.
 	Config::setBool("ALLOW_BRUH", Config::allowBruh);
+	Config::setInt("POINTS", Config::POINTS);
 
 	FILE* file = fopen("sdmc:/3ds/3DEins/Settings.json", "w");
 	if(file)	fwrite(configJson.dump(1, '\t').c_str(), 1, configJson.dump(1, '\t').size(), file);
@@ -198,6 +205,7 @@ void Config::initializeNewConfig() {
 	Config::setInt("ANIMATION_SPEED", 2);
 	// Game stuff.
 	Config::setBool("ALLOW_BRUH", true);
+	Config::setInt("POINTS", 250);
 	
 	if(file)	fwrite(configJson.dump(1, '\t').c_str(), 1, configJson.dump(1, '\t').size(), file);
 	fclose(file);

@@ -121,7 +121,8 @@ private:
 	// Sub menu | Statistics stuff.
 	void DrawSubMenu(void) const;
 	void SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch);
-	void DrawStats(void) const;
+	void DrawGameStats(void) const;
+	void DrawPlayerStats(void) const;
 
 	// Button Struct for the Sub Menu.
 	std::vector<Structs::ButtonPos> breakBtn = {

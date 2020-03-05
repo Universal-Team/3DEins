@@ -25,6 +25,7 @@
 */
 
 #include "gameSettings.hpp"
+#include "keyboard.hpp"
 
 extern bool touching(touchPosition touch, Structs::ButtonPos button);
 
@@ -41,6 +42,9 @@ void GameSettings::Draw(void) const {
 		} else {
 			Gui::DrawString(140, 98, 0.7f, Config::Text, Lang::get("NO"), 400);
 		}
+	} else if (gamePage == 1) {
+		Gui::DrawStringCentered(0, 60, 0.7f, Config::Text, Lang::get("POINTS_TO_WIN"), 320);
+		Gui::DrawString(140, 98, 0.7f, Config::Text, std::to_string(Config::POINTS), 400);
 	}
 }
 
@@ -50,11 +54,22 @@ void GameSettings::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		return;
 	}
 
+	if (hDown & KEY_R || hDown & KEY_RIGHT) {
+		if (gamePage < 1)	gamePage++;
+	}
+
+	if (hDown & KEY_L || hDown & KEY_LEFT) {
+		if (gamePage > 0)	gamePage--;
+	}
+
 	if (hDown & KEY_TOUCH) {
 		if (touching(touch, buttons[0])) {
 			if (gamePage == 0) {
 				if (Config::allowBruh)	Config::allowBruh = false;
 				else				Config::allowBruh = true;
+			} else if (gamePage == 1) {
+				std::string temp = Input::Numpad(Lang::get("ENTER_POINTS_TO_WIN"));
+				Config::POINTS = atoi(temp.c_str());
 			}
 		}
 	}

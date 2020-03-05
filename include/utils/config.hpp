@@ -43,7 +43,7 @@ namespace Config {
 	void setInt(const std::string &key, int v);
 	int getLang(const std::string &key);
 	extern uint32_t Red, Yellow, Blue, Green, Selector, Button, Bar, BG, Text;
-	extern int lang, speed;
+	extern int lang, speed, POINTS;
 	extern std::string Player1, Player2, Player3, Player4;
 	extern bool allowBruh;
 }

@@ -268,14 +268,26 @@ void MultiPlayScreen::DrawPlay(void) const {
 	DisplayPlayerHandSmall();
 }
 
-void MultiPlayScreen::DrawStats(void) const {
+void MultiPlayScreen::DrawGameStats(void) const {
 	Animation::DrawSubBG();
 	Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(0, 0, 0, 210)); // Darken the screen.
 	Gui::DrawStringCentered(0, 0, 0.8f, Config::Text, "3DEins - " + Lang::get("STATS"), 400);
-	GFX::DrawPlayer(30, 50, 1, 1, getPlayerAvatar(subMode));
-	Gui::DrawString(190, 55, 0.7f, Config::Text, Lang::get("POSITION") + std::to_string(subMode) + " | " + std::to_string(maxPlayer), 200);
-	Gui::DrawString(190, 85, 0.7f, Config::Text, Lang::get("PLAYERNAME") + getPlayerName(subMode), 200);
-	Gui::DrawString(190, 115, 0.7f, Config::Text, Lang::get("CARDS_LEFT") + std::to_string(getPlayerCards(subMode)), 200);
+	Gui::DrawStringCentered(0, 55, 0.7f, Config::Text, Lang::get("PLAYERS") + std::to_string(maxPlayer), 400);
+	Gui::DrawStringCentered(0, 85, 0.7f, Config::Text, Lang::get("POINTS_TO_WIN") + ": " + std::to_string(0), 400);
+	Gui::DrawStringCentered(0, 216, 0.75f, Config::Text, Lang::get("STATS_INFO"), 400);
+	Animation::DrawSubBG(false);
+	Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(0, 0, 0, 210)); // Darken the screen.
+}
+
+
+void MultiPlayScreen::DrawPlayerStats(void) const {
+	Animation::DrawSubBG();
+	Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(0, 0, 0, 210)); // Darken the screen.
+	Gui::DrawStringCentered(0, 0, 0.8f, Config::Text, "3DEins - " + Lang::get("STATS"), 400);
+	GFX::DrawPlayer(30, 50, 1, 1, getPlayerAvatar(subMode-1));
+	Gui::DrawString(190, 55, 0.7f, Config::Text, Lang::get("POSITION") + std::to_string(subMode-1) + " | " + std::to_string(maxPlayer), 200);
+	Gui::DrawString(190, 85, 0.7f, Config::Text, Lang::get("PLAYERNAME") + getPlayerName(subMode-1), 200);
+	Gui::DrawString(190, 115, 0.7f, Config::Text, Lang::get("CARDS_LEFT") + std::to_string(getPlayerCards(subMode-1)), 200);
 	Gui::DrawString(190, 145, 0.7f, Config::Text, Lang::get("POINTS") + "0", 200);
 	Gui::DrawStringCentered(0, 216, 0.75f, Config::Text, Lang::get("STATS_INFO"), 400);
 	Animation::DrawSubBG(false);
@@ -306,8 +318,10 @@ void MultiPlayScreen::Draw(void) const {
 	if (isSubMenu) {
 		if (subMode == 0) {
 			DrawSubMenu();
+		} else if (subMode == 1) {
+			DrawGameStats();
 		} else {
-			DrawStats();
+			DrawPlayerStats();
 		}
 	} else {
 		DrawPlay();
@@ -489,7 +503,7 @@ void MultiPlayScreen::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	}
 
 	if (hDown & KEY_R) {
-		if (subMode < playerAmount)	subMode++;
+		if (subMode < playerAmount+1)	subMode++;
 	}
 }
 
