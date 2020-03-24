@@ -32,21 +32,22 @@ void Credits::Draw(void) const {
 	if (DisplayMode == 1) {
 		GFX::DrawTop();
 		Gui::DrawStringCentered(0, 0, 0.9f, Config::Text, "3DEins - " + Lang::get("CREDITS"), 400);
-		Gui::DrawStringCentered(0, 30, 0.9f, Config::Text, Lang::get("DEVELOPED_BY"), 390);
-		Gui::DrawStringCentered(0, 70, 0.9f, Config::Text, Lang::get("MAIN_DEV"), 390);
-		GFX::DrawSprite(sprites_stackZ_idx, 120, 100);
+		Gui::DrawStringCentered(0, 30, 0.7f, Config::Text, Lang::get("DEVELOPED_BY"), 390);
+		Gui::DrawStringCentered(0, 70, 0.7f, Config::Text, Lang::get("MAIN_DEV"), 390);
+		GFX::DrawSprite(sprites_stackZ_idx, 5, 80);
+		GFX::DrawSprite(sprites_universal_core_idx, 200, 110);
 		Gui::DrawString(395-Gui::GetStringWidth(0.7, Lang::get("CURRENT_VERSION") + V_STRING), 215, 0.7, Config::Text, Lang::get("CURRENT_VERSION") + V_STRING, 400);
 		GFX::DrawBottom();
 
 		// TODO.
 		if (creditsPage == 1) {
 			Gui::DrawStringCentered(0, -2, 0.7f, Config::Text, Lang::get("TRANSLATORS"), 320);
-			Gui::DrawString(5, 30, 0.6f, Config::Text, "- _mapple²\n- antoine62\n- Pk11\n- StackZ\n- YoSoy");
-			Gui::DrawString(180, 30, 0.6f, Config::Text, "Русский\nFrançais\n日本語\nDeutsch, English\nEspañol");
+			Gui::DrawString(5, 30, 0.6f, Config::Text, "- _mapple²\n- antoine62\n- FlameKat53\n- Pk11\n- StackZ\n- YoSoy");
+			Gui::DrawString(180, 30, 0.6f, Config::Text, "Русский\nFrançais\nBruh\n日本語\nDeutsch, English\nEspañol");
 		} else if (creditsPage == 2) {
 			Gui::DrawStringCentered(0, -2, 0.7f, Config::Text, "Universal-Team", 320);
 			Gui::DrawStringCentered(0, 35, 0.7f, Config::Text, "DeadPhoenix");
-			Gui::DrawStringCentered(0, 65, 0.7f, Config::Text, "Flame");
+			Gui::DrawStringCentered(0, 65, 0.7f, Config::Text, "FlameKat53");
 			Gui::DrawStringCentered(0, 95, 0.7f, Config::Text, "Pk11");
 			Gui::DrawStringCentered(0, 125, 0.7f, Config::Text, "RocketRobz");
 			Gui::DrawStringCentered(0, 155, 0.7f, Config::Text, "StackZ");
