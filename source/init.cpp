@@ -24,29 +24,35 @@
 *         reasonable ways as different from the original version.
 */
 
+#include "charSelect_action.hpp"
 #include "common.hpp"
 #include "config.hpp"
+#include "errorScreen.hpp"
 #include "init.hpp"
+#include "keyboard.hpp"
 #include "mainMenu.hpp"
+#include "saveData.hpp"
 
 #include <3ds.h>
+#include <ctime>
 #include <dirent.h>
-#include <time.h>
-#include <unistd.h>
+#include <random>
 
-bool dspFound = false;
 bool exiting = false;
-sound *bruhSFX = NULL;
 touchPosition touch;
-bool isDay = false;
+
+std::unique_ptr<SaveData> savedata;
+extern std::unique_ptr<ScreenState> screenS;
+std::unique_ptr<Config> config;
 
 // Include all spritesheet's.
 C2D_SpriteSheet cards;
 C2D_SpriteSheet characters;
 C2D_SpriteSheet sprites;
 
+bool isGood = true;
 
-// If button Position pressed -> Do something.
+// If Position pressed -> Do something.
 bool touching(touchPosition touch, Structs::ButtonPos button) {
 	if (touch.px >= button.x && touch.px <= (button.x + button.w) && touch.py >= button.y && touch.py <= (button.y + button.h))
 		return true;
@@ -54,60 +60,65 @@ bool touching(touchPosition touch, Structs::ButtonPos button) {
 		return false;
 }
 
-void loadSoundEffects(void) {
-	if (dspFound == true) {
-		bruhSFX = new sound("romfs:/bruh.wav", 1, false);
-	}
+// If Button Position pressed -> Do something.
+bool buttonTouch(touchPosition touch, ButtonStruct button) {
+	if (touch.px >= button.X && touch.px <= (button.X + button.xSize) && touch.py >= button.Y && touch.py <= (button.Y + button.ySize))
+		return true;
+	else
+		return false;
+}
+
+// Generate random ID between 1 and 65535.
+void Init::GenerateID() {
+	srand(std::time(nullptr));
+	u16 id = rand() % 65535 + 1;
+	savedata->playerID(id);
+}
+
+void Init::enterName() {
+	C2D_TargetClear(Bottom, C2D_Color32(0, 0, 0, 0)); // Avoid glitchy things on bottom.
+	std::string str = Keyboard::getString(10, "Enter your Playername.", 0.6);
+	savedata->playerName(str);
+	savedata->write();
 }
 
 Result Init::Initialize() {
 	gfxInitDefault();
 	romfsInit();
 	Gui::init();
-	sdmcInit();
-	mkdir("sdmc:/3ds", 0777);	// For DSP dump
-	mkdir("sdmc:/3ds/3DEins", 0777); // main Path.
-	mkdir("sdmc:/3ds/3DEins/sets", 0777); // Card set path.
-	if(access("sdmc:/3ds/3DEins/Settings.json", F_OK) == -1 ) {
-		Config::initializeNewConfig();
-	}
-	Config::load();
-
-	const time_t current = time(NULL);
-	if(gmtime(&current)->tm_mon == 3 && gmtime(&current)->tm_mday == 1) {
-		isDay = true;
-	}
-
-	// Only on *THE DAY*. ;P
-	if (isDay != true) {
-		Lang::load(Config::getLang("LANG"));
-	} else {
-		Lang::load(0);
-	}
-
-	Msg::DisplayMsg(Lang::get("LOADING_SPRITESHEET"));
+	// Load Sheets.
 	Gui::loadSheet("romfs:/gfx/cards.t3x", cards);
 	Gui::loadSheet("romfs:/gfx/chars.t3x", characters);
 	Gui::loadSheet("romfs:/gfx/sprites.t3x", sprites);
-	osSetSpeedupEnable(true);	// Enable speed-up for New 3DS users.
-	srand(time(NULL));
-	Gui::setScreen(std::make_unique<MainMenu>());
 
-	if (access("sdmc:/3ds/dspfirm.cdc", F_OK ) != -1 ) {
-		ndspInit();
-		dspFound = true;
-		loadSoundEffects();
+	mkdir("sdmc:/3ds/3DEins", 0777);
+	
+	config = std::make_unique<Config>();
+	if (!config)	isGood = false;
+
+	if (!isGood) {
+		Gui::setScreen(std::make_unique<ErrorScreen>());
+		Lang::load(1);
+		osSetSpeedupEnable(true);	// Enable speed-up for New 3DS users.
+		return 0;
 	}
-
-	// Initialize all Players at begin.
-	Config::Player1 = Lang::get("PLAYER") + " " + std::to_string(1);
-	Config::Player2 = Lang::get("PLAYER") + " " + std::to_string(2);
-	Config::Player3 = Lang::get("PLAYER") + " " + std::to_string(3);
-	Config::Player4 = Lang::get("PLAYER") + " " + std::to_string(4);
+	Lang::load(config->language());
+	savedata = std::make_unique<SaveData>("sdmc:/3ds/3DEins/SaveData.dat");
+	if (savedata) {
+		if (savedata->playerID() == 0) {
+			GenerateID(); // We don't have an ID yet, so generate it.
+			enterName(); // Enter username.
+			screenS = std::make_unique<CharSelect_Action>(savedata);
+		}
+	}
+	
+	osSetSpeedupEnable(true); // Enable speed-up for New 3DS users.
+	Gui::setScreen(std::make_unique<MainMenu>());
 	return 0;
 }
 
 Result Init::MainLoop() {
+	
 	// Initialize everything.
 	Initialize();
 	// Loop as long as the status is not exiting.
@@ -119,10 +130,10 @@ Result Init::MainLoop() {
 		u32 hHeld = hidKeysHeld();
 		hidTouchRead(&touch);
 		C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
-		C2D_TargetClear(Top, BLACK);
-		C2D_TargetClear(Bottom, BLACK);
+		C2D_TargetClear(Top, C2D_Color32(0, 0, 0, 0));
+		C2D_TargetClear(Bottom, C2D_Color32(0, 0, 0, 0));
 		Gui::clearTextBufs();
-		Gui::mainLoop(hDown, hHeld, touch);
+		GFX::Main(hDown, hHeld, touch);
 		C3D_FrameEnd(0);
 	}
 	// Exit all services and exit the app.
@@ -131,18 +142,13 @@ Result Init::MainLoop() {
 }
 
 Result Init::Exit() {
-	delete bruhSFX;
-	if (dspFound == true) {
-		ndspExit();
-	}
-
 	Gui::exit();
+	if (isGood)	config->save(); // Only save if config is good.
+	// Free all SpriteSheets.
 	Gui::unloadSheet(cards);
 	Gui::unloadSheet(characters);
 	Gui::unloadSheet(sprites);
-	Config::save();
 	gfxExit();
 	romfsExit();
-	sdmcExit();
 	return 0;
 }

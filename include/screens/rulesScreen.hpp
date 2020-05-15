@@ -27,6 +27,7 @@
 #ifndef RULESSCREEN_HPP
 #define RULESSCREEN_HPP
 
+#include "_3DEins_Core.h"
 #include "common.hpp"
 #include "structs.hpp"
 
@@ -59,8 +60,10 @@ private:
 		{260, 80, 48, 72},
 		{0, 160, 48, 72},
 		{52, 160, 48, 72},
-		{104, 160, 48, 72},
-		{156, 160, 48, 72},
+		{104, 160, 48, 72}
+		#ifdef _USE_SPECIAL_CARD
+		,{156, 160, 48, 72}
+		#endif
 	};
 };
 

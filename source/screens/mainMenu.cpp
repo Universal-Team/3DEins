@@ -24,75 +24,54 @@
 *         reasonable ways as different from the original version.
 */
 
-#include "charSelection.hpp"
+#include "colorChanger.hpp"
+#include "config.hpp"
 #include "credits.hpp"
+#include "gameScreen.hpp"
 #include "mainMenu.hpp"
-#include "modeSelection.hpp"
 #include "rulesScreen.hpp"
-#include "uiSettings.hpp"
+#include "saveData.hpp"
 
+extern std::unique_ptr<SaveData> savedata;
+extern std::unique_ptr<Config> config;
 extern bool exiting;
-extern bool touching(touchPosition touch, Structs::ButtonPos button);
+extern bool buttonTouch(touchPosition touch, ButtonStruct button);
 
-MainMenu::MainMenu() {
-	// Randomize carts. ;P
-	Card1 = CardType(rand() % MAXCARDTYPE + 0);
-	Color1 = CardColor(rand() % MAXCOLOR + 0);
-
-	Card2 = CardType(rand() % MAXCARDTYPE + 0);
-	Color2 = CardColor(rand() % MAXCOLOR + 0);
-
-	Card3 = CardType(rand() % MAXCARDTYPE + 0);
-	Color3 = CardColor(rand() % MAXCOLOR + 0);
-}
+MainMenu::MainMenu() { }
 
 void MainMenu::Draw(void) const {
 	GFX::DrawTop();
-	Gui::DrawString(100, 0, 0.9f, Config::Text, "3DEins - " + Lang::get("MAINMENU"));
-	GFX::DrawCard(Card1, 40, 65, Color1, 1.5, 1.5);
-	GFX::DrawCard(Card2, 160, 65, Color2, 1.5, 1.5);
-	GFX::DrawCard(Card3, 280, 65, Color3, 1.5, 1.5);
-
+	Gui::DrawStringCentered(0, 0, 0.9f, config->textColor(), "Welcome " + savedata->playerName() + " - " + std::to_string(savedata->playerID()) + "!");
 	GFX::DrawBottom();
 	for (int i = 0; i < 4; i++) {
-		Gui::Draw_Rect(mainButtons[i].x, mainButtons[i].y, mainButtons[i].w, mainButtons[i].h, Config::Button);
+		GFX::Button(mainButtons[i]);
 		if (Selection == i) {
-			GFX::DrawButtonSelector(mainButtons[i].x, mainButtons[i].y);
+			GFX::DrawButtonSelector(mainButtons[i].X, mainButtons[i].Y);
 		}
 	}
-
-	Gui::DrawStringCentered(-80, mainButtons[0].y+12, 0.6f, Config::Text, Lang::get("NEW_GAME"), 130);
-	Gui::DrawStringCentered(80, mainButtons[1].y+12, 0.6f, Config::Text, Lang::get("UI_SETTINGS"), 130);
-	Gui::DrawStringCentered(-80, mainButtons[2].y+12, 0.6f, Config::Text, Lang::get("CREDITS"), 130);
-	Gui::DrawStringCentered(80, mainButtons[3].y+12, 0.6f, Config::Text, Lang::get("RULES"), 130);
 }
 
 
 void MainMenu::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hDown & KEY_TOUCH) {
-		if (touching(touch, mainButtons[0])) {
-			if (Msg::promptMsg2(Lang::get("NEW_GAME_PROMPT"))) {
-				Gui::setScreen(std::make_unique<ModeSelection>());
-			}
-		} else if (touching(touch, mainButtons[1])) {
-			Gui::setScreen(std::make_unique<UISettings>());
-		} else if (touching(touch, mainButtons[2])) {
+		if (buttonTouch(touch, mainButtons[0])) {
+			Gui::setScreen(std::make_unique<GameScreen>());
+		} else if (buttonTouch(touch, mainButtons[1])) {
+			Gui::setScreen(std::make_unique<ColorChanger>());
+		} else if (buttonTouch(touch, mainButtons[2])) {
 			Gui::setScreen(std::make_unique<Credits>());
-		} else if (touching(touch, mainButtons[3])) {
+		} else if (buttonTouch(touch, mainButtons[3])) {
 			Gui::setScreen(std::make_unique<RulesScreen>());
 		}
 	}
 
-
 	if (hDown & KEY_A) {
 		switch (Selection) {
 			case 0:
-				if (Msg::promptMsg2(Lang::get("NEW_GAME_PROMPT"))) {
-					Gui::setScreen(std::make_unique<ModeSelection>());
-				}
+				Gui::setScreen(std::make_unique<GameScreen>());
 				break;
 			case 1:
-				Gui::setScreen(std::make_unique<UISettings>());
+				Gui::setScreen(std::make_unique<ColorChanger>());
 				break;
 			case 2:
 				Gui::setScreen(std::make_unique<Credits>());
@@ -103,9 +82,9 @@ void MainMenu::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		}
 	}
 
-	if(hDown & KEY_UP) {
-		if(Selection > 1)	Selection -= 2;
-	} else if(hDown & KEY_DOWN) {
+	if (hDown & KEY_UP) {
+		if (Selection > 1)	Selection -= 2;
+	} else if (hDown & KEY_DOWN) {
 		if(Selection < 3 && Selection != 2 && Selection != 3)	Selection += 2;
 	} else if (hDown & KEY_LEFT) {
 		if (Selection%2) Selection--;
@@ -115,9 +94,5 @@ void MainMenu::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 	if (hDown & KEY_START) {
 		exiting = true;
-	}
-
-	if (hHeld & KEY_SELECT) {
-		Msg::HelperBox(Lang::get("MAINMENU_INSTRUCTIONS"));
 	}
 }

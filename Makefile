@@ -76,14 +76,16 @@ endif
 TARGET		:=	3DEins
 BUILD		:=	build
 UNIVCORE	:= 	Universal-Core
-SOURCES		:=	$(UNIVCORE) source source/gui source/screens source/utils
+CORESOURCE	:=	3DEins-Core/source
+COREINCLUDE	:=	3DEins-Core/include
+SOURCES		:=	$(CORESOURCE) $(UNIVCORE) source source/core source/screens source/states source/ui source/utils
 DATA		:=	data
-INCLUDES	:=	$(UNIVCORE) include include/gui include/screens include/utils
+INCLUDES	:=	$(COREINCLUDE) $(UNIVCORE) include include/core include/screens include/states include/ui include/utils
 GRAPHICS	:=	assets/gfx
 ROMFS		:=	romfs
 GFXBUILD	:=	$(ROMFS)/gfx
 APP_AUTHOR	:=	Universal-Team
-APP_DESCRIPTION :=  A Cardgame for Nintendo 3DS.
+APP_DESCRIPTION := A Cardgame for Nintendo 3DS.
 ICON		:=	app/icon.png
 BNR_IMAGE	:=  app/banner.png
 RSF_FILE	:=	app/build-cia.rsf
@@ -105,7 +107,7 @@ CXXFLAGS	:= $(CFLAGS) -fno-rtti -fno-exceptions -std=gnu++17
 ASFLAGS	:=	-g $(ARCH)
 LDFLAGS	=	-specs=3dsx.specs -g $(ARCH) -Wl,-Map,$(notdir $*.map)
 
-LIBS	:= -lcitro2d -lcitro3d -lctru -lm
+LIBS	:= -lcitro2d -lcitro3d -lctru
 
 #---------------------------------------------------------------------------------
 # list of directories containing libraries, this must be the top level containing
@@ -255,7 +257,7 @@ $(OUTPUT).cia	:	$(OUTPUT).elf $(OUTPUT).smdh
 
 	$(BANNERTOOL) makesmdh -i "../app/icon.png" -s "$(TARGET)" -l "$(APP_DESCRIPTION)" -p "$(APP_AUTHOR)" -o "../app/icon.bin"
 
-	$(MAKEROM) -f cia -target t -exefslogo -o "../3DEins.cia" -elf "../3DEins.elf" -rsf "../app/build-cia.rsf" -banner "../app/banner.bin" -icon "../app/icon.bin" -logo "../app/logo.bcma.lz" -DAPP_ROMFS="$(TOPDIR)/$(ROMFS)" -major $(VERSION_MAJOR) -minor $(VERSION_MINOR) -micro $(VERSION_MICRO) -DAPP_VERSION_MAJOR="$(VERSION_MAJOR)"
+	$(MAKEROM) -f cia -target t -exefslogo -o "../$(TARGET).cia" -elf "../$(TARGET).elf" -rsf "../app/build-cia.rsf" -banner "../app/banner.bin" -icon "../app/icon.bin" -logo "../app/logo.bcma.lz" -DAPP_ROMFS="$(TOPDIR)/$(ROMFS)" -major $(VERSION_MAJOR) -minor $(VERSION_MINOR) -micro $(VERSION_MICRO) -DAPP_VERSION_MAJOR="$(VERSION_MAJOR)"
 
 #---------------------------------------------------------------------------------
 # you need a rule like this for each extension you use as binary data

@@ -1,3 +1,6 @@
 [submodule "Universal-Core"]
 	path = Universal-Core
 	url = https://github.com/Universal-Team/Universal-Core.git
+[submodule "3DEins-Core"]
+	path = 3DEins-Core
+	url = https://github.com/SuperSaiyajinStackZ/3DEins-Core.git

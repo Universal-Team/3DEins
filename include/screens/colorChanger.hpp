@@ -24,8 +24,8 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef COLORCHANGER_HPP
-#define COLORCHANGER_HPP
+#ifndef _3DEINS_COLORCHANGER_HPP
+#define _3DEINS_COLORCHANGER_HPP
 
 #include "common.hpp"
 #include "structs.hpp"

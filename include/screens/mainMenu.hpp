@@ -27,7 +27,6 @@
 #ifndef MAINMENU_HPP
 #define MAINMENU_HPP
 
-#include "cardHelper.hpp"
 #include "common.hpp"
 #include "structs.hpp"
 
@@ -42,18 +41,11 @@ public:
 private:
 	int Selection = 0;
 
-	CardType Card1;
-	CardColor Color1;
-	CardType Card2;
-	CardColor Color2;
-	CardType Card3;
-	CardColor Color3;
-
-	std::vector<Structs::ButtonPos> mainButtons = {
-		{10, 70, 140, 40}, // New Game.
-		{170, 70, 140, 40}, // Card Colors.
-		{10, 145, 140, 40}, // Credits.
-		{170, 145, 140, 40}, // Language.
+	std::vector<ButtonStruct> mainButtons = {
+		{10, 70, 140, 40, "New Game"}, // New Game.
+		{170, 70, 140, 40, "UI Settings"}, // UI Settings.
+		{10, 145, 140, 40, "Credits"}, // Credits.
+		{170, 145, 140, 40, "Rules"} // Rules.
 	};
 };
 

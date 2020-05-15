@@ -34,6 +34,10 @@ namespace Init {
 	Result Initialize();
 	Result MainLoop();
 	Result Exit();
+
+	// Special things.
+	void GenerateID(); // Player ID does not exist. Generate it!
+	void enterName();
 }
 
 #endif

@@ -27,25 +27,11 @@
 #ifndef COMMON_HPP
 #define COMMON_HPP
 
-// This is the new "screenCommon.hpp", lol.
 #include "animation.hpp"
-#include "config.hpp"
 #include "gfx.hpp"
 #include "gui.hpp"
 #include "lang.hpp"
-#include "msg.hpp"
 #include "screenCommon.hpp"
-#include "sound.h"
-
-void bruh();
-
-enum class STATE {
-	SINGLEPLAYER,
-	MULTIPLAYER,
-	MAINMENU,
-	SETTINGS,
-	LANGUAGE,
-	COLORCHANGER
-};
+#include "screenState.hpp"
 
 #endif

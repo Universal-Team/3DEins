@@ -24,92 +24,52 @@
 *         reasonable ways as different from the original version.
 */
 
+#include "config.hpp"
 #include "credits.hpp"
+
+extern std::unique_ptr<Config> config;
 
 extern bool touching(touchPosition touch, Structs::ButtonPos button);
 
 void Credits::Draw(void) const {
-	if (DisplayMode == 1) {
-		GFX::DrawTop();
-		Gui::DrawStringCentered(0, 0, 0.9f, Config::Text, "3DEins - " + Lang::get("CREDITS"), 400);
-		Gui::DrawStringCentered(0, 30, 0.7f, Config::Text, Lang::get("DEVELOPED_BY"), 390);
-		Gui::DrawStringCentered(0, 70, 0.7f, Config::Text, Lang::get("MAIN_DEV"), 390);
-		GFX::DrawSprite(sprites_stackZ_idx, 5, 80);
-		GFX::DrawSprite(sprites_universal_core_idx, 200, 110);
-		Gui::DrawString(395-Gui::GetStringWidth(0.7, Lang::get("CURRENT_VERSION") + V_STRING), 215, 0.7, Config::Text, Lang::get("CURRENT_VERSION") + V_STRING, 400);
-		GFX::DrawBottom();
-
-		// TODO.
-		if (creditsPage == 1) {
-			Gui::DrawStringCentered(0, -2, 0.7f, Config::Text, Lang::get("TRANSLATORS"), 320);
-			Gui::DrawString(5, 30, 0.6f, Config::Text, "- _mapple²\n- antoine62\n- FlameKat53\n- Pk11\n- StackZ\n- YoSoy");
-			Gui::DrawString(180, 30, 0.6f, Config::Text, "Русский\nFrançais\nBruh\n日本語\nDeutsch, English\nEspañol");
-		} else if (creditsPage == 2) {
-			Gui::DrawStringCentered(0, -2, 0.7f, Config::Text, "Universal-Team", 320);
-			Gui::DrawStringCentered(0, 35, 0.7f, Config::Text, "DeadPhoenix");
-			Gui::DrawStringCentered(0, 65, 0.7f, Config::Text, "FlameKat53");
-			Gui::DrawStringCentered(0, 95, 0.7f, Config::Text, "Pk11");
-			Gui::DrawStringCentered(0, 125, 0.7f, Config::Text, "RocketRobz");
-			Gui::DrawStringCentered(0, 155, 0.7f, Config::Text, "StackZ");
-			Gui::DrawStringCentered(0, 185, 0.7f, Config::Text, "TotallyNotGuy");
-		}
-		Gui::DrawStringCentered(0, 217, 0.6f, Config::Text, discordText ? Lang::get("SHOW_QR") : Lang::get("LINK"), 310);
-	 } else if (DisplayMode == 2) {
-		qr_code();
+	GFX::DrawTop(); // Draw the top screen.
+	if (this->creditsPage == 0) {
+		Gui::DrawStringCentered(0, 0, 0.7f, config->textColor(), "3DEins - Credits", 400);
+		Gui::DrawStringCentered(0, 30, 0.7f, config->textColor(), "Developed by Universal-Team.", 390);
+		Gui::DrawStringCentered(0, 70, 0.7f, config->textColor(), "Main Developer: StackZ", 390);
+		GFX::DrawSprite(sprites_stackZ_idx, 2, 80);
+		GFX::DrawSprite(sprites_core_idx, 190, 105);
+		std::string currentVersion = "Current Version: ";
+		currentVersion += V_STRING;
+		Gui::DrawString(395-Gui::GetStringWidth(0.70f, currentVersion), 217, 0.70f, config->textColor(), currentVersion, 400);
+	} else {
+		Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(0, 0, 0, 190));
+		GFX::DrawSprite(sprites_discord_idx, 115, 35);
 	}
+	GFX::DrawBottom();
+	Gui::DrawStringCentered(0, 0, 0.8f, config->textColor(), "General Credits", 310);
+	Gui::DrawStringCentered(0, 30, 0.7f, config->textColor(), "StackZ", 310);
+	Gui::DrawStringCentered(0, 60, 0.6f, config->textColor(), "Developing the app with selfmade 3DEins-Core.", 310);
+	Gui::DrawStringCentered(0, 100, 0.7f, config->textColor(), "Universal-Team", 310);
+	Gui::DrawStringCentered(0, 130, 0.6f, config->textColor(), "For Universal-Core which is used with the 3DS App.", 310);
 }
+
 
 void Credits::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
-	Loop();
-	if (DisplayMode == 1) {
-		if (hHeld & KEY_SELECT) {
-			Msg::HelperBox(Lang::get("CREDITS_INSTRUCTIONS"));
-		}
-
-		if (hDown & KEY_RIGHT) {
-			if (creditsPage < 2)	creditsPage++;
-		}
-
-		if (hDown & KEY_LEFT) {
-			if (creditsPage > 1)	creditsPage--;
-		}
-
-		if (hDown & KEY_B) {
-			Gui::screenBack();
-			return;
-		}
-		if (hDown & KEY_TOUCH) {
-			if (touching(touch, touchPos[0])) {
-				DisplayMode = 2;
-			}
-		}
-
-	} else if (DisplayMode == 2) {
-		if (hHeld & KEY_SELECT) {
-			Msg::HelperBox(Lang::get("CREDITS_INSTRUCTIONS_2"));
-		}
-
-		if (hDown & KEY_B) {
-			DisplayMode = 1;
+	if ((hDown & KEY_L || hDown & KEY_LEFT)) {
+		if (this->creditsPage == 1) {
+			this->creditsPage = 0;
 		}
 	}
-}
 
-void Credits::qr_code() const
-{
-	GFX::DrawTop();
-	Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(0, 0, 0, 190));
-	GFX::DrawSprite(sprites_discord_idx, 115, 35);
-	GFX::DrawBottom();
-	Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(0, 0, 0, 190));
-}
+	if ((hDown & KEY_R || hDown & KEY_RIGHT)) {
+		if (this->creditsPage == 0) {
+			this->creditsPage = 1;
+		}
+	}
 
-void Credits::Loop() {
-	gspWaitForVBlank();
-	if(delay > 0) {
-		delay--;
-	} else {
-		delay = 120;
-		discordText = !discordText;
+	if (hDown & KEY_B) {
+		Gui::screenBack();
+		return;
 	}
 }

@@ -24,8 +24,8 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef CREDITS_HPP
-#define CREDITS_HPP
+#ifndef _3DEINS_CREDITS_HPP
+#define _3DEINS_CREDITS_HPP
 
 #include "common.hpp"
 #include "structs.hpp"
@@ -37,19 +37,8 @@ class Credits : public Screen
 public:
 	void Draw(void) const override;
 	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
-
 private:
-	int DisplayMode = 1;
-	int delay = 120;
-	bool discordText = false;
-	int creditsPage = 1; // 1 -> Translator!
-
-	void Loop();
-	void qr_code() const;
-
-	std::vector<Structs::ButtonPos> touchPos = {
-		{0, 210, 320, 30},
-	};
+	int creditsPage = 0;
 };
 
 #endif

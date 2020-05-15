@@ -24,216 +24,126 @@
 *         reasonable ways as different from the original version.
 */
 
-#include "common.hpp"
-#include "config.hpp"
-#include "json.hpp"
-
-#include <3ds.h>
-#include <citro2d.h>
-#include <regex>
-#include <string>
 #include <unistd.h>
+#include "config.hpp"
+#include <citro2d.h>
 
-// Card & Lang.
-u32 Config::Red, Config::Yellow, Config::Blue, Config::Green, Config::Selector, Config::Button, Config::Bar, Config::BG, Config::Text;
-// GUI.
-int Config::lang, Config::speed, Config::POINTS;
-bool Config::allowBruh;
+// In case it doesn't exist.
+void Config::initialize() {
+	// Create through fopen "Write" & close.
+	FILE *file = fopen("sdmc:/3ds/3DEins/Settings.json", "w");
+	fclose(file);
 
-// Player names.
-std::string Config::Player1, Config::Player2, Config::Player3, Config::Player4;
-nlohmann::json configJson;
-nlohmann::json setJson;
+	// Open it as "Read".
+	FILE *file2 = fopen("sdmc:/3ds/3DEins/Settings.json", "r");
+	this->json = nlohmann::json::parse(file2, nullptr, false);
+	fclose(file2);
 
-// Get the colors.
-u32 getColor(std::string colorString) {
-	if(colorString.length() < 7 || std::regex_search(colorString.substr(1), std::regex("[^0-9a-f]"))) { // invalid color
-		return 0;
-	}
+	// Set default values.
+	this->setInt("Bar_Color", C2D_Color32(220, 60, 0, 255));
+	this->setInt("Text_Color", C2D_Color32(255, 255, 255, 255));
+	this->setInt("BG_Color", C2D_Color32(220, 160, 0, 255));
+	this->setInt("Button_Color", C2D_Color32(200, 0, 0, 255));
+	this->setInt("Language", 1);
 
-	int r = std::stoi(colorString.substr(1, 2), nullptr, 16);
-	int g = std::stoi(colorString.substr(3, 2), nullptr, 16);
-	int b = std::stoi(colorString.substr(5, 2), nullptr, 16);
-	return RGBA8(r, g, b, 0xFF);
+	// Write to file.
+	FILE *file3 = fopen("sdmc:/3ds/3DEins/Settings.json", "w");
+	fwrite(this->json.dump(1, '\t').c_str(), 1, this->json.dump(1, '\t').size(), file3);
+	fclose(file3); // Now we have the file and can properly access it.
 }
 
-void Config::load() {
+Config::Config() {
+	if (access("sdmc:/3ds/3DEins/Settings.json", F_OK) != 0 ) {
+		this->initialize();
+	}
 	FILE* file = fopen("sdmc:/3ds/3DEins/Settings.json", "r");
-	if(file)	configJson = nlohmann::json::parse(file, nullptr, false);
+	this->json = nlohmann::json::parse(file, nullptr, false);
 	fclose(file);
 
-	if(!configJson.contains("LANG")) {
-		Config::lang = 2;
+	// Here we get the initial colors.
+	if (!this->json.contains("Bar_Color")) {
+		this->barColor(C2D_Color32(220, 60, 0, 255));
 	} else {
-		Config::lang = getInt("LANG");
+		this->barColor(this->getInt("Bar_Color"));
 	}
 
-	if(!configJson.contains("SELECTOR")) {
-		Config::Selector = C2D_Color32(200, 0, 0, 255);
+	if (!this->json.contains("BG_Color")) {
+		this->bgColor(C2D_Color32(220, 160, 0, 255));
 	} else {
-		Config::Selector = getInt("SELECTOR");
+		this->bgColor(this->getInt("BG_Color"));
 	}
 
-	// GUI.
-	if(!configJson.contains("BUTTON")) {
-		Config::Button = C2D_Color32(170, 60, 0, 255);
+	if (!this->json.contains("Text_Color")) {
+		this->textColor(C2D_Color32(255, 255, 255, 255));
 	} else {
-		Config::Button = getInt("BUTTON");
+		this->textColor(this->getInt("Text_Color"));
 	}
 
-	if(!configJson.contains("BAR")) {
-		Config::Bar = C2D_Color32(220, 60, 0, 255);
+	if (!this->json.contains("Button_Color")) {
+		this->buttonColor(C2D_Color32(170, 60, 0, 255));
 	} else {
-		Config::Bar = getInt("BAR");
+		this->buttonColor(this->getInt("Button_Color"));
 	}
 
-	if(!configJson.contains("BG")) {
-		Config::BG = C2D_Color32(220, 160, 0, 255);
+	if (!this->json.contains("Selector_Color")) {
+		this->selectorColor(C2D_Color32(200, 0, 0, 255));
 	} else {
-		Config::BG = getInt("BG");
+		this->selectorColor(this->getInt("Selector_Color"));
 	}
 
-	if(!configJson.contains("TEXT")) {
-		Config::Text = C2D_Color32(255, 255, 255, 255);
+	if (!this->json.contains("Language")) {
+		this->language(1);
 	} else {
-		Config::Text = getInt("TEXT");
+		this->language(this->getInt("Language"));
 	}
 
-	if(!configJson.contains("ALLOW_BRUH")) {
-		Config::allowBruh = true;
-	} else {
-		Config::allowBruh = getBool("ALLOW_BRUH");
-	}
-
-	if(!configJson.contains("ANIMATION_SPEED")) {
-		Config::speed = 2;
-	} else {
-		Config::speed = getInt("ANIMATION_SPEED");
-	}
-
-	if(!configJson.contains("POINTS")) {
-		Config::POINTS = 250;
-	} else {
-		Config::POINTS = getInt("POINTS");
-	}
-
-	loadSet("romfs:/Set.json");
+	this->changesMade = false; // No changes made yet.
 }
 
-// Get String of the JSON.
-std::string getString(nlohmann::json json, const std::string &key, const std::string &key2) {
-	if(!json.contains(key))	return "MISSING: " + key;
-	if(!json.at(key).is_object())	return "NOT OBJECT: " + key;
-
-	if(!json.at(key).contains(key2))	return "MISSING: " + key + "." + key2;
-	if(!json.at(key).at(key2).is_string())	return "NOT STRING: " + key + "." + key2;
-
-	return json.at(key).at(key2).get_ref<const std::string&>();
-}
-
-void loadSetStuff(void) {
-	u32 colorTemp;
-	// Colors.
-	colorTemp = getColor(getString(setJson, "info", "Red"));
-	Config::Red = colorTemp == 0 ? CARD_RED : colorTemp;
-	colorTemp = getColor(getString(setJson, "info", "Blue"));
-	Config::Blue = colorTemp == 0 ? CARD_BLUE : colorTemp;
-	colorTemp = getColor(getString(setJson, "info", "Yellow"));
-	Config::Yellow = colorTemp == 0 ? CARD_YELLOW : colorTemp;
-	colorTemp = getColor(getString(setJson, "info", "Green"));
-	Config::Green = colorTemp == 0 ? CARD_GREEN : colorTemp;
-
-	// GUI.
-	colorTemp = getColor(getString(setJson, "info", "BarColor"));
-	Config::Bar = colorTemp == 0 ? Config::Bar : colorTemp;
-	colorTemp = getColor(getString(setJson, "info", "BGColor"));
-	Config::BG = colorTemp == 0 ? Config::BG : colorTemp;
-	colorTemp = getColor(getString(setJson, "info", "Selector"));
-	Config::Selector = colorTemp == 0 ? Config::Selector : colorTemp;
-	colorTemp = getColor(getString(setJson, "info", "TextColor"));
-	Config::Text = colorTemp == 0 ? Config::Text : colorTemp;
-	colorTemp = getColor(getString(setJson, "info", "ButtonColor"));
-	Config::Button = colorTemp == 0 ? Config::Button : colorTemp;
-}
-
-void Config::loadSet(std::string sets) {
-	FILE* file = fopen(sets.c_str(), "r");
-	if(file)	setJson = nlohmann::json::parse(file, nullptr, false);
-	fclose(file);
-	// Load Card Colors.
-	loadSetStuff();
-}
-
+// Write to config if changesMade.
 void Config::save() {
-	Config::setInt("RED", Config::Red);
-	Config::setInt("YELLOW", Config::Yellow);
-	Config::setInt("BLUE", Config::Blue);
-	Config::setInt("GREEN", Config::Green);
-	Config::setInt("LANG", Config::lang);
-	Config::setInt("SELECTOR", Config::Selector);
-	// GUI.
-	Config::setInt("BUTTON", Config::Button);
-	Config::setInt("BAR", Config::Bar);
-	Config::setInt("BG", Config::BG);
-	Config::setInt("TEXT", Config::Text);
-	Config::setInt("ANIMATION_SPEED", Config::speed);
-	// Game Stuff.
-	Config::setBool("ALLOW_BRUH", Config::allowBruh);
-	Config::setInt("POINTS", Config::POINTS);
-
-	FILE* file = fopen("sdmc:/3ds/3DEins/Settings.json", "w");
-	if(file)	fwrite(configJson.dump(1, '\t').c_str(), 1, configJson.dump(1, '\t').size(), file);
-	fclose(file);
+	if (this->changesMade) {
+		FILE *file = fopen("sdmc:/3ds/3DEins/Settings.json", "w");
+		// Set values.
+		this->setInt("Bar_Color", this->barColor());
+		this->setInt("Text_Color", this->textColor());
+		this->setInt("BG_Color", this->bgColor());
+		this->setInt("Button_Color", this->buttonColor());
+		this->setInt("Selector_Color", this->selectorColor());
+		this->setInt("Language", this->language());
+		// Write changes to file.
+		fwrite(this->json.dump(1, '\t').c_str(), 1, this->json.dump(1, '\t').size(), file);
+		fclose(file);
+	}
 }
 
-// If no Settings File is found, set a default one. ;)
-void Config::initializeNewConfig() {
-	FILE* file = fopen("sdmc:/3ds/3DEins/Settings.json", "r");
-	if(file)	configJson = nlohmann::json::parse(file, nullptr, false);
-	fclose(file);
-	setInt("RED", C2D_Color32(255, 0, 0, 255));
-	setInt("YELLOW", C2D_Color32(200, 200, 0, 255));
-	setInt("BLUE", C2D_Color32(0, 0, 255, 255));
-	setInt("GREEN", C2D_Color32(0, 255, 0, 255));
-	setInt("LANG", 2);
-	setInt("SELECTOR", C2D_Color32(200, 0, 0, 255));
-	// GUI.
-	Config::setInt("BUTTON", C2D_Color32(170, 60, 0, 255));
-	Config::setInt("BAR", C2D_Color32(220, 60, 0, 255));
-	Config::setInt("BG", C2D_Color32(220, 160, 0, 255));
-	Config::setInt("TEXT", C2D_Color32(255, 255, 255, 255));
-	Config::setInt("ANIMATION_SPEED", 2);
-	// Game stuff.
-	Config::setBool("ALLOW_BRUH", true);
-	Config::setInt("POINTS", 250);
-	
-	if(file)	fwrite(configJson.dump(1, '\t').c_str(), 1, configJson.dump(1, '\t').size(), file);
-	fclose(file);
-}
-
+// Helper functions.
 bool Config::getBool(const std::string &key) {
-	if(!configJson.contains(key)) {
+	if(!this->json.contains(key)) {
 		return false;
 	}
-	return configJson.at(key).get_ref<const bool&>();
+	return this->json.at(key).get_ref<const bool&>();
 }
 void Config::setBool(const std::string &key, bool v) {
-	configJson[key] = v;
+	this->json[key] = v;
 }
 
 int Config::getInt(const std::string &key) {
-	if(!configJson.contains(key)) {
+	if(!this->json.contains(key)) {
 		return 0;
 	}
-	return configJson.at(key).get_ref<const int64_t&>();
+	return this->json.at(key).get_ref<const int64_t&>();
 }
 void Config::setInt(const std::string &key, int v) {
-	configJson[key] = v;
+	this->json[key] = v;
 }
 
-int Config::getLang(const std::string &key) {
-	if(!configJson.contains(key)) {
-		return 1;
+std::string Config::getString(const std::string &key) {
+	if(!this->json.contains(key)) {
+		return "";
 	}
-	return configJson.at(key).get_ref<const int64_t&>();
+	return this->json.at(key).get_ref<const std::string&>();
+}
+void Config::setString(const std::string &key, const std::string &v) {
+	this->json[key] = v;
 }

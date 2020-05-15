@@ -24,28 +24,57 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef CONFIG_HPP
-#define CONFIG_HPP
+#ifndef _3DEINS_CONFIG_HPP
+#define _3DEINS_CONFIG_HPP
 
+#include "json.hpp"
+
+#include <3ds.h>
 #include <string>
 
-namespace Config {
-	void load();
+class Config {
+public:
+	Config();
 	void save();
-	void initializeNewConfig();
-	// Load Card Colors.
-	void loadSet(std::string sets);
+	void initialize();
 
+	// Bar Color.
+	u32 barColor() { return this->v_barColor; }
+	void barColor(u32 v) { this->v_barColor = v; if (!this->changesMade)	this->changesMade = true; }
+	// BG Color.
+	u32 bgColor() { return this->v_bgColor; }
+	void bgColor(u32 v) { this->v_bgColor = v; if (!this->changesMade)	this->changesMade = true; }
+	// Text Color.
+	u32 textColor() { return this->v_textColor; }
+	void textColor(u32 v) { this->v_textColor = v; if (!this->changesMade)	this->changesMade = true; }
+	// Button Color.
+	u32 buttonColor() { return this->v_buttonColor; }
+	void buttonColor(u32 v) { this->v_buttonColor = v; if (!this->changesMade)	this->changesMade = true; }
+	// Selector Color.
+	u32 selectorColor() { return this->v_selectorColor; }
+	void selectorColor(u32 v) { this->v_selectorColor = v; if (!this->changesMade)	this->changesMade = true; }
+	// Language.
+	int language() { return this->v_language; }
+	void language(int v) { this->v_language = v; if (!this->changesMade)	this->changesMade = true; }
+
+	// Mainly helper.
 	bool getBool(const std::string &key);
 	void setBool(const std::string &key, bool v);
-	
 	int getInt(const std::string &key);
 	void setInt(const std::string &key, int v);
-	int getLang(const std::string &key);
-	extern uint32_t Red, Yellow, Blue, Green, Selector, Button, Bar, BG, Text;
-	extern int lang, speed, POINTS;
-	extern std::string Player1, Player2, Player3, Player4;
-	extern bool allowBruh;
-}
+	std::string getString(const std::string &key);
+	void setString(const std::string &key, const std::string &v);
+private:
+	nlohmann::json json; // Our private JSON file.
+	bool changesMade = false;
+
+	// Color variables and more.
+	u32 v_barColor;
+	u32 v_bgColor;
+	u32 v_textColor;
+	u32 v_buttonColor;
+	u32 v_selectorColor;
+	int v_language;
+};
 
 #endif
