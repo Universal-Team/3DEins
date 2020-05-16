@@ -43,6 +43,7 @@ private:
 	std::unique_ptr<Game> currentGame;
 	bool checkForPlayableCard(const std::shared_ptr<Player> &player);
 	void PlayerLogic(u32 hDown, u32 hHeld, touchPosition touch);
+	void SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch);
 
 	void InitializeNewGame();
 	void setState(int Player);
@@ -51,6 +52,9 @@ private:
 	void DisplayPlayerHand() const;
 	void DisplayPlayerHandSmall() const;
 	void DrawPlayers() const;
+	void DrawPlayerStats(void) const;
+	void DrawSubMenu(void) const;
+	int getAvatar(int player) const;
 
 	// Useful functions.
 	std::string returnPlayerName(int player) const;
@@ -60,6 +64,16 @@ private:
 	
 	// Player Amount & Current Player.
 	int playerAmount = 4;
+	int subMode = 0;
+	int selection = 0;
+	bool isSubMenu = false;
+
+	// Button Struct for the Sub Menu.
+	std::vector<Structs::ButtonPos> breakBtn = {
+		{90, 40, 140, 40},  // Resume.
+		{90, 100, 140, 40}, // Restart.
+		{90, 160, 140, 40}, // Exit game.
+	};
 };
 
 #endif

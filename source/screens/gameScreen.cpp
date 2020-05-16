@@ -89,7 +89,7 @@ void GameScreen::DisplayPlayerHandSmall() const {
 
 void GameScreen::DrawPlayers() const {
 	// Player 1.
-	GFX::DrawPlayer(0, 130, 0.9, 0.9, 0);
+	GFX::DrawPlayer(0, 130, 0.9, 0.9, savedata->playerAvatar());
 	Gui::DrawString(90, 200, 0.6f, config->textColor(), std::to_string(this->currentGame->getSize(0)));
 	// Player 2.
 	GFX::DrawPlayer(0, 0, 0.9, 0.9, computers[0]->getAvatar());
@@ -122,41 +122,148 @@ std::string GameScreen::returnPlayerName(int player) const {
 	return "?";
 }
 
+int GameScreen::getAvatar(int player) const {
+	switch(player) {
+		case 0:
+			return savedata->playerAvatar();
+		case 1:
+			return computers[0]->getAvatar();
+		case 2:
+			return computers[1]->getAvatar();
+		case 3:
+			return computers[2]->getAvatar();
+	}
+	return 0;
+}
+
 // Return the remaining cards.
 int GameScreen::getPlayerCards(int player) const {
 	return this->currentGame->getSize(player);
 }
 
 void GameScreen::Draw(void) const {
-	GFX::DrawTop(false);
-	// Draw Players & amount of cards.
-	this->DrawPlayers();
-	if (this->currentGame->currentPlayer() == 0) {
-		GFX::DrawSelectedPlayer(130, 200);
-	} else if (this->currentGame->currentPlayer() == 1) {
-		GFX::DrawSelectedPlayer(130, 70);
-	} else if (this->currentGame->currentPlayer() == 2) {
-		GFX::DrawSelectedPlayer(250, 70);
-	} else if (this->currentGame->currentPlayer() == 3) {
-		GFX::DrawSelectedPlayer(250, 200);
+	if (this->isSubMenu) {
+		if (this->subMode == 0) {
+			this->DrawSubMenu();
+		} else {
+			this->DrawPlayerStats();
+		}
+	} else {
+		GFX::DrawTop(false);
+		// Draw Players & amount of cards.
+		this->DrawPlayers();
+		if (this->currentGame->currentPlayer() == 0) {
+			GFX::DrawSelectedPlayer(130, 200);
+		} else if (this->currentGame->currentPlayer() == 1) {
+			GFX::DrawSelectedPlayer(130, 70);
+		} else if (this->currentGame->currentPlayer() == 2) {
+			GFX::DrawSelectedPlayer(250, 70);
+		} else if (this->currentGame->currentPlayer() == 3) {
+			GFX::DrawSelectedPlayer(250, 200);
+		}
+		// Draw Table Card.
+		GFX::DrawCard(this->currentGame->tableCard().CT, 170, 80, this->currentGame->tableCard().CC);
+		// Bottom Screen.
+		GFX::DrawBottom(false);
+		Gui::DrawStringCentered(0, 0, 0.7f, config->textColor(), "It's " + this->returnPlayerName(this->currentGame->currentPlayer()) + "'s turn!");
+		DisplayPlayerHand();
+		DisplayPlayerHandSmall();
 	}
-	// Draw Table Card.
-	GFX::DrawCard(this->currentGame->tableCard().CT, 170, 80, this->currentGame->tableCard().CC);
-	// Bottom Screen.
-	GFX::DrawBottom(false);
-	Gui::DrawStringCentered(0, 0, 0.7f, config->textColor(), "It's " + this->returnPlayerName(this->currentGame->currentPlayer()) + "'s turn!");
-	DisplayPlayerHand();
-	DisplayPlayerHandSmall();
 }
 
+void GameScreen::DrawPlayerStats(void) const {
+	Animation::DrawSubBG();
+	Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(0, 0, 0, 210)); // Darken the screen.
+	Gui::DrawStringCentered(0, 0, 0.8f, config->textColor(), "3DEins - Stats Screen", 400);
+	GFX::DrawPlayer(30, 50, 1, 1, this->getAvatar(subMode-1));
+	Gui::DrawString(190, 55, 0.7f, config->textColor(), "Position: " + std::to_string(subMode) + " | " + std::to_string(this->currentGame->maxPlayer()), 200);
+	Gui::DrawString(190, 85, 0.7f, config->textColor(), "Playername: " + returnPlayerName(subMode-1), 200);
+	Gui::DrawString(190, 115, 0.7f, config->textColor(), "Cards Left: " + std::to_string(getPlayerCards(subMode-1)), 200);
+	Gui::DrawString(190, 145, 0.7f, config->textColor(), "Points: " + std::to_string(this->currentGame->getPlayer(subMode-1)->getPoints()), 200);
+	Gui::DrawStringCentered(0, 216, 0.75f, config->textColor(), "Press L / R to switch pages.", 400);
+	Animation::DrawSubBG(false);
+	Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(0, 0, 0, 210)); // Darken the screen.
+}
 
-void GameScreen::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
-	if (hDown & KEY_B) {
-		Gui::screenBack();
-		return;
+void GameScreen::DrawSubMenu(void) const {
+	Animation::DrawSubBG();
+	Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(0, 0, 0, 210)); // Darken the screen.
+	Gui::DrawStringCentered(0, 0, 0.8f, config->textColor(), "3DEins - Game Paused.", 400);
+	Gui::DrawStringCentered(0, 55, 0.7f, config->textColor(), "Players: " + std::to_string(this->currentGame->maxPlayer()), 400);
+	Gui::DrawStringCentered(0, 216, 0.75f, config->textColor(), "Press R to switch to stats.", 400);
+	
+	Animation::DrawSubBG(false);
+	Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(0, 0, 0, 210)); // Darken the screen.
+	for (int i = 0; i < 3; i++) {
+		Gui::Draw_Rect(this->breakBtn[i].x, this->breakBtn[i].y, this->breakBtn[i].w, this->breakBtn[i].h, config->buttonColor());
+		if (this->selection == i) {
+			GFX::DrawButtonSelector(this->breakBtn[i].x, this->breakBtn[i].y);
+		}
+	}
+	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.6, "Resume"))/2-80+17.5, 0.6, config->textColor(), "Resume", 130, 25);
+	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.6, "Restart"))/2-20+17.5, 0.6, config->textColor(), "Restart", 130, 25);
+	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.6, "Exit Game"))/2+75-17.5, 0.6, config->textColor(), "Exit Game", 130, 25);
+}
+
+void GameScreen::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
+	if (this->subMode == 0) {
+		if (hDown & KEY_A) {
+			switch (this->selection) {
+				case 0:
+					this->isSubMenu = false;
+					break;
+				case 1:
+					if (Msg::promptMsg("Do you like to restart the game?")) {
+						this->InitializeNewGame();
+						this->isSubMenu = false;
+					}
+					break;
+				case 2:
+					if (Msg::promptMsg("Do you like to quit the game?")) {
+						Gui::screenBack();
+						return;
+					}
+					break;
+			}
+		}
+
+		if (hDown & KEY_DOWN) {
+			if (this->selection < 2)	this->selection++;
+		} else if (hDown & KEY_UP) {
+			if (this->selection > 0)	this->selection--;
+		}	
+
+		if (hDown & KEY_TOUCH) {
+			if (touching(touch, breakBtn[0])) {
+				this->isSubMenu = false;
+			} else if (touching(touch, breakBtn[1])) {
+				if (Msg::promptMsg("Do you like to restart the game?")) {
+					this->InitializeNewGame();
+					this->isSubMenu = false;
+				}
+			} else if (touching(touch, breakBtn[2])) {
+				if (Msg::promptMsg("Do you like to quit the game?")) {
+					Gui::screenBack();
+					return;
+				}
+			}
+		}
+	}
+	if (hDown & KEY_L) {
+		if (this->subMode > 0)	this->subMode--;
 	}
 
-	this->PlayerLogic(hDown, hHeld, touch);
+	if (hDown & KEY_R) {
+		if (this->subMode < this->currentGame->maxPlayer())	this->subMode++;
+	}
+}
+
+void GameScreen::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
+	if (this->isSubMenu) {
+		this->SubMenuLogic(hDown, hHeld, touch);
+	} else {
+		this->PlayerLogic(hDown, hHeld, touch);
+	}
 }
 
 void GameScreen::setState(int Player) {
@@ -232,6 +339,10 @@ void GameScreen::PlayerLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 		this->currentGame->currentPlayer(this->getNextPlayer());
 	}
 
+	// Pressing Start goes to the Sub Menu.
+	if (hDown & KEY_START) {
+		this->isSubMenu = true;
+	}
 
 	if (hDown & KEY_RIGHT) {
 		if (this->currentGame->cardIndex(this->currentGame->currentPlayer()) < this->currentGame->getSize(this->currentGame->currentPlayer()) -1)	this->currentGame->cardIndex(this->currentGame->cardIndex(this->currentGame->currentPlayer()) + 1, this->currentGame->currentPlayer());
