@@ -81,6 +81,7 @@ void SaveData::playerName(const std::string name) {
 	}
 
 	memcpy(this->saveData.get() + 0, (u8 *)name.data(), name.length()); // 9 + 1
+	if (!this->changesMade)	this->changesMade = true;
 }
 
 /*	Player ID. */
@@ -89,6 +90,7 @@ u16 SaveData::playerID() {
 }
 void SaveData::playerID(u16 ID) {
 	this->Write<u16>(0xA, ID);
+	if (!this->changesMade)	this->changesMade = true;
 }
 
 /*	Player Avatar. */
@@ -97,6 +99,7 @@ int SaveData::playerAvatar() {
 }
 void SaveData::playerAvatar(int avatar) {
 	this->saveData.get()[0xC] = avatar;
+	if (!this->changesMade)	this->changesMade = true;
 }
 
 /*	Phrase. */
@@ -120,12 +123,15 @@ void SaveData::playerPhrase(const std::string phrase) {
 	}
 
 	memcpy(this->saveData.get() + 0xD, (u8 *)phrase.data(), phrase.length()); // 29 + 1
+	if (!this->changesMade)	this->changesMade = true;
 }
 
 
 // Write data to SaveFile. Call this when exiting or so.
 void SaveData::write() {
-	FILE *file = fopen(this->savePath.c_str(), "w");
-	fwrite(this->saveData.get(), this->saveSize, 1, file);
-	fclose(file);
+	if (this->changesMade) {
+		FILE *file = fopen(this->savePath.c_str(), "w");
+		fwrite(this->saveData.get(), this->saveSize, 1, file);
+		fclose(file);
+	}
 }

@@ -30,7 +30,8 @@
 #include "coreHelper.hpp"
 
 namespace _3DEins_Helper {
-	CardColor selectColor(std::unique_ptr<Game> &game, int player);
+	CardColor selectColor();
+	int selectAvatar(int oldAvatar);
 }
 
 #endif

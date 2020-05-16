@@ -24,7 +24,7 @@
 *         reasonable ways as different from the original version.
 */
 
-#include "charSelect_action.hpp"
+#include "_3DEins_Helper.hpp"
 #include "common.hpp"
 #include "config.hpp"
 #include "errorScreen.hpp"
@@ -42,7 +42,6 @@ bool exiting = false;
 touchPosition touch;
 
 std::unique_ptr<SaveData> savedata;
-extern std::unique_ptr<ScreenState> screenS;
 std::unique_ptr<Config> config;
 
 // Include all spritesheet's.
@@ -79,7 +78,6 @@ void Init::enterName() {
 	C2D_TargetClear(Bottom, C2D_Color32(0, 0, 0, 0)); // Avoid glitchy things on bottom.
 	std::string str = Keyboard::getString(10, "Enter your Playername.", 0.6);
 	savedata->playerName(str);
-	savedata->write();
 }
 
 Result Init::Initialize() {
@@ -108,7 +106,7 @@ Result Init::Initialize() {
 		if (savedata->playerID() == 0) {
 			GenerateID(); // We don't have an ID yet, so generate it.
 			enterName(); // Enter username.
-			screenS = std::make_unique<CharSelect_Action>(savedata);
+			savedata->playerAvatar(_3DEins_Helper::selectAvatar(savedata->playerAvatar()));
 		}
 	}
 	
@@ -144,6 +142,7 @@ Result Init::MainLoop() {
 Result Init::Exit() {
 	Gui::exit();
 	if (isGood)	config->save(); // Only save if config is good.
+	savedata->write(); // Only write if changes made.
 	// Free all SpriteSheets.
 	Gui::unloadSheet(cards);
 	Gui::unloadSheet(characters);

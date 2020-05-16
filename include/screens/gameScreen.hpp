@@ -41,7 +41,7 @@ public:
 	GameScreen();
 private:
 	std::unique_ptr<Game> currentGame;
-	bool checkForPlayableCard(const std::shared_ptr<Player> &player);
+	bool checkForPlayableCard(const int player);
 	void PlayerLogic(u32 hDown, u32 hHeld, touchPosition touch);
 	void SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch);
 
@@ -59,7 +59,7 @@ private:
 	// Useful functions.
 	std::string returnPlayerName(int player) const;
 	int getPlayerCards(int player) const;
-	bool CanPlayerPlay(const std::shared_ptr<Player> &player);
+	bool CanPlayerPlay(const int player);
 	int getNextPlayer();
 	
 	// Player Amount & Current Player.

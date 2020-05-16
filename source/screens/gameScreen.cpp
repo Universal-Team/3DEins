@@ -175,11 +175,11 @@ void GameScreen::DrawPlayerStats(void) const {
 	Animation::DrawSubBG();
 	Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(0, 0, 0, 210)); // Darken the screen.
 	Gui::DrawStringCentered(0, 0, 0.8f, config->textColor(), "3DEins - Stats Screen", 400);
-	GFX::DrawPlayer(30, 50, 1, 1, this->getAvatar(subMode-1));
+	GFX::DrawPlayer(30, 50, 1, 1, this->getAvatar(subMode - 1));
 	Gui::DrawString(190, 55, 0.7f, config->textColor(), "Position: " + std::to_string(subMode) + " | " + std::to_string(this->currentGame->maxPlayer()), 200);
-	Gui::DrawString(190, 85, 0.7f, config->textColor(), "Playername: " + returnPlayerName(subMode-1), 200);
-	Gui::DrawString(190, 115, 0.7f, config->textColor(), "Cards Left: " + std::to_string(getPlayerCards(subMode-1)), 200);
-	Gui::DrawString(190, 145, 0.7f, config->textColor(), "Points: " + std::to_string(this->currentGame->getPlayer(subMode-1)->getPoints()), 200);
+	Gui::DrawString(190, 85, 0.7f, config->textColor(), "Playername: " + returnPlayerName(subMode - 1), 200);
+	Gui::DrawString(190, 115, 0.7f, config->textColor(), "Cards Left: " + std::to_string(getPlayerCards(subMode - 1)), 200);
+	Gui::DrawString(190, 145, 0.7f, config->textColor(), "Points: " + std::to_string(this->currentGame->getPoints(subMode - 1)), 200);
 	Gui::DrawStringCentered(0, 216, 0.75f, config->textColor(), "Press L / R to switch pages.", 400);
 	Animation::DrawSubBG(false);
 	Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(0, 0, 0, 210)); // Darken the screen.
@@ -271,7 +271,8 @@ void GameScreen::setState(int Player) {
 		case PlayerState::NOTHING:
 			break;
 		case PlayerState::WISH:
-			this->currentGame->tbCardColor(_3DEins_Helper::selectColor(this->currentGame, Player));
+			this->currentGame->tbCardColor(_3DEins_Helper::selectColor());
+			this->currentGame->state(PlayerState::NOTHING, Player); // Set state to Nothing after it.
 			break;
 		case PlayerState::DRAWING2:
 			this->currentGame->addCard(Player);
@@ -294,16 +295,16 @@ void GameScreen::setState(int Player) {
 	}
 }
 
-bool GameScreen::checkForPlayableCard(const std::shared_ptr<Player> &player) {
-	for (int i = 0; i < (int)player->getSize(); i++) {
-		if (player->CT(i) == this->currentGame->tableCard().CT || player->CC(i) == this->currentGame->tableCard().CC || player->CT(i) == CardType::DRAW4 || player->CT(i) == CardType::WILD) {
+bool GameScreen::checkForPlayableCard(const int player) {
+	for (int i = 0; i < (int)this->currentGame->getSize(player); i++) {
+		if (this->currentGame->getType(i, player) == this->currentGame->tableCard().CT || this->currentGame->getColor(i, player) == this->currentGame->tableCard().CC || this->currentGame->getType(i, player) == CardType::DRAW4 || this->currentGame->getType(i, player) == CardType::WILD) {
 			return true;
 		}
 	}
 	return false;
 }
 
-bool GameScreen::CanPlayerPlay(const std::shared_ptr<Player> &player) {
+bool GameScreen::CanPlayerPlay(const int player) {
 	return this->checkForPlayableCard(player);
 }
 
@@ -410,7 +411,7 @@ void GameScreen::PlayerLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 			this->currentGame->addCard(this->currentGame->currentPlayer());
 			// Do not allow multiple draws.
 			this->currentGame->drawn(true);
-			if (!CanPlayerPlay(this->currentGame->getPlayer(this->currentGame->currentPlayer()))) {
+			if (!CanPlayerPlay(this->currentGame->currentPlayer())) {
 				// Reset hasDrawn.
 				this->currentGame->drawn(false); // Reset.
 				char message [100];

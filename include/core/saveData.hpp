@@ -82,6 +82,7 @@ public:
 	}
 private:
 	std::string savePath;
+	bool changesMade = false;
 };
 
 #endif

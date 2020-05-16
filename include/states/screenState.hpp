@@ -32,7 +32,6 @@
 #include <memory>
 
 enum class screenState {
-	CharSelect_Action,
 	Chat_Action,
 	Nothing
 };
