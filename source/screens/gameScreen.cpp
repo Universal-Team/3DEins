@@ -24,7 +24,7 @@
 *         reasonable ways as different from the original version.
 */
 
-#include "_3DEins_Helper.hpp"
+#include "_3DEins_Helper.hpp" // Used for the special actions.
 #include "computer.hpp"
 #include "config.hpp"
 #include "gameScreen.hpp"
@@ -156,11 +156,7 @@ void GameScreen::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		return;
 	}
 
-	if (this->currentGame->currentPlayer() == 0) {
-		this->Player1Logic(hDown, hHeld, touch);
-	} else if (this->currentGame->currentPlayer() == 1) {
-		this->Player2Logic(hDown, hHeld, touch);
-	}
+	this->PlayerLogic(hDown, hHeld, touch);
 }
 
 void GameScreen::setState(int Player) {
@@ -204,208 +200,94 @@ bool GameScreen::CanPlayerPlay(const std::shared_ptr<Player> &player) {
 	return this->checkForPlayableCard(player);
 }
 
-// For the Player hand.
-void GameScreen::Player1Logic(u32 hDown, u32 hHeld, touchPosition touch) {
-	if (this->currentGame->state(0) == PlayerState::BREAK) {
-		this->currentGame->state(PlayerState::NOTHING, 0); // Reset.
-		if (this->currentGame->direction() == DIRECTION::COUNTERCLOCKWISE) {
-			char message [100];
-			snprintf(message, sizeof(message), "%s needs to take a break.\n%s Continue!", this->returnPlayerName(0).c_str(), this->returnPlayerName(1).c_str());
-			Msg::DisplayPlayerSwitch(message);
-			this->currentGame->currentPlayer(1);
-		} else if (this->currentGame->direction() == DIRECTION::CLOCKWISE) {
-			char message [100];
-			snprintf(message, sizeof(message), "%s needs to take a break.\n%s Continue!", this->returnPlayerName(0).c_str(), this->returnPlayerName(1).c_str());
-			Msg::DisplayPlayerSwitch(message);
-			this->currentGame->currentPlayer(1);
-		}
-	}
-
-	if (hDown & KEY_RIGHT) {
-		if (this->currentGame->cardIndex(0) < this->currentGame->getSize(0) -1)	this->currentGame->cardIndex(this->currentGame->cardIndex(0) + 1, 0);
-	}
-
-	if (hDown & KEY_R) {
-		this->currentGame->cardIndex(this->currentGame->getSize(0) -1, 0);
-	}
-
-	if (hDown & KEY_LEFT ) {
-		if (this->currentGame->cardIndex(0) > 0)	this->currentGame->cardIndex(this->currentGame->cardIndex(0) - 1, 0);
-	}
-
-	if (hDown & KEY_L) {
-		this->currentGame->cardIndex(0, 0);
-	}
-
-	if (hDown & KEY_A) {
-		// Check if cardType or CardColor are identical and play.
-		if (this->currentGame->Playable(this->currentGame->cardIndex(0), 0)) {
-			this->currentGame->play(this->currentGame->cardIndex(0), 0);
-
-			// Handle.
-			if (this->currentGame->direction() == DIRECTION::COUNTERCLOCKWISE) {
-				GameHelper::checkAndSet(this->currentGame, 0, 1, playerAmount);
-			} else {
-				GameHelper::checkAndSet(this->currentGame, 0, 1, playerAmount);
-			}
-
-			// Special case handle for 2 Player.
-			if (this->playerAmount == 2) {
-				if (this->currentGame->state(0) == PlayerState::CONTINUE) {
-					this->currentGame->canContinue(true);
-				}
-			}
-
-			this->setState(0);
-			this->setState(1);
-
-			this->currentGame->drawn(false);
-
-			// Check if player won.
-			this->currentGame->checkCards(0);
-			if (this->currentGame->winner() == 0) {
-				char message [100];
-				snprintf(message, sizeof(message), "%s won the game!", returnPlayerName(0).c_str());
-				Msg::DisplayPlayerSwitch(message);
-				Gui::screenBack();
-				return;
-			}
-
-			// If CardIndex is higher than the amount of cards, go one card back.
-			if (this->currentGame->cardIndex(0) > (int)this->currentGame->getSize(0) -1) {
-				this->currentGame->cardIndex(this->currentGame->getSize(0) -1, 0);
-			}
-
-
-			if (!this->currentGame->canContinue()) {
-				if (this->currentGame->direction() == DIRECTION::COUNTERCLOCKWISE) {
-					char message [100];
-					snprintf(message, sizeof(message), "%s has ended their round.\n%s Continue!", returnPlayerName(0).c_str(), returnPlayerName(1).c_str());
-					Msg::DisplayPlayerSwitch(message);
-					this->currentGame->currentPlayer(1);
-				} else if (this->currentGame->direction() == DIRECTION::CLOCKWISE) {
-					char message [100];
-					snprintf(message, sizeof(message), "%s has ended their round.\n%s Continue!", returnPlayerName(0).c_str(), returnPlayerName(1).c_str());
-					Msg::DisplayPlayerSwitch(message);
-					this->currentGame->currentPlayer(1);
-				}
-			}
-			this->currentGame->canContinue(false);
-		}
-	}
-
-	// Player cannot set, so draw a card. If user cannot play after it, skip to next player.
-	if (hDown & KEY_X) {
-		if (!this->currentGame->drawn()) {
-			this->currentGame->addCard(0);
-			// Do not allow multiple draws.
-			this->currentGame->drawn(true);
-			if (!CanPlayerPlay(this->currentGame->getPlayer(0))) {
-				// Reset hasDrawn.
-				this->currentGame->drawn(false); // Reset.
-				if (this->currentGame->direction() == DIRECTION::COUNTERCLOCKWISE) {
-					char message [100];
-					snprintf(message, sizeof(message), "%s has ended their round.\n%s Continue!", returnPlayerName(0).c_str(), returnPlayerName(1).c_str());
-					Msg::DisplayPlayerSwitch(message);
-					this->currentGame->currentPlayer(1);
-				} else if (this->currentGame->direction() == DIRECTION::CLOCKWISE) {
-					char message [100];
-					snprintf(message, sizeof(message), "%s has ended their round.\n%s Continue!", returnPlayerName(0).c_str(), returnPlayerName(1).c_str());
-					Msg::DisplayPlayerSwitch(message);
-					this->currentGame->currentPlayer(1);
-				}
-			}
+int GameScreen::getNextPlayer() {
+	if (this->currentGame->direction() == DIRECTION::CLOCKWISE) {
+		if (this->currentGame->currentPlayer() < this->currentGame->maxPlayer() -1) {
+			// If Player is smaller than the max Player, go to Player ++.
+			return this->currentGame->currentPlayer() + 1;
 		} else {
-			Msg::DisplayPlayerSwitch("You can only draw 1 card each round!");
+			// If Player is max Player, go to the first Player.
+			return 0; // Player 0.
+		}
+		// Other Direction handle.
+	} else {
+		if (this->currentGame->currentPlayer() > 0) {
+			// If Player is larger than 0, go to Player --.
+			return this->currentGame->currentPlayer() - 1;
+		} else {
+			// If Player is 0, go to the max Player.
+			return this->currentGame->maxPlayer() -1;
 		}
 	}
+	return 0; // Should never happen.
 }
 
-// For the Player hand.
-void GameScreen::Player2Logic(u32 hDown, u32 hHeld, touchPosition touch) {
-	if (this->currentGame->state(1) == PlayerState::BREAK) {
-		this->currentGame->state(PlayerState::NOTHING, 1); // Reset.
-		if (this->currentGame->direction() == DIRECTION::COUNTERCLOCKWISE) {
-			char message [100];
-			snprintf(message, sizeof(message), "%s needs to take a break.\n%s Continue!", this->returnPlayerName(1).c_str(), this->returnPlayerName(0).c_str());
-			Msg::DisplayPlayerSwitch(message);
-			this->currentGame->currentPlayer(0);
-		} else if (this->currentGame->direction() == DIRECTION::CLOCKWISE) {
-			char message [100];
-			snprintf(message, sizeof(message), "%s needs to take a break.\n%s Continue!", this->returnPlayerName(1).c_str(), this->returnPlayerName(0).c_str());
-			Msg::DisplayPlayerSwitch(message);
-			this->currentGame->currentPlayer(0);
-		}
+
+void GameScreen::PlayerLogic(u32 hDown, u32 hHeld, touchPosition touch) {
+	if (this->currentGame->state(this->currentGame->currentPlayer()) == PlayerState::BREAK) {
+		this->currentGame->state(PlayerState::NOTHING, this->currentGame->currentPlayer()); // Reset.
+		char message [100];
+		snprintf(message, sizeof(message), "%s needs to take a break.\n%s Continue!", this->returnPlayerName(this->currentGame->currentPlayer()).c_str(), this->returnPlayerName(this->getNextPlayer()).c_str());
+		Msg::DisplayPlayerSwitch(message);
+		this->currentGame->currentPlayer(this->getNextPlayer());
 	}
 
+
 	if (hDown & KEY_RIGHT) {
-		if (this->currentGame->cardIndex(1) < this->currentGame->getSize(1) -1)	this->currentGame->cardIndex(this->currentGame->cardIndex(1) + 1, 1);
+		if (this->currentGame->cardIndex(this->currentGame->currentPlayer()) < this->currentGame->getSize(this->currentGame->currentPlayer()) -1)	this->currentGame->cardIndex(this->currentGame->cardIndex(this->currentGame->currentPlayer()) + 1, this->currentGame->currentPlayer());
 	}
 
 	if (hDown & KEY_R) {
-		this->currentGame->cardIndex(this->currentGame->getSize(1) -1, 1);
+		this->currentGame->cardIndex(this->currentGame->getSize(this->currentGame->currentPlayer()) -1, this->currentGame->currentPlayer());
 	}
 
-	if (hDown & KEY_LEFT ) {
-		if (this->currentGame->cardIndex(1) > 0)	this->currentGame->cardIndex(this->currentGame->cardIndex(1) - 1, 1);
+	if (hDown & KEY_LEFT) {
+		if (this->currentGame->cardIndex(this->currentGame->currentPlayer()) > 0)	this->currentGame->cardIndex(this->currentGame->cardIndex(this->currentGame->currentPlayer()) - 1, this->currentGame->currentPlayer());
 	}
 
 	if (hDown & KEY_L) {
-		this->currentGame->cardIndex(0, 1);
+		this->currentGame->cardIndex(0, this->currentGame->currentPlayer());
 	}
 
 	if (hDown & KEY_A) {
 		// Check if cardType or CardColor are identical and play.
-		if (this->currentGame->Playable(this->currentGame->cardIndex(1), 1)) {
-			this->currentGame->play(this->currentGame->cardIndex(1), 1);
+		if (this->currentGame->Playable(this->currentGame->cardIndex(this->currentGame->currentPlayer()), this->currentGame->currentPlayer())) {
+			this->currentGame->play(this->currentGame->cardIndex(this->currentGame->currentPlayer()), this->currentGame->currentPlayer());
 
 			// Handle.
-			if (this->currentGame->direction() == DIRECTION::COUNTERCLOCKWISE) {
-				GameHelper::checkAndSet(this->currentGame, 1, 0, playerAmount);
-			} else {
-				GameHelper::checkAndSet(this->currentGame, 1, 0, playerAmount);
-			}
+			GameHelper::checkAndSet(this->currentGame, this->currentGame->currentPlayer(), this->getNextPlayer(), playerAmount);
 
 			// Special case handle for 2 Player.
-			if (this->playerAmount == 2) {
-				if (this->currentGame->state(1) == PlayerState::CONTINUE) {
+			if (this->currentGame->maxPlayer() == 2) {
+				if (this->currentGame->state(this->currentGame->currentPlayer()) == PlayerState::CONTINUE) {
 					this->currentGame->canContinue(true);
 				}
 			}
 
-			this->setState(1);
-			this->setState(0);
-
+			this->setState(this->currentGame->currentPlayer());
+			this->setState(this->getNextPlayer());
 			this->currentGame->drawn(false);
 
 			// Check if player won.
-			this->currentGame->checkCards(1);
-			if (this->currentGame->winner() == 1) {
+			this->currentGame->checkCards(this->currentGame->currentPlayer());
+			if (this->currentGame->winner() == this->currentGame->currentPlayer()) {
 				char message [100];
-				snprintf(message, sizeof(message), "%s won the game!", returnPlayerName(1).c_str());
+				snprintf(message, sizeof(message), "%s won the game!", returnPlayerName(this->currentGame->currentPlayer()).c_str());
 				Msg::DisplayPlayerSwitch(message);
 				Gui::screenBack();
 				return;
 			}
 
 			// If CardIndex is higher than the amount of cards, go one card back.
-			if (this->currentGame->cardIndex(1) > (int)this->currentGame->getSize(1) -1) {
-				this->currentGame->cardIndex(this->currentGame->getSize(1) -1, 1);
+			if (this->currentGame->cardIndex(this->currentGame->currentPlayer()) > (int)this->currentGame->getSize(this->currentGame->currentPlayer()) -1) {
+				this->currentGame->cardIndex(this->currentGame->getSize(this->currentGame->currentPlayer()) -1, this->currentGame->currentPlayer());
 			}
 
-
 			if (!this->currentGame->canContinue()) {
-				if (this->currentGame->direction() == DIRECTION::COUNTERCLOCKWISE) {
-					char message [100];
-					snprintf(message, sizeof(message), "%s has ended their round.\n%s Continue!", returnPlayerName(1).c_str(), returnPlayerName(0).c_str());
-					Msg::DisplayPlayerSwitch(message);
-					this->currentGame->currentPlayer(0);
-				} else if (this->currentGame->direction() == DIRECTION::CLOCKWISE) {
-					char message [100];
-					snprintf(message, sizeof(message), "%s has ended their round.\n%s Continue!", returnPlayerName(1).c_str(), returnPlayerName(0).c_str());
-					Msg::DisplayPlayerSwitch(message);
-					this->currentGame->currentPlayer(0);
-				}
+				char message [100];
+				snprintf(message, sizeof(message), "%s has ended their round.\n%s Continue!", returnPlayerName(this->currentGame->currentPlayer()).c_str(), returnPlayerName(this->getNextPlayer()).c_str());
+				Msg::DisplayPlayerSwitch(message);
+				this->currentGame->currentPlayer(this->getNextPlayer());
 			}
 			this->currentGame->canContinue(false);
 		}
@@ -414,23 +296,16 @@ void GameScreen::Player2Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	// Player cannot set, so draw a card. If user cannot play after it, skip to next player.
 	if (hDown & KEY_X) {
 		if (!this->currentGame->drawn()) {
-			this->currentGame->addCard(1);
+			this->currentGame->addCard(this->currentGame->currentPlayer());
 			// Do not allow multiple draws.
 			this->currentGame->drawn(true);
-			if (!CanPlayerPlay(this->currentGame->getPlayer(1))) {
+			if (!CanPlayerPlay(this->currentGame->getPlayer(this->currentGame->currentPlayer()))) {
 				// Reset hasDrawn.
-				this->currentGame->drawn(false);
-				if (this->currentGame->direction() == DIRECTION::COUNTERCLOCKWISE) {
-					char message [100];
-					snprintf(message, sizeof(message), "%s has ended their round.\n%s Continue!", returnPlayerName(1).c_str(), returnPlayerName(0).c_str());
-					Msg::DisplayPlayerSwitch(message);
-					this->currentGame->currentPlayer(0);
-				} else if (this->currentGame->direction() == DIRECTION::CLOCKWISE) {
-					char message [100];
-					snprintf(message, sizeof(message), "%s has ended their round.\n%s Continue!", returnPlayerName(1).c_str(), returnPlayerName(0).c_str());
-					Msg::DisplayPlayerSwitch(message);
-					this->currentGame->currentPlayer(0);
-				}
+				this->currentGame->drawn(false); // Reset.
+				char message [100];
+				snprintf(message, sizeof(message), "%s has ended their round.\n%s Continue!", returnPlayerName(this->currentGame->currentPlayer()).c_str(), returnPlayerName(this->getNextPlayer()).c_str());
+				Msg::DisplayPlayerSwitch(message);
+				this->currentGame->currentPlayer(this->getNextPlayer());
 			}
 		} else {
 			Msg::DisplayPlayerSwitch("You can only draw 1 card each round!");

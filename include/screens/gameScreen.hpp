@@ -42,8 +42,7 @@ public:
 private:
 	std::unique_ptr<Game> currentGame;
 	bool checkForPlayableCard(const std::shared_ptr<Player> &player);
-	void Player1Logic(u32 hDown, u32 hHeld, touchPosition touch);
-	void Player2Logic(u32 hDown, u32 hHeld, touchPosition touch);
+	void PlayerLogic(u32 hDown, u32 hHeld, touchPosition touch);
 
 	void InitializeNewGame();
 	void setState(int Player);
@@ -57,9 +56,10 @@ private:
 	std::string returnPlayerName(int player) const;
 	int getPlayerCards(int player) const;
 	bool CanPlayerPlay(const std::shared_ptr<Player> &player);
+	int getNextPlayer();
 	
 	// Player Amount & Current Player.
-	int playerAmount = 2;
+	int playerAmount = 4;
 };
 
 #endif
