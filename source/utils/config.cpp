@@ -30,14 +30,8 @@
 
 // In case it doesn't exist.
 void Config::initialize() {
-	// Create through fopen "Write" & close.
+	// Create through fopen "Write".
 	FILE *file = fopen("sdmc:/3ds/3DEins/Settings.json", "w");
-	fclose(file);
-
-	// Open it as "Read".
-	FILE *file2 = fopen("sdmc:/3ds/3DEins/Settings.json", "r");
-	this->json = nlohmann::json::parse(file2, nullptr, false);
-	fclose(file2);
 
 	// Set default values.
 	this->setInt("Bar_Color", C2D_Color32(220, 60, 0, 255));
@@ -47,9 +41,8 @@ void Config::initialize() {
 	this->setInt("Language", 1);
 
 	// Write to file.
-	FILE *file3 = fopen("sdmc:/3ds/3DEins/Settings.json", "w");
-	fwrite(this->json.dump(1, '\t').c_str(), 1, this->json.dump(1, '\t').size(), file3);
-	fclose(file3); // Now we have the file and can properly access it.
+	fwrite(this->json.dump(1, '\t').c_str(), 1, this->json.dump(1, '\t').size(), file);
+	fclose(file); // Now we have the file and can properly access it.
 }
 
 Config::Config() {
