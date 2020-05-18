@@ -61,6 +61,8 @@ private:
 	int getPlayerCards(int player) const;
 	bool CanPlayerPlay(const int player);
 	int getNextPlayer();
+
+	void animationCard(const int player, const CardStruct &card);
 	
 	// Player Amount & Current Player.
 	int playerAmount = 4;

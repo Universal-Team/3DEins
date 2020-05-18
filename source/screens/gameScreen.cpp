@@ -171,6 +171,100 @@ void GameScreen::Draw(void) const {
 	}
 }
 
+// Animation! swap's the card from the player.
+void GameScreen::animationCard(const int player, const CardStruct &card) {
+	int wantedXPos = 170;
+	int wantedYPos = 80;
+	int curPosX = 0;
+	int curPosY = 0;
+	int speed = 2;
+	bool swap = true;
+
+	// Set curPosX & Y.
+	switch(player) {
+		case 0:
+			curPosX = 0;
+			curPosY = 150;
+			break;
+		case 1:
+			curPosX = 0;
+			curPosY = 0;
+			break;
+		case 2:
+			curPosX = 340;
+			curPosY = 0;
+			break;
+		case 3:
+			curPosX = 340;
+			curPosY = 150;
+			break;
+	}
+
+	while(swap) {
+		Gui::clearTextBufs();
+		C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
+		GFX::DrawTop(false);
+		
+		// If X-Pos isn't the wanted one, draw it before the Players.
+		if (curPosX != wantedXPos) {
+			GFX::DrawCard(card.CT, curPosX, curPosY, card.CC);
+		}
+
+		// Draw Players & amount of cards.
+		this->DrawPlayers();
+		if (this->currentGame->currentPlayer() == 0) {
+			GFX::DrawSelectedPlayer(130, 200);
+		} else if (this->currentGame->currentPlayer() == 1) {
+			GFX::DrawSelectedPlayer(130, 70);
+		} else if (this->currentGame->currentPlayer() == 2) {
+			GFX::DrawSelectedPlayer(250, 70);
+		} else if (this->currentGame->currentPlayer() == 3) {
+			GFX::DrawSelectedPlayer(250, 200);
+		}
+		// Draw Table Card.
+		GFX::DrawCard(this->currentGame->tableCard().CT, 170, 80, this->currentGame->tableCard().CC);
+
+		if (curPosX == wantedXPos) {
+			GFX::DrawCard(card.CT, curPosX, curPosY, card.CC);
+		}
+
+		// Bottom Screen.
+		GFX::DrawBottom(false);
+		Gui::DrawStringCentered(0, 0, 0.7f, config->textColor(), "It's " + this->returnPlayerName(this->currentGame->currentPlayer()) + "'s turn!");
+		DisplayPlayerHand();
+		DisplayPlayerHandSmall();
+		C3D_FrameEnd(0);
+
+		if (player == 0 || player == 1) {
+			if (curPosX < wantedXPos) {
+				curPosX = curPosX + speed;
+			}
+		} else if (player == 2 || player == 3) {
+			if (curPosX > wantedXPos) {
+				curPosX = curPosX - speed;
+			}
+		}
+
+		if (player == 0 || player == 3) {
+			if (curPosX == wantedXPos) {
+				if (curPosY > wantedYPos) {
+					curPosY = curPosY - speed;
+				}
+			}
+		} else if (player == 1 || player == 2) {
+			if (curPosX == wantedXPos) {
+				if (curPosY < wantedYPos) {
+					curPosY = curPosY + speed;
+				}
+			}
+		}
+
+		if (curPosY == wantedYPos && curPosX == wantedXPos) {
+			swap = false;
+		}
+	}
+}
+
 void GameScreen::DrawPlayerStats(void) const {
 	Animation::DrawSubBG();
 	Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(0, 0, 0, 210)); // Darken the screen.
@@ -364,6 +458,7 @@ void GameScreen::PlayerLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hDown & KEY_A) {
 		// Check if cardType or CardColor are identical and play.
 		if (this->currentGame->Playable(this->currentGame->cardIndex(this->currentGame->currentPlayer()), this->currentGame->currentPlayer())) {
+			this->animationCard(this->currentGame->currentPlayer(), this->currentGame->getPlayerCard(this->currentGame->cardIndex(this->currentGame->currentPlayer()), this->currentGame->currentPlayer()));
 			this->currentGame->play(this->currentGame->cardIndex(this->currentGame->currentPlayer()), this->currentGame->currentPlayer());
 
 			// Handle.

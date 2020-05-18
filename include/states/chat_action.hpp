@@ -49,7 +49,7 @@ public:
 
 private:
 	std::string tempString = ""; // Our Temp String where we write to.
-	mutable int keyDownDelay = 10, cursorBlink = 20, layout = 0, selection = 0, screenPos = 0, delay = 0, memberPos = 0, DisplayMode = 0, memberSelection = 0; // Other Variables.
+	mutable int keyDownDelay = 10, cursorBlink = 20, layout = 0, selection = 0, screenPos = 0, delay = 0, memberPos = 0, DisplayMode = 0, memberSelection = 0, keySelection = 0; // Other Variables.
 	bool enter = false, exit = false, touched = false; // Our "enter" & "exit" & touched boolean.
 
 	void DrawMemberListTop(void) const;

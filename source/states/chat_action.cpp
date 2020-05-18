@@ -80,14 +80,18 @@ void Chat_Action::DrawChatBottom(void) const {
 	Gui::DrawString(2, 3, 0.40, config->textColor(), (this->tempString+(this->cursorBlink-- > 0 ? "_" : "")).c_str(), 316);
 
 	for (uint i = 0; i < (sizeof(this->LayoutABC)/sizeof(this->LayoutABC[0])); i++) {
-		C2D_DrawRectSolid(this->LayoutABC[i].x, this->LayoutABC[i].y, 0.5f, 30, 40, config->barColor() & C2D_Color32(255, 255, 255, 200));
-		if(layout == 0) {
+		if (i == (uint)this->keySelection) {
+			C2D_DrawRectSolid(LayoutABC[i].x, LayoutABC[i].y, 0.5f, 30, 40, config->bgColor() & C2D_Color32(255, 255, 255, 200));
+		} else {
+			C2D_DrawRectSolid(this->LayoutABC[i].x, this->LayoutABC[i].y, 0.5f, 30, 40, config->barColor() & C2D_Color32(255, 255, 255, 200));
+		}
+		if (this->layout == 0) {
 			char c[2] = {LayoutABC[i].character[0]};
 			Gui::DrawString(LayoutABC[i].x+5+(10-(Gui::GetStringWidth(0.55, c)/2)), this->LayoutABC[i].y+10+(10-(Gui::GetStringHeight(0.55, c)/2)), 0.55, config->textColor(), c);
-		} else if (layout == 1) {
+		} else if (this->layout == 1) {
 			char c[2] = {Layoutabc[i].character[0]};
 			Gui::DrawString(Layoutabc[i].x+5+(10-(Gui::GetStringWidth(0.50, c)/2)), this->Layoutabc[i].y+10+(10-(Gui::GetStringHeight(0.50, c)/2)), 0.50, config->textColor(), c);
-		} else if (layout == 2) {
+		} else if (this->layout == 2) {
 			char c[2] = {this->LayoutSign[i].character[0]};
 			Gui::DrawString(this->LayoutSign[i].x+5+(10-(Gui::GetStringWidth(0.50, c)/2)), this->LayoutSign[i].y+10+(10-(Gui::GetStringHeight(0.50, c)/2)), 0.50, config->textColor(), c);
 		}
@@ -129,6 +133,70 @@ void Chat_Action::ChatLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 		this->enter = true;
 	}
 	
+	if (hDown & KEY_R) {
+		if (this->layout < 2)	this->layout++;
+	} else if (hDown & KEY_L) {
+		if (this->layout > 0)	this->layout--;
+	}
+
+	if (hDown & KEY_RIGHT) {
+		if (this->keySelection < 8)	this->keySelection++;
+		else if (this->keySelection > 7 && this->keySelection < 17)	this->keySelection++;
+		else if (this->keySelection > 16 && this->keySelection < 25)	this->keySelection++;
+	}
+
+	if (hDown & KEY_DOWN) {
+		if (this->keySelection < 8)	this->keySelection += 8;
+		else if (this->keySelection > 7 && this->keySelection < 17)	this->keySelection += 9;
+	}
+
+	if (hDown & KEY_UP) {
+		if (this->keySelection > 16)	this->keySelection -= 9;
+		else if (this->keySelection < 16 && this->keySelection > 7)	this->keySelection -= 8;
+	}
+
+	if (hDown & KEY_LEFT) {
+		if (this->keySelection > 16)	this->keySelection--;
+		else if (this->keySelection < 17 && this->keySelection > 7)	this->keySelection--;
+		else if (this->keySelection < 8 && this->keySelection > 0)	this->keySelection--;
+	}
+
+	// Enter a key.
+	if (hDown & KEY_A) {
+		if (this->tempString.length() < 81) {
+			char c;
+			switch(this->layout) {
+				case 0:
+					c = LayoutABC[this->keySelection].character[0];
+					this->tempString += c;
+					break;
+				case 1:
+					c = Layoutabc[this->keySelection].character[0];
+					this->tempString += c;
+					break;
+				case 2:
+					c = LayoutSign[this->keySelection].character[0];
+					this->tempString += c;
+					break;
+			}
+			this->delay = 90;
+		}
+	}
+
+	if (hDown & KEY_Y) {
+		if (this->tempString.length() < 81) {
+			this->tempString += " ";
+			this->delay = 90;
+		}
+	}
+
+	if (hDown & KEY_X) {
+		if (this->tempString.length() > 0) {
+			this->tempString = this->tempString.substr(0, this->tempString.length()-1);
+			this->delay = 90;
+		}
+	}
+
 //	if (this->keyDownDelay > 0) { }
 //	this->keyDownDelay = 10;
 
@@ -144,7 +212,7 @@ void Chat_Action::ChatLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 						break;
 					}
 				}
-				} else if (this->layout == 1) {
+			} else if (this->layout == 1) {
 				// Check if a regular key was pressed
 				for (uint i = 0; i < (sizeof(this->Layoutabc)/sizeof(this->Layoutabc[0])); i++) {
 					if ((touch.px > this->Layoutabc[i].x && touch.px < this->Layoutabc[i].x+30) && (touch.py > this->Layoutabc[i].y && touch.py < this->Layoutabc[i].y+40)) {
