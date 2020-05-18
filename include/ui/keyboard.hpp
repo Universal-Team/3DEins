@@ -31,8 +31,8 @@
 #include <string>
 
 namespace Keyboard {
-	void Draw();
-	void DrawNumpad();
+	void Draw(int selection);
+	void DrawNumpad(int selection);
 	std::string Numpad(uint maxLength, std::string Text);
 	int getUint(int max, std::string Text);
 	std::string getString(uint maxLength, std::string Text, float inputTextSize);

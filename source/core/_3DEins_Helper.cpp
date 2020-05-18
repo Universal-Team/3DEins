@@ -130,6 +130,17 @@ int _3DEins_Helper::selectAvatar(int oldAvatar) {
 			GFX::DrawPlayer(195, 35, 1, 1, 6);
 			GFX::DrawPlayer(295, 35, 1, 1, 7);
 		}
+
+		Gui::Draw_Rect(10, 160, 80, 30, config->buttonColor());
+		Gui::Draw_Rect(110, 160, 80, 30, config->buttonColor());
+		Gui::Draw_Rect(210, 160, 80, 30, config->buttonColor());
+		Gui::Draw_Rect(310, 160, 80, 30, config->buttonColor());
+		if (page == 1) {
+			GFX::DrawButtonSelector(10 + (selection * 100), 160, 1, 1, true);
+		} else {
+			GFX::DrawButtonSelector(10 + ((selection-4) * 100), 160, 1, 1, true);
+		}
+		
 		GFX::DrawBottom();
 		Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(0, 0, 0, 190));
 		C3D_FrameEnd(0);
