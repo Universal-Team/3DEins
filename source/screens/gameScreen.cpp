@@ -162,7 +162,7 @@ void GameScreen::Draw(void) const {
 			GFX::DrawSelectedPlayer(250, 200);
 		}
 		// Draw Table Card.
-		GFX::DrawCard(this->currentGame->tableCard().CT, 170, 80, this->currentGame->tableCard().CC);
+		GFX::DrawCard(this->currentGame->tableCard().CT, 170, 75, this->currentGame->tableCard().CC);
 		// Bottom Screen.
 		GFX::DrawBottom(false);
 		Gui::DrawStringCentered(0, 0, 0.7f, config->textColor(), "It's " + this->returnPlayerName(this->currentGame->currentPlayer()) + "'s turn!");
@@ -171,13 +171,106 @@ void GameScreen::Draw(void) const {
 	}
 }
 
+// Animation! Draw a card! TODO: Show blank card for other players.
+void GameScreen::drawAnim(const int player, const CardStruct &card) {
+	int wantedXPos = 0;
+	int wantedYPos = 0;
+	int curPosX = 170;
+	int curPosY = 75;
+	int speed = 4;
+	bool swap = true;
+
+	// Set curPosX & Y.
+	switch(player) {
+		case 0:
+			wantedXPos = 0;
+			wantedYPos = 150;
+			break;
+		case 1:
+			wantedXPos = 0;
+			wantedYPos = 0;
+			break;
+		case 2:
+			wantedXPos = 340;
+			wantedYPos = 0;
+			break;
+		case 3:
+			wantedXPos = 340;
+			wantedYPos = 150;
+			break;
+	}
+
+	while(swap) {
+		Gui::clearTextBufs();
+		C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
+		GFX::DrawTop(false);
+		
+		if (curPosX != wantedXPos) {
+			GFX::DrawCard(card.CT, curPosX, curPosY, card.CC);
+		}
+
+		// Draw Players & amount of cards.
+		this->DrawPlayers();
+		if (this->currentGame->currentPlayer() == 0) {
+			GFX::DrawSelectedPlayer(130, 200);
+		} else if (this->currentGame->currentPlayer() == 1) {
+			GFX::DrawSelectedPlayer(130, 70);
+		} else if (this->currentGame->currentPlayer() == 2) {
+			GFX::DrawSelectedPlayer(250, 70);
+		} else if (this->currentGame->currentPlayer() == 3) {
+			GFX::DrawSelectedPlayer(250, 200);
+		}
+		// Draw Table Card.
+		GFX::DrawCard(this->currentGame->tableCard().CT, 170, 75, this->currentGame->tableCard().CC);
+
+		// Bottom Screen.
+		GFX::DrawBottom(false);
+		Gui::DrawStringCentered(0, 0, 0.7f, config->textColor(), "It's " + this->returnPlayerName(this->currentGame->currentPlayer()) + "'s turn!");
+		DisplayPlayerHand();
+		DisplayPlayerHandSmall();
+		C3D_FrameEnd(0);
+
+		if (player == 0 || player == 1) {
+			if (curPosX > wantedXPos) {
+				curPosX = curPosX - speed;
+			} else if (curPosX < wantedXPos) {
+				curPosX = wantedXPos;
+			}
+		} else if (player == 2 || player == 3) {
+			if (curPosX < wantedXPos) {
+				curPosX = curPosX + speed;
+			} else if (curPosX > wantedXPos) {
+				curPosX = wantedXPos;
+			}
+		}
+
+		if (player == 0 || player == 3) {
+			if (curPosY < wantedYPos) {
+				curPosY = curPosY + 2.3;
+			} else if (curPosY > wantedYPos) {
+				curPosY = wantedYPos;
+			}
+		} else if (player == 1 || player == 2) {
+			if (curPosY > wantedYPos) {
+				curPosY = curPosY - 2.3;
+			} else if (curPosY < wantedYPos) {
+				curPosY = wantedYPos;
+			}
+		}
+
+		if (curPosY == wantedYPos && curPosX == wantedXPos) {
+			swap = false;
+		}
+	}
+}
+
 // Animation! swap's the card from the player.
 void GameScreen::animationCard(const int player, const CardStruct &card) {
 	int wantedXPos = 170;
-	int wantedYPos = 80;
+	int wantedYPos = 75;
 	int curPosX = 0;
 	int curPosY = 0;
-	int speed = 2;
+	int speed = 4;
 	bool swap = true;
 
 	// Set curPosX & Y.
@@ -222,7 +315,7 @@ void GameScreen::animationCard(const int player, const CardStruct &card) {
 			GFX::DrawSelectedPlayer(250, 200);
 		}
 		// Draw Table Card.
-		GFX::DrawCard(this->currentGame->tableCard().CT, 170, 80, this->currentGame->tableCard().CC);
+		GFX::DrawCard(this->currentGame->tableCard().CT, 170, 75, this->currentGame->tableCard().CC);
 
 		if (curPosX == wantedXPos) {
 			GFX::DrawCard(card.CT, curPosX, curPosY, card.CC);
@@ -238,24 +331,28 @@ void GameScreen::animationCard(const int player, const CardStruct &card) {
 		if (player == 0 || player == 1) {
 			if (curPosX < wantedXPos) {
 				curPosX = curPosX + speed;
+			} else if (curPosX > wantedXPos) {
+				curPosX = wantedXPos;
 			}
 		} else if (player == 2 || player == 3) {
 			if (curPosX > wantedXPos) {
 				curPosX = curPosX - speed;
+			} else if (curPosX < wantedXPos) {
+				curPosX = wantedXPos;
 			}
 		}
 
 		if (player == 0 || player == 3) {
-			if (curPosX == wantedXPos) {
-				if (curPosY > wantedYPos) {
-					curPosY = curPosY - speed;
-				}
+			if (curPosY > wantedYPos) {
+				curPosY = curPosY - 2.3;
+			} else if (curPosY < wantedYPos) {
+				curPosY = wantedYPos;
 			}
 		} else if (player == 1 || player == 2) {
-			if (curPosX == wantedXPos) {
-				if (curPosY < wantedYPos) {
-					curPosY = curPosY + speed;
-				}
+			if (curPosY < wantedYPos) {
+				curPosY = curPosY + 2.3;
+			} else if (curPosY > wantedYPos) {
+				curPosY = wantedYPos;
 			}
 		}
 
@@ -503,6 +600,7 @@ void GameScreen::PlayerLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	// Player cannot set, so draw a card. If user cannot play after it, skip to next player.
 	if (hDown & KEY_X) {
 		if (!this->currentGame->drawn()) {
+			this->drawAnim(this->currentGame->currentPlayer(), this->currentGame->getTableTop());
 			this->currentGame->addCard(this->currentGame->currentPlayer());
 			// Do not allow multiple draws.
 			this->currentGame->drawn(true);
