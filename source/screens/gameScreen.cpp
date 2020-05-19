@@ -166,8 +166,7 @@ void GameScreen::Draw(void) const {
 		// Bottom Screen.
 		GFX::DrawBottom(false);
 		char message [100];
-		std::string pn = returnPlayerName(this->currentGame->currentPlayer());
-		snprintf(message, sizeof(message), Lang::get("ITS_PLAYER_TURN").c_str(), pn.c_str());
+		snprintf(message, sizeof(message), Lang::get("ITS_PLAYER_TURN").c_str(), returnPlayerName(this->currentGame->currentPlayer()).c_str());
 		Gui::DrawStringCentered(0, 0, 0.7f, config->textColor(), message);
 		DisplayPlayerHand();
 		DisplayPlayerHandSmall();
@@ -229,8 +228,7 @@ void GameScreen::drawAnim(const int player, const CardStruct &card) {
 		// Bottom Screen.
 		GFX::DrawBottom(false);
 		char message [100];
-		std::string pn = returnPlayerName(this->currentGame->currentPlayer());
-		snprintf(message, sizeof(message), Lang::get("ITS_PLAYER_TURN").c_str(), pn.c_str());
+		snprintf(message, sizeof(message), Lang::get("ITS_PLAYER_TURN").c_str(), returnPlayerName(this->currentGame->currentPlayer()).c_str());
 		DisplayPlayerHand();
 		DisplayPlayerHandSmall();
 		C3D_FrameEnd(0);
@@ -329,8 +327,7 @@ void GameScreen::animationCard(const int player, const CardStruct &card) {
 		// Bottom Screen.
 		GFX::DrawBottom(false);
 		char message [100];
-		std::string pn = returnPlayerName(this->currentGame->currentPlayer());
-		snprintf(message, sizeof(message), Lang::get("ITS_PLAYER_TURN").c_str(), pn.c_str());
+		snprintf(message, sizeof(message), Lang::get("ITS_PLAYER_TURN").c_str(), returnPlayerName(this->currentGame->currentPlayer()).c_str());
 		DisplayPlayerHand();
 		DisplayPlayerHandSmall();
 		C3D_FrameEnd(0);

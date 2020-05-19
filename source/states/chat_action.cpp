@@ -33,7 +33,9 @@ extern std::unique_ptr<Config> config;
 extern bool touching(touchPosition touch, Structs::ButtonPos button);
 
 void Chat_Action::DrawStateTop(void) const {
-	Gui::DrawStringCentered(0, 0, 0.7f, config->textColor(), cs->getChatName() + " with " + std::to_string(cs->getUserAmount()) + " Members.");
+	char message [100];
+	snprintf(message, sizeof(message), Lang::get("CHATROOM_DETAILS").c_str(), cs->getChatName().c_str(), cs->getUserAmount());
+	Gui::DrawStringCentered(0, 0, 0.7f, config->textColor(), message, 390);
 	if (this->DisplayMode == 0) {
 		this->DrawChatTop();
 	} else {
@@ -49,7 +51,9 @@ void Chat_Action::DrawChatTop(void) const {
 		Gui::DrawString(60, 60 + (i * 60), 0.5f, config->textColor(), cs->getChat()[screenPos + i].message, 400);
 	}
 	if (this->delay > 0) {
-		Gui::DrawStringCentered(0, 215, 0.5f, config->textColor(), cs->getName(0) + "#" + std::to_string(cs->getID(0)) + " is typing...");
+		char message [100];
+		snprintf(message, sizeof(message), Lang::get("IS_TYPING").c_str(), cs->getName(0).c_str(), cs->getID(0));
+		Gui::DrawStringCentered(0, 215, 0.5f, config->textColor(), message, 390);
 	}
 }
 
@@ -291,7 +295,7 @@ void Chat_Action::ChatLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 		this->isUsed = false;
 	}
 
-	if (hDown & KEY_R) {
+	if (hDown & KEY_SELECT) {
 		this->DisplayMode = 1;
 	}
 
@@ -315,7 +319,7 @@ void Chat_Action::MemberListLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 		}
 	}
 
-	if (hDown & KEY_L) {
+	if (hDown & KEY_SELECT) {
 		this->DisplayMode = 0;
 		// Reset to not cause issues.
 		this->memberSelection = 0;
