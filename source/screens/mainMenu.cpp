@@ -24,15 +24,13 @@
 *         reasonable ways as different from the original version.
 */
 
-#include "colorChanger.hpp"
 #include "config.hpp"
 #include "credits.hpp"
 #include "gameScreen.hpp"
 #include "mainMenu.hpp"
 #include "rulesScreen.hpp"
-#include "saveData.hpp"
+#include "uiSettings.hpp"
 
-extern std::unique_ptr<SaveData> savedata;
 extern std::unique_ptr<Config> config;
 extern bool exiting;
 extern bool buttonTouch(touchPosition touch, ButtonStruct button);
@@ -41,7 +39,7 @@ MainMenu::MainMenu() { }
 
 void MainMenu::Draw(void) const {
 	GFX::DrawTop();
-	Gui::DrawStringCentered(0, 0, 0.9f, config->textColor(), "Welcome " + savedata->playerName() + " - " + std::to_string(savedata->playerID()) + "!");
+	Gui::DrawStringCentered(0, 0, 0.9f, config->textColor(), "3DEins - " + Lang::get("MAINMENU"));
 	GFX::DrawBottom();
 	for (int i = 0; i < 4; i++) {
 		GFX::Button(mainButtons[i]);
@@ -55,9 +53,11 @@ void MainMenu::Draw(void) const {
 void MainMenu::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hDown & KEY_TOUCH) {
 		if (buttonTouch(touch, mainButtons[0])) {
-			Gui::setScreen(std::make_unique<GameScreen>());
+			if (Msg::promptMsg(Lang::get("NEW_GAME_PROMPT"))) {
+				Gui::setScreen(std::make_unique<GameScreen>());
+			}
 		} else if (buttonTouch(touch, mainButtons[1])) {
-			Gui::setScreen(std::make_unique<ColorChanger>());
+			Gui::setScreen(std::make_unique<UISettings>());
 		} else if (buttonTouch(touch, mainButtons[2])) {
 			Gui::setScreen(std::make_unique<Credits>());
 		} else if (buttonTouch(touch, mainButtons[3])) {
@@ -68,10 +68,12 @@ void MainMenu::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hDown & KEY_A) {
 		switch (Selection) {
 			case 0:
-				Gui::setScreen(std::make_unique<GameScreen>());
+				if (Msg::promptMsg(Lang::get("NEW_GAME_PROMPT"))) {
+					Gui::setScreen(std::make_unique<GameScreen>());
+				}
 				break;
 			case 1:
-				Gui::setScreen(std::make_unique<ColorChanger>());
+				Gui::setScreen(std::make_unique<UISettings>());
 				break;
 			case 2:
 				Gui::setScreen(std::make_unique<Credits>());

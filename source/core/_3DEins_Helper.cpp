@@ -50,17 +50,17 @@ CardColor _3DEins_Helper::selectColor() {
 		C2D_TargetClear(Bottom, C2D_Color32(0, 0, 0, 0));
 		GFX::DrawTop();
 		Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(0, 0, 0, 190));
-		Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.7f, "Select a color you want."))/2, 0.7f, config->textColor(), "Select a color you want.", 390, 70);
+		Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.7f, Lang::get("SELECT_COLOR")))/2, 0.7f, config->textColor(), Lang::get("SELECT_COLOR"), 390, 70);
 		GFX::DrawBottom();
 		Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(0, 0, 0, 190));
 		Gui::Draw_Rect(10, 70, 140, 40, C2D_Color32(255, 85, 85, 255));
 		Gui::Draw_Rect(170, 70, 140, 40, C2D_Color32(85, 85, 255, 255));
 		Gui::Draw_Rect(10, 145, 140, 40, C2D_Color32(255, 170, 0, 255));
 		Gui::Draw_Rect(170, 145, 140, 40, C2D_Color32(85, 170, 85, 255));
-		Gui::DrawStringCentered(10 - 160 + (140/2), 70 + (40/2) - 10, 0.6f, config->textColor(), "Red", 140-17, 40-5);
-		Gui::DrawStringCentered(170 - 160 + (140/2), 70 + (40/2) - 10, 0.6f, config->textColor(), "Blue", 140-17, 40-5);
-		Gui::DrawStringCentered(10 - 160 + (140/2), 145 + (40/2) - 10, 0.6f, config->textColor(), "Yellow", 140-17, 40-5);
-		Gui::DrawStringCentered(170 - 160 + (140/2), 145 + (40/2) - 10, 0.6f, config->textColor(), "Green", 140-17, 40-5);
+		Gui::DrawStringCentered(10 - 160 + (140/2), 70 + (40/2) - 10, 0.6f, config->textColor(), Lang::get("COLOR_RED"), 140-17, 40-5);
+		Gui::DrawStringCentered(170 - 160 + (140/2), 70 + (40/2) - 10, 0.6f, config->textColor(), Lang::get("COLOR_BLUE"), 140-17, 40-5);
+		Gui::DrawStringCentered(10 - 160 + (140/2), 145 + (40/2) - 10, 0.6f, config->textColor(), Lang::get("COLOR_YELLOW"), 140-17, 40-5);
+		Gui::DrawStringCentered(170 - 160 + (140/2), 145 + (40/2) - 10, 0.6f, config->textColor(), Lang::get("COLOR_GREEN"), 140-17, 40-5);
 		GFX::DrawButtonSelector(colorPos[selection].x, colorPos[selection].y);
 		C3D_FrameEnd(0);
 
@@ -118,7 +118,7 @@ int _3DEins_Helper::selectAvatar(int oldAvatar) {
 		C2D_TargetClear(Bottom, C2D_Color32(0, 0, 0, 0));
 		GFX::DrawTop();
 		Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(0, 0, 0, 190));
-		Gui::DrawStringCentered(0, 0, 0.8f, config->textColor(), "Select a character you want.", 390, 30);
+		Gui::DrawStringCentered(0, 0, 0.8f, config->textColor(), Lang::get("SELECT_CHARACTER"), 390, 30);
 		if (page == 1) {
 			GFX::DrawPlayer(-5, 35, 1, 1, 0);
 			GFX::DrawPlayer(95, 35, 1, 1, 1);

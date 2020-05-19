@@ -49,22 +49,22 @@ void RulesScreen::DrawDescription(void) const {
 		case 7:
 		case 8:
 		case 9:
-			Gui::DrawStringCentered(0, 170, 0.7f, config->textColor(), "Just a normal card, without special cases.", 400);
+			Gui::DrawStringCentered(0, 170, 0.7f, config->textColor(), Lang::get("NUMBER_CARD"), 400);
 			break;
 		case 10:
-			Gui::DrawStringCentered(0, 170, 0.7f, config->textColor(), "Changes the play direction on 3+ Player.\n2 Player: Current Player can continue.", 400);
+			Gui::DrawStringCentered(0, 170, 0.7f, config->textColor(), Lang::get("REVERSE_CARD"), 400);
 			break;
 		case 11:
-			Gui::DrawStringCentered(0, 170, 0.7f, config->textColor(), "The next Player cannot play for the next round on 3+ Player.\n2 Player: Current Player can continue.", 400);
+			Gui::DrawStringCentered(0, 170, 0.7f, config->textColor(), Lang::get("SKIP_CARD"), 400);
 			break;
 		case 12:
-			Gui::DrawStringCentered(0, 170, 0.7f, config->textColor(), "The next Player needs to draw 2 cards.\nThis card can be countered with another Plus 2 or Plus 4 card.", 400);
+			Gui::DrawStringCentered(0, 170, 0.7f, config->textColor(), Lang::get("PLUS2_CARD"), 400);
 			break;
 		case 13:
-			Gui::DrawStringCentered(0, 170, 0.7f, config->textColor(), "The current Player can choose a color.", 400);
+			Gui::DrawStringCentered(0, 170, 0.7f, config->textColor(), Lang::get("WILD_CARD"), 400);
 			break;
 		case 14:
-			Gui::DrawStringCentered(0, 170, 0.7f, config->textColor(), "The next Player needs to draw 4 Cards.\nThe current Player can choose a color.\nThis card can be countered with another Plus 4 card.", 400);
+			Gui::DrawStringCentered(0, 170, 0.7f, config->textColor(), Lang::get("WILD_DRAW4_CARD"), 400);
 			break;
 		#ifdef _USE_SPECIAL_CARD
 		case 15:
@@ -109,12 +109,12 @@ void RulesScreen::DisplayCards(void) const {
 void RulesScreen::Draw(void) const {
 	Animation::DrawSubBG();
 	Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(0, 0, 0, 210)); // Darken the screen.
-	Gui::DrawStringCentered(0, 0, 0.7f, config->textColor(), "3DEins - Rules", 400);
+	Gui::DrawStringCentered(0, 0, 0.7f, config->textColor(), "3DEins - " + Lang::get("RULES"), 400);
 	// Draw Card.
 	GFX::DrawCard(CardType(rulePage), 30, 50, CardColor(1));
-	Gui::DrawString(210, 40, 0.7f, config->textColor(), "Points: " + std::to_string(GameHelper::getPoints(CardType(rulePage))), 160);
-	Gui::DrawString(210, 70, 0.7f, config->textColor(), "CardType: " + GameHelper::getTypeName(CardType(rulePage)), 160);
-	Gui::DrawString(30, 140, 0.7f, config->textColor(), "Available Colors: ", 160);
+	Gui::DrawString(210, 40, 0.7f, config->textColor(), Lang::get("POINTS") + std::to_string(GameHelper::getPoints(CardType(rulePage))), 160);
+	Gui::DrawString(210, 70, 0.7f, config->textColor(), Lang::get("CARDTYPE") + Lang::get(GameHelper::getTypeName(CardType(rulePage))), 160);
+	Gui::DrawString(30, 140, 0.7f, config->textColor(), Lang::get("AVAILABLE_COLORS"), 160);
 	DrawDescription();
 	DisplayCards();
 	Animation::DrawSubBG(false);

@@ -1,5 +1,5 @@
-#ifndef LANG_HPP
-#define LANG_HPP
+#ifndef _3DEINS_LANG_HPP
+#define _3DEINS_LANG_HPP
 
 #include "json.hpp"
 
@@ -7,7 +7,7 @@
 
 namespace Lang {
 	std::string get(const std::string &key);
-	void load(int lang);
+	void load();
 }
 
 #endif

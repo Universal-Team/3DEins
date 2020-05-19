@@ -101,11 +101,11 @@ void GFX::DrawSelectedPlayer(int x, int y, float ScaleX, float ScaleY) {
 
 void GFX::DrawCardSelector(int x, int y, float ScaleX, float ScaleY)
 {
-	static float timer         = 0.0f;
-	float highlight_multiplier = fmax(0.0, fabs(fmod(timer, 1.0) - 0.5) / 0.5);
-	u8 r                       = config->selectorColor() & 0xFF;
-	u8 g                       = (config->selectorColor() >> 8) & 0xFF;
-	u8 b                       = (config->selectorColor() >> 16) & 0xFF;
+	static float timer			= 0.0f;
+	float highlight_multiplier  = fmax(0.0, fabs(fmod(timer, 1.0) - 0.5) / 0.5);
+	u8 r						= config->selectorColor() & 0xFF;
+	u8 g						= (config->selectorColor() >> 8) & 0xFF;
+	u8 b						= (config->selectorColor() >> 16) & 0xFF;
 	u32 color = C2D_Color32(r + (255 - r) * highlight_multiplier, g + (255 - g) * highlight_multiplier, b + (255 - b) * highlight_multiplier, 255);
 	C2D_ImageTint tint;
 	C2D_SetImageTint(&tint, C2D_TopLeft, color, 1);
@@ -118,11 +118,11 @@ void GFX::DrawCardSelector(int x, int y, float ScaleX, float ScaleY)
 
 void GFX::DrawButtonSelector(int x, int y, float ScaleX, float ScaleY, bool useSmall)
 {
-	static float timer         = 0.0f;
-	float highlight_multiplier = fmax(0.0, fabs(fmod(timer, 1.0) - 0.5) / 0.5);
-	u8 r                       = config->selectorColor() & 0xFF;
-	u8 g                       = (config->selectorColor() >> 8) & 0xFF;
-	u8 b                       = (config->selectorColor() >> 16) & 0xFF;
+	static float timer			= 0.0f;
+	float highlight_multiplier  = fmax(0.0, fabs(fmod(timer, 1.0) - 0.5) / 0.5);
+	u8 r						= config->selectorColor() & 0xFF;
+	u8 g						= (config->selectorColor() >> 8) & 0xFF;
+	u8 b						= (config->selectorColor() >> 16) & 0xFF;
 	u32 color = C2D_Color32(r + (255 - r) * highlight_multiplier, g + (255 - g) * highlight_multiplier, b + (255 - b) * highlight_multiplier, 255);
 	C2D_ImageTint tint;
 	C2D_SetImageTint(&tint, C2D_TopLeft, color, 1);
@@ -450,5 +450,5 @@ void GFX::Main(u32 hDown, u32 hHeld, touchPosition touch) {
 // TODO: Change to "Lang::get(...)"?
 void GFX::Button(const ButtonStruct btn) {
 	Gui::Draw_Rect(btn.X, btn.Y, btn.xSize, btn.ySize, config->buttonColor());
-	Gui::DrawStringCentered(btn.X - 160 + (btn.xSize/2), btn.Y + (btn.ySize/2) - 10, 0.6f, config->textColor(), btn.Text, btn.X-10, btn.Y-5);
+	Gui::DrawStringCentered(btn.X - 160 + (btn.xSize/2), btn.Y + (btn.ySize/2) - 10, 0.6f, config->textColor(), Lang::get(btn.Text), btn.X-10, btn.Y-5);
 }

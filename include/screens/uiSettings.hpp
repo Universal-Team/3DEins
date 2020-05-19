@@ -24,28 +24,27 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef MAINMENU_HPP
-#define MAINMENU_HPP
+#ifndef _3DEINS_UISETTINGS_HPP
+#define _3DEINS_UISETTINGS_HPP
 
 #include "common.hpp"
 #include "structs.hpp"
 
 #include <vector>
 
-class MainMenu : public Screen
+class UISettings : public Screen
 {
 public:
 	void Draw(void) const override;
 	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
-	MainMenu();
 private:
 	int Selection = 0;
 
-	std::vector<ButtonStruct> mainButtons = {
-		{10, 70, 140, 40, "NEW_GAME"}, // New Game.
-		{170, 70, 140, 40, "UI_SETTINGS"}, // UI Settings.
-		{10, 145, 140, 40, "CREDITS"}, // Credits.
-		{170, 145, 140, 40, "RULES"} // Rules.
+	std::vector<Structs::ButtonPos> mainButtons = {
+		{10, 70, 140, 40,}, // Colors.
+		{170, 70, 140, 40,}, // Language.
+		{10, 145, 140, 40,}, // Allow animation.
+		{170, 145, 140, 40,} // ?.
 	};
 };
 

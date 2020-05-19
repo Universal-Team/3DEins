@@ -34,12 +34,12 @@ extern bool touching(touchPosition touch, Structs::ButtonPos button);
 void Credits::Draw(void) const {
 	GFX::DrawTop(); // Draw the top screen.
 	if (this->creditsPage == 0) {
-		Gui::DrawStringCentered(0, 0, 0.7f, config->textColor(), "3DEins - Credits", 400);
-		Gui::DrawStringCentered(0, 30, 0.7f, config->textColor(), "Developed by Universal-Team.", 390);
-		Gui::DrawStringCentered(0, 70, 0.7f, config->textColor(), "Main Developer: StackZ", 390);
+		Gui::DrawStringCentered(0, 0, 0.7f, config->textColor(), "3DEins - " + Lang::get("CREDITS"), 400);
+		Gui::DrawStringCentered(0, 30, 0.7f, config->textColor(), Lang::get("DEVELOPED_BY"), 390);
+		Gui::DrawStringCentered(0, 70, 0.7f, config->textColor(), Lang::get("MAIN_DEV"), 390);
 		GFX::DrawSprite(sprites_stackZ_idx, 2, 80);
 		GFX::DrawSprite(sprites_core_idx, 190, 105);
-		std::string currentVersion = "Current Version: ";
+		std::string currentVersion = Lang::get("CURRENT_VERSION");
 		currentVersion += V_STRING;
 		Gui::DrawString(395-Gui::GetStringWidth(0.70f, currentVersion), 217, 0.70f, config->textColor(), currentVersion, 400);
 	} else {
@@ -47,11 +47,11 @@ void Credits::Draw(void) const {
 		GFX::DrawSprite(sprites_discord_idx, 115, 35);
 	}
 	GFX::DrawBottom();
-	Gui::DrawStringCentered(0, 0, 0.8f, config->textColor(), "General Credits", 310);
+	Gui::DrawStringCentered(0, 0, 0.8f, config->textColor(), Lang::get("GENERAL_CREDITS"), 310);
 	Gui::DrawStringCentered(0, 30, 0.7f, config->textColor(), "StackZ", 310);
-	Gui::DrawStringCentered(0, 60, 0.6f, config->textColor(), "Developing the app with selfmade 3DEins-Core.", 310);
+	Gui::DrawStringCentered(0, 60, 0.6f, config->textColor(), Lang::get("_3DEINS_CORE"), 310);
 	Gui::DrawStringCentered(0, 100, 0.7f, config->textColor(), "Universal-Team", 310);
-	Gui::DrawStringCentered(0, 130, 0.6f, config->textColor(), "For Universal-Core which is used with the 3DS App.", 310);
+	Gui::DrawStringCentered(0, 130, 0.6f, config->textColor(), Lang::get("UNIVERSAL_CORE"), 310);
 }
 
 

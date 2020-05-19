@@ -34,11 +34,12 @@ void Config::initialize() {
 	FILE *file = fopen("sdmc:/3ds/3DEins/Settings.json", "w");
 
 	// Set default values.
+	this->setBool("Allow_Animation", true);
 	this->setInt("Bar_Color", C2D_Color32(220, 60, 0, 255));
 	this->setInt("Text_Color", C2D_Color32(255, 255, 255, 255));
 	this->setInt("BG_Color", C2D_Color32(220, 160, 0, 255));
 	this->setInt("Button_Color", C2D_Color32(200, 0, 0, 255));
-	this->setInt("Language", 1);
+	this->setInt("Language", 2);
 
 	// Write to file.
 	fwrite(this->json.dump(1, '\t').c_str(), 1, this->json.dump(1, '\t').size(), file);
@@ -53,7 +54,14 @@ Config::Config() {
 	this->json = nlohmann::json::parse(file, nullptr, false);
 	fclose(file);
 
-	// Here we get the initial colors.
+	// Here we get the initial settings.
+
+	if (!this->json.contains("Allow_Animation")) {
+		this->allowAnimation(true);
+	} else {
+		this->allowAnimation(this->getBool("Allow_Animation"));
+	}
+
 	if (!this->json.contains("Bar_Color")) {
 		this->barColor(C2D_Color32(220, 60, 0, 255));
 	} else {
@@ -85,7 +93,7 @@ Config::Config() {
 	}
 
 	if (!this->json.contains("Language")) {
-		this->language(1);
+		this->language(2);
 	} else {
 		this->language(this->getInt("Language"));
 	}
@@ -98,6 +106,7 @@ void Config::save() {
 	if (this->changesMade) {
 		FILE *file = fopen("sdmc:/3ds/3DEins/Settings.json", "w");
 		// Set values.
+		this->setBool("Allow_Animation", this->allowAnimation());
 		this->setInt("Bar_Color", this->barColor());
 		this->setInt("Text_Color", this->textColor());
 		this->setInt("BG_Color", this->bgColor());

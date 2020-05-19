@@ -165,7 +165,10 @@ void GameScreen::Draw(void) const {
 		GFX::DrawCard(this->currentGame->tableCard().CT, 170, 75, this->currentGame->tableCard().CC);
 		// Bottom Screen.
 		GFX::DrawBottom(false);
-		Gui::DrawStringCentered(0, 0, 0.7f, config->textColor(), "It's " + this->returnPlayerName(this->currentGame->currentPlayer()) + "'s turn!");
+		char message [100];
+		std::string pn = returnPlayerName(this->currentGame->currentPlayer());
+		snprintf(message, sizeof(message), Lang::get("ITS_PLAYER_TURN").c_str(), pn.c_str());
+		Gui::DrawStringCentered(0, 0, 0.7f, config->textColor(), message);
 		DisplayPlayerHand();
 		DisplayPlayerHandSmall();
 	}
@@ -225,7 +228,9 @@ void GameScreen::drawAnim(const int player, const CardStruct &card) {
 
 		// Bottom Screen.
 		GFX::DrawBottom(false);
-		Gui::DrawStringCentered(0, 0, 0.7f, config->textColor(), "It's " + this->returnPlayerName(this->currentGame->currentPlayer()) + "'s turn!");
+		char message [100];
+		std::string pn = returnPlayerName(this->currentGame->currentPlayer());
+		snprintf(message, sizeof(message), Lang::get("ITS_PLAYER_TURN").c_str(), pn.c_str());
 		DisplayPlayerHand();
 		DisplayPlayerHandSmall();
 		C3D_FrameEnd(0);
@@ -323,7 +328,9 @@ void GameScreen::animationCard(const int player, const CardStruct &card) {
 
 		// Bottom Screen.
 		GFX::DrawBottom(false);
-		Gui::DrawStringCentered(0, 0, 0.7f, config->textColor(), "It's " + this->returnPlayerName(this->currentGame->currentPlayer()) + "'s turn!");
+		char message [100];
+		std::string pn = returnPlayerName(this->currentGame->currentPlayer());
+		snprintf(message, sizeof(message), Lang::get("ITS_PLAYER_TURN").c_str(), pn.c_str());
 		DisplayPlayerHand();
 		DisplayPlayerHandSmall();
 		C3D_FrameEnd(0);
@@ -365,13 +372,13 @@ void GameScreen::animationCard(const int player, const CardStruct &card) {
 void GameScreen::DrawPlayerStats(void) const {
 	Animation::DrawSubBG();
 	Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(0, 0, 0, 210)); // Darken the screen.
-	Gui::DrawStringCentered(0, 0, 0.8f, config->textColor(), "3DEins - Stats Screen", 400);
+	Gui::DrawStringCentered(0, 0, 0.8f, config->textColor(), "3DEins - " + Lang::get("STATS"), 400);
 	GFX::DrawPlayer(30, 50, 1, 1, this->getAvatar(subMode - 1));
-	Gui::DrawString(190, 55, 0.7f, config->textColor(), "Position: " + std::to_string(subMode) + " | " + std::to_string(this->currentGame->maxPlayer()), 200);
-	Gui::DrawString(190, 85, 0.7f, config->textColor(), "Playername: " + returnPlayerName(subMode - 1), 200);
-	Gui::DrawString(190, 115, 0.7f, config->textColor(), "Cards Left: " + std::to_string(getPlayerCards(subMode - 1)), 200);
-	Gui::DrawString(190, 145, 0.7f, config->textColor(), "Points: " + std::to_string(this->currentGame->getPoints(subMode - 1)), 200);
-	Gui::DrawStringCentered(0, 216, 0.75f, config->textColor(), "Press L / R to switch pages.", 400);
+	Gui::DrawString(190, 55, 0.7f, config->textColor(), Lang::get("POSITION") + std::to_string(subMode) + " | " + std::to_string(this->currentGame->maxPlayer()), 200);
+	Gui::DrawString(190, 85, 0.7f, config->textColor(), Lang::get("PLAYER_NAME") + returnPlayerName(subMode - 1), 200);
+	Gui::DrawString(190, 115, 0.7f, config->textColor(), Lang::get("CARDS_LEFT") + std::to_string(getPlayerCards(subMode - 1)), 200);
+	Gui::DrawString(190, 145, 0.7f, config->textColor(), Lang::get("POINTS") + std::to_string(this->currentGame->getPoints(subMode - 1)), 200);
+	Gui::DrawStringCentered(0, 216, 0.75f, config->textColor(), Lang::get("STATS_INFO"), 400);
 	Animation::DrawSubBG(false);
 	Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(0, 0, 0, 210)); // Darken the screen.
 }
@@ -379,9 +386,9 @@ void GameScreen::DrawPlayerStats(void) const {
 void GameScreen::DrawSubMenu(void) const {
 	Animation::DrawSubBG();
 	Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(0, 0, 0, 210)); // Darken the screen.
-	Gui::DrawStringCentered(0, 0, 0.8f, config->textColor(), "3DEins - Game Paused.", 400);
-	Gui::DrawStringCentered(0, 55, 0.7f, config->textColor(), "Players: " + std::to_string(this->currentGame->maxPlayer()), 400);
-	Gui::DrawStringCentered(0, 216, 0.75f, config->textColor(), "Press R to switch to stats.", 400);
+	Gui::DrawStringCentered(0, 0, 0.8f, config->textColor(), "3DEins - " + Lang::get("GAME_PAUSED"), 400);
+	Gui::DrawStringCentered(0, 55, 0.7f, config->textColor(), Lang::get("PLAYERS") + std::to_string(this->currentGame->maxPlayer()), 400);
+	Gui::DrawStringCentered(0, 216, 0.75f, config->textColor(), Lang::get("STATS_INFO"), 400);
 	
 	Animation::DrawSubBG(false);
 	Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(0, 0, 0, 210)); // Darken the screen.
@@ -391,9 +398,9 @@ void GameScreen::DrawSubMenu(void) const {
 			GFX::DrawButtonSelector(this->breakBtn[i].x, this->breakBtn[i].y);
 		}
 	}
-	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.6, "Resume"))/2-80+17.5, 0.6, config->textColor(), "Resume", 130, 25);
-	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.6, "Restart"))/2-20+17.5, 0.6, config->textColor(), "Restart", 130, 25);
-	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.6, "Exit Game"))/2+75-17.5, 0.6, config->textColor(), "Exit Game", 130, 25);
+	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.6, Lang::get("RESUME")))/2-80+17.5, 0.6, config->textColor(), Lang::get("RESUME"), 130, 25);
+	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.6, Lang::get("RESTART")))/2-20+17.5, 0.6, config->textColor(), Lang::get("RESTART"), 130, 25);
+	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.6, Lang::get("EXIT_GAME")))/2+75-17.5, 0.6, config->textColor(), Lang::get("EXIT_GAME"), 130, 25);
 }
 
 void GameScreen::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
@@ -404,13 +411,13 @@ void GameScreen::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 					this->isSubMenu = false;
 					break;
 				case 1:
-					if (Msg::promptMsg("Do you like to restart the game?")) {
+					if (Msg::promptMsg(Lang::get("RESTART_GAME"))) {
 						this->InitializeNewGame();
 						this->isSubMenu = false;
 					}
 					break;
 				case 2:
-					if (Msg::promptMsg("Do you like to quit the game?")) {
+					if (Msg::promptMsg(Lang::get("QUIT_GAME"))) {
 						Gui::screenBack();
 						return;
 					}
@@ -428,12 +435,12 @@ void GameScreen::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 			if (touching(touch, breakBtn[0])) {
 				this->isSubMenu = false;
 			} else if (touching(touch, breakBtn[1])) {
-				if (Msg::promptMsg("Do you like to restart the game?")) {
+				if (Msg::promptMsg(Lang::get("RESTART_GAME"))) {
 					this->InitializeNewGame();
 					this->isSubMenu = false;
 				}
 			} else if (touching(touch, breakBtn[2])) {
-				if (Msg::promptMsg("Do you like to quit the game?")) {
+				if (Msg::promptMsg(Lang::get("QUIT_GAME"))) {
 					Gui::screenBack();
 					return;
 				}
@@ -526,7 +533,7 @@ void GameScreen::PlayerLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (this->currentGame->state(this->currentGame->currentPlayer()) == PlayerState::BREAK) {
 		this->currentGame->state(PlayerState::NOTHING, this->currentGame->currentPlayer()); // Reset.
 		char message [100];
-		snprintf(message, sizeof(message), "%s needs to take a break.\n%s Continue!", this->returnPlayerName(this->currentGame->currentPlayer()).c_str(), this->returnPlayerName(this->getNextPlayer()).c_str());
+		snprintf(message, sizeof(message), Lang::get("PLAYER_BREAK").c_str(), this->returnPlayerName(this->currentGame->currentPlayer()).c_str(), this->returnPlayerName(this->getNextPlayer()).c_str());
 		Msg::DisplayPlayerSwitch(message);
 		this->currentGame->currentPlayer(this->getNextPlayer());
 	}
@@ -555,7 +562,7 @@ void GameScreen::PlayerLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hDown & KEY_A) {
 		// Check if cardType or CardColor are identical and play.
 		if (this->currentGame->Playable(this->currentGame->cardIndex(this->currentGame->currentPlayer()), this->currentGame->currentPlayer())) {
-			this->animationCard(this->currentGame->currentPlayer(), this->currentGame->getPlayerCard(this->currentGame->cardIndex(this->currentGame->currentPlayer()), this->currentGame->currentPlayer()));
+			if (config->allowAnimation())	this->animationCard(this->currentGame->currentPlayer(), this->currentGame->getPlayerCard(this->currentGame->cardIndex(this->currentGame->currentPlayer()), this->currentGame->currentPlayer()));
 			this->currentGame->play(this->currentGame->cardIndex(this->currentGame->currentPlayer()), this->currentGame->currentPlayer());
 
 			// Handle.
@@ -576,7 +583,7 @@ void GameScreen::PlayerLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 			this->currentGame->checkCards(this->currentGame->currentPlayer());
 			if (this->currentGame->winner() == this->currentGame->currentPlayer()) {
 				char message [100];
-				snprintf(message, sizeof(message), "%s won the game!", returnPlayerName(this->currentGame->currentPlayer()).c_str());
+				snprintf(message, sizeof(message), Lang::get("PLAYER_WON").c_str(), returnPlayerName(this->currentGame->currentPlayer()).c_str());
 				Msg::DisplayPlayerSwitch(message);
 				Gui::screenBack();
 				return;
@@ -589,7 +596,7 @@ void GameScreen::PlayerLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 			if (!this->currentGame->canContinue()) {
 				char message [100];
-				snprintf(message, sizeof(message), "%s has ended their round.\n%s Continue!", returnPlayerName(this->currentGame->currentPlayer()).c_str(), returnPlayerName(this->getNextPlayer()).c_str());
+				snprintf(message, sizeof(message), Lang::get("PLAYER_NEXT").c_str(), returnPlayerName(this->currentGame->currentPlayer()).c_str(), returnPlayerName(this->getNextPlayer()).c_str());
 				Msg::DisplayPlayerSwitch(message);
 				this->currentGame->currentPlayer(this->getNextPlayer());
 			}
@@ -600,7 +607,7 @@ void GameScreen::PlayerLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	// Player cannot set, so draw a card. If user cannot play after it, skip to next player.
 	if (hDown & KEY_X) {
 		if (!this->currentGame->drawn()) {
-			this->drawAnim(this->currentGame->currentPlayer(), this->currentGame->getTableTop());
+			if (config->allowAnimation())	this->drawAnim(this->currentGame->currentPlayer(), this->currentGame->getTableTop());
 			this->currentGame->addCard(this->currentGame->currentPlayer());
 			// Do not allow multiple draws.
 			this->currentGame->drawn(true);
@@ -608,12 +615,18 @@ void GameScreen::PlayerLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 				// Reset hasDrawn.
 				this->currentGame->drawn(false); // Reset.
 				char message [100];
-				snprintf(message, sizeof(message), "%s has ended their round.\n%s Continue!", returnPlayerName(this->currentGame->currentPlayer()).c_str(), returnPlayerName(this->getNextPlayer()).c_str());
+				snprintf(message, sizeof(message), Lang::get("PLAYER_NEXT").c_str(), returnPlayerName(this->currentGame->currentPlayer()).c_str(), returnPlayerName(this->getNextPlayer()).c_str());
 				Msg::DisplayPlayerSwitch(message);
 				this->currentGame->currentPlayer(this->getNextPlayer());
 			}
 		} else {
-			Msg::DisplayPlayerSwitch("You can only draw 1 card each round!");
+			Msg::DisplayPlayerSwitch(Lang::get("DRAW_1_MSG"));
 		}
+	}
+
+	// This is for Colorblind users.
+	if (hHeld & KEY_B) {
+		Msg::HelperBox(Lang::get("TABLECARD") + Lang::get(GameHelper::getTypeName(this->currentGame->tableCard().CT)) + " - " + Lang::get(GameHelper::getColorName(this->currentGame->tableCard().CC))
+		+ "\n\n" + Lang::get("CURRENT_CARD") + Lang::get(GameHelper::getTypeName(this->currentGame->getType(this->currentGame->cardIndex(this->currentGame->currentPlayer()), this->currentGame->currentPlayer()))) + " - " + Lang::get(GameHelper::getColorName(this->currentGame->getColor(this->currentGame->cardIndex(this->currentGame->currentPlayer()), this->currentGame->currentPlayer()))));
 	}
 }

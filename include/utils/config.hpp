@@ -38,6 +38,9 @@ public:
 	void save();
 	void initialize();
 
+	// Allow Animation.
+	bool allowAnimation() { return this->v_allowAnimation; }
+	void allowAnimation(bool v) { this->v_allowAnimation = v; if (!this->changesMade)	this->changesMade = true; }
 	// Bar Color.
 	u32 barColor() { return this->v_barColor; }
 	void barColor(u32 v) { this->v_barColor = v; if (!this->changesMade)	this->changesMade = true; }
@@ -69,6 +72,7 @@ private:
 	bool changesMade = false;
 
 	// Color variables and more.
+	bool v_allowAnimation;
 	u32 v_barColor;
 	u32 v_bgColor;
 	u32 v_textColor;

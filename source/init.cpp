@@ -76,7 +76,7 @@ void Init::GenerateID() {
 
 void Init::enterName() {
 	C2D_TargetClear(Bottom, C2D_Color32(0, 0, 0, 0)); // Avoid glitchy things on bottom.
-	std::string str = Keyboard::getString(10, "Enter your Playername.", 0.6);
+	std::string str = Keyboard::getString(10, Lang::get("ENTER_PLAYER_NAME"), 0.6);
 	savedata->playerName(str);
 }
 
@@ -96,12 +96,13 @@ Result Init::Initialize() {
 
 	if (!isGood) {
 		Gui::setScreen(std::make_unique<ErrorScreen>());
-		Lang::load(1);
 		osSetSpeedupEnable(true);	// Enable speed-up for New 3DS users.
 		return 0;
 	}
-	Lang::load(config->language());
+
+	Lang::load();
 	savedata = std::make_unique<SaveData>("sdmc:/3ds/3DEins/SaveData.dat");
+	
 	if (savedata) {
 		if (savedata->playerID() == 0) {
 			GenerateID(); // We don't have an ID yet, so generate it.

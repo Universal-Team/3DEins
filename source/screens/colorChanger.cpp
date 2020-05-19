@@ -44,7 +44,7 @@ void ColorChanger::DrawPreview(void) const {
 
 void ColorChanger::Draw(void) const {
 	GFX::DrawTop();
-	Gui::DrawStringCentered(0, 0, 0.9f, config->textColor(), "3DEins - Color Settings", 320);
+	Gui::DrawStringCentered(0, 0, 0.9f, config->textColor(), "3DEins - " + Lang::get("COLOR_SETTINGS"), 320);
 	DrawPreview();
 	GFX::DrawBottom();
 
@@ -53,27 +53,27 @@ void ColorChanger::Draw(void) const {
 	Gui::Draw_Rect(buttons[2].x, buttons[2].y, 95, 41, C2D_Color32(0, 0, 255, 255));
 
 	if (this->colorMode == 0) {
-		Gui::DrawStringCentered(0, 60, 0.7f, C2D_Color32(255, 255, 255, 255), "Selector Color", 320);
+		Gui::DrawStringCentered(0, 60, 0.7f, C2D_Color32(255, 255, 255, 255), Lang::get("SELECTOR_COLOR"), 320);
 		Gui::DrawString(40, 98, 0.7f, C2D_Color32(255, 255, 255, 255), ColorHelper::getColorName(config->selectorColor(), 2).c_str(), 400);
 		Gui::DrawString(140, 98, 0.7f, C2D_Color32(255, 255, 255, 255), ColorHelper::getColorName(config->selectorColor(), 1).c_str(), 400);
 		Gui::DrawString(245, 98, 0.7f, C2D_Color32(255, 255, 255, 255), ColorHelper::getColorName(config->selectorColor(), 0).c_str(), 400);
 	} else if (this->colorMode == 1) {
-		Gui::DrawStringCentered(0, 60, 0.7f, C2D_Color32(255, 255, 255, 255), "Button Color", 320);
+		Gui::DrawStringCentered(0, 60, 0.7f, C2D_Color32(255, 255, 255, 255), Lang::get("BUTTON_COLOR"), 320);
 		Gui::DrawString(40, 98, 0.7f, C2D_Color32(255, 255, 255, 255), ColorHelper::getColorName(config->buttonColor(), 2).c_str(), 400);
 		Gui::DrawString(140, 98, 0.7f, C2D_Color32(255, 255, 255, 255), ColorHelper::getColorName(config->buttonColor(), 1).c_str(), 400);
 		Gui::DrawString(245, 98, 0.7f, C2D_Color32(255, 255, 255, 255), ColorHelper::getColorName(config->buttonColor(), 0).c_str(), 400);
 	} else if (this->colorMode == 2) {
-		Gui::DrawStringCentered(0, 60, 0.7f, C2D_Color32(255, 255, 255, 255), "Bar Color", 320);
+		Gui::DrawStringCentered(0, 60, 0.7f, C2D_Color32(255, 255, 255, 255), Lang::get("BAR_COLOR"), 320);
 		Gui::DrawString(40, 98, 0.7f, C2D_Color32(255, 255, 255, 255), ColorHelper::getColorName(config->barColor(), 2).c_str(), 400);
 		Gui::DrawString(140, 98, 0.7f, C2D_Color32(255, 255, 255, 255), ColorHelper::getColorName(config->barColor(), 1).c_str(), 400);
 		Gui::DrawString(245, 98, 0.7f, C2D_Color32(255, 255, 255, 255), ColorHelper::getColorName(config->barColor(), 0).c_str(), 400);
 	} else if (this->colorMode == 3) {
-		Gui::DrawStringCentered(0, 60, 0.7f, C2D_Color32(255, 255, 255, 255), "BG Color", 320);
+		Gui::DrawStringCentered(0, 60, 0.7f, C2D_Color32(255, 255, 255, 255), Lang::get("BG_COLOR"), 320);
 		Gui::DrawString(40, 98, 0.7f, C2D_Color32(255, 255, 255, 255), ColorHelper::getColorName(config->bgColor(), 2).c_str(), 400);
 		Gui::DrawString(140, 98, 0.7f, C2D_Color32(255, 255, 255, 255), ColorHelper::getColorName(config->bgColor(), 1).c_str(), 400);
 		Gui::DrawString(245, 98, 0.7f, C2D_Color32(255, 255, 255, 255), ColorHelper::getColorName(config->bgColor(), 0).c_str(), 400);
 	} else if (this->colorMode == 4) {
-		Gui::DrawStringCentered(0, 60, 0.7f, C2D_Color32(255, 255, 255, 255), "Text Color", 320);
+		Gui::DrawStringCentered(0, 60, 0.7f, C2D_Color32(255, 255, 255, 255), Lang::get("TEXT_COLOR"), 320);
 		Gui::DrawString(40, 98, 0.7f, C2D_Color32(255, 255, 255, 255), ColorHelper::getColorName(config->textColor(), 2).c_str(), 400);
 		Gui::DrawString(140, 98, 0.7f, C2D_Color32(255, 255, 255, 255), ColorHelper::getColorName(config->textColor(), 1).c_str(), 400);
 		Gui::DrawString(245, 98, 0.7f, C2D_Color32(255, 255, 255, 255), ColorHelper::getColorName(config->textColor(), 0).c_str(), 400);
@@ -100,7 +100,7 @@ void ColorChanger::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 	if (hDown & KEY_TOUCH) {
 		if (touching(touch, buttons[0])) {
-			int temp = Keyboard::getUint(255, "Enter the Red RGB Color.");
+			int temp = Keyboard::getUint(255, Lang::get("ENTER_RED_RGB"));
 			if(temp != -1) {
 				red = temp;
 				if (this->colorMode == 0) {
@@ -116,7 +116,7 @@ void ColorChanger::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 				}
 			}
 		} else if (touching(touch, buttons[1])) {
-			int temp = Keyboard::getUint(255, "Enter the Green RGB Color.");
+			int temp = Keyboard::getUint(255, Lang::get("ENTER_GREEN_RGB"));
 			if(temp != -1) {
 				green = temp;
 				if (this->colorMode == 0) {
@@ -132,7 +132,7 @@ void ColorChanger::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 				}
 			}
 		} else if (touching(touch, buttons[2])) {
-			int temp = Keyboard::getUint(255, "Enter the Blue RGB Color.");
+			int temp = Keyboard::getUint(255, Lang::get("ENTER_BLUE_RGB"));
 			if(temp != -1) {
 				blue = temp;
 				if (this->colorMode == 0) {

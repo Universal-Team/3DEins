@@ -24,13 +24,14 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef COMMON_HPP
-#define COMMON_HPP
+#ifndef _3DEINS_COMMON_HPP
+#define _3DEINS_COMMON_HPP
 
 #include "animation.hpp"
 #include "gfx.hpp"
 #include "gui.hpp"
 #include "lang.hpp"
+#include "msg.hpp"
 #include "screenCommon.hpp"
 #include "screenState.hpp"
 
