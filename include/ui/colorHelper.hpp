@@ -24,8 +24,8 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef COLORHELPER_HPP
-#define COLORHELPER_HPP
+#ifndef _3DEINS_COLORHELPER_HPP
+#define _3DEINS_COLORHELPER_HPP
 
 #include <citro2d.h>
 #include <citro3d.h>

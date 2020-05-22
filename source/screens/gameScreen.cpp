@@ -389,12 +389,12 @@ void GameScreen::DrawSubMenu(void) const {
 	
 	Animation::DrawSubBG(false);
 	Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(0, 0, 0, 210)); // Darken the screen.
-	for (int i = 0; i < 3; i++) {
+	for(int i = 0; i < 3; i++) {
 		Gui::Draw_Rect(this->breakBtn[i].x, this->breakBtn[i].y, this->breakBtn[i].w, this->breakBtn[i].h, config->buttonColor());
-		if (this->selection == i) {
-			GFX::DrawButtonSelector(this->breakBtn[i].x, this->breakBtn[i].y);
-		}
 	}
+
+	GFX::DrawButtonSelector(this->breakBtn[this->selection].x, this->breakBtn[this->selection].y);
+
 	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.6, Lang::get("RESUME")))/2-80+17.5, 0.6, config->textColor(), Lang::get("RESUME"), 130, 25);
 	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.6, Lang::get("RESTART")))/2-20+17.5, 0.6, config->textColor(), Lang::get("RESTART"), 130, 25);
 	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.6, Lang::get("EXIT_GAME")))/2+75-17.5, 0.6, config->textColor(), Lang::get("EXIT_GAME"), 130, 25);
@@ -491,7 +491,7 @@ void GameScreen::setState(int Player) {
 }
 
 bool GameScreen::checkForPlayableCard(const int player) {
-	for (int i = 0; i < (int)this->currentGame->getSize(player); i++) {
+	for(int i = 0; i < (int)this->currentGame->getSize(player); i++) {
 		if (this->currentGame->getType(i, player) == this->currentGame->tableCard().CT || this->currentGame->getColor(i, player) == this->currentGame->tableCard().CC || this->currentGame->getType(i, player) == CardType::DRAW4 || this->currentGame->getType(i, player) == CardType::WILD) {
 			return true;
 		}
@@ -499,9 +499,7 @@ bool GameScreen::checkForPlayableCard(const int player) {
 	return false;
 }
 
-bool GameScreen::CanPlayerPlay(const int player) {
-	return this->checkForPlayableCard(player);
-}
+bool GameScreen::CanPlayerPlay(const int player) { return this->checkForPlayableCard(player); }
 
 int GameScreen::getNextPlayer() {
 	if (this->currentGame->direction() == DIRECTION::CLOCKWISE) {

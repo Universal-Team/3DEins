@@ -24,8 +24,8 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef RULESSCREEN_HPP
-#define RULESSCREEN_HPP
+#ifndef _3DEINS_RULESSCREEN_HPP
+#define _3DEINS_RULESSCREEN_HPP
 
 #include "_3DEins_Core.h"
 #include "common.hpp"
@@ -33,8 +33,7 @@
 
 #include <vector>
 
-class RulesScreen : public Screen
-{
+class RulesScreen : public Screen {
 public:
 	void Draw(void) const override;
 	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;

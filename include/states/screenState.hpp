@@ -24,8 +24,8 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef SCREEN_STATE_HPP
-#define SCREEN_STATE_HPP
+#ifndef _3DEINS_SCREEN_STATE_HPP
+#define _3DEINS_SCREEN_STATE_HPP
 
 #include "screenCommon.hpp"
 

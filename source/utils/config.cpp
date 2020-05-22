@@ -50,6 +50,7 @@ Config::Config() {
 	if (access("sdmc:/3ds/3DEins/Settings.json", F_OK) != 0 ) {
 		this->initialize();
 	}
+
 	FILE* file = fopen("sdmc:/3ds/3DEins/Settings.json", "r");
 	this->json = nlohmann::json::parse(file, nullptr, false);
 	fclose(file);
@@ -124,6 +125,7 @@ bool Config::getBool(const std::string &key) {
 	if(!this->json.contains(key)) {
 		return false;
 	}
+
 	return this->json.at(key).get_ref<const bool&>();
 }
 void Config::setBool(const std::string &key, bool v) {
@@ -134,6 +136,7 @@ int Config::getInt(const std::string &key) {
 	if(!this->json.contains(key)) {
 		return 0;
 	}
+
 	return this->json.at(key).get_ref<const int64_t&>();
 }
 void Config::setInt(const std::string &key, int v) {
@@ -144,6 +147,7 @@ std::string Config::getString(const std::string &key) {
 	if(!this->json.contains(key)) {
 		return "";
 	}
+	
 	return this->json.at(key).get_ref<const std::string&>();
 }
 void Config::setString(const std::string &key, const std::string &v) {

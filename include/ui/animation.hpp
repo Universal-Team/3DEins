@@ -24,8 +24,8 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef ANIMATION_HPP
-#define ANIMATION_HPP
+#ifndef _3DEINS_ANIMATION_HPP
+#define _3DEINS_ANIMATION_HPP
 
 #include <3ds.h>
 

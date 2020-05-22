@@ -67,19 +67,15 @@ public:
 
 	// Write.
 	template <typename T>
-	void Write(u32 offset, T data) {
-		*reinterpret_cast<T*>(this->saveData.get() + offset) = data;
-	}
+	void Write(u32 offset, T data) { *reinterpret_cast<T*>(this->saveData.get() + offset) = data; }
 
 	// Read an offset from the saveData.
 	template <typename T>
 	T Read(u32 offset) {
-		if (saveData != nullptr) {
-			return *(T*)(this->saveData.get() + offset);
-		} else {
-			return *(T*)0;
-		}
+		if (saveData != nullptr)	return *(T*)(this->saveData.get() + offset);
+		else						return *(T*)0;
 	}
+	
 private:
 	std::string savePath;
 	bool changesMade = false;

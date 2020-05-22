@@ -47,10 +47,9 @@ void MainMenu::Draw(void) const {
 	GFX::DrawBottom();
 	for (int i = 0; i < 4; i++) {
 		GFX::Button(mainButtons[i]);
-		if (Selection == i) {
-			GFX::DrawButtonSelector(mainButtons[i].X, mainButtons[i].Y);
-		}
 	}
+
+	GFX::DrawButtonSelector(mainButtons[this->Selection].X, mainButtons[this->Selection].Y);
 }
 
 
@@ -93,9 +92,9 @@ void MainMenu::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	} else if (hDown & KEY_DOWN) {
 		if(Selection < 3 && Selection != 2 && Selection != 3)	Selection += 2;
 	} else if (hDown & KEY_LEFT) {
-		if (Selection%2) Selection--;
+		if (Selection%2)	Selection--;
 	} else if (hDown & KEY_RIGHT) {
-		if (!(Selection%2)) Selection++;
+		if (!(Selection%2))	Selection++;
 	}
 
 	if (hDown & KEY_START) {

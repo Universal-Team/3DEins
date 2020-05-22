@@ -24,8 +24,8 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef INIT_HPP
-#define INIT_HPP
+#ifndef _3DEINS_INIT_HPP
+#define _3DEINS_INIT_HPP
 
 #include <3ds.h>
 

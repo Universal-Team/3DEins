@@ -24,8 +24,8 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef GAMESCREEN_HPP
-#define GAMESCREEN_HPP
+#ifndef _3DEINS_GAMESCREEN_HPP
+#define _3DEINS_GAMESCREEN_HPP
 
 #include "common.hpp"
 #include "game.hpp"
@@ -33,8 +33,7 @@
 
 #include <vector>
 
-class GameScreen : public Screen
-{
+class GameScreen : public Screen {
 public:
 	void Draw(void) const override;
 	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;

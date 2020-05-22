@@ -53,7 +53,7 @@ Computer::Computer(int character) {
 	const std::string name_1(reinterpret_cast<char *>(Buffer + 0), 9 + 1);
 
 	// Make sure to only get valid chars.
-	for (char character : name_1) {
+	for(char character : name_1) {
 		if (character == '\0')	break;
 		if (character < 256) {
 			this->name += character;

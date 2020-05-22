@@ -34,14 +34,14 @@
 #include "structs.hpp"
 
 class ChatSystem;
-class Chat_Action : public ScreenState
-{
+class Chat_Action : public ScreenState {
 protected:
 	ChatSystem *cs;
 public:
 	void DrawStateTop(void) const override;
 	void DrawStateBottom(void) const override;
 	void StateLogic(u32 hDown, u32 hHeld, touchPosition touch) override;
+
 	Chat_Action(std::unique_ptr<ChatSystem> &chat): cs(chat.get()) {
 		this->isUsed = true;
 		this->selection = (int)cs->getChat().size();
@@ -86,7 +86,7 @@ private:
 		{"\uE071", 286, 42}, // Delete.
 		{" ", 70, 185}, // Space.
 		{"\uE056", 270, 185}, // Enter.
-		{"", 30, 185}, // Mode switch.
+		{"", 30, 185} // Mode switch.
 	};
 
 };

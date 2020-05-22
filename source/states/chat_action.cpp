@@ -50,6 +50,7 @@ void Chat_Action::DrawChatTop(void) const {
 		Gui::DrawString(60, 41 + (i * 60), 0.55f, config->textColor(), cs->getChat()[screenPos + i].PS.name + "#" + std::to_string(cs->getChat()[screenPos + i].PS.id) + "  #" + std::to_string(cs->getChat()[screenPos + i].messageCount), 400);
 		Gui::DrawString(60, 60 + (i * 60), 0.5f, config->textColor(), cs->getChat()[screenPos + i].message, 400);
 	}
+
 	if (this->delay > 0) {
 		char message [100];
 		snprintf(message, sizeof(message), Lang::get("IS_TYPING").c_str(), cs->getName(0).c_str(), cs->getID(0));
@@ -64,6 +65,7 @@ void Chat_Action::DrawMemberListTop(void) const {
 		} else {
 			Gui::Draw_Rect(0, 40 + (i * 60), 400, 50, config->barColor());
 		}
+
 		GFX::DrawChar(8 + cs->getAvatar(memberPos + i), 0, 38 + (60 * i));
 		Gui::DrawString(60, 41 + (i * 60), 0.55f, config->textColor(), cs->getName(memberPos + i) + "#" + std::to_string(cs->getID(memberPos + i)) + "  #" + std::to_string(memberPos + i + 1), 400);
 		Gui::DrawString(60, 60 + (i * 60), 0.5f, config->textColor(), cs->getPhrase(memberPos + i), 400);
@@ -100,6 +102,7 @@ void Chat_Action::DrawChatBottom(void) const {
 			Gui::DrawString(this->LayoutSign[i].x+5+(10-(Gui::GetStringWidth(0.50, c)/2)), this->LayoutSign[i].y+10+(10-(Gui::GetStringHeight(0.50, c)/2)), 0.50, config->textColor(), c);
 		}
 	}
+
 	C2D_DrawRectSolid(this->specialStuff[0].x, this->specialStuff[0].y, 0.5f, 30, 40, config->barColor() & C2D_Color32(255, 255, 255, 200));
 	Gui::DrawString(this->specialStuff[0].x+5+(10-(Gui::GetStringWidth(0.50, this->specialStuff[0].character)/2)), this->specialStuff[0].y+10+(10-(Gui::GetStringHeight(0.50, this->specialStuff[0].character)/2)), 0.50, config->textColor(), this->specialStuff[0].character);
 	C2D_DrawRectSolid(this->specialStuff[1].x, this->specialStuff[1].y, 0.5f, 180, 20, config->barColor() & C2D_Color32(255, 255, 255, 200));
@@ -201,9 +204,6 @@ void Chat_Action::ChatLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 		}
 	}
 
-//	if (this->keyDownDelay > 0) { }
-//	this->keyDownDelay = 10;
-
 	if (hDown & KEY_TOUCH) {
 		if (this->tempString.length() < 81) {
 			if (this->layout == 0) {
@@ -216,6 +216,7 @@ void Chat_Action::ChatLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 						break;
 					}
 				}
+				
 			} else if (this->layout == 1) {
 				// Check if a regular key was pressed
 				for (uint i = 0; i < (sizeof(this->Layoutabc)/sizeof(this->Layoutabc[0])); i++) {
@@ -226,6 +227,7 @@ void Chat_Action::ChatLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 						break;
 					}
 				}
+
 			} else if (this->layout == 2) {
 				// Check if a regular key was pressed
 				for (uint i = 0; i < (sizeof(this->LayoutSign)/sizeof(this->LayoutSign[0])); i++) {

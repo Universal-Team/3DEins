@@ -119,7 +119,7 @@ void RulesScreen::Draw(void) const {
 	DisplayCards();
 	Animation::DrawSubBG(false);
 	Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(0, 0, 0, 210)); // Darken the screen.
-	for (int i = 0; i < (int)cards.size(); i++) {
+	for(int i = 0; i < (int)cards.size(); i++) {
 		GFX::DrawCard(CardType(i), cards[i].x, cards[i].y, CardColor(1), 0.8, 0.8);
 	}
 }
@@ -137,7 +137,7 @@ void RulesScreen::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	}
 
 	if (hDown & KEY_TOUCH) {
-		for (int i = 0; i < (int)cards.size(); i++) {
+		for(int i = 0; i < (int)cards.size(); i++) {
 			if (touching(touch, cards[i])) {
 				rulePage = i;
 			}

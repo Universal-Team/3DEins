@@ -24,8 +24,8 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef GFX_HPP
-#define GFX_HPP
+#ifndef _3DEINS_GFX_HPP
+#define _3DEINS_GFX_HPP
 
 #include "cards.h"
 #include "chars.h"
@@ -43,8 +43,7 @@ struct ButtonStruct {
 	std::string Text;
 };
 
-namespace GFX
-{
+namespace GFX {
 	// Basic GUI.
 	void DrawTop(bool useBars = true);
 	void DrawBottom(bool useBars = true);

@@ -31,9 +31,7 @@ extern std::unique_ptr<Config> config;
 extern bool touching(touchPosition touch, Structs::ButtonPos button);
 
 // Get current lang.
-LangSelection::LangSelection() {
-	this->selectedLang = config->language();
-}
+LangSelection::LangSelection() { this->selectedLang = config->language(); }
 
 void LangSelection::Draw(void) const {
 	GFX::DrawTop();
@@ -42,10 +40,9 @@ void LangSelection::Draw(void) const {
 
 	for (int language = 0; language < 10; language++) {
 		Gui::Draw_Rect(langBlocks[language].x, langBlocks[language].y, langBlocks[language].w, langBlocks[language].h, config->buttonColor());
-		if (config->language() == language) {
-			Gui::Draw_Rect(langBlocks[language].x, langBlocks[language].y, langBlocks[language].w, langBlocks[language].h, config->selectorColor());
-		}
 	}
+	
+	Gui::Draw_Rect(langBlocks[config->language()].x, langBlocks[config->language()].y, langBlocks[config->language()].w, langBlocks[config->language()].h, config->selectorColor());
 
 	Gui::DrawString(langBlocks[0].x+25, langBlocks[0].y, 0.7f, config->textColor(), "Bruh", 320);
 	Gui::DrawString(langBlocks[1].x+25, langBlocks[1].y, 0.7f, config->textColor(), "Deutsch", 320);
@@ -62,7 +59,7 @@ void LangSelection::Draw(void) const {
 
 void LangSelection::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hDown & KEY_TOUCH) {
-		for (int language = 0; language < 10; language++) {
+		for(int language = 0; language < 10; language++) {
 			if (touching(touch, langBlocks[language])) {
 				config->language(language);
 				Lang::load();

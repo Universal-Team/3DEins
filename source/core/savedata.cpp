@@ -65,7 +65,7 @@ std::string SaveData::playerName() {
 	std::string output;
 	std::string test(reinterpret_cast<char *>(this->saveData.get() + 0), 9 + 1);
 
-	for (char character : test) {
+	for(char character : test) {
 		if (character == '\0')	break;
 		if (character < 256) {
 			output += character;
@@ -107,7 +107,7 @@ std::string SaveData::playerPhrase() {
 	std::string output;
 	std::string test(reinterpret_cast<char *>(this->saveData.get() + 0xD), 29 + 1);
 
-	for (char character : test) {
+	for(char character : test) {
 		if (character == '\0')	break;
 		if (character < 256) {
 			output += character;

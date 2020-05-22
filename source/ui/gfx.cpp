@@ -99,10 +99,9 @@ void GFX::DrawSelectedPlayer(int x, int y, float ScaleX, float ScaleY) {
 	C2D_DrawImageAt(C2D_SpriteSheetGetImage(sprites, sprites_selectedPlayer_idx), x, y, 0.5f, &tint, ScaleX, ScaleY);
 }
 
-void GFX::DrawCardSelector(int x, int y, float ScaleX, float ScaleY)
-{
+void GFX::DrawCardSelector(int x, int y, float ScaleX, float ScaleY) {
 	static float timer			= 0.0f;
-	float highlight_multiplier  = fmax(0.0, fabs(fmod(timer, 1.0) - 0.5) / 0.5);
+	float highlight_multiplier	= fmax(0.0, fabs(fmod(timer, 1.0) - 0.5) / 0.5);
 	u8 r						= config->selectorColor() & 0xFF;
 	u8 g						= (config->selectorColor() >> 8) & 0xFF;
 	u8 b						= (config->selectorColor() >> 16) & 0xFF;
@@ -116,10 +115,9 @@ void GFX::DrawCardSelector(int x, int y, float ScaleX, float ScaleY)
 	timer += .030;
 }
 
-void GFX::DrawButtonSelector(int x, int y, float ScaleX, float ScaleY, bool useSmall)
-{
+void GFX::DrawButtonSelector(int x, int y, float ScaleX, float ScaleY, bool useSmall) {
 	static float timer			= 0.0f;
-	float highlight_multiplier  = fmax(0.0, fabs(fmod(timer, 1.0) - 0.5) / 0.5);
+	float highlight_multiplier	= fmax(0.0, fabs(fmod(timer, 1.0) - 0.5) / 0.5);
 	u8 r						= config->selectorColor() & 0xFF;
 	u8 g						= (config->selectorColor() >> 8) & 0xFF;
 	u8 b						= (config->selectorColor() >> 16) & 0xFF;
@@ -137,8 +135,7 @@ void GFX::DrawButtonSelector(int x, int y, float ScaleX, float ScaleY, bool useS
 	timer += .030;
 }
 
-void GFX::DrawCard(CardType CT, int x, int y, CardColor CC, float ScaleX, float ScaleY)
-{
+void GFX::DrawCard(CardType CT, int x, int y, CardColor CC, float ScaleX, float ScaleY) {
 	// Special case "Bruh".
 	#ifdef _USE_SPECIAL_CARD
 		if (CT == CardType::SPECIAL) {
