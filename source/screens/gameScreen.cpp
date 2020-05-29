@@ -163,6 +163,8 @@ void GameScreen::Draw(void) const {
 		}
 		// Draw Table Card.
 		GFX::DrawCard(this->currentGame->tableCard().CT, 170, 75, this->currentGame->tableCard().CC);
+		if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
+
 		// Bottom Screen.
 		GFX::DrawBottom(false);
 		char message [100];
@@ -170,6 +172,7 @@ void GameScreen::Draw(void) const {
 		Gui::DrawStringCentered(0, 0, 0.7f, config->textColor(), message);
 		DisplayPlayerHand();
 		DisplayPlayerHandSmall();
+		if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 	}
 }
 
@@ -376,8 +379,10 @@ void GameScreen::DrawPlayerStats(void) const {
 	Gui::DrawString(190, 115, 0.7f, config->textColor(), Lang::get("CARDS_LEFT") + std::to_string(getPlayerCards(subMode - 1)), 200);
 	Gui::DrawString(190, 145, 0.7f, config->textColor(), Lang::get("POINTS") + std::to_string(this->currentGame->getPoints(subMode - 1)), 200);
 	Gui::DrawStringCentered(0, 216, 0.75f, config->textColor(), Lang::get("STATS_INFO"), 400);
+	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 	Animation::DrawSubBG(false);
 	Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(0, 0, 0, 210)); // Darken the screen.
+	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 }
 
 void GameScreen::DrawSubMenu(void) const {
@@ -415,7 +420,7 @@ void GameScreen::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 					break;
 				case 2:
 					if (Msg::promptMsg(Lang::get("QUIT_GAME"))) {
-						Gui::screenBack();
+						Gui::screenBack(true);
 						return;
 					}
 					break;
@@ -438,7 +443,7 @@ void GameScreen::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 				}
 			} else if (touching(touch, breakBtn[2])) {
 				if (Msg::promptMsg(Lang::get("QUIT_GAME"))) {
-					Gui::screenBack();
+					Gui::screenBack(true);
 					return;
 				}
 			}

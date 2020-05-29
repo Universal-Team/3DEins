@@ -421,7 +421,6 @@ void GFX::DrawPlayer(int x, int y, float ScaleX, float ScaleY, int player) {
 }
 
 std::unique_ptr<ScreenState> screenS;
-extern std::stack<std::unique_ptr<Screen>> screens;
 
 // Main Logic.
 void GFX::Main(u32 hDown, u32 hHeld, touchPosition touch) {
@@ -435,12 +434,12 @@ void GFX::Main(u32 hDown, u32 hHeld, touchPosition touch) {
 			screenS->DrawStateBottom();
 			screenS->StateLogic(hDown, hHeld, touch);
 		} else {
-			screens.top()->Draw();
-			screens.top()->Logic(hDown, hHeld, touch);
+			Gui::DrawScreen(true);
+			Gui::ScreenLogic(hDown, hHeld, touch, true, true);
 		}
 	} else {
-		screens.top()->Draw();
-		screens.top()->Logic(hDown, hHeld, touch);
+		Gui::DrawScreen(true);
+		Gui::ScreenLogic(hDown, hHeld, touch, true, true);
 	}
 }
 

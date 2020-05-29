@@ -44,12 +44,14 @@ MainMenu::MainMenu() { }
 void MainMenu::Draw(void) const {
 	GFX::DrawTop();
 	Gui::DrawStringCentered(0, 0, 0.9f, config->textColor(), "3DEins - " + Lang::get("MAINMENU"));
+	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 	GFX::DrawBottom();
 	for (int i = 0; i < 4; i++) {
 		GFX::Button(mainButtons[i]);
 	}
 
 	GFX::DrawButtonSelector(mainButtons[this->Selection].X, mainButtons[this->Selection].Y);
+	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 }
 
 
@@ -57,14 +59,14 @@ void MainMenu::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hDown & KEY_TOUCH) {
 		if (buttonTouch(touch, mainButtons[0])) {
 			if (Msg::promptMsg(Lang::get("NEW_GAME_PROMPT"))) {
-				Gui::setScreen(std::make_unique<GameScreen>());
+				Gui::setScreen(std::make_unique<GameScreen>(), true, true);
 			}
 		} else if (buttonTouch(touch, mainButtons[1])) {
-			Gui::setScreen(std::make_unique<UISettings>());
+			Gui::setScreen(std::make_unique<UISettings>(), true, true);
 		} else if (buttonTouch(touch, mainButtons[2])) {
-			Gui::setScreen(std::make_unique<Credits>());
+			Gui::setScreen(std::make_unique<Credits>(), true, true);
 		} else if (buttonTouch(touch, mainButtons[3])) {
-			Gui::setScreen(std::make_unique<RulesScreen>());
+			Gui::setScreen(std::make_unique<RulesScreen>(), true, true);
 		}
 	}
 
@@ -72,17 +74,17 @@ void MainMenu::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		switch (Selection) {
 			case 0:
 				if (Msg::promptMsg(Lang::get("NEW_GAME_PROMPT"))) {
-					Gui::setScreen(std::make_unique<GameScreen>());
+					Gui::setScreen(std::make_unique<GameScreen>(), true, true);
 				}
 				break;
 			case 1:
-				Gui::setScreen(std::make_unique<UISettings>());
+				Gui::setScreen(std::make_unique<UISettings>(), true, true);
 				break;
 			case 2:
-				Gui::setScreen(std::make_unique<Credits>());
+				Gui::setScreen(std::make_unique<Credits>(), true, true);
 				break;
 			case 3:
-				Gui::setScreen(std::make_unique<RulesScreen>());
+				Gui::setScreen(std::make_unique<RulesScreen>(), true, true);
 				break;
 		}
 	}
@@ -98,6 +100,8 @@ void MainMenu::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	}
 
 	if (hDown & KEY_START) {
+		fadeout = true;
+		fadecolor = 0;
 		exiting = true;
 	}
 

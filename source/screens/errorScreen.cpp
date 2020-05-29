@@ -35,10 +35,12 @@ void ErrorScreen::Draw(void) const {
 	Gui::Draw_Rect(0, 210, 400, 30, C2D_Color32(220, 60, 0, 255));
 	Gui::DrawStringCentered(0, 0, 0.8f, C2D_Color32(255, 255, 255, 255), "Failed to initialize the config class.", 400);
 	Gui::DrawStringCentered(0, 215, 0.8f, C2D_Color32(255, 255, 255, 255), "Press START to exit.", 400);
+	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 	Gui::ScreenDraw(Bottom);
 	Gui::Draw_Rect(0, 0, 320, 30, C2D_Color32(220, 60, 0, 255));
 	Gui::Draw_Rect(0, 30, 320, 180, C2D_Color32(220, 160, 0, 255));
 	Gui::Draw_Rect(0, 210, 320, 30, C2D_Color32(220, 60, 0, 255));
+	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 }
 
 void ErrorScreen::Logic(u32 hDown, u32 hHeld, touchPosition touch) {

@@ -53,18 +53,14 @@ bool isGood = true;
 
 // If Position pressed -> Do something.
 bool touching(touchPosition touch, Structs::ButtonPos button) {
-	if (touch.px >= button.x && touch.px <= (button.x + button.w) && touch.py >= button.y && touch.py <= (button.y + button.h))
-		return true;
-	else
-		return false;
+	if (touch.px >= button.x && touch.px <= (button.x + button.w) && touch.py >= button.y && touch.py <= (button.y + button.h))	return true;
+	else	return false;
 }
 
 // If Button Position pressed -> Do something.
 bool buttonTouch(touchPosition touch, ButtonStruct button) {
-	if (touch.px >= button.X && touch.px <= (button.X + button.xSize) && touch.py >= button.Y && touch.py <= (button.Y + button.ySize))
-		return true;
-	else
-		return false;
+	if (touch.px >= button.X && touch.px <= (button.X + button.xSize) && touch.py >= button.Y && touch.py <= (button.Y + button.ySize))	return true;
+	else	return false;
 }
 
 // Generate random ID between 1 and 65535.
@@ -95,7 +91,7 @@ Result Init::Initialize() {
 	if (!config)	isGood = false;
 
 	if (!isGood) {
-		Gui::setScreen(std::make_unique<ErrorScreen>());
+		Gui::setScreen(std::make_unique<ErrorScreen>(), false, true);
 		osSetSpeedupEnable(true);	// Enable speed-up for New 3DS users.
 		return 0;
 	}
@@ -112,17 +108,18 @@ Result Init::Initialize() {
 	}
 	
 	osSetSpeedupEnable(true); // Enable speed-up for New 3DS users.
-	Gui::setScreen(std::make_unique<MainMenu>());
+	Gui::setScreen(std::make_unique<MainMenu>(), false, true);
 	return 0;
 }
 
 Result Init::MainLoop() {
-	
 	// Initialize everything.
 	Initialize();
+	// Here we set the initial fade effect for fadein.
+	fadealpha = 255;
+	fadein = true;
 	// Loop as long as the status is not exiting.
-	while (aptMainLoop() && !exiting)
-	{
+	while (aptMainLoop()) {
 		// Scan all the Inputs.
 		hidScanInput();
 		u32 hDown = hidKeysDown();
@@ -134,6 +131,11 @@ Result Init::MainLoop() {
 		Gui::clearTextBufs();
 		GFX::Main(hDown, hHeld, touch);
 		C3D_FrameEnd(0);
+		if (exiting) {
+			if (!fadeout)	break;
+		}
+
+		Gui::fadeEffects(16, 16, true);
 	}
 	// Exit all services and exit the app.
 	Exit();

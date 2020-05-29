@@ -36,6 +36,7 @@ extern bool touching(touchPosition touch, Structs::ButtonPos button);
 void UISettings::Draw(void) const {
 	GFX::DrawTop();
 	Gui::DrawStringCentered(0, 0, 0.9f, config->textColor(), "3DEins - " + Lang::get("UI_SETTINGS"));
+	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 	GFX::DrawBottom();
 
 	for (int i = 0; i < 4; i++) {
@@ -49,15 +50,17 @@ void UISettings::Draw(void) const {
 	Gui::DrawStringCentered(80, mainButtons[1].y+12, 0.6f, config->textColor(), Lang::get("LANGUAGE"), 130);
 	Gui::DrawStringCentered(-80, mainButtons[2].y+12, 0.6f, config->textColor(), Lang::get("ALLOW_ANIM"), 130);
 	Gui::DrawStringCentered(80, mainButtons[3].y+12, 0.6f, config->textColor(), "???", 130);
+
+	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 }
 
 
 void UISettings::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hDown & KEY_TOUCH) {
 		if (touching(touch, mainButtons[0])) {
-			Gui::setScreen(std::make_unique<ColorChanger>());
+			Gui::setScreen(std::make_unique<ColorChanger>(), true, true);
 		} else if (touching(touch, mainButtons[1])) {
-			Gui::setScreen(std::make_unique<LangSelection>());
+			Gui::setScreen(std::make_unique<LangSelection>(), true, true);
 		} else if (touching(touch, mainButtons[2])) {
 			if (config->allowAnimation()) {
 				config->allowAnimation(false);
@@ -87,9 +90,9 @@ void UISettings::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 	if (hDown & KEY_A) {
 		if (this->Selection == 0) {
-			Gui::setScreen(std::make_unique<ColorChanger>());
+			Gui::setScreen(std::make_unique<ColorChanger>(), true, true);
 		} else if (this->Selection == 1) {
-			Gui::setScreen(std::make_unique<LangSelection>());
+			Gui::setScreen(std::make_unique<LangSelection>(), true, true);
 		} else if (this->Selection == 2) {
 			if (config->allowAnimation()) {
 				config->allowAnimation(false);
@@ -102,7 +105,7 @@ void UISettings::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	}
 
 	if (hDown & KEY_B) {
-		Gui::screenBack();
+		Gui::screenBack(true);
 		return;
 	}
 }
