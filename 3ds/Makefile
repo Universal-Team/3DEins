@@ -76,8 +76,8 @@ endif
 TARGET		:=	3DEins
 BUILD		:=	build
 UNIVCORE	:= 	Universal-Core
-CORESOURCE	:=	3DEins-Core/source
-COREINCLUDE	:=	3DEins-Core/include
+CORESOURCE	:=	../3DEins-Core/source
+COREINCLUDE	:=	../3DEins-Core/include
 SOURCES		:=	$(CORESOURCE) $(UNIVCORE) source source/core source/screens source/states source/ui source/utils
 DATA		:=	data
 INCLUDES	:=	$(COREINCLUDE) $(UNIVCORE) include include/core include/screens include/states include/ui include/utils
