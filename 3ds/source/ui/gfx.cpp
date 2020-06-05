@@ -148,49 +148,49 @@ void GFX::DrawCard(CardType CT, int x, int y, CardColor CC, float ScaleX, float 
 	if (CC == CardColor::COLOR_BLUE) {
 		switch (CT) {
 			case CardType::NUMBER_0:
-				Gui::DrawSprite(cards, 0, x, y, ScaleX, ScaleY);
+				Gui::DrawSprite(cards, cards_0_blue_idx, x, y, ScaleX, ScaleY);
 				break;
 			case CardType::NUMBER_1:
-				Gui::DrawSprite(cards, 4, x, y, ScaleX, ScaleY);
+				Gui::DrawSprite(cards, cards_1_blue_idx, x, y, ScaleX, ScaleY);
 				break;
 			case CardType::NUMBER_2:
-				Gui::DrawSprite(cards, 8, x, y, ScaleX, ScaleY);
+				Gui::DrawSprite(cards, cards_2_blue_idx, x, y, ScaleX, ScaleY);
 				break;
 			case CardType::NUMBER_3:
-				Gui::DrawSprite(cards, 12, x, y, ScaleX, ScaleY);
+				Gui::DrawSprite(cards, cards_3_blue_idx, x, y, ScaleX, ScaleY);
 				break;
 			case CardType::NUMBER_4:
-				Gui::DrawSprite(cards, 16, x, y, ScaleX, ScaleY);
+				Gui::DrawSprite(cards, cards_4_blue_idx, x, y, ScaleX, ScaleY);
 				break;
 			case CardType::NUMBER_5:
-				Gui::DrawSprite(cards, 20, x, y, ScaleX, ScaleY);
+				Gui::DrawSprite(cards, cards_5_blue_idx, x, y, ScaleX, ScaleY);
 				break;
 			case CardType::NUMBER_6:
-				Gui::DrawSprite(cards, 24, x, y, ScaleX, ScaleY);
+				Gui::DrawSprite(cards, cards_6_blue_idx, x, y, ScaleX, ScaleY);
 				break;
 			case CardType::NUMBER_7:
-				Gui::DrawSprite(cards, 28, x, y, ScaleX, ScaleY);
+				Gui::DrawSprite(cards, cards_7_blue_idx, x, y, ScaleX, ScaleY);
 				break;
 			case CardType::NUMBER_8:
-				Gui::DrawSprite(cards, 32, x, y, ScaleX, ScaleY);
+				Gui::DrawSprite(cards, cards_8_blue_idx, x, y, ScaleX, ScaleY);
 				break;
 			case CardType::NUMBER_9:
-				Gui::DrawSprite(cards, 36, x, y, ScaleX, ScaleY);
+				Gui::DrawSprite(cards, cards_9_blue_idx, x, y, ScaleX, ScaleY);
 				break;
 			case CardType::SKIP:
-				Gui::DrawSprite(cards, 40, x, y, ScaleX, ScaleY);
+				Gui::DrawSprite(cards, cards_skip_blue_idx, x, y, ScaleX, ScaleY);
 				break;
 			case CardType::REVERSE:
-				Gui::DrawSprite(cards, 44, x, y, ScaleX, ScaleY);
+				Gui::DrawSprite(cards, cards_reverse_blue_idx, x, y, ScaleX, ScaleY);
 				break;
 			case CardType::DRAW2:
-				Gui::DrawSprite(cards, 48, x, y, ScaleX, ScaleY);
+				Gui::DrawSprite(cards, cards_draw2_blue_idx, x, y, ScaleX, ScaleY);
 				break;
 			case CardType::WILD:
-				Gui::DrawSprite(cards, 53, x, y, ScaleX, ScaleY);
+				Gui::DrawSprite(cards, cards_wild_blue_idx, x, y, ScaleX, ScaleY);
 				break;
 			case CardType::DRAW4:
-				Gui::DrawSprite(cards, 58, x, y, ScaleX, ScaleY);
+				Gui::DrawSprite(cards, cards_wild_draw4_blue_idx, x, y, ScaleX, ScaleY);
 				break;
 			#ifdef _USE_SPECIAL_CARD
 			case CardType::SPECIAL:
@@ -200,49 +200,49 @@ void GFX::DrawCard(CardType CT, int x, int y, CardColor CC, float ScaleX, float 
 	} else if (CC == CardColor::COLOR_GREEN) {
 		switch (CT) {
 			case CardType::NUMBER_0:
-				Gui::DrawSprite(cards, 1, x, y, ScaleX, ScaleY);
+				Gui::DrawSprite(cards, cards_0_green_idx, x, y, ScaleX, ScaleY);
 				break;
 			case CardType::NUMBER_1:
-				Gui::DrawSprite(cards, 5, x, y, ScaleX, ScaleY);
+				Gui::DrawSprite(cards, cards_1_green_idx, x, y, ScaleX, ScaleY);
 				break;
 			case CardType::NUMBER_2:
-				Gui::DrawSprite(cards, 9, x, y, ScaleX, ScaleY);
+				Gui::DrawSprite(cards, cards_2_green_idx, x, y, ScaleX, ScaleY);
 				break;
 			case CardType::NUMBER_3:
-				Gui::DrawSprite(cards, 13, x, y, ScaleX, ScaleY);
+				Gui::DrawSprite(cards, cards_3_green_idx, x, y, ScaleX, ScaleY);
 				break;
 			case CardType::NUMBER_4:
-				Gui::DrawSprite(cards, 17, x, y, ScaleX, ScaleY);
+				Gui::DrawSprite(cards, cards_4_green_idx, x, y, ScaleX, ScaleY);
 				break;
 			case CardType::NUMBER_5:
-				Gui::DrawSprite(cards, 21, x, y, ScaleX, ScaleY);
+				Gui::DrawSprite(cards, cards_5_green_idx, x, y, ScaleX, ScaleY);
 				break;
 			case CardType::NUMBER_6:
-				Gui::DrawSprite(cards, 25, x, y, ScaleX, ScaleY);
+				Gui::DrawSprite(cards, cards_6_green_idx, x, y, ScaleX, ScaleY);
 				break;
 			case CardType::NUMBER_7:
-				Gui::DrawSprite(cards, 29, x, y, ScaleX, ScaleY);
+				Gui::DrawSprite(cards, cards_7_green_idx, x, y, ScaleX, ScaleY);
 				break;
 			case CardType::NUMBER_8:
-				Gui::DrawSprite(cards, 33, x, y, ScaleX, ScaleY);
+				Gui::DrawSprite(cards, cards_8_green_idx, x, y, ScaleX, ScaleY);
 				break;
 			case CardType::NUMBER_9:
-				Gui::DrawSprite(cards, 37, x, y, ScaleX, ScaleY);
+				Gui::DrawSprite(cards, cards_9_green_idx, x, y, ScaleX, ScaleY);
 				break;
 			case CardType::SKIP:
-				Gui::DrawSprite(cards, 41, x, y, ScaleX, ScaleY);
+				Gui::DrawSprite(cards, cards_skip_green_idx, x, y, ScaleX, ScaleY);
 				break;
 			case CardType::REVERSE:
-				Gui::DrawSprite(cards, 45, x, y, ScaleX, ScaleY);
+				Gui::DrawSprite(cards, cards_reverse_green_idx, x, y, ScaleX, ScaleY);
 				break;
 			case CardType::DRAW2:
-				Gui::DrawSprite(cards, 49, x, y, ScaleX, ScaleY);
+				Gui::DrawSprite(cards, cards_draw2_green_idx, x, y, ScaleX, ScaleY);
 				break;
 			case CardType::WILD:
-				Gui::DrawSprite(cards, 54, x, y, ScaleX, ScaleY);
+				Gui::DrawSprite(cards, cards_wild_green_idx, x, y, ScaleX, ScaleY);
 				break;
 			case CardType::DRAW4:
-				Gui::DrawSprite(cards, 59, x, y, ScaleX, ScaleY);
+				Gui::DrawSprite(cards, cards_wild_draw4_green_idx, x, y, ScaleX, ScaleY);
 				break;
 			#ifdef _USE_SPECIAL_CARD
 			case CardType::SPECIAL:
@@ -252,49 +252,49 @@ void GFX::DrawCard(CardType CT, int x, int y, CardColor CC, float ScaleX, float 
 	} else if (CC == CardColor::COLOR_RED) {
 		switch (CT) {
 			case CardType::NUMBER_0:
-				Gui::DrawSprite(cards, 2, x, y, ScaleX, ScaleY);
+				Gui::DrawSprite(cards, cards_0_red_idx, x, y, ScaleX, ScaleY);
 				break;
 			case CardType::NUMBER_1:
-				Gui::DrawSprite(cards, 6, x, y, ScaleX, ScaleY);
+				Gui::DrawSprite(cards, cards_1_red_idx, x, y, ScaleX, ScaleY);
 				break;
 			case CardType::NUMBER_2:
-				Gui::DrawSprite(cards, 10, x, y, ScaleX, ScaleY);
+				Gui::DrawSprite(cards, cards_2_red_idx, x, y, ScaleX, ScaleY);
 				break;
 			case CardType::NUMBER_3:
-				Gui::DrawSprite(cards, 14, x, y, ScaleX, ScaleY);
+				Gui::DrawSprite(cards, cards_3_red_idx, x, y, ScaleX, ScaleY);
 				break;
 			case CardType::NUMBER_4:
-				Gui::DrawSprite(cards, 18, x, y, ScaleX, ScaleY);
+				Gui::DrawSprite(cards, cards_4_red_idx, x, y, ScaleX, ScaleY);
 				break;
 			case CardType::NUMBER_5:
-				Gui::DrawSprite(cards, 22, x, y, ScaleX, ScaleY);
+				Gui::DrawSprite(cards, cards_5_red_idx, x, y, ScaleX, ScaleY);
 				break;
 			case CardType::NUMBER_6:
-				Gui::DrawSprite(cards, 26, x, y, ScaleX, ScaleY);
+				Gui::DrawSprite(cards, cards_6_red_idx, x, y, ScaleX, ScaleY);
 				break;
 			case CardType::NUMBER_7:
-				Gui::DrawSprite(cards, 30, x, y, ScaleX, ScaleY);
+				Gui::DrawSprite(cards, cards_7_red_idx, x, y, ScaleX, ScaleY);
 				break;
 			case CardType::NUMBER_8:
-				Gui::DrawSprite(cards, 34, x, y, ScaleX, ScaleY);
+				Gui::DrawSprite(cards, cards_8_red_idx, x, y, ScaleX, ScaleY);
 				break;
 			case CardType::NUMBER_9:
-				Gui::DrawSprite(cards, 38, x, y, ScaleX, ScaleY);
+				Gui::DrawSprite(cards, cards_9_red_idx, x, y, ScaleX, ScaleY);
 				break;
 			case CardType::SKIP:
-				Gui::DrawSprite(cards, 42, x, y, ScaleX, ScaleY);
+				Gui::DrawSprite(cards, cards_skip_red_idx, x, y, ScaleX, ScaleY);
 				break;
 			case CardType::REVERSE:
-				Gui::DrawSprite(cards, 46, x, y, ScaleX, ScaleY);
+				Gui::DrawSprite(cards, cards_reverse_red_idx, x, y, ScaleX, ScaleY);
 				break;
 			case CardType::DRAW2:
-				Gui::DrawSprite(cards, 50, x, y, ScaleX, ScaleY);
+				Gui::DrawSprite(cards, cards_draw2_red_idx, x, y, ScaleX, ScaleY);
 				break;
 			case CardType::WILD:
-				Gui::DrawSprite(cards, 55, x, y, ScaleX, ScaleY);
+				Gui::DrawSprite(cards, cards_wild_red_idx, x, y, ScaleX, ScaleY);
 				break;
 			case CardType::DRAW4:
-				Gui::DrawSprite(cards, 60, x, y, ScaleX, ScaleY);
+				Gui::DrawSprite(cards, cards_wild_draw4_red_idx, x, y, ScaleX, ScaleY);
 				break;
 			#ifdef _USE_SPECIAL_CARD
 			case CardType::SPECIAL:
@@ -304,49 +304,49 @@ void GFX::DrawCard(CardType CT, int x, int y, CardColor CC, float ScaleX, float 
 	} else if (CC == CardColor::COLOR_YELLOW) {
 		switch (CT) {
 			case CardType::NUMBER_0:
-				Gui::DrawSprite(cards, 3, x, y, ScaleX, ScaleY);
+				Gui::DrawSprite(cards, cards_0_yellow_idx, x, y, ScaleX, ScaleY);
 				break;
 			case CardType::NUMBER_1:
-				Gui::DrawSprite(cards, 7, x, y, ScaleX, ScaleY);
+				Gui::DrawSprite(cards, cards_1_yellow_idx, x, y, ScaleX, ScaleY);
 				break;
 			case CardType::NUMBER_2:
-				Gui::DrawSprite(cards, 11, x, y, ScaleX, ScaleY);
+				Gui::DrawSprite(cards, cards_2_yellow_idx, x, y, ScaleX, ScaleY);
 				break;
 			case CardType::NUMBER_3:
-				Gui::DrawSprite(cards, 15, x, y, ScaleX, ScaleY);
+				Gui::DrawSprite(cards, cards_3_yellow_idx, x, y, ScaleX, ScaleY);
 				break;
 			case CardType::NUMBER_4:
-				Gui::DrawSprite(cards, 19, x, y, ScaleX, ScaleY);
+				Gui::DrawSprite(cards, cards_4_yellow_idx, x, y, ScaleX, ScaleY);
 				break;
 			case CardType::NUMBER_5:
-				Gui::DrawSprite(cards, 23, x, y, ScaleX, ScaleY);
+				Gui::DrawSprite(cards, cards_5_yellow_idx, x, y, ScaleX, ScaleY);
 				break;
 			case CardType::NUMBER_6:
-				Gui::DrawSprite(cards, 27, x, y, ScaleX, ScaleY);
+				Gui::DrawSprite(cards, cards_6_yellow_idx, x, y, ScaleX, ScaleY);
 				break;
 			case CardType::NUMBER_7:
-				Gui::DrawSprite(cards, 31, x, y, ScaleX, ScaleY);
+				Gui::DrawSprite(cards, cards_7_yellow_idx, x, y, ScaleX, ScaleY);
 				break;
 			case CardType::NUMBER_8:
-				Gui::DrawSprite(cards, 35, x, y, ScaleX, ScaleY);
+				Gui::DrawSprite(cards, cards_8_yellow_idx, x, y, ScaleX, ScaleY);
 				break;
 			case CardType::NUMBER_9:
-				Gui::DrawSprite(cards, 39, x, y, ScaleX, ScaleY);
+				Gui::DrawSprite(cards, cards_9_yellow_idx, x, y, ScaleX, ScaleY);
 				break;
 			case CardType::SKIP:
-				Gui::DrawSprite(cards, 43, x, y, ScaleX, ScaleY);
+				Gui::DrawSprite(cards, cards_skip_yellow_idx, x, y, ScaleX, ScaleY);
 				break;
 			case CardType::REVERSE:
-				Gui::DrawSprite(cards, 47, x, y, ScaleX, ScaleY);
+				Gui::DrawSprite(cards, cards_reverse_yellow_idx, x, y, ScaleX, ScaleY);
 				break;
 			case CardType::DRAW2:
-				Gui::DrawSprite(cards, 51, x, y, ScaleX, ScaleY);
+				Gui::DrawSprite(cards, cards_draw2_yellow_idx, x, y, ScaleX, ScaleY);
 				break;
 			case CardType::WILD:
-				Gui::DrawSprite(cards, 56, x, y, ScaleX, ScaleY);
+				Gui::DrawSprite(cards, cards_wild_yellow_idx, x, y, ScaleX, ScaleY);
 				break;
 			case CardType::DRAW4:
-				Gui::DrawSprite(cards, 61, x, y, ScaleX, ScaleY);
+				Gui::DrawSprite(cards, cards_wild_draw4_yellow_idx, x, y, ScaleX, ScaleY);
 				break;
 			#ifdef _USE_SPECIAL_CARD
 			case CardType::SPECIAL:
@@ -370,10 +370,10 @@ void GFX::DrawCard(CardType CT, int x, int y, CardColor CC, float ScaleX, float 
 			case CardType::DRAW2:
 				break;
 			case CardType::WILD:
-				Gui::DrawSprite(cards, 52, x, y, ScaleX, ScaleY);
+				Gui::DrawSprite(cards, cards_wild_idx, x, y, ScaleX, ScaleY);
 				break;
 			case CardType::DRAW4:
-				Gui::DrawSprite(cards, 57, x, y, ScaleX, ScaleY);
+				Gui::DrawSprite(cards, cards_wild_draw4_idx, x, y, ScaleX, ScaleY);
 				break;
 			#ifdef _USE_SPECIAL_CARD
 			case CardType::SPECIAL:
