@@ -40,6 +40,15 @@ void loadFont(void);
  */
 Image loadImage(std::string path);
 
+
+/*
+ * Copies a palette from an Image into palette VRAM
+ * const Image &image is the Image to use the palette from
+ * bool top is whether to copy to the top or bottom screen's palette VRAM
+ * int paletteOffet is how much to offset the palette by (default 0)
+ */
+void copyPalette(const Image &image, bool top, int paletteOffset = 0);
+
 /*
  * Draws an image to the screen from an Image
  * int x is the X position
@@ -47,9 +56,10 @@ Image loadImage(std::string path);
  * const Image &image is the Image
  * bool top is whether to draw on the top or bottom screen
  * bool layer is whether to draw on layer 3 (false) or layer 2 (true)
- * int paletteOffset is where to offset the palette to (default 0)
+ * int paletteOffet is how much to offset the palette by (default 0)
+ * bool copyPal is whether to copy the palette (default true)
  */
-void drawImage(int x, int y, const Image &image, bool top, bool layer, int paletteOffset = 0);
+void drawImage(int x, int y, const Image &image, bool top, bool layer, int paletteOffset = 0, bool copyPal = true);
 
 /*
  * Faster image draw that doesn't skip transparency
@@ -58,8 +68,10 @@ void drawImage(int x, int y, const Image &image, bool top, bool layer, int palet
  * const Image &image is the Image
  * bool top is whether to draw on the top or bottom screen
  * bool layer is whether to draw on layer 3 (false) or layer 2 (true)
+ * int paletteOffet is how much to offset the palette by (default 0)
+ * bool copyPal is whether to copy the palette (default true)
  */
-void drawImageDMA(int x, int y, const Image &image, bool top, bool layer);
+void drawImageDMA(int x, int y, const Image &image, bool top, bool layer, int paletteOffset = 0, bool copyPal = true);
 
 /*
  * Draws a scaled Image
@@ -70,9 +82,10 @@ void drawImageDMA(int x, int y, const Image &image, bool top, bool layer);
  * const Image &image is the Image
  * bool top is whether to draw on the top or bottom screen
  * bool layer is whether to draw on layer 3 (false) or layer 2 (true)
- * int paletteOffset is where to offset the palette to (default 0)
+ * int paletteOffet is how much to offset the palette by (default 0)
+ * bool copyPal is whether to copy the palette (default true)
  */
-void drawImageScaled(int x, int y, float scaleX, float scaleY, const Image &image, bool top, bool layer, int paletteOffset = 0);
+void drawImageScaled(int x, int y, float scaleX, float scaleY, const Image &image, bool top, bool layer, int paletteOffset = 0, bool copyPal = true);
 
 /*
  * Draws a segment of an Image to the screen
@@ -85,8 +98,10 @@ void drawImageScaled(int x, int y, float scaleX, float scaleY, const Image &imag
  * int yOffset is the Y position in the sheet to start at
  * bool top is whether to draw on the top or bottom screen
  * bool layer is whether to draw on layer 3 (false) or layer 2 (true)
+ * int paletteOffet is how much to offset the palette by (default 0)
+ * bool copyPal is whether to copy the palette (default true)
  */
-void drawImageSegment(int x, int y, int w, int h, const Image &image, int xOffset, int yOffset, bool top, bool layer);
+void drawImageSegment(int x, int y, int w, int h, const Image &image, int xOffset, int yOffset, bool top, bool layer, int paletteOffset = 0, bool copyPal = true);
 
 /*
  * Faster image segment draw that doesn't skip transparency
@@ -99,8 +114,10 @@ void drawImageSegment(int x, int y, int w, int h, const Image &image, int xOffse
  * int yOffset is the Y position in the sheet to start at
  * bool top is whether to draw on the top or bottom screen
  * bool layer is whether to draw on layer 3 (false) or layer 2 (true)
+ * int paletteOffet is how much to offset the palette by (default 0)
+ * bool copyPal is whether to copy the palette (default true)
  */
-void drawImageSegmentDMA(int x, int y, int w, int h, const Image &image, int xOffset, int yOffset, bool top, bool layer);
+void drawImageSegmentDMA(int x, int y, int w, int h, const Image &image, int xOffset, int yOffset, bool top, bool layer, int paletteOffset = 0, bool copyPal = true);
 
 /*
  * Draws a rectangle outline of a given size at a given position
