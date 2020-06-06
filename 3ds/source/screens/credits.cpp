@@ -50,7 +50,7 @@ void Credits::Draw(void) const {
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 	GFX::DrawBottom();
 	Gui::DrawStringCentered(0, 0, 0.8f, config->textColor(), Lang::get("GENERAL_CREDITS"), 310);
-	Gui::DrawStringCentered(0, 30, 0.7f, config->textColor(), "SuperSaiyajinStackZ / SuperSaiyajinStackie", 310);
+	Gui::DrawStringCentered(0, 30, 0.7f, config->textColor(), "Stack-Team", 310);
 	Gui::DrawStringCentered(0, 60, 0.6f, config->textColor(), Lang::get("_3DEINS_CORE"), 310);
 	Gui::DrawStringCentered(0, 100, 0.7f, config->textColor(), "Universal-Team", 310);
 	Gui::DrawStringCentered(0, 130, 0.6f, config->textColor(), Lang::get("UNIVERSAL_CORE"), 310);
