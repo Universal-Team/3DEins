@@ -359,7 +359,7 @@ void fillSpriteText(int id, bool top, const std::u16string &text, TextColor pale
 	}
 }
 
-void prepareSprite(int id, bool top, int x, int y, int priority) {
+void prepareSprite(int id, bool top, int x, int y, int priority, bool hFlip, bool vFlip) {
 	oamSet(
 		(top ? &oamMain : &oamSub),	// Main/Sub display
 		id,	// Oam entry to set
@@ -372,7 +372,8 @@ void prepareSprite(int id, bool top, int x, int y, int priority) {
 		sprites(top)[id].rotationIndex,
 		false, // Don't float the sprite size for rotation
 		false, // Don't hide the sprite
-		false, false, // vflip, hflip
+		vFlip, // Vertical flip
+		hFlip, // Horizontal flip
 		false // Apply mosaic
 	);
 

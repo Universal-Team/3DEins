@@ -236,8 +236,10 @@ void fillSpriteText(int id, bool top, const std::u16string &text, TextColor pale
  * int x is the X position of the sprite
  * int y is the Y position of the sprite
  * int priority is when the sprite will be drawn (0-3, lower is on top)
+ * bool hFlip is whether to flip horizontally (default false)
+ * bool vFlip is whether to flip vertically (default false)
  */
-void prepareSprite(int id, bool top, int x, int y, int priority);
+void prepareSprite(int id, bool top, int x, int y, int priority, bool hFlip = false, bool vFlip = false);
 
 // Updates the OAM to show updates sprite properties
 void updateOam(void);
