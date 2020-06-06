@@ -131,19 +131,18 @@ void GameScreen::ShowCards(void) const {
 		} else {
 			Gui::DrawPlayerCard(this->currentGame->getHand(this->currentGame->currentPlayer()), i+this->currentGame->cardIndex(this->currentGame->currentPlayer())-3, 1 + (i * 65), 50, 1, 1, false, true);
 		}
-
-		if (i == this->currentGame->cardIndex(this->currentGame->currentPlayer())) {
-			if (this->currentGame->cardIndex(this->currentGame->currentPlayer()) < MAXSHOWNCARDS) {
-				Gui::DrawCardSelector(1 + (i * 65), 50, 1, 1, false, true);
-			} else {
-				Gui::DrawCardSelector(1 + (3 * 65), 50, 1, 1, false, true);
-			}
-		}
 	}
 }
 
 
 void GameScreen::Logic(u16 hDown, touchPosition touch) {
+	// Cursor.
+	if (this->currentGame->cardIndex(this->currentGame->currentPlayer()) < MAXSHOWNCARDS) {
+		Gui::moveSelector(1 + (this->currentGame->cardIndex(this->currentGame->currentPlayer()) * 65), 50);
+	} else {
+		Gui::moveSelector(1 + (3 * 65), 50);
+	}
+
 	if (this->currentGame->state(this->currentGame->currentPlayer()) == PlayerState::BREAK) {
 		this->currentGame->state(PlayerState::NOTHING, this->currentGame->currentPlayer()); // Reset.
 		char message [100];

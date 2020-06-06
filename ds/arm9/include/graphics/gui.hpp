@@ -50,12 +50,12 @@ namespace Gui {
 	*/ 
 	void clearScreen(bool top, bool layer);
 
+	void moveSelector(int x, int y);
+
 	// Card Loading & Drawing stuff.
 	void loadGraphics();
-	Image loadCardSprite(CardType CT, CardColor CC);
-	void DrawCard(CardType CT, CardColor CC, int x, int y, float ScaleX, float ScaleY, bool top, bool Layer);
+	void DrawCard(CardType CT, CardColor CC, int x, int y, float ScaleX, float ScaleY, bool top, bool layer);
 	void DrawPlayerCard(const std::vector<CardStruct> &hand, const int &card, int x, int y, float ScaleX, float ScaleY, bool top, bool layer);
-	void DrawCardSelector(int x, int y, float ScaleX, float ScaleY, bool top, bool Layer);
 };
 
 #endif
