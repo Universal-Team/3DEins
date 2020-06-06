@@ -13,3 +13,8 @@ build/sprites.h
 *.t3x
 app/banner.bin
 app/icon.bin
+
+# NDS
+*.gfx
+*.NDS
+ds/graphics/bmp2ds
