@@ -24,30 +24,13 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef _DSEINS_GAMESCREEN_HPP
-#define _DSEINS_GAMESCREEN_HPP
+#ifndef _DSEINS_HELPER_HPP
+#define _DSEINS_HELPER_HPP
 
-#include "game.hpp"
-#include "screenCommon.hpp"
+#include "coreHelper.hpp"
 
-#include "structs.hpp"
-#include <vector>
-
-class GameScreen : public Screen {
-public:
-	void Draw(void) const override;
-	void Logic(u16 hDown, touchPosition touch) override;
-	GameScreen();
-private:
-	int getNextPlayer();
-	bool CanPlayerPlay(const int player);
-	bool checkForPlayableCard(const int player);
-	void setState(int Player);
-	std::string returnPlayerName(int player) const;
-	void ShowCards(void) const;
-	int selection = 0;
-	std::unique_ptr<Game> currentGame;
-	int playerAmount = 2;
-};
+namespace _DSEins_Helper {
+	CardColor selectColor();
+}
 
 #endif

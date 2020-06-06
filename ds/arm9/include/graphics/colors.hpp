@@ -46,6 +46,12 @@
 #define GREEN			0xE
 #define LIGHT_GREEN		0xF
 
+// Card Colors.
+#define CARD_COLOR_RED 0xE0
+#define CARD_COLOR_YELLOW 0xE1
+#define CARD_COLOR_GREEN 0xE2
+#define CARD_COLOR_BLUE 0x3
+
 // Text
 enum TextColor {
 	white = 4,

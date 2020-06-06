@@ -39,14 +39,32 @@ const u16 defaultPalette[] = {
 	0x0000, 0xF800, 0xBC00, 0x0000, // BLUE_TEXT
 };
 
+const u16 cardPalette[] = {
+	0xA95F, 0x82BF, 0xAAAA, 0xFD4A
+};
 
-const std::string keys[] = {
-	"CLEAR", "WHITE", "LIGHT_GRAY", "GRAY", "DARKISH_GRAY", "DARK_GRAY", "DARKER_GRAY", "DARKERER_GRAY", "BLACK",
-	"RED", "DARK_RED", "BLUE", "DARK_BLUE",
-	"WHITE_TEXT_1", "WHITE_TEXT_2", "WHITE_TEXT_3", "WHITE_TEXT_4"
-	"GRAY_TEXT_1",  "GRAY_TEXT_2",  "GRAY_TEXT_3",  "GRAY_TEXT_4"
-	"RED_TEXT_1",   "RED_TEXT_2",   "RED_TEXT_3",   "RED_TEXT_4"
-	"BLUE_TEXT_1",  "BLUE_TEXT_2",  "BLUE_TEXT_3",  "BLUE_TEXT_4"
+const u16 RedPalette[] = {
+	0xA95F, 0xA95F, 0xA95F, 0xA95F, 0xA95F,
+	0xA95F, 0xA95F, 0xA95F, 0xA95F, 0xA95F,
+	0xA95F, 0xA95F, 0xA95F, 0xA95F, 0xA95F
+};
+
+const u16 YellowPalette[] = {
+	0x82BF, 0x82BF, 0x82BF, 0x82BF, 0x82BF,
+	0x82BF, 0x82BF, 0x82BF, 0x82BF, 0x82BF,
+	0x82BF, 0x82BF, 0x82BF, 0x82BF, 0x82BF
+};
+
+const u16 Greenalette[] = {
+	0xAAAA, 0xAAAA, 0xAAAA, 0xAAAA, 0xAAAA,
+	0xAAAA, 0xAAAA, 0xAAAA, 0xAAAA, 0xAAAA,
+	0xAAAA, 0xAAAA, 0xAAAA, 0xAAAA, 0xAAAA
+};
+
+const u16 BluePalette[] = {
+	0xFD4A, 0xFD4A, 0xFD4A, 0xFD4A, 0xFD4A,
+	0xFD4A, 0xFD4A, 0xFD4A, 0xFD4A, 0xFD4A,
+	0xFD4A, 0xFD4A, 0xFD4A, 0xFD4A, 0xFD4A
 };
 
 void Colors::load(void) {
@@ -55,4 +73,7 @@ void Colors::load(void) {
 
 	tonccpy(BG_PALETTE, palette, sizeof(palette));
 	tonccpy(BG_PALETTE_SUB, palette, sizeof(palette));
+
+	tonccpy(BG_PALETTE + 0xE0, cardPalette, sizeof(cardPalette));
+	tonccpy(BG_PALETTE_SUB + 0xE0, cardPalette, sizeof(cardPalette));
 }

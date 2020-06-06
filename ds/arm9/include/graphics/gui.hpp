@@ -27,6 +27,7 @@
 #ifndef _DSEINS_GUI_HPP
 #define _DSEINS_GUI_HPP
 
+#include "coreHelper.hpp"
 #include "graphics.hpp"
 #include "screen.hpp"
 
@@ -48,6 +49,13 @@ namespace Gui {
  		* bool layer is whether to draw on layer 3 (false) or layer 2 (true).
 	*/ 
 	void clearScreen(bool top, bool layer);
+
+	// Card Loading & Drawing stuff.
+	void loadGraphics();
+	Image loadCardSprite(CardType CT, CardColor CC);
+	void DrawCard(CardType CT, CardColor CC, int x, int y, float ScaleX, float ScaleY, bool top, bool Layer);
+	void DrawPlayerCard(const std::vector<CardStruct> &hand, const int &card, int x, int y, float ScaleX, float ScaleY, bool top, bool layer);
+	void DrawCardSelector(int x, int y, float ScaleX, float ScaleY, bool top, bool Layer);
 };
 
 #endif

@@ -27,6 +27,7 @@
 #include <fat.h>
 
 #include "flashcard.hpp"
+#include "gui.hpp"
 #include "mainMenu.hpp"
 #include "nitrofs.h"
 #include "screenCommon.hpp"
@@ -83,6 +84,7 @@ int main(int argc, char **argv) {
 
 	Colors::load();
 	loadFont();
+	Gui::loadGraphics();
 	printTextCentered("Loading...", 0, 32, false, true);
 
 	u16 hDown = 0;

@@ -20,9 +20,9 @@ INPUTS		:= $(foreach dir,$(GRAPHICS),$(addprefix $(dir)/,$(notdir $(wildcard $(d
 
 TARGETS		:= $(INPUTS:.bmp=.gfx)
 
-.PHONY	:	bmp2ds clean all directories
+.PHONY	:	bmp2ds cards clean all directories
 
-all	:	bmp2ds $(TARGETS)
+all	:	bmp2ds $(TARGETS) cards
 	@echo graphics ...
 
 bmp2ds	:
@@ -40,3 +40,6 @@ clean	:
 	@echo clean ...
 	@rm -f bmp2ds
 	@rm -rf $(addprefix $(OUT)/,$(TARGETS))
+
+cards	:
+	$(MAKE) -C cards
