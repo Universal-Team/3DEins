@@ -27,6 +27,7 @@
 #include "_3DEins_Helper.hpp"
 #include "common.hpp"
 #include "config.hpp"
+#include "corehelper.hpp"
 #include "errorScreen.hpp"
 #include "init.hpp"
 #include "keyboard.hpp"
@@ -115,6 +116,7 @@ Result Init::Initialize() {
 Result Init::MainLoop() {
 	// Initialize everything.
 	Initialize();
+	CoreHelper::generateSeed();
 	// Here we set the initial fade effect for fadein.
 	fadealpha = 255;
 	fadein = true;

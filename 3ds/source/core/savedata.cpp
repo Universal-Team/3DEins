@@ -33,10 +33,17 @@
 #define NAME_SIZE	10
 
 void SaveData::create(std::string saveFile) {
-	std::unique_ptr<u8[]> Buffer = std::unique_ptr<u8[]>(new u8[SAVESIZE]); // 128 KB.
+	u8 *Buffer; // 128 KB.
+	Buffer = new u8[SAVESIZE];
+
+	for (int i = 0; i < SAVESIZE; i++) {
+		Buffer[i] = 0;
+	}
+
 	FILE *file = fopen(saveFile.c_str(), "w");
-	fwrite(Buffer.get(), SAVESIZE, 1, file);
+	fwrite(Buffer, SAVESIZE, 1, file);
 	fclose(file);
+	delete[] Buffer;
 }
 
 SaveData::SaveData(std::string saveFile) {
