@@ -26,6 +26,7 @@
 
 #include <fat.h>
 
+#include "coreHelper.hpp"
 #include "flashcard.hpp"
 #include "gui.hpp"
 #include "mainMenu.hpp"
@@ -87,7 +88,8 @@ int main(int argc, char **argv) {
 	loadFont();
 	Gui::loadGraphics();
 	printTextCentered(Lang::get("LOADING"), 0, 32, false, true);
-
+	CoreHelper::generateSeed();
+	
 	u16 hDown = 0;
 	Gui::setScreen(std::make_unique<MainMenu>());
 	Gui::clearScreen(false, true);
