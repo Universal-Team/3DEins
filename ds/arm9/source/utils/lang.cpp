@@ -24,16 +24,33 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef _DSEINS_SCREENCOMMON_HPP
-#define _DSEINS_SCREENCOMMON_HPP
-
-#include "colors.hpp"
-#include "graphics.hpp"
-#include "gui.hpp"
 #include "lang.hpp"
-#include "screen.hpp"
 
-extern bool selected;
-extern bool changes;
+#include <stdio.h>
+#include <unistd.h>
 
-#endif
+nlohmann::json appJson;
+
+std::string Lang::get(const std::string &key) {
+	if (!appJson.contains(key)) {
+		return "MISSING: " + key;
+	}
+	
+	return appJson.at(key).get_ref<const std::string&>();
+}
+
+std::string langs[] = {"en"};
+
+void Lang::load(int lang) {
+	FILE* values;
+	if (access(("nitro:/lang/"+langs[lang]+"/app.json").c_str(), F_OK) == 0 ) {
+		values = fopen(("nitro:/lang/"+langs[lang]+"/app.json").c_str(), "rt");
+		if (values)	appJson = nlohmann::json::parse(values, nullptr, false);
+		fclose(values);
+	} else {
+		// Load English otherwise.
+		values = fopen(("nitro:/lang/"+langs[0]+"/app.json").c_str(), "rt");
+		if (values)	appJson = nlohmann::json::parse(values, nullptr, false);
+		fclose(values);
+	}
+}

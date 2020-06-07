@@ -31,7 +31,7 @@ extern bool exiting;
 
 void MainMenu::Draw(void) const {
 	Gui::DrawTop(true);
-	printTextCentered("DSEins - MainMenu", 0, 1, true, true);
+	printTextCentered("DSEins - " + Lang::get("MAINMENU"), 0, 1, true, true);
 	Gui::DrawBottom(true);
 }
 

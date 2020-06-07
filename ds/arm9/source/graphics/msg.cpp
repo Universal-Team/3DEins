@@ -26,6 +26,7 @@
 
 #include "colors.hpp"
 #include "gui.hpp"
+#include "lang.hpp"
 #include "msg.hpp"
 
 void Msg::DisplayPlayerSwitch(std::string message) {
@@ -34,11 +35,13 @@ void Msg::DisplayPlayerSwitch(std::string message) {
 	Gui::clearScreen(false, true);
 
 	printTextCentered(message, 0, 80, true, true);
+	printTextCentered(Lang::get("Y_CONTINUE"), 0, 160, true, true);
 
 	while(1) {
 		scanKeys();
 		if (keysDown() & KEY_Y)	break;
 	}
+
 	// Redraw screen.
 	Gui::DrawScreen();
 }

@@ -24,16 +24,16 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef _DSEINS_SCREENCOMMON_HPP
-#define _DSEINS_SCREENCOMMON_HPP
+#ifndef _DSEINS_LANG_HPP
+#define _DSEINS_LANG_HPP
 
-#include "colors.hpp"
-#include "graphics.hpp"
-#include "gui.hpp"
-#include "lang.hpp"
-#include "screen.hpp"
+#include "json.hpp"
 
-extern bool selected;
-extern bool changes;
+#include <string>
+
+namespace Lang {
+	std::string get(const std::string &key);
+	void load(int lang = 0);
+}
 
 #endif

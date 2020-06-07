@@ -26,6 +26,7 @@
 
 #include "_DSEins_Helper.hpp"
 #include "gui.hpp"
+#include "lang.hpp"
 #include "structs.hpp"
 
 #include <nds.h>
@@ -46,7 +47,7 @@ CardColor _DSEins_Helper::selectColor() {
 
 	Gui::clearScreen(true, true);
 	Gui::clearScreen(false, true);
-	printTextCentered("Select the color you want.", 0, 5, true, true);
+	printTextCentered(Lang::get("SELECT_COLOR"), 0, 5, true, true);
 	drawRectangle(colorPos[0].x, colorPos[0].y, colorPos[0].w, colorPos[0].h, CARD_COLOR_RED, false, true);
 	drawRectangle(colorPos[1].x, colorPos[1].y, colorPos[1].w, colorPos[1].h, CARD_COLOR_YELLOW, false, true);
 	drawRectangle(colorPos[2].x, colorPos[2].y, colorPos[2].w, colorPos[2].h, CARD_COLOR_GREEN, false, true);

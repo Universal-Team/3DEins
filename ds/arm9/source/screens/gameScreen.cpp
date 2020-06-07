@@ -146,7 +146,7 @@ void GameScreen::Logic(u16 hDown, touchPosition touch) {
 	if (this->currentGame->state(this->currentGame->currentPlayer()) == PlayerState::BREAK) {
 		this->currentGame->state(PlayerState::NOTHING, this->currentGame->currentPlayer()); // Reset.
 		char message [100];
-		snprintf(message, sizeof(message), "%s needs to take a break.\n%s: Continue!", this->returnPlayerName(this->currentGame->currentPlayer()).c_str(), this->returnPlayerName(this->getNextPlayer()).c_str());
+		snprintf(message, sizeof(message), Lang::get("PLAYER_BREAK").c_str(), this->returnPlayerName(this->currentGame->currentPlayer()).c_str(), this->returnPlayerName(this->getNextPlayer()).c_str());
 		Msg::DisplayPlayerSwitch(message);
 		this->currentGame->currentPlayer(this->getNextPlayer());
 		Gui::DrawScreen();
@@ -175,7 +175,7 @@ void GameScreen::Logic(u16 hDown, touchPosition touch) {
 			this->currentGame->checkCards(this->currentGame->currentPlayer());
 			if (this->currentGame->winner() == this->currentGame->currentPlayer()) {
 				char message [100];
-				snprintf(message, sizeof(message), "%s won!", returnPlayerName(this->currentGame->currentPlayer()).c_str());
+				snprintf(message, sizeof(message), Lang::get("PLAYER_WON").c_str(), returnPlayerName(this->currentGame->currentPlayer()).c_str());
 				Msg::DisplayPlayerSwitch(message);
 				Gui::screenBack();
 				return;
@@ -188,7 +188,7 @@ void GameScreen::Logic(u16 hDown, touchPosition touch) {
 
 			if (!this->currentGame->canContinue()) {
 				char message [100];
-				snprintf(message, sizeof(message), "%s has finished their round.\n%s: Continue!", returnPlayerName(this->currentGame->currentPlayer()).c_str(), returnPlayerName(this->getNextPlayer()).c_str());
+				snprintf(message, sizeof(message), Lang::get("PLAYER_NEXT").c_str(), returnPlayerName(this->currentGame->currentPlayer()).c_str(), returnPlayerName(this->getNextPlayer()).c_str());
 				Msg::DisplayPlayerSwitch(message);
 				this->currentGame->currentPlayer(this->getNextPlayer());
 				Gui::DrawScreen();
@@ -230,13 +230,13 @@ void GameScreen::Logic(u16 hDown, touchPosition touch) {
 				// Reset hasDrawn.
 				this->currentGame->drawn(false); // Reset.
 				char message [100];
-				snprintf(message, sizeof(message), "%s has finished their round.\n%s: Continue!", returnPlayerName(this->currentGame->currentPlayer()).c_str(), returnPlayerName(this->getNextPlayer()).c_str());
+				snprintf(message, sizeof(message), Lang::get("PLAYER_NEXT").c_str(), returnPlayerName(this->currentGame->currentPlayer()).c_str(), returnPlayerName(this->getNextPlayer()).c_str());
 				Msg::DisplayPlayerSwitch(message);
 				this->currentGame->currentPlayer(this->getNextPlayer());
 				Gui::DrawScreen();
 			}
 		} else {
-			Msg::DisplayPlayerSwitch("Only 1 draw each round allowed!");
+			Msg::DisplayPlayerSwitch(Lang::get("DRAW_1_MSG"));
 		}
 	}
 }

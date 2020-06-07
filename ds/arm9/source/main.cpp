@@ -83,9 +83,10 @@ int main(int argc, char **argv) {
 	}
 
 	Colors::load();
+	Lang::load();
 	loadFont();
 	Gui::loadGraphics();
-	printTextCentered("Loading...", 0, 32, false, true);
+	printTextCentered(Lang::get("LOADING"), 0, 32, false, true);
 
 	u16 hDown = 0;
 	Gui::setScreen(std::make_unique<MainMenu>());
