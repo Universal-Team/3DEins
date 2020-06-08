@@ -39,12 +39,17 @@ public:
 	void Logic(u16 hDown, touchPosition touch) override;
 	GameScreen();
 private:
+	// Draws.
+	void displayPlayerCards(void) const;
+	void ShowCards(void) const;
+
+	// Logics.
 	int getNextPlayer();
 	bool CanPlayerPlay(const int player);
 	bool checkForPlayableCard(const int player);
 	void setState(int Player);
 	std::string returnPlayerName(int player) const;
-	void ShowCards(void) const;
+	
 	int selection = 0;
 	std::unique_ptr<Game> currentGame;
 	int playerAmount = 2;

@@ -32,14 +32,14 @@
 #include <nds.h>
 
 extern touchPosition touch;
-std::vector<Structs::ButtonPos> colorPos = {
-	{30, 45, 80, 40},   // Red.
-	{130, 45, 80, 40},  // Blue.
-	{30, 105, 80, 40},  // Yellow.
-	{130, 105, 80, 40}  // Green.
+std::vector<ButtonStruct> colorPos = {
+	{30, 45, 80, 40, GameHelper::getColorName(CardColor::COLOR_RED), CARD_COLOR_RED},   // Red.
+	{130, 45, 80, 40, GameHelper::getColorName(CardColor::COLOR_BLUE), CARD_COLOR_BLUE},  // Blue.
+	{30, 105, 80, 40, GameHelper::getColorName(CardColor::COLOR_YELLOW), CARD_COLOR_YELLOW},  // Yellow.
+	{130, 105, 80, 40, GameHelper::getColorName(CardColor::COLOR_GREEN), CARD_COLOR_GREEN}  // Green.
 };
 
-extern bool touching(touchPosition touch, Structs::ButtonPos button);
+extern bool Buttontouching(ButtonStruct button);
 
 // Select a Color.
 CardColor _DSEins_Helper::selectColor() {
@@ -48,11 +48,12 @@ CardColor _DSEins_Helper::selectColor() {
 	Gui::clearScreen(true, true);
 	Gui::clearScreen(false, true);
 	printTextCentered(Lang::get("SELECT_COLOR"), 0, 3, true, true);
-	drawRectangle(colorPos[0].x, colorPos[0].y, colorPos[0].w, colorPos[0].h, CARD_COLOR_RED, false, true);
-	drawRectangle(colorPos[1].x, colorPos[1].y, colorPos[1].w, colorPos[1].h, CARD_COLOR_BLUE, false, true);
-	drawRectangle(colorPos[2].x, colorPos[2].y, colorPos[2].w, colorPos[2].h, CARD_COLOR_YELLOW, false, true);
-	drawRectangle(colorPos[3].x, colorPos[3].y, colorPos[3].w, colorPos[3].h, CARD_COLOR_GREEN, false, true);
-	drawOutline(colorPos[selection].x, colorPos[selection].y, colorPos[selection].w, colorPos[selection].h, WHITE, false, true);
+
+	for(int i = 0; i < 4; i++) {
+		Gui::DrawButton(colorPos[i]);
+	}
+
+	drawOutline(colorPos[selection].x, colorPos[selection].y, colorPos[selection].xSize, colorPos[selection].ySize, WHITE, false, true);
 
 	while(1) {
 		// The input part.
@@ -86,13 +87,13 @@ CardColor _DSEins_Helper::selectColor() {
 		}
 
 		if (keysDown() & KEY_TOUCH) {
-			if (touching(touch, colorPos[0])) {
+			if (Buttontouching(colorPos[0])) {
 				return CardColor::COLOR_RED;
-			} else if (touching(touch, colorPos[1])) {
+			} else if (Buttontouching(colorPos[1])) {
 				return CardColor::COLOR_BLUE;
-			} else if (touching(touch, colorPos[2])) {
+			} else if (Buttontouching(colorPos[2])) {
 				return CardColor::COLOR_YELLOW;
-			} else if (touching(touch, colorPos[3])) {
+			} else if (Buttontouching(colorPos[3])) {
 				return CardColor::COLOR_GREEN;
 			}
 		}

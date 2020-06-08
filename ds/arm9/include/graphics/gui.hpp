@@ -33,6 +33,15 @@
 
 #include <nds.h>
 
+struct ButtonStruct {
+	int x;
+	int y;
+	float xSize;
+	float ySize;
+	std::string Text;
+	u8 colorIndex;
+};
+
 namespace Gui {
 	// Screen stuff.
 	void DrawScreen(); // Redraw the screen. Needs to be called when screen changes are made.
@@ -58,6 +67,8 @@ namespace Gui {
 	void loadGraphics();
 	void DrawCard(CardType CT, CardColor CC, int x, int y, float ScaleX, float ScaleY, bool top, bool layer);
 	void DrawPlayerCard(const std::vector<CardStruct> &hand, const int &card, int x, int y, float ScaleX, float ScaleY, bool top, bool layer);
+
+	void DrawButton(ButtonStruct btn);
 };
 
 #endif

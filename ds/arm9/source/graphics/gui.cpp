@@ -26,6 +26,7 @@
 
 #include "colors.hpp"
 #include "gui.hpp"
+#include "lang.hpp"
 
 #include <stack>
 #include <vector>
@@ -130,4 +131,9 @@ void Gui::DrawCard(CardType CT, CardColor CC, int x, int y, float ScaleX, float 
 // Draw a card from the Player's Hand.
 void Gui::DrawPlayerCard(const std::vector<CardStruct> &hand, const int &card, int x, int y, float ScaleX, float ScaleY, bool top, bool layer) {
 	Gui::DrawCard(hand[card].CT, hand[card].CC, x, y, ScaleX, ScaleY, top, layer);
+}
+
+void Gui::DrawButton(ButtonStruct btn) {
+	drawRectangle(btn.x, btn.y, btn.xSize, btn.ySize, btn.colorIndex, false, true);
+	printTextCenteredMaxW(Lang::get(btn.Text), btn.xSize-5, 1, btn.x - 128 + (btn.xSize/2), btn.y + (btn.ySize/2) - 10, false, true);
 }

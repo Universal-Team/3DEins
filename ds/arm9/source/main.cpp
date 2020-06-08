@@ -43,6 +43,11 @@ bool touching(touchPosition touch, Structs::ButtonPos button) {
 	else	return false;
 }
 
+bool Buttontouching(ButtonStruct button) {
+	if (touch.px >= button.x && touch.px <= (button.x + button.xSize) && touch.py >= button.y && touch.py <= (button.y + button.ySize))	return true;
+	else	return false;
+}
+
 int main(int argc, char **argv) {
 	initGraphics();
 	keysSetRepeat(25,5);

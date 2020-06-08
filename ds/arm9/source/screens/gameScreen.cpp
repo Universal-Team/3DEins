@@ -111,10 +111,20 @@ void GameScreen::setState(int Player) {
 	}
 }
 
+void GameScreen::displayPlayerCards(void) const {
+	// P1.
+	printText(this->returnPlayerName(0) + " " + Lang::get("CARDS_LEFT") + std::to_string(this->currentGame->getSize(0)), 10, 155, true, true);
+	// P2.
+	printText(this->returnPlayerName(1) + " " + Lang::get("CARDS_LEFT") + std::to_string(this->currentGame->getSize(1)), 10, 28, true, true);
+}
+
+
 void GameScreen::Draw(void) const {
 	Gui::DrawTop(true);
+	this->displayPlayerCards();
 	// Draw TableCard.
 	Gui::DrawCard(this->currentGame->tableCard().CT, this->currentGame->tableCard().CC, 100, 45, 1, 1, true, true);
+	printText(Lang::get(GameHelper::getTypeName(this->currentGame->tableCard().CT)) + " | " + Lang::get(GameHelper::getColorName(this->currentGame->tableCard().CC)), 100, 140, true, true);
 	Gui::DrawBottom(true);
 	// Display the hand.
 	this->ShowCards();
@@ -196,7 +206,6 @@ void GameScreen::Logic(u16 hDown, touchPosition touch) {
 
 	// Should this be removed?
 	if (hDown & KEY_B) {
-		//BG_PALETTE_SUB[1] = 0xA95F;
 		Gui::screenBack();
 		Gui::DrawScreen();
 		return;
@@ -205,14 +214,16 @@ void GameScreen::Logic(u16 hDown, touchPosition touch) {
 	if (hDown & KEY_DOWN) {
 		if (this->currentGame->cardIndex(this->currentGame->currentPlayer()) < this->currentGame->getSize(this->currentGame->currentPlayer()) -1) {
 			this->currentGame->cardIndex(this->currentGame->cardIndex(this->currentGame->currentPlayer()) + 1, this->currentGame->currentPlayer());
-			Gui::DrawScreen();
+			Gui::clearScreen(false, true);
+			this->ShowCards();
 		}
 	}
 
 	if (hDown & KEY_UP) {
 		if (this->currentGame->cardIndex(this->currentGame->currentPlayer()) > 0) {
 			this->currentGame->cardIndex(this->currentGame->cardIndex(this->currentGame->currentPlayer()) - 1, this->currentGame->currentPlayer());
-			Gui::DrawScreen();
+			Gui::clearScreen(false, true);
+			this->ShowCards();
 		}
 	}
 
@@ -230,6 +241,10 @@ void GameScreen::Logic(u16 hDown, touchPosition touch) {
 				Msg::DisplayPlayerSwitch(message);
 				this->currentGame->currentPlayer(this->getNextPlayer());
 				Gui::DrawScreen();
+			} else {
+				// Update card display.
+				Gui::clearScreen(false, true);
+				this->ShowCards();
 			}
 		} else {
 			Msg::DisplayPlayerSwitch(Lang::get("DRAW_1_MSG"));
