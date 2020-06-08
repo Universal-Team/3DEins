@@ -28,6 +28,7 @@
 #define _3DEINS_GAMESCREEN_HPP
 
 #include "common.hpp"
+#include "computer.hpp"
 #include "game.hpp"
 #include "structs.hpp"
 
@@ -65,6 +66,7 @@ private:
 	void drawAnim(const int player, const CardStruct &card);
 	
 	// Player Amount & Current Player.
+	std::unique_ptr<Computer> computers[3];
 	int playerAmount = 4;
 	int subMode = 0;
 	int selection = 0;

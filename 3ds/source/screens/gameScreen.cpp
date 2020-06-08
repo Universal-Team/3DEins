@@ -25,7 +25,6 @@
 */
 
 #include "_3DEins_Helper.hpp" // Used for the special actions.
-#include "computer.hpp"
 #include "config.hpp"
 #include "gameScreen.hpp"
 #include "msg.hpp"
@@ -33,7 +32,6 @@
 
 #include <ctime>
 
-std::unique_ptr<Computer> computers[3];
 extern std::unique_ptr<SaveData> savedata;
 extern std::unique_ptr<Config> config;
 extern bool touching(touchPosition touch, Structs::ButtonPos button);
@@ -58,9 +56,9 @@ void GameScreen::InitializeNewGame() {
 	randomNum[1] = {rand() % 3 + 0};
 	randomNum[2] = {rand() % 3 + 0};
 
-	computers[0] = std::make_unique<Computer>(randomNum[0]);
-	computers[1] = std::make_unique<Computer>(randomNum[1]);
-	computers[2] = std::make_unique<Computer>(randomNum[2]);
+	this->computers[0] = std::make_unique<Computer>(randomNum[0]);
+	this->computers[1] = std::make_unique<Computer>(randomNum[1]);
+	this->computers[2] = std::make_unique<Computer>(randomNum[2]);
 }
 
 
@@ -92,18 +90,18 @@ void GameScreen::DrawPlayers() const {
 	GFX::DrawPlayer(0, 130, 0.9, 0.9, savedata->playerAvatar());
 	Gui::DrawString(90, 200, 0.6f, config->textColor(), std::to_string(this->currentGame->getSize(0)));
 	// Player 2.
-	GFX::DrawPlayer(0, 0, 0.9, 0.9, computers[0]->getAvatar());
+	GFX::DrawPlayer(0, 0, 0.9, 0.9, this->computers[0]->getAvatar());
 	Gui::DrawString(90, 40, 0.6f, config->textColor(), std::to_string(this->currentGame->getSize(1)));
 	if (this->currentGame->maxPlayer() == 3) {
 		// Player 3.
-		GFX::DrawPlayer(300, 0, 0.9, 0.9, computers[1]->getAvatar());
+		GFX::DrawPlayer(300, 0, 0.9, 0.9, this->computers[1]->getAvatar());
 		Gui::DrawString(270, 40, 0.6f, config->textColor(), std::to_string(this->currentGame->getSize(2)));
 	} else if (this->currentGame->maxPlayer() == 4) {
 		// Player 3.
-		GFX::DrawPlayer(300, 0, 0.9, 0.9, computers[1]->getAvatar());
+		GFX::DrawPlayer(300, 0, 0.9, 0.9, this->computers[1]->getAvatar());
 		Gui::DrawString(270, 40, 0.6f, config->textColor(), std::to_string(this->currentGame->getSize(2)));
 		// Player 4.
-		GFX::DrawPlayer(300, 130, 0.9, 0.9, computers[2]->getAvatar());
+		GFX::DrawPlayer(300, 130, 0.9, 0.9, this->computers[2]->getAvatar());
 		Gui::DrawString(270, 200, 0.6f, config->textColor(), std::to_string(this->currentGame->getSize(3)));
 	}
 }
@@ -113,11 +111,11 @@ std::string GameScreen::returnPlayerName(int player) const {
 		case 0:
 			return savedata->playerName();
 		case 1:
-			return computers[0]->getName();
+			return this->computers[0]->getName();
 		case 2:
-			return computers[1]->getName();
+			return this->computers[1]->getName();
 		case 3:
-			return computers[2]->getName();
+			return this->computers[2]->getName();
 	}
 	return "?";
 }
@@ -127,11 +125,11 @@ int GameScreen::getAvatar(int player) const {
 		case 0:
 			return savedata->playerAvatar();
 		case 1:
-			return computers[0]->getAvatar();
+			return this->computers[0]->getAvatar();
 		case 2:
-			return computers[1]->getAvatar();
+			return this->computers[1]->getAvatar();
 		case 3:
-			return computers[2]->getAvatar();
+			return this->computers[2]->getAvatar();
 	}
 	return 0;
 }
@@ -585,7 +583,7 @@ void GameScreen::PlayerLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 				char message [100];
 				snprintf(message, sizeof(message), Lang::get("PLAYER_WON").c_str(), returnPlayerName(this->currentGame->currentPlayer()).c_str());
 				Msg::DisplayPlayerSwitch(message);
-				Gui::screenBack();
+				Gui::screenBack(true);
 				return;
 			}
 
