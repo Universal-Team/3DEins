@@ -8,11 +8,10 @@
 *.map
 *.d
 *.o
-build/cards.h
-build/sprites.h
+*build/
 *.t3x
-app/banner.bin
-app/icon.bin
+3ds/app/banner.bin
+3ds/app/icon.bin
 
 # NDS
 *.gfx
