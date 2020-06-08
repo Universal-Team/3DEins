@@ -30,7 +30,7 @@ steps:
     sudo apt install p7zip-full haveged qrencode
     sudo dpkg -i pacman.deb
     sudo dkp-pacman -Sy
-    sudo dkp-pacman -S 3ds-dev --noconfirm
+    sudo dkp-pacman -S 3ds-dev nds-dev --noconfirm
     curl -L https://github.com/Steveice10/bannertool/releases/download/1.1.0/bannertool.zip -o bannertool.zip
     sudo 7z e bannertool.zip linux-x86_64/bannertool
     sudo chmod +x bannertool
@@ -47,21 +47,27 @@ steps:
     export DEVKITPRO="/opt/devkitpro"
     export DEVKITARM="/opt/devkitpro/devkitARM"
     make
+  displayName: 'Build 3DEins'
+
+- script: |
+    tools-linux/make_cia --srl="ds/DSEins.nds"
     cp 3ds/3DEins.3dsx $(Build.ArtifactStagingDirectory)
     cp 3ds/3DEins.cia $(Build.ArtifactStagingDirectory)
+    cp ds/DSEins.cia $(Build.ArtifactStagingDirectory)/DSEins.nds.cia
     echo '##vso[task.setvariable variable=COMMIT_TAG]'$(git log --format=%h -1)
     echo '##vso[task.setvariable variable=COMMIT_MESSAGE]'$(git log --pretty=format:"%an - %s" -1)
-  displayName: 'Build 3DEins'
+  displayName: 'Post-build steps'
 
 - script: |
     git config --global user.email "flamekat54@aol.com"
     git config --global user.name "TWLBot"
     git clone --depth 1 https://$GITHUB_TOKEN@github.com/Universal-Team/extras.git
-    mkdir extras/builds/3DEins/
     cd extras/builds/3DEins/
-    cp $(Build.ArtifactStagingDirectory)/3DEins.3dsx .
-    cp $(Build.ArtifactStagingDirectory)/3DEins.cia .
+    cp $(Build.ArtifactStagingDirectory)/3DEins.* .
     qrencode -o 3DEins.png https://github.com/Universal-Team/extras/raw/v$CURRENT_DATE/builds/3DEins/3DEins.cia
+    mkdir ../DSEins/
+    cd ../DSEins
+    cp $(Build.ArtifactStagingDirectory)/DSEins.* .
     git stage .
     git commit -m "3DEins | $(COMMIT_TAG)"
     git push origin master
