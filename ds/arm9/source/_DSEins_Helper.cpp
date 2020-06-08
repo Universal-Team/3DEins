@@ -33,10 +33,10 @@
 
 extern touchPosition touch;
 std::vector<Structs::ButtonPos> colorPos = {
-	{10, 70, 120, 40},   // Red.
-	{10, 145, 120, 40},  // Yellow.
-	{170, 145, 120, 40}, // Green.
-	{170, 70, 120, 40}   // Blue.
+	{30, 45, 80, 40},   // Red.
+	{130, 45, 80, 40},  // Blue.
+	{30, 105, 80, 40},  // Yellow.
+	{130, 105, 80, 40}  // Green.
 };
 
 extern bool touching(touchPosition touch, Structs::ButtonPos button);
@@ -47,11 +47,11 @@ CardColor _DSEins_Helper::selectColor() {
 
 	Gui::clearScreen(true, true);
 	Gui::clearScreen(false, true);
-	printTextCentered(Lang::get("SELECT_COLOR"), 0, 5, true, true);
+	printTextCentered(Lang::get("SELECT_COLOR"), 0, 3, true, true);
 	drawRectangle(colorPos[0].x, colorPos[0].y, colorPos[0].w, colorPos[0].h, CARD_COLOR_RED, false, true);
-	drawRectangle(colorPos[1].x, colorPos[1].y, colorPos[1].w, colorPos[1].h, CARD_COLOR_YELLOW, false, true);
-	drawRectangle(colorPos[2].x, colorPos[2].y, colorPos[2].w, colorPos[2].h, CARD_COLOR_GREEN, false, true);
-	drawRectangle(colorPos[3].x, colorPos[3].y, colorPos[3].w, colorPos[3].h, CARD_COLOR_BLUE, false, true);
+	drawRectangle(colorPos[1].x, colorPos[1].y, colorPos[1].w, colorPos[1].h, CARD_COLOR_BLUE, false, true);
+	drawRectangle(colorPos[2].x, colorPos[2].y, colorPos[2].w, colorPos[2].h, CARD_COLOR_YELLOW, false, true);
+	drawRectangle(colorPos[3].x, colorPos[3].y, colorPos[3].w, colorPos[3].h, CARD_COLOR_GREEN, false, true);
 	drawOutline(colorPos[selection].x, colorPos[selection].y, colorPos[selection].w, colorPos[selection].h, WHITE, false, true);
 
 	while(1) {
@@ -66,6 +66,7 @@ CardColor _DSEins_Helper::selectColor() {
 			if (selection == 0)	selection += 2;
 			else if (selection == 1)	selection += 2;
 		}
+
 		if (keysDown() & KEY_LEFT) {
 			if (selection > 0)	selection--;
 		} else if (keysDown() & KEY_RIGHT) {

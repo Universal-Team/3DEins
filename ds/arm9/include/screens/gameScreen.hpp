@@ -48,6 +48,7 @@ private:
 	int selection = 0;
 	std::unique_ptr<Game> currentGame;
 	int playerAmount = 2;
+	int screenPos = 0;
 };
 
 #endif

@@ -39,10 +39,14 @@ const u16 defaultPalette[] = {
 	0x0000, 0xF800, 0xBC00, 0x0000, // BLUE_TEXT
 };
 
+const u16 cardPalette[] = {0xA95F, 0xFD4A, 0xAAAA, 0x82BF};
+
 void Colors::load(void) {
 	u16 palette[sizeof(defaultPalette)];
 	tonccpy(palette, defaultPalette, sizeof(palette));
 
 	tonccpy(BG_PALETTE, palette, sizeof(palette));
 	tonccpy(BG_PALETTE_SUB, palette, sizeof(palette));
+
+	tonccpy(BG_PALETTE_SUB + 0xE0, cardPalette, sizeof(cardPalette));
 }

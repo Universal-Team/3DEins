@@ -33,7 +33,7 @@
 std::stack<std::unique_ptr<Screen>> screens;
 std::array<Image, 15> cards;
 std::array<int, 4> selectorspr;
-std::array<u16, 5> cardColors = {0xA95F, 0xAAAA, 0xFD4A, 0x82BF, 0x8000};
+std::array<u16, 5> cardColors = {0xA95F, 0xFD4A, 0xAAAA, 0x82BF, 0x8000};
 
 void Gui::DrawScreen() {
 	clearScreen(false, true);
@@ -110,6 +110,16 @@ void Gui::moveSelector(int x, int y) {
 		// 44 is 60 - 16, 74 is 90 - 16
 		setSpritePosition(selectorspr[i], false, x + (44 * i % 2), y + (74 * i / 2));
 	}
+	// Update OAM here.
+	updateOam();
+}
+
+void Gui::selectorVisible(bool isVisible) {
+	for (int i = 0; i < (int)selectorspr.size(); i++) {
+		setSpriteVisibility(selectorspr[i], false, isVisible);
+	}
+	// Update OAM.
+	updateOam();
 }
 
 // Draw a card.

@@ -49,8 +49,10 @@ namespace Gui {
  		* bool layer is whether to draw on layer 3 (false) or layer 2 (true).
 	*/ 
 	void clearScreen(bool top, bool layer);
-
+	
+	// Selector.
 	void moveSelector(int x, int y);
+	void selectorVisible(bool isVisible);
 
 	// Card Loading & Drawing stuff.
 	void loadGraphics();

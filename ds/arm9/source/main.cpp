@@ -89,7 +89,8 @@ int main(int argc, char **argv) {
 	Gui::loadGraphics();
 	printTextCentered(Lang::get("LOADING"), 0, 32, false, true);
 	CoreHelper::generateSeed();
-	
+	Gui::selectorVisible(false); // Hide here.
+
 	u16 hDown = 0;
 	Gui::setScreen(std::make_unique<MainMenu>());
 	Gui::clearScreen(false, true);
