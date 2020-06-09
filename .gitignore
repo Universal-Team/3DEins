@@ -3,12 +3,17 @@
 *.cia
 *.elf
 *.smdh
-*.bin
 *.exe
 *.lst
 *.map
 *.d
 *.o
-build/cards.h
-build/sprites.h
+*build/
 *.t3x
+3ds/app/banner.bin
+3ds/app/icon.bin
+
+# NDS
+*.gfx
+*.NDS
+ds/graphics/bmp2ds
