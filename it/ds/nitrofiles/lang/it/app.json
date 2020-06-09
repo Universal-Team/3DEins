@@ -30,13 +30,13 @@
 	"NO": "No",
 	"OK": "OK",
 	"PLAYER_BREAK": "%s deve fare una pausa.\n%s: Continua!",
-	"PLAYER_NEXT": "%s has finished their round.\n%s: Continue!",
-	"PLAYER_WON": "%s won!",
-	"QUIT_GAME": "Would you like to quit this game?",
-	"RESTART_GAME": "Would you like to restart the game?\n\nYou will lose your current progress!",
-	"SELECT_COLOR": "Select the color you want.",
-	"SELECT_LANG": "Choose the current language.",
-	"TABLECARD": "Table Card: ",
-	"Y_CONTINUE": "Press Y to continue.",
-	"YES": "Yes"
+	"PLAYER_NEXT": "%s ha finito il suo turno.\n%s: Continua!",
+	"PLAYER_WON": "%s ha vinto!",
+	"QUIT_GAME": "Vuoi uscire da questo gioco?",
+	"RESTART_GAME": "Vuoi riavviare il gioco?\n\nPerderai i tuoi progressi correnti!",
+	"SELECT_COLOR": "Seleziona il colore che vuoi.",
+	"SELECT_LANG": "Scegli la lingua corrente.",
+	"TABLECARD": "Scheda Tabella: ",
+	"Y_CONTINUE": "Premi Y per continuare.",
+	"YES": "Si"
 }
