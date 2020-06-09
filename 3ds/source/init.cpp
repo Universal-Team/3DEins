@@ -27,7 +27,7 @@
 #include "_3DEins_Helper.hpp"
 #include "common.hpp"
 #include "config.hpp"
-#include "corehelper.hpp"
+#include "coreHelper.hpp"
 #include "errorScreen.hpp"
 #include "init.hpp"
 #include "keyboard.hpp"
