@@ -31,9 +31,23 @@ extern std::unique_ptr<Config> config;
 
 extern bool touching(touchPosition touch, Structs::ButtonPos button);
 
+struct Translator {
+	std::string Name;
+	std::string Language;
+};
+
+const std::vector<Translator> TL = {
+	{"_mapple²", "Русский"},
+	{"antoine62", "Français"},
+	{"Pk11", "日本語"},
+	{"SuperSaiyajinStackie", "Deutsch, English"},
+	{"XxPhoenix1996xX", "Español"},
+	{"YoSoy", "Español"}
+};
+
 void Credits::Draw(void) const {
 	GFX::DrawTop(); // Draw the top screen.
-	if (this->creditsPage == 0) {
+	if (this->creditsPage != 2) {
 		Gui::DrawStringCentered(0, 0, 0.7f, config->textColor(), "3DEins - " + Lang::get("CREDITS"), 400);
 		Gui::DrawStringCentered(0, 30, 0.7f, config->textColor(), Lang::get("DEVELOPED_BY"), 390);
 		Gui::DrawStringCentered(0, 50, 0.7f, config->textColor(), Lang::get("MAIN_DEV"), 390);
@@ -49,26 +63,32 @@ void Credits::Draw(void) const {
 
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 	GFX::DrawBottom();
-	Gui::DrawStringCentered(0, 0, 0.8f, config->textColor(), Lang::get("GENERAL_CREDITS"), 310);
-	Gui::DrawStringCentered(0, 30, 0.7f, config->textColor(), "Stack-Team", 310);
-	Gui::DrawStringCentered(0, 60, 0.6f, config->textColor(), Lang::get("_3DEINS_CORE"), 310);
-	Gui::DrawStringCentered(0, 100, 0.7f, config->textColor(), "Universal-Team", 310);
-	Gui::DrawStringCentered(0, 130, 0.6f, config->textColor(), Lang::get("UNIVERSAL_CORE"), 310);
+	if (this->creditsPage == 0) {
+		Gui::DrawStringCentered(0, 0, 0.8f, config->textColor(), Lang::get("GENERAL_CREDITS"), 310);
+		Gui::DrawStringCentered(0, 30, 0.7f, config->textColor(), "Stack-Team", 310);
+		Gui::DrawStringCentered(0, 60, 0.6f, config->textColor(), Lang::get("_3DEINS_CORE"), 310);
+		Gui::DrawStringCentered(0, 100, 0.7f, config->textColor(), "Universal-Team", 310);
+		Gui::DrawStringCentered(0, 130, 0.6f, config->textColor(), Lang::get("UNIVERSAL_CORE"), 310);
+	} else if (this->creditsPage == 1) {
+		Gui::DrawStringCentered(0, 0, 0.8f, config->textColor(), Lang::get("TRANSLATORS"), 310);
+		std::string tlText;
+		for (int i = 0; i < (int)TL.size(); i++) {
+			tlText += TL[i].Name + " - " + TL[i].Language + "\n";
+		}
+
+		Gui::DrawStringCentered(0, 30, 0.6f, config->textColor(), tlText, 310);
+	}
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 }
 
 
 void Credits::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if ((hDown & KEY_L || hDown & KEY_LEFT)) {
-		if (this->creditsPage == 1) {
-			this->creditsPage = 0;
-		}
+		if (this->creditsPage > 0)	this->creditsPage--;
 	}
 
 	if ((hDown & KEY_R || hDown & KEY_RIGHT)) {
-		if (this->creditsPage == 0) {
-			this->creditsPage = 1;
-		}
+		if (this->creditsPage < 2)	this->creditsPage++;
 	}
 
 	if (hDown & KEY_B) {
