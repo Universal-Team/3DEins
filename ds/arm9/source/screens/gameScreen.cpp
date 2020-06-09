@@ -134,17 +134,14 @@ void GameScreen::Draw(void) const {
 void GameScreen::ShowCards(void) const {
 	for (unsigned i = 0; i < std::min(7u, (unsigned)this->currentGame->getSize(this->currentGame->currentPlayer())-this->screenPos); i++) {
 		printText(Lang::get(GameHelper::getTypeName(this->currentGame->getType(this->screenPos+i, this->currentGame->currentPlayer()))) + " | " + Lang::get(GameHelper::getColorName(this->currentGame->getColor(this->screenPos+i, this->currentGame->currentPlayer()))), 8, 15 + (i * 15), false, true);
-
-		// Selector.
-		if (this->currentGame->cardIndex(this->currentGame->currentPlayer()) < 7) {
-			printText("> ", 2, 15+(this->currentGame->cardIndex(this->currentGame->currentPlayer()) * 15), false, true);
-		} else {
-			printText("> ", 2, 15+(6 * 15), false, true);
-		}
 	}
 
 	// Draw Current Card.
 	Gui::DrawPlayerCard(this->currentGame->getHand(this->currentGame->currentPlayer()), this->currentGame->cardIndex(this->currentGame->currentPlayer()), 140, 45, 1, 1, false, true);
+
+	char message [100];
+	snprintf(message, sizeof(message), Lang::get("ITS_PLAYER_TURN").c_str(), returnPlayerName(this->currentGame->currentPlayer()).c_str());
+	printTextCentered(message, 0, 5, false, true);
 }
 
 
@@ -184,6 +181,7 @@ void GameScreen::Logic(u16 hDown, touchPosition touch) {
 				snprintf(message, sizeof(message), Lang::get("PLAYER_WON").c_str(), returnPlayerName(this->currentGame->currentPlayer()).c_str());
 				Msg::DisplayPlayerSwitch(message);
 				Gui::screenBack();
+				Gui::DrawScreen();
 				return;
 			}
 
@@ -253,11 +251,11 @@ void GameScreen::Logic(u16 hDown, touchPosition touch) {
 
 	// Scroll screen if needed.
 	if (this->currentGame->cardIndex(this->currentGame->currentPlayer()) < screenPos) {
-		screenPos = this->currentGame->cardIndex(this->currentGame->currentPlayer());
+		this->screenPos = this->currentGame->cardIndex(this->currentGame->currentPlayer());
 		Gui::clearScreen(false, true);
 		this->ShowCards();
 	} else if (this->currentGame->cardIndex(this->currentGame->currentPlayer()) > screenPos + 7 - 1) {
-		screenPos = this->currentGame->cardIndex(this->currentGame->currentPlayer()) - 7 + 1;
+		this->screenPos = this->currentGame->cardIndex(this->currentGame->currentPlayer()) - 7 + 1;
 		Gui::clearScreen(false, true);
 		this->ShowCards();
 	}

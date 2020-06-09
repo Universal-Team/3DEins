@@ -40,6 +40,7 @@ struct ButtonStruct {
 	float ySize;
 	std::string Text;
 	u8 colorIndex;
+	bool layer;
 };
 
 namespace Gui {

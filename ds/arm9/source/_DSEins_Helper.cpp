@@ -33,10 +33,10 @@
 
 extern touchPosition touch;
 std::vector<ButtonStruct> colorPos = {
-	{30, 45, 80, 40, GameHelper::getColorName(CardColor::COLOR_RED), CARD_COLOR_RED},   // Red.
-	{130, 45, 80, 40, GameHelper::getColorName(CardColor::COLOR_BLUE), CARD_COLOR_BLUE},  // Blue.
-	{30, 105, 80, 40, GameHelper::getColorName(CardColor::COLOR_YELLOW), CARD_COLOR_YELLOW},  // Yellow.
-	{130, 105, 80, 40, GameHelper::getColorName(CardColor::COLOR_GREEN), CARD_COLOR_GREEN}  // Green.
+	{30, 45, 80, 40, GameHelper::getColorName(CardColor::COLOR_RED), CARD_COLOR_RED, false},   // Red.
+	{130, 45, 80, 40, GameHelper::getColorName(CardColor::COLOR_BLUE), CARD_COLOR_BLUE, false},  // Blue.
+	{30, 105, 80, 40, GameHelper::getColorName(CardColor::COLOR_YELLOW), CARD_COLOR_YELLOW, false},  // Yellow.
+	{130, 105, 80, 40, GameHelper::getColorName(CardColor::COLOR_GREEN), CARD_COLOR_GREEN, false}  // Green.
 };
 
 extern bool Buttontouching(ButtonStruct button);
@@ -44,6 +44,7 @@ extern bool Buttontouching(ButtonStruct button);
 // Select a Color.
 CardColor _DSEins_Helper::selectColor() {
 	int selection = 0;
+	bool doUpdate = true;
 
 	Gui::clearScreen(true, true);
 	Gui::clearScreen(false, true);
@@ -53,25 +54,46 @@ CardColor _DSEins_Helper::selectColor() {
 		Gui::DrawButton(colorPos[i]);
 	}
 
-	drawOutline(colorPos[selection].x, colorPos[selection].y, colorPos[selection].xSize, colorPos[selection].ySize, WHITE, false, true);
-
 	while(1) {
+		if (doUpdate) {
+			Gui::clearScreen(false, true);
+			drawOutline(colorPos[selection].x, colorPos[selection].y, colorPos[selection].xSize, colorPos[selection].ySize, WHITE, false, true);
+			doUpdate = false;
+		}
+
 		// The input part.
+		swiWaitForVBlank();
 		scanKeys();
 		touchRead(&touch);
 
 		if (keysDown() & KEY_UP) {
-			if (selection == 2)	selection -= 2;
-			else if (selection == 3)	selection -= 2;
+			if (selection == 2) {
+				selection -= 2;
+				doUpdate = true;
+			} else if (selection == 3) {
+				selection -= 2;
+				doUpdate = true;
+			}
 		} else if (keysDown() & KEY_DOWN) {
-			if (selection == 0)	selection += 2;
-			else if (selection == 1)	selection += 2;
+			if (selection == 0) {
+				selection += 2;
+				doUpdate = true;
+			} else if (selection == 1) {
+				selection += 2;
+				doUpdate = true;
+			}
 		}
 
 		if (keysDown() & KEY_LEFT) {
-			if (selection > 0)	selection--;
+			if (selection > 0) {
+				selection--;
+				doUpdate = true;
+			}
 		} else if (keysDown() & KEY_RIGHT) {
-			if (selection < 3)	selection++;
+			if (selection < 3) {
+				selection++;
+				doUpdate = true;
+			}
 		}
 
 		if (keysDown() & KEY_A) {
@@ -100,5 +122,6 @@ CardColor _DSEins_Helper::selectColor() {
 	}
 
 	// Redraw screen.
+	Gui::clearScreen(false, false);
 	Gui::DrawScreen();
 }

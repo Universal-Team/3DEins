@@ -134,6 +134,6 @@ void Gui::DrawPlayerCard(const std::vector<CardStruct> &hand, const int &card, i
 }
 
 void Gui::DrawButton(ButtonStruct btn) {
-	drawRectangle(btn.x, btn.y, btn.xSize, btn.ySize, btn.colorIndex, false, true);
+	drawRectangle(btn.x, btn.y, btn.xSize, btn.ySize, btn.colorIndex, false, btn.layer);
 	printTextCenteredMaxW(Lang::get(btn.Text), btn.xSize-5, 1, btn.x - 128 + (btn.xSize/2), btn.y + (btn.ySize/2) - 10, false, true);
 }
