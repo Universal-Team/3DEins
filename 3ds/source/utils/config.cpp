@@ -24,9 +24,34 @@
 *         reasonable ways as different from the original version.
 */
 
-#include <unistd.h>
 #include "config.hpp"
+#include "colorHelper.hpp"
 #include <citro2d.h>
+#include <regex>
+#include <unistd.h>
+
+// Get String of the JSON.
+std::string getColorString(nlohmann::json json, const std::string &key, const std::string &key2) {
+	if(!json.contains(key))	return "";
+	if(!json.at(key).is_object()) return "";
+
+	if(!json.at(key).contains(key2)) return "";
+	if(!json.at(key).at(key2).is_string()) return "";
+
+	return json.at(key).at(key2).get_ref<const std::string&>();
+}
+
+// Get the colors.
+u32 getColor(std::string colorString) {
+	if (colorString.length() < 7 || std::regex_search(colorString.substr(1), std::regex("[^0-9a-f]"))) { // invalid color
+		return 0;
+	}
+
+	int r = std::stoi(colorString.substr(1, 2), nullptr, 16);
+	int g = std::stoi(colorString.substr(3, 2), nullptr, 16);
+	int b = std::stoi(colorString.substr(5, 2), nullptr, 16);
+	return RGBA8(r, g, b, 0xFF);
+}
 
 // In case it doesn't exist.
 void Config::initialize() {
@@ -120,9 +145,21 @@ void Config::save() {
 	}
 }
 
+// Load card set colors.
+void Config::loadCardSets(std::string file) {
+	FILE *file2= fopen(file.c_str(), "r");
+	nlohmann::json cardset = nlohmann::json::parse(file2, nullptr, false);
+	fclose(file2);
+
+	this->cardBlue(getColor(getColorString(cardset, "info", "Blue")));
+	this->cardGreen(getColor(getColorString(cardset, "info", "Green")));
+	this->cardRed(getColor(getColorString(cardset, "info", "Red")));
+	this->cardYellow(getColor(getColorString(cardset, "info", "Yellow")));
+}
+
 // Helper functions.
 bool Config::getBool(const std::string &key) {
-	if(!this->json.contains(key)) {
+	if (!this->json.contains(key)) {
 		return false;
 	}
 
@@ -133,7 +170,7 @@ void Config::setBool(const std::string &key, bool v) {
 }
 
 int Config::getInt(const std::string &key) {
-	if(!this->json.contains(key)) {
+	if (!this->json.contains(key)) {
 		return 0;
 	}
 
@@ -144,7 +181,7 @@ void Config::setInt(const std::string &key, int v) {
 }
 
 std::string Config::getString(const std::string &key) {
-	if(!this->json.contains(key)) {
+	if (!this->json.contains(key)) {
 		return "";
 	}
 	

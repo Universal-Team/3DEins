@@ -60,6 +60,22 @@ public:
 	int language() { return this->v_language; }
 	void language(int v) { this->v_language = v; if (!this->changesMade)	this->changesMade = true; }
 
+	// Card Color stuff.
+	int cardBlue() { return this->v_colorBlue; }
+	void cardBlue(u32 v) { this->v_colorBlue = v; }
+
+	int cardGreen() { return this->v_colorGreen; }
+	void cardGreen(u32 v) { this->v_colorGreen = v; }
+
+	int cardRed() { return this->v_colorRed; }
+	void cardRed(u32 v) { this->v_colorRed = v; }
+
+	int cardYellow() { return this->v_colorYellow; }
+	void cardYellow(u32 v) { this->v_colorYellow = v; }
+
+	void loadCardSets(std::string file);
+
+
 	// Mainly helper.
 	bool getBool(const std::string &key);
 	void setBool(const std::string &key, bool v);
@@ -79,6 +95,8 @@ private:
 	u32 v_buttonColor;
 	u32 v_selectorColor;
 	int v_language;
+
+	u32 v_colorBlue, v_colorGreen, v_colorRed, v_colorYellow;
 };
 
 #endif

@@ -27,6 +27,7 @@
 #include "colorChanger.hpp"
 #include "config.hpp"
 #include "langSelection.hpp"
+#include "setChanger.hpp"
 #include "uiSettings.hpp"
 
 
@@ -49,7 +50,7 @@ void UISettings::Draw(void) const {
 	Gui::DrawStringCentered(-80, mainButtons[0].y+12, 0.6f, config->textColor(), Lang::get("COLOR_SETTINGS"), 130);
 	Gui::DrawStringCentered(80, mainButtons[1].y+12, 0.6f, config->textColor(), Lang::get("LANGUAGE"), 130);
 	Gui::DrawStringCentered(-80, mainButtons[2].y+12, 0.6f, config->textColor(), Lang::get("ALLOW_ANIM"), 130);
-	Gui::DrawStringCentered(80, mainButtons[3].y+12, 0.6f, config->textColor(), "???", 130);
+	Gui::DrawStringCentered(80, mainButtons[3].y+12, 0.6f, config->textColor(), Lang::get("CARDSETS"), 130);
 
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 }
@@ -69,6 +70,8 @@ void UISettings::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 				config->allowAnimation(true);
 				Msg::DisplayWaitMsg(Lang::get("TURNED_ON"));
 			}
+		} else if (touching(touch, mainButtons[3])) {
+			Gui::setScreen(std::make_unique<SetChanger>(), true, true);
 		}
 	}
 
@@ -101,6 +104,8 @@ void UISettings::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 				config->allowAnimation(true);
 				Msg::DisplayWaitMsg(Lang::get("TURNED_ON"));
 			}
+		} else if (this->Selection == 3) {
+			Gui::setScreen(std::make_unique<SetChanger>(), true, true);
 		}
 	}
 

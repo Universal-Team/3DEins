@@ -109,6 +109,7 @@ Result Init::Initialize() {
 	}
 	
 	osSetSpeedupEnable(true); // Enable speed-up for New 3DS users.
+	config->loadCardSets("romfs:/Set.json"); // Load initial colors.
 	Gui::setScreen(std::make_unique<MainMenu>(), false, true);
 	return 0;
 }

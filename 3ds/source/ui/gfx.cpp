@@ -61,24 +61,24 @@ void GFX::DrawBottom(bool useBars) {
 void GFX::DrawFileBrowseBG(bool isTop) {
 	if (isTop == true) {
 		Gui::ScreenDraw(Top);
-		Gui::Draw_Rect(0, 0, 400, 27, C2D_Color32(220, 60, 0, 255));
-		Gui::Draw_Rect(0, 27, 400, 31, C2D_Color32(220, 160, 0, 255));
-		Gui::Draw_Rect(0, 58, 400, 31, C2D_Color32(220, 60, 0, 255) & C2D_Color32(255, 255, 255, 200));
-		Gui::Draw_Rect(0, 89, 400, 31, C2D_Color32(220, 160, 0, 255));
-		Gui::Draw_Rect(0, 120, 400, 31, C2D_Color32(220, 60, 0, 255) & C2D_Color32(255, 255, 255, 200));
-		Gui::Draw_Rect(0, 151, 400, 31, C2D_Color32(220, 160, 0, 255));
-		Gui::Draw_Rect(0, 182, 400, 31, C2D_Color32(220, 60, 0, 255) & C2D_Color32(255, 255, 255, 200));
-		Gui::Draw_Rect(0, 213, 400, 27, C2D_Color32(220, 60, 0, 255));
+		Gui::Draw_Rect(0, 0, 400, 27, config->barColor());
+		Gui::Draw_Rect(0, 27, 400, 31, config->bgColor());
+		Gui::Draw_Rect(0, 58, 400, 31, config->bgColor() & C2D_Color32(255, 255, 255, 200));
+		Gui::Draw_Rect(0, 89, 400, 31, config->bgColor());
+		Gui::Draw_Rect(0, 120, 400, 31, config->bgColor() & C2D_Color32(255, 255, 255, 200));
+		Gui::Draw_Rect(0, 151, 400, 31, config->bgColor());
+		Gui::Draw_Rect(0, 182, 400, 31, config->bgColor() & C2D_Color32(255, 255, 255, 200));
+		Gui::Draw_Rect(0, 213, 400, 27, config->barColor());
 	} else {
 		Gui::ScreenDraw(Bottom);
-		Gui::Draw_Rect(0, 0, 320, 27, C2D_Color32(220, 60, 0, 255));
-		Gui::Draw_Rect(0, 27, 320, 31, C2D_Color32(220, 160, 0, 255));
-		Gui::Draw_Rect(0, 58, 320, 31, C2D_Color32(220, 60, 0, 255) & C2D_Color32(255, 255, 255, 200));
-		Gui::Draw_Rect(0, 89, 320, 31, C2D_Color32(220, 160, 0, 255));
-		Gui::Draw_Rect(0, 120, 320, 31, C2D_Color32(220, 60, 0, 255) & C2D_Color32(255, 255, 255, 200));
-		Gui::Draw_Rect(0, 151, 320, 31, C2D_Color32(220, 160, 0, 255));
-		Gui::Draw_Rect(0, 182, 320, 31, C2D_Color32(220, 60, 0, 255) & C2D_Color32(255, 255, 255, 200));
-		Gui::Draw_Rect(0, 213, 320, 27, C2D_Color32(220, 60, 0, 255));
+		Gui::Draw_Rect(0, 0, 320, 27, config->barColor());
+		Gui::Draw_Rect(0, 27, 320, 31, config->bgColor());
+		Gui::Draw_Rect(0, 58, 320, 31, config->bgColor() & C2D_Color32(255, 255, 255, 200));
+		Gui::Draw_Rect(0, 89, 320, 31, config->bgColor());
+		Gui::Draw_Rect(0, 120, 320, 31, config->bgColor() & C2D_Color32(255, 255, 255, 200));
+		Gui::Draw_Rect(0, 151, 320, 31, config->bgColor());
+		Gui::Draw_Rect(0, 182, 320, 31, config->bgColor() & C2D_Color32(255, 255, 255, 200));
+		Gui::Draw_Rect(0, 213, 320, 27, config->barColor());
 	}
 }
 
