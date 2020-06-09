@@ -87,6 +87,7 @@ Result Init::Initialize() {
 	Gui::loadSheet("romfs:/gfx/sprites.t3x", sprites);
 
 	mkdir("sdmc:/3ds/3DEins", 0777);
+	mkdir("sdmc:/3ds/3DEins/sets", 0777);
 	
 	config = std::make_unique<Config>();
 	if (!config)	isGood = false;
