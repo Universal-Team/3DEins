@@ -424,27 +424,21 @@ void GameScreen::AILogic() {
 		int index = -1;
 		bool needDraw = false;
 
-		// Check if player has break.
-		if (this->currentGame->state(this->currentGame->currentPlayer()) == PlayerState::BREAK) {
-			this->currentGame->state(PlayerState::NOTHING, this->currentGame->currentPlayer()); // Reset.
-			char message [100];
-			snprintf(message, sizeof(message), Lang::get("PLAYER_BREAK").c_str(), this->returnPlayerName(this->currentGame->currentPlayer()).c_str(), this->returnPlayerName(this->getNextPlayer()).c_str());
-			Msg::DisplayPlayerSwitch(message);
-			this->currentGame->currentPlayer(this->getNextPlayer());
-		}
-
 		// Here we do the stuff to check for playable cards, draw and play.
 		if (doInitial) {
 			doInitial = false;
-			index = -1;
 
-			// Check, if we can play a card and set index.
-			for (int i = 0; i < this->currentGame->getSize(this->currentGame->currentPlayer()); i++) {
-				if (this->currentGame->Playable(i, this->currentGame->currentPlayer())) {
-					index = i;
-					break;
-				}
+			// Check if player has break.
+			if (this->currentGame->state(this->currentGame->currentPlayer()) == PlayerState::BREAK) {
+				this->currentGame->state(PlayerState::NOTHING, this->currentGame->currentPlayer()); // Reset.
+				char message [100];
+				snprintf(message, sizeof(message), Lang::get("PLAYER_BREAK").c_str(), this->returnPlayerName(this->currentGame->currentPlayer()).c_str(), this->returnPlayerName(this->getNextPlayer()).c_str());
+				Msg::DisplayPlayerSwitch(message);
+				this->currentGame->currentPlayer(this->getNextPlayer());
+				return;
 			}
+
+			index = GameHelper::getHighestCard(this->currentGame, this->currentGame->currentPlayer());
 
 			if (index == -1)	needDraw = true; // Cause not found -> We need to draw.
 
@@ -455,6 +449,10 @@ void GameScreen::AILogic() {
 
 				// Handle.
 				GameHelper::checkAndSet(this->currentGame, this->currentGame->currentPlayer(), this->getNextPlayer(), playerAmount);
+
+				// Set Draw Counter if needed.
+				if (this->currentGame->tableCard().CT == CardType::DRAW2)	this->currentGame->drawingCounter(2);
+				else if (this->currentGame->tableCard().CT == CardType::DRAW4)	this->currentGame->drawingCounter(4);
 
 				// Special case handle for 2 Player.
 				if (this->currentGame->maxPlayer() == 2) {
@@ -606,15 +604,15 @@ void GameScreen::setState(int Player) {
 				this->currentGame->state(PlayerState::NOTHING, Player); // Set state to Nothing after it.
 				break;
 			}
-		case PlayerState::DRAWING2:
-			this->currentGame->addCard(Player);
-			this->currentGame->addCard(Player);
-			break;
-		case PlayerState::DRAWING4:
-			this->currentGame->addCard(Player);
-			this->currentGame->addCard(Player);
-			this->currentGame->addCard(Player);
-			this->currentGame->addCard(Player);
+		case PlayerState::DRAWING:
+			if (this->currentGame->drawingCounter() > 0) {
+				for (int i = 0; i < this->currentGame->drawingCounter(); i++) {
+					this->currentGame->addCard(Player);
+				}
+
+				this->currentGame->resetCounter(); // Reset.
+				this->currentGame->state(PlayerState::NOTHING, Player); // Set state to Nothing after it.
+			}
 			break;
 		case PlayerState::BREAK:
 			break;
@@ -699,6 +697,10 @@ void GameScreen::PlayerLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 			// Handle.
 			GameHelper::checkAndSet(this->currentGame, this->currentGame->currentPlayer(), this->getNextPlayer(), playerAmount);
+
+			// Set Draw Counter if needed.
+			if (this->currentGame->tableCard().CT == CardType::DRAW2)	this->currentGame->drawingCounter(2);
+			else if (this->currentGame->tableCard().CT == CardType::DRAW4)	this->currentGame->drawingCounter(4);
 
 			// Special case handle for 2 Player.
 			if (this->currentGame->maxPlayer() == 2) {

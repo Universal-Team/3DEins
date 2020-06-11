@@ -44,12 +44,14 @@ private:
 	void ShowCards(void) const;
 
 	// Logics.
+	void AILogic();
 	int getNextPlayer();
 	bool CanPlayerPlay(const int player);
 	bool checkForPlayableCard(const int player);
 	void setState(int Player);
 	std::string returnPlayerName(int player) const;
-	
+	bool isAI() const;
+
 	int selection = 0;
 	std::unique_ptr<Game> currentGame;
 	int playerAmount = 2;

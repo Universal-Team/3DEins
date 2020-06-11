@@ -33,6 +33,14 @@ GameScreen::GameScreen() {
 	this->currentGame = std::make_unique<Game>(this->playerAmount);
 }
 
+bool GameScreen::isAI() const { 
+	if (this->currentGame->currentPlayer() != 0) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
 std::string GameScreen::returnPlayerName(int player) const {
 	switch(player) {
 		case 0:
@@ -57,6 +65,107 @@ bool GameScreen::checkForPlayableCard(const int player) {
 }
 
 bool GameScreen::CanPlayerPlay(const int player) { return this->checkForPlayableCard(player); }
+
+void GameScreen::AILogic() {
+	if (this->isAI()) {
+		bool doInitial = true;
+		int index = -1;
+		bool needDraw = false;
+
+		// Here we do the stuff to check for playable cards, draw and play.
+		if (doInitial) {
+			doInitial = false;
+
+			// Check if player has break.
+			if (this->currentGame->state(this->currentGame->currentPlayer()) == PlayerState::BREAK) {
+				this->currentGame->state(PlayerState::NOTHING, this->currentGame->currentPlayer()); // Reset.
+				char message [100];
+				snprintf(message, sizeof(message), Lang::get("PLAYER_BREAK").c_str(), this->returnPlayerName(this->currentGame->currentPlayer()).c_str(), this->returnPlayerName(this->getNextPlayer()).c_str());
+				Msg::DisplayPlayerSwitch(message);
+				this->currentGame->currentPlayer(this->getNextPlayer());
+				Gui::DrawScreen();
+				return;
+			}
+
+			index = GameHelper::getHighestCard(this->currentGame, this->currentGame->currentPlayer());
+
+			if (index == -1)	needDraw = true; // Cause not found -> We need to draw.
+
+			// If our index is not -1, do play!
+			if (index != -1) {
+				this->currentGame->play(index, this->currentGame->currentPlayer());
+
+				// Handle.
+				GameHelper::checkAndSet(this->currentGame, this->currentGame->currentPlayer(), this->getNextPlayer(), playerAmount);
+
+				// Set Draw Counter if needed.
+				if (this->currentGame->tableCard().CT == CardType::DRAW2)	this->currentGame->drawingCounter(2);
+				else if (this->currentGame->tableCard().CT == CardType::DRAW4)	this->currentGame->drawingCounter(4);
+
+				// Special case handle for 2 Player.
+				if (this->currentGame->maxPlayer() == 2) {
+					if (this->currentGame->state(this->currentGame->currentPlayer()) == PlayerState::CONTINUE) {
+						this->currentGame->canContinue(true);
+					}
+				}
+
+				this->setState(this->currentGame->currentPlayer());
+				this->setState(this->getNextPlayer());
+				this->currentGame->drawn(false);
+
+				// Check if player won.
+				this->currentGame->checkCards(this->currentGame->currentPlayer());
+				if (this->currentGame->winner() == this->currentGame->currentPlayer()) {
+					char message [100];
+					snprintf(message, sizeof(message), Lang::get("PLAYER_WON").c_str(), returnPlayerName(this->currentGame->currentPlayer()).c_str());
+					Msg::DisplayPlayerSwitch(message);
+					Gui::screenBack();
+					Gui::DrawScreen();
+					return;
+				}
+
+				// We are not able to continue. Go to the next player.
+				if (!this->currentGame->canContinue()) {
+					char message [100];
+					snprintf(message, sizeof(message), Lang::get("PLAYER_NEXT").c_str(), returnPlayerName(this->currentGame->currentPlayer()).c_str(), returnPlayerName(this->getNextPlayer()).c_str());
+					Msg::DisplayPlayerSwitch(message);
+					this->currentGame->currentPlayer(this->getNextPlayer());
+					Gui::DrawScreen();
+					// We can continue!
+				} else {
+					this->currentGame->canContinue(false);
+					index = -1;
+					doInitial = true;
+				}
+			}
+
+			// If need to draw, we draw here.
+			if (needDraw) {
+				if (!this->currentGame->drawn()) {
+					this->currentGame->addCard(this->currentGame->currentPlayer());
+					// Do not allow multiple draws.
+					this->currentGame->drawn(true);
+					needDraw = false;
+					if (!CanPlayerPlay(this->currentGame->currentPlayer())) {
+						// Reset hasDrawn.
+						this->currentGame->drawn(false); // Reset.
+						char message [100];
+						snprintf(message, sizeof(message), Lang::get("PLAYER_NEXT").c_str(), returnPlayerName(this->currentGame->currentPlayer()).c_str(), returnPlayerName(this->getNextPlayer()).c_str());
+						Msg::DisplayPlayerSwitch(message);
+						needDraw = false;
+						doInitial = false;
+						index = -1;
+						this->currentGame->currentPlayer(this->getNextPlayer());
+						Gui::DrawScreen();
+					} else {
+						index = -1;
+						doInitial = true;
+					}
+				}
+			}
+		}
+	}
+}
 
 // Return the next player.
 int GameScreen::getNextPlayer() {
@@ -90,15 +199,15 @@ void GameScreen::setState(int Player) {
 			this->currentGame->tbCardColor(_DSEins_Helper::selectColor());
 			this->currentGame->state(PlayerState::NOTHING, Player); // Set state to Nothing after it.
 			break;
-		case PlayerState::DRAWING2:
-			this->currentGame->addCard(Player);
-			this->currentGame->addCard(Player);
-			break;
-		case PlayerState::DRAWING4:
-			this->currentGame->addCard(Player);
-			this->currentGame->addCard(Player);
-			this->currentGame->addCard(Player);
-			this->currentGame->addCard(Player);
+		case PlayerState::DRAWING:
+			if (this->currentGame->drawingCounter() > 0) {
+				for (int i = 0; i < this->currentGame->drawingCounter(); i++) {
+					this->currentGame->addCard(Player);
+				}
+
+				this->currentGame->resetCounter(); // Reset.
+				this->currentGame->state(PlayerState::NOTHING, Player); // Set state to Nothing after it.
+			}
 			break;
 		case PlayerState::BREAK:
 			break;
@@ -132,13 +241,14 @@ void GameScreen::Draw(void) const {
 
 // Display the Player's hand.
 void GameScreen::ShowCards(void) const {
-	for (unsigned i = 0; i < std::min(7u, (unsigned)this->currentGame->getSize(this->currentGame->currentPlayer())-this->screenPos); i++) {
-		printText(Lang::get(GameHelper::getTypeName(this->currentGame->getType(this->screenPos+i, this->currentGame->currentPlayer()))) + " | " + Lang::get(GameHelper::getColorName(this->currentGame->getColor(this->screenPos+i, this->currentGame->currentPlayer()))), 8, 15 + (i * 15), false, true);
+	if (!this->isAI()) {
+		for (unsigned i = 0; i < std::min(7u, (unsigned)this->currentGame->getSize(this->currentGame->currentPlayer())-this->screenPos); i++) {
+			printText(Lang::get(GameHelper::getTypeName(this->currentGame->getType(this->screenPos+i, this->currentGame->currentPlayer()))) + " | " + Lang::get(GameHelper::getColorName(this->currentGame->getColor(this->screenPos+i, this->currentGame->currentPlayer()))), 8, 15 + (i * 15), false, true);
+		}
+
+		// Draw Current Card.
+		Gui::DrawPlayerCard(this->currentGame->getHand(this->currentGame->currentPlayer()), this->currentGame->cardIndex(this->currentGame->currentPlayer()), 140, 45, 1, 1, false, true);
 	}
-
-	// Draw Current Card.
-	Gui::DrawPlayerCard(this->currentGame->getHand(this->currentGame->currentPlayer()), this->currentGame->cardIndex(this->currentGame->currentPlayer()), 140, 45, 1, 1, false, true);
-
 	char message [100];
 	snprintf(message, sizeof(message), Lang::get("ITS_PLAYER_TURN").c_str(), returnPlayerName(this->currentGame->currentPlayer()).c_str());
 	printTextCentered(message, 0, 5, false, true);
@@ -146,117 +256,125 @@ void GameScreen::ShowCards(void) const {
 
 
 void GameScreen::Logic(u16 hDown, touchPosition touch) {
-	if (this->currentGame->state(this->currentGame->currentPlayer()) == PlayerState::BREAK) {
-		this->currentGame->state(PlayerState::NOTHING, this->currentGame->currentPlayer()); // Reset.
-		char message [100];
-		snprintf(message, sizeof(message), Lang::get("PLAYER_BREAK").c_str(), this->returnPlayerName(this->currentGame->currentPlayer()).c_str(), this->returnPlayerName(this->getNextPlayer()).c_str());
-		Msg::DisplayPlayerSwitch(message);
-		this->currentGame->currentPlayer(this->getNextPlayer());
-		Gui::DrawScreen();
-	}
-
-	if (hDown & KEY_A) {
-		// Check if cardType or CardColor are identical and play.
-		if (this->currentGame->Playable(this->currentGame->cardIndex(this->currentGame->currentPlayer()), this->currentGame->currentPlayer())) {
-			this->currentGame->play(this->currentGame->cardIndex(this->currentGame->currentPlayer()), this->currentGame->currentPlayer());
-
-			// Handle.
-			GameHelper::checkAndSet(this->currentGame, this->currentGame->currentPlayer(), this->getNextPlayer(), playerAmount);
-
-			// Special case handle for 2 Player.
-			if (this->currentGame->maxPlayer() == 2) {
-				if (this->currentGame->state(this->currentGame->currentPlayer()) == PlayerState::CONTINUE) {
-					this->currentGame->canContinue(true);
-				}
-			}
-
-			this->setState(this->currentGame->currentPlayer());
-			this->setState(this->getNextPlayer());
-			this->currentGame->drawn(false);
-
-			// Check if player won.
-			this->currentGame->checkCards(this->currentGame->currentPlayer());
-			if (this->currentGame->winner() == this->currentGame->currentPlayer()) {
-				char message [100];
-				snprintf(message, sizeof(message), Lang::get("PLAYER_WON").c_str(), returnPlayerName(this->currentGame->currentPlayer()).c_str());
-				Msg::DisplayPlayerSwitch(message);
-				Gui::screenBack();
-				Gui::DrawScreen();
-				return;
-			}
-
-			// If CardIndex is higher than the amount of cards, go one card back.
-			if (this->currentGame->cardIndex(this->currentGame->currentPlayer()) > (int)this->currentGame->getSize(this->currentGame->currentPlayer()) -1) {
-				this->currentGame->cardIndex(this->currentGame->getSize(this->currentGame->currentPlayer()) -1, this->currentGame->currentPlayer());
-			}
-
-			if (!this->currentGame->canContinue()) {
-				char message [100];
-				snprintf(message, sizeof(message), Lang::get("PLAYER_NEXT").c_str(), returnPlayerName(this->currentGame->currentPlayer()).c_str(), returnPlayerName(this->getNextPlayer()).c_str());
-				Msg::DisplayPlayerSwitch(message);
-				this->currentGame->currentPlayer(this->getNextPlayer());
-				Gui::DrawScreen();
-			}
-			this->currentGame->canContinue(false);
+	if (this->isAI()) {
+		this->AILogic();
+	} else {
+		if (this->currentGame->state(this->currentGame->currentPlayer()) == PlayerState::BREAK) {
+			this->currentGame->state(PlayerState::NOTHING, this->currentGame->currentPlayer()); // Reset.
+			char message [100];
+			snprintf(message, sizeof(message), Lang::get("PLAYER_BREAK").c_str(), this->returnPlayerName(this->currentGame->currentPlayer()).c_str(), this->returnPlayerName(this->getNextPlayer()).c_str());
+			Msg::DisplayPlayerSwitch(message);
+			this->currentGame->currentPlayer(this->getNextPlayer());
 			Gui::DrawScreen();
 		}
-	}
 
-	// Should this be removed?
-	if (hDown & KEY_B) {
-		Gui::screenBack();
-		Gui::DrawScreen();
-		return;
-	}
+		if (hDown & KEY_A) {
+			// Check if cardType or CardColor are identical and play.
+			if (this->currentGame->Playable(this->currentGame->cardIndex(this->currentGame->currentPlayer()), this->currentGame->currentPlayer())) {
+				this->currentGame->play(this->currentGame->cardIndex(this->currentGame->currentPlayer()), this->currentGame->currentPlayer());
 
-	if (hDown & KEY_DOWN) {
-		if (this->currentGame->cardIndex(this->currentGame->currentPlayer()) < this->currentGame->getSize(this->currentGame->currentPlayer()) -1) {
-			this->currentGame->cardIndex(this->currentGame->cardIndex(this->currentGame->currentPlayer()) + 1, this->currentGame->currentPlayer());
-			Gui::clearScreen(false, true);
-			this->ShowCards();
-		}
-	}
+				// Handle.
+				GameHelper::checkAndSet(this->currentGame, this->currentGame->currentPlayer(), this->getNextPlayer(), playerAmount);
 
-	if (hDown & KEY_UP) {
-		if (this->currentGame->cardIndex(this->currentGame->currentPlayer()) > 0) {
-			this->currentGame->cardIndex(this->currentGame->cardIndex(this->currentGame->currentPlayer()) - 1, this->currentGame->currentPlayer());
-			Gui::clearScreen(false, true);
-			this->ShowCards();
-		}
-	}
+				// Set Draw Counter if needed.
+				if (this->currentGame->tableCard().CT == CardType::DRAW2)	this->currentGame->drawingCounter(2);
+				else if (this->currentGame->tableCard().CT == CardType::DRAW4)	this->currentGame->drawingCounter(4);
+				
+				// Special case handle for 2 Player.
+				if (this->currentGame->maxPlayer() == 2) {
+					if (this->currentGame->state(this->currentGame->currentPlayer()) == PlayerState::CONTINUE) {
+						this->currentGame->canContinue(true);
+					}
+				}
 
-	// Player cannot set, so draw a card. If user cannot play after it, skip to next player.
-	if (hDown & KEY_X) {
-		if (!this->currentGame->drawn()) {
-			this->currentGame->addCard(this->currentGame->currentPlayer());
-			// Do not allow multiple draws.
-			this->currentGame->drawn(true);
-			if (!CanPlayerPlay(this->currentGame->currentPlayer())) {
-				// Reset hasDrawn.
-				this->currentGame->drawn(false); // Reset.
-				char message [100];
-				snprintf(message, sizeof(message), Lang::get("PLAYER_NEXT").c_str(), returnPlayerName(this->currentGame->currentPlayer()).c_str(), returnPlayerName(this->getNextPlayer()).c_str());
-				Msg::DisplayPlayerSwitch(message);
-				this->currentGame->currentPlayer(this->getNextPlayer());
+				this->setState(this->currentGame->currentPlayer());
+				this->setState(this->getNextPlayer());
+				this->currentGame->drawn(false);
+
+				// Check if player won.
+				this->currentGame->checkCards(this->currentGame->currentPlayer());
+				if (this->currentGame->winner() == this->currentGame->currentPlayer()) {
+					char message [100];
+					snprintf(message, sizeof(message), Lang::get("PLAYER_WON").c_str(), returnPlayerName(this->currentGame->currentPlayer()).c_str());
+					Msg::DisplayPlayerSwitch(message);
+					Gui::screenBack();
+					Gui::DrawScreen();
+					return;
+				}
+
+				// If CardIndex is higher than the amount of cards, go one card back.
+				if (this->currentGame->cardIndex(this->currentGame->currentPlayer()) > (int)this->currentGame->getSize(this->currentGame->currentPlayer()) -1) {
+					this->currentGame->cardIndex(this->currentGame->getSize(this->currentGame->currentPlayer()) -1, this->currentGame->currentPlayer());
+				}
+
+				if (!this->currentGame->canContinue()) {
+					char message [100];
+					snprintf(message, sizeof(message), Lang::get("PLAYER_NEXT").c_str(), returnPlayerName(this->currentGame->currentPlayer()).c_str(), returnPlayerName(this->getNextPlayer()).c_str());
+					Msg::DisplayPlayerSwitch(message);
+					this->currentGame->currentPlayer(this->getNextPlayer());
+					Gui::DrawScreen();
+				}
+				this->currentGame->canContinue(false);
 				Gui::DrawScreen();
-			} else {
-				// Update card display.
+			}
+		}
+
+		// Should this be removed?
+		if (hDown & KEY_B) {
+			Gui::screenBack();
+			Gui::DrawScreen();
+			return;
+		}
+
+		if (hDown & KEY_DOWN) {
+			if (this->currentGame->cardIndex(this->currentGame->currentPlayer()) < this->currentGame->getSize(this->currentGame->currentPlayer()) -1) {
+				this->currentGame->cardIndex(this->currentGame->cardIndex(this->currentGame->currentPlayer()) + 1, this->currentGame->currentPlayer());
 				Gui::clearScreen(false, true);
 				this->ShowCards();
 			}
-		} else {
-			Msg::DisplayPlayerSwitch(Lang::get("DRAW_1_MSG"));
 		}
-	}
 
-	// Scroll screen if needed.
-	if (this->currentGame->cardIndex(this->currentGame->currentPlayer()) < screenPos) {
-		this->screenPos = this->currentGame->cardIndex(this->currentGame->currentPlayer());
-		Gui::clearScreen(false, true);
-		this->ShowCards();
-	} else if (this->currentGame->cardIndex(this->currentGame->currentPlayer()) > screenPos + 7 - 1) {
-		this->screenPos = this->currentGame->cardIndex(this->currentGame->currentPlayer()) - 7 + 1;
-		Gui::clearScreen(false, true);
-		this->ShowCards();
+		if (hDown & KEY_UP) {
+			if (this->currentGame->cardIndex(this->currentGame->currentPlayer()) > 0) {
+				this->currentGame->cardIndex(this->currentGame->cardIndex(this->currentGame->currentPlayer()) - 1, this->currentGame->currentPlayer());
+				Gui::clearScreen(false, true);
+				this->ShowCards();
+			}
+		}
+
+		// Player cannot set, so draw a card. If user cannot play after it, skip to next player.
+		if (hDown & KEY_X) {
+			if (!this->currentGame->drawn()) {
+				this->currentGame->addCard(this->currentGame->currentPlayer());
+				// Do not allow multiple draws.
+				this->currentGame->drawn(true);
+				if (!CanPlayerPlay(this->currentGame->currentPlayer())) {
+					// Reset hasDrawn.
+					this->currentGame->drawn(false); // Reset.
+					char message [100];
+					snprintf(message, sizeof(message), Lang::get("PLAYER_NEXT").c_str(), returnPlayerName(this->currentGame->currentPlayer()).c_str(), returnPlayerName(this->getNextPlayer()).c_str());
+					Msg::DisplayPlayerSwitch(message);
+					this->currentGame->currentPlayer(this->getNextPlayer());
+					Gui::DrawScreen();
+				} else {
+					// Update card display.
+					Gui::clearScreen(false, true);
+					this->ShowCards();
+				}
+			} else {
+				Msg::DisplayPlayerSwitch(Lang::get("DRAW_1_MSG"));
+			}
+		}
+
+		// Scroll screen if needed.
+		if (this->currentGame->cardIndex(this->currentGame->currentPlayer()) < screenPos) {
+			this->screenPos = this->currentGame->cardIndex(this->currentGame->currentPlayer());
+			Gui::clearScreen(false, true);
+			this->ShowCards();
+		} else if (this->currentGame->cardIndex(this->currentGame->currentPlayer()) > screenPos + 7 - 1) {
+			this->screenPos = this->currentGame->cardIndex(this->currentGame->currentPlayer()) - 7 + 1;
+			Gui::clearScreen(false, true);
+			this->ShowCards();
+		}
 	}
 }
