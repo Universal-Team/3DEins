@@ -196,9 +196,23 @@ void GameScreen::setState(int Player) {
 		case PlayerState::NOTHING:
 			break;
 		case PlayerState::WISH:
-			this->currentGame->tbCardColor(_DSEins_Helper::selectColor());
-			this->currentGame->state(PlayerState::NOTHING, Player); // Set state to Nothing after it.
-			break;
+			if (this->isAI()) {
+				for (int i = 0; i < this->currentGame->getSize(Player); i++) {
+					if (this->currentGame->getColor(i, Player) != CardColor::COLOR_BLACK) {
+						this->currentGame->tbCardColor(this->currentGame->getColor(i, Player));
+						this->currentGame->state(PlayerState::NOTHING, Player); // Set state to Nothing after it.
+						break;
+					}
+
+					this->currentGame->tbCardColor(CardColor::COLOR_BLUE);
+					this->currentGame->state(PlayerState::NOTHING, Player); // Set state to Nothing after it.
+				}
+				break;
+			} else {
+				this->currentGame->tbCardColor(_DSEins_Helper::selectColor());
+				this->currentGame->state(PlayerState::NOTHING, Player); // Set state to Nothing after it.
+				break;
+			}
 		case PlayerState::DRAWING:
 			if (this->currentGame->drawingCounter() > 0) {
 				for (int i = 0; i < this->currentGame->drawingCounter(); i++) {

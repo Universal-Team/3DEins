@@ -593,10 +593,11 @@ void GameScreen::setState(int Player) {
 					if (this->currentGame->getColor(i, Player) != CardColor::COLOR_BLACK) {
 						this->currentGame->tbCardColor(this->currentGame->getColor(i, Player));
 						this->currentGame->state(PlayerState::NOTHING, Player); // Set state to Nothing after it.
-					} else {
-						this->currentGame->tbCardColor(CardColor::COLOR_BLUE);
-						this->currentGame->state(PlayerState::NOTHING, Player); // Set state to Nothing after it.
+						break;
 					}
+
+					this->currentGame->tbCardColor(CardColor::COLOR_BLUE);
+					this->currentGame->state(PlayerState::NOTHING, Player); // Set state to Nothing after it.
 				}
 				break;
 			} else {
