@@ -1,5 +1,5 @@
 /*
-*   This file is part of 3DEins
+*   This file is part of DSEins
 *   Copyright (C) 2019-2020 DeadPhoenix8091, Epicpkmn11, Flame, RocketRobz, StackZ, TotallyNotGuy
 *
 *   This program is free software: you can redistribute it and/or modify
@@ -24,45 +24,37 @@
 *         reasonable ways as different from the original version.
 */
 
-#include "computer.hpp"
+#ifndef _DSEINS_CONFIG_HPP
+#define _DSEINS_CONFIG_HPP
 
-#include <array>
-#include <stdlib.h>
+#include "json.hpp"
 
-#define COM_AMOUNT	4
+#include <nds.h>
+#include <string>
 
-std::array<std::string, COM_AMOUNT+1> files {
-	{
-		"romfs:/computer/computer_1.bin", "romfs:/computer/computer_2.bin",
-		"romfs:/computer/computer_3.bin", "romfs:/computer/computer_4.bin",
-		"romfs:/computer/computer_5.bin"
-	}
+class Config {
+public:
+	Config();
+	void save();
+	void initialize();
+
+	// Language.
+	int language() { return this->v_language; }
+	void language(int v) { this->v_language = v; if (!this->changesMade)	this->changesMade = true; }
+
+	// Mainly helper.
+	bool getBool(const std::string &key);
+	void setBool(const std::string &key, bool v);
+	int getInt(const std::string &key);
+	void setInt(const std::string &key, int v);
+	std::string getString(const std::string &key);
+	void setString(const std::string &key, const std::string &v);
+private:
+	nlohmann::json json; // Our private JSON file.
+	bool changesMade = false;
+
+	// Color variables and more.
+	int v_language;
 };
 
-
-Computer::Computer(int character) {
-	// Now we open the Computer File.
-	FILE* in = fopen(files[character].c_str(), "r");
-	fseek(in, 0, SEEK_END);
-	u32 fileSize = ftell(in);
-	fseek(in, 0, SEEK_SET);
-	u8 *Buffer = new u8[fileSize];
-	fread(Buffer, 1, fileSize, in);
-	fclose(in);
-
-	// Getting COM Name.
-	const std::string name_1(reinterpret_cast<char *>(Buffer + 0), 9 + 1);
-
-	// Make sure to only get valid chars.
-	for(char character : name_1) {
-		if (character == '\0')	break;
-		if (character < 256) {
-			this->name += character;
-		}
-	}
-	// Get Computer avatar.
-	this->avatar = Buffer[0xA];
-
-	// Here we delete the buffer.
-	delete[] Buffer;
-}
+#endif

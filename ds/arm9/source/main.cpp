@@ -27,6 +27,7 @@
 #include <fat.h>
 
 #include "coreHelper.hpp"
+#include "config.hpp"
 #include "flashcard.hpp"
 #include "gui.hpp"
 #include "mainMenu.hpp"
@@ -34,6 +35,7 @@
 #include "screenCommon.hpp"
 #include "structs.hpp"
 
+std::unique_ptr<Config> config;
 touchPosition touch;
 bool exiting = false;
 
@@ -89,7 +91,7 @@ int main(int argc, char **argv) {
 	}
 
 	Colors::load();
-	Lang::load(2);
+	Lang::load();
 	loadFont();
 	Gui::loadGraphics();
 	printTextCentered(Lang::get("LOADING"), 0, 32, false, true);

@@ -24,12 +24,14 @@
 *         reasonable ways as different from the original version.
 */
 
+#include "config.hpp"
 #include "lang.hpp"
 
 #include <stdio.h>
 #include <unistd.h>
 
 nlohmann::json appJson;
+extern std::unique_ptr<Config> config;
 
 #ifdef _3DS
 	#define LANGPATH "romfs:/lang/"
@@ -47,10 +49,10 @@ std::string Lang::get(const std::string &key) {
 
 std::string langs[] = {"br", "de", "en", "es", "fr", "it", "lt", "pt", "ru", "jp"};
 
-void Lang::load(const int language) {
+void Lang::load() {
 	FILE* values;
-	if (access((LANGPATH + langs[language]+"/app.json").c_str(), F_OK) == 0 ) {
-		values = fopen((LANGPATH + langs[language]+"/app.json").c_str(), "rt");
+	if (access((LANGPATH + langs[config->language()]+"/app.json").c_str(), F_OK) == 0 ) {
+		values = fopen((LANGPATH + langs[config->language()]+"/app.json").c_str(), "rt");
 		if (values)	appJson = nlohmann::json::parse(values, nullptr, false);
 		fclose(values);
 

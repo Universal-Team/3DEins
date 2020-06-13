@@ -33,7 +33,7 @@
 
 namespace Lang {
 	std::string get(const std::string &key);
-	void load(const int language);
+	void load();
 }
 
 #endif

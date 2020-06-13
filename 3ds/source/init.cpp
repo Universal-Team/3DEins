@@ -72,7 +72,9 @@ void Init::GenerateID() {
 }
 
 void Init::enterName() {
-	C2D_TargetClear(Bottom, C2D_Color32(0, 0, 0, 0)); // Avoid glitchy things on bottom.
+	// Avoid glitchy things.
+	C2D_TargetClear(Top, C2D_Color32(0, 0, 0, 0));
+	C2D_TargetClear(Bottom, C2D_Color32(0, 0, 0, 0));
 	std::string str = Keyboard::getString(10, Lang::get("ENTER_PLAYER_NAME"), 0.6);
 	savedata->playerName(str);
 }
@@ -98,7 +100,7 @@ Result Init::Initialize() {
 		return 0;
 	}
 
-	Lang::load(config->language());
+	Lang::load();
 	savedata = std::make_unique<SaveData>("sdmc:/3ds/3DEins/SaveData.dat");
 	
 	if (savedata) {
