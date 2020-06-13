@@ -45,3 +45,20 @@ void Msg::DisplayPlayerSwitch(std::string message) {
 	// Redraw screen.
 	Gui::DrawScreen();
 }
+
+void Msg::DisplayWaitMsg(std::string message) {
+	// We only have to clear Layer true.
+	Gui::clearScreen(true, true);
+	Gui::clearScreen(false, true);
+
+	printTextCentered(message, 0, 80, true, true);
+	printTextCentered(Lang::get("Y_CONTINUE"), 0, 160, true, true);
+
+	while(1) {
+		scanKeys();
+		if (keysDown() & KEY_Y)	break;
+	}
+
+	// Redraw screen.
+	Gui::DrawScreen();
+}

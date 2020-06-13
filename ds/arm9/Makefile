@@ -23,16 +23,20 @@ include $(DEVKITARM)/ds_rules
 #---------------------------------------------------------------------------------
 BUILD		:=	build
 
-SOURCECORE	:= ../../3DEins-Core/source
-INCLUDECORE	:= ../../3DEins-Core/include
+CORESOURCE	:=	../../core/source
+COREINCLUDE	:=	../../core/include
+COMMONSRC	:= ../../common/source
+COMMONINC	:= ../../common/include
 
-SOURCES		:=	$(SOURCECORE) \
+SOURCES		:=	$(CORESOURCE) \
+				$(COMMONSRC) \
 				source \
 				source/graphics \
 				source/screens \
 				source/utils
 
-INCLUDES	:=	$(INCLUDECORE) \
+INCLUDES	:=	$(COREINCLUDE) \
+				$(COMMONINC) \
 				include \
 				include/graphics \
 				include/screens \

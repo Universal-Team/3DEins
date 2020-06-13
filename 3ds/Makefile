@@ -76,11 +76,13 @@ endif
 TARGET		:=	3DEins
 BUILD		:=	build
 UNIVCORE	:= 	Universal-Core
-CORESOURCE	:=	../3DEins-Core/source
-COREINCLUDE	:=	../3DEins-Core/include
-SOURCES		:=	$(CORESOURCE) $(UNIVCORE) source source/core source/screens source/states source/ui source/utils
+CORESOURCE	:=	../core/source
+COREINCLUDE	:=	../core/include
+COMMONSRC	:= ../common/source
+COMMONINC	:= ../common/include
+SOURCES		:=	$(CORESOURCE) $(COMMONSRC) $(UNIVCORE) source source/core source/screens source/states source/ui source/utils
 DATA		:=	data
-INCLUDES	:=	$(COREINCLUDE) $(UNIVCORE) include include/core include/screens include/states include/ui include/utils
+INCLUDES	:=	$(COREINCLUDE) $(COMMONINC) $(UNIVCORE) include include/core include/screens include/states include/ui include/utils
 GRAPHICS	:=	assets/gfx
 ROMFS		:=	romfs
 GFXBUILD	:=	$(ROMFS)/gfx

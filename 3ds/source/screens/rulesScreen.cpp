@@ -113,7 +113,7 @@ void RulesScreen::Draw(void) const {
 	// Draw Card.
 	GFX::DrawCard(CardType(rulePage), 30, 50, CardColor(1));
 	Gui::DrawString(210, 40, 0.7f, config->textColor(), Lang::get("POINTS") + std::to_string(GameHelper::getPoints(CardType(rulePage))), 160);
-	Gui::DrawString(210, 70, 0.7f, config->textColor(), Lang::get("CARDTYPE") + Lang::get(GameHelper::getTypeName(CardType(rulePage))), 160);
+	Gui::DrawString(210, 70, 0.7f, config->textColor(), Lang::get("CARDTYPE") + GameHelper::getTypeName(CardType(rulePage)), 160);
 	Gui::DrawString(30, 140, 0.7f, config->textColor(), Lang::get("AVAILABLE_COLORS"), 160);
 	DrawDescription();
 	DisplayCards();

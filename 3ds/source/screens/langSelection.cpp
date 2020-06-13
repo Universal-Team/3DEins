@@ -65,7 +65,7 @@ void LangSelection::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		for(int language = 0; language < 10; language++) {
 			if (touching(touch, langBlocks[language])) {
 				config->language(language);
-				Lang::load();
+				Lang::load(config->language());
 			}
 		}
 	}
@@ -74,7 +74,7 @@ void LangSelection::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		if (this->selectedLang > 0) {
 			this->selectedLang--;
 			config->language(this->selectedLang);
-			Lang::load();
+			Lang::load(config->language());
 		}
 	}
 
@@ -82,7 +82,7 @@ void LangSelection::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		if (this->selectedLang < 9) {
 			this->selectedLang++;
 			config->language(this->selectedLang);
-			Lang::load();
+			Lang::load(config->language());
 		}
 	}
 
@@ -90,7 +90,7 @@ void LangSelection::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		if (this->selectedLang > 4) {
 			this->selectedLang -= 5;
 			config->language(this->selectedLang);
-			Lang::load();
+			Lang::load(config->language());
 		}
 	}
 
@@ -98,7 +98,7 @@ void LangSelection::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		if (this->selectedLang < 5) {
 			this->selectedLang += 5;
 			config->language(this->selectedLang);
-			Lang::load();
+			Lang::load(config->language());
 		}
 	}
 	

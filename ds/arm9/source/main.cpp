@@ -89,7 +89,7 @@ int main(int argc, char **argv) {
 	}
 
 	Colors::load();
-	Lang::load();
+	Lang::load(2);
 	loadFont();
 	Gui::loadGraphics();
 	printTextCentered(Lang::get("LOADING"), 0, 32, false, true);

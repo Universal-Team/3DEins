@@ -98,7 +98,7 @@ Result Init::Initialize() {
 		return 0;
 	}
 
-	Lang::load();
+	Lang::load(config->language());
 	savedata = std::make_unique<SaveData>("sdmc:/3ds/3DEins/SaveData.dat");
 	
 	if (savedata) {

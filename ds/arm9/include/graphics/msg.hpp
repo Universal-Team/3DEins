@@ -34,6 +34,7 @@
 
 namespace Msg {
 	void DisplayPlayerSwitch(std::string message);
+	void DisplayWaitMsg(std::string message);
 };
 
 #endif

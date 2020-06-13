@@ -761,7 +761,7 @@ void GameScreen::PlayerLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 	// This is for Colorblind users.
 	if (hHeld & KEY_B) {
-		Msg::HelperBox(Lang::get("TABLECARD") + Lang::get(GameHelper::getTypeName(this->currentGame->tableCard().CT)) + " - " + Lang::get(GameHelper::getColorName(this->currentGame->tableCard().CC))
-		+ "\n\n" + Lang::get("CURRENT_CARD") + Lang::get(GameHelper::getTypeName(this->currentGame->getType(this->currentGame->cardIndex(this->currentGame->currentPlayer()), this->currentGame->currentPlayer()))) + " - " + Lang::get(GameHelper::getColorName(this->currentGame->getColor(this->currentGame->cardIndex(this->currentGame->currentPlayer()), this->currentGame->currentPlayer()))));
+		Msg::HelperBox(Lang::get("TABLECARD") + GameHelper::getTypeName(this->currentGame->tableCard().CT) + " - " + GameHelper::getColorName(this->currentGame->tableCard().CC)
+		+ "\n\n" + Lang::get("CURRENT_CARD") + GameHelper::getTypeName(this->currentGame->getType(this->currentGame->cardIndex(this->currentGame->currentPlayer()), this->currentGame->currentPlayer())) + " - " + GameHelper::getColorName(this->currentGame->getColor(this->currentGame->cardIndex(this->currentGame->currentPlayer()), this->currentGame->currentPlayer())));
 	}
 }

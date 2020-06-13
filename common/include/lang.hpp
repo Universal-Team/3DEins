@@ -1,5 +1,5 @@
 /*
-*   This file is part of 3DEins
+*   This file is part of 3DEins | DSEins
 *   Copyright (C) 2019-2020 DeadPhoenix8091, Epicpkmn11, Flame, RocketRobz, StackZ, TotallyNotGuy
 *
 *   This program is free software: you can redistribute it and/or modify
@@ -24,35 +24,16 @@
 *         reasonable ways as different from the original version.
 */
 
-#include "config.hpp"
-#include "lang.hpp"
+#ifndef _3DEINS_LANG_HPP
+#define _3DEINS_LANG_HPP
 
-#include <stdio.h>
-#include <unistd.h>
+#include "json.hpp"
 
-nlohmann::json appJson;
-extern std::unique_ptr<Config> config;
+#include <string>
 
-std::string Lang::get(const std::string &key) {
-	if(!appJson.contains(key)) {
-		return "MISSING: " + key;
-	}
-	
-	return appJson.at(key).get_ref<const std::string&>();
+namespace Lang {
+	std::string get(const std::string &key);
+	void load(const int language);
 }
 
-std::string langs[] = {"br", "de", "en", "es", "fr", "it", "lt", "pt", "ru", "jp"};
-
-void Lang::load() {
-	FILE* values;
-	if (access(("romfs:/lang/"+langs[config->language()]+"/app.json").c_str(), F_OK) == 0 ) {
-		values = fopen(("romfs:/lang/"+langs[config->language()]+"/app.json").c_str(), "rt");
-		if(values)	appJson = nlohmann::json::parse(values, nullptr, false);
-		fclose(values);
-	} else {
-		// Load English otherwise.
-		values = fopen(("romfs:/lang/"+langs[2]+"/app.json").c_str(), "rt");
-		if(values)	appJson = nlohmann::json::parse(values, nullptr, false);
-		fclose(values);
-	}
-}
+#endif

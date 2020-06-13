@@ -247,7 +247,7 @@ void GameScreen::Draw(void) const {
 	this->displayPlayerCards();
 	// Draw TableCard.
 	Gui::DrawCard(this->currentGame->tableCard().CT, this->currentGame->tableCard().CC, 100, 45, 1, 1, true, true);
-	printText(Lang::get(GameHelper::getTypeName(this->currentGame->tableCard().CT)) + " | " + Lang::get(GameHelper::getColorName(this->currentGame->tableCard().CC)), 100, 140, true, true);
+	printText(GameHelper::getTypeName(this->currentGame->tableCard().CT) + " | " + GameHelper::getColorName(this->currentGame->tableCard().CC), 100, 140, true, true);
 	Gui::DrawBottom(true);
 	// Display the hand.
 	this->ShowCards();
@@ -257,7 +257,7 @@ void GameScreen::Draw(void) const {
 void GameScreen::ShowCards(void) const {
 	if (!this->isAI()) {
 		for (unsigned i = 0; i < std::min(7u, (unsigned)this->currentGame->getSize(this->currentGame->currentPlayer())-this->screenPos); i++) {
-			printText(Lang::get(GameHelper::getTypeName(this->currentGame->getType(this->screenPos+i, this->currentGame->currentPlayer()))) + " | " + Lang::get(GameHelper::getColorName(this->currentGame->getColor(this->screenPos+i, this->currentGame->currentPlayer()))), 8, 15 + (i * 15), false, true);
+			printText(GameHelper::getTypeName(this->currentGame->getType(this->screenPos+i, this->currentGame->currentPlayer())) + " | " + GameHelper::getColorName(this->currentGame->getColor(this->screenPos+i, this->currentGame->currentPlayer())), 8, 15 + (i * 15), false, true);
 		}
 
 		// Draw Current Card.
