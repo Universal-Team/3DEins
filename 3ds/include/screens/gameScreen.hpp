@@ -45,6 +45,7 @@ private:
 	void PlayerLogic(u32 hDown, u32 hHeld, touchPosition touch);
 	void SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch);
 
+	void AILogic();
 	void InitializeNewGame();
 	void setState(int Player);
 	
@@ -71,6 +72,7 @@ private:
 	int subMode = 0;
 	int selection = 0;
 	bool isSubMenu = false;
+	bool isAI() const;
 
 	// Button Struct for the Sub Menu.
 	std::vector<Structs::ButtonPos> breakBtn = {

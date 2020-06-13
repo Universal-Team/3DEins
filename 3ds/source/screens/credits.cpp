@@ -41,7 +41,7 @@ const std::vector<Translator> TL = {
 	{"antoine62", "Français"},
 	{"Linuxcat", "Français"},
 	{"Pk11", "日本語"},
-	{"SuperSaiyajinStackie", "Deutsch, English"},
+	{"SuperSaiyajinStackZ", "Deutsch, English"},
 	{"XxPhoenix1996xX", "Español"},
 	{"YoSoy", "Español"}
 };
@@ -66,7 +66,7 @@ void Credits::Draw(void) const {
 	GFX::DrawBottom();
 	if (this->creditsPage == 0) {
 		Gui::DrawStringCentered(0, 0, 0.8f, config->textColor(), Lang::get("GENERAL_CREDITS"), 310);
-		Gui::DrawStringCentered(0, 30, 0.7f, config->textColor(), "SuperSaiyajinStackZ | SuperSaiyajinStackie", 310);
+		Gui::DrawStringCentered(0, 30, 0.7f, config->textColor(), "SuperSaiyajinStackZ", 310);
 		Gui::DrawStringCentered(0, 60, 0.6f, config->textColor(), Lang::get("_3DEINS_CORE"), 310);
 		Gui::DrawStringCentered(0, 100, 0.7f, config->textColor(), "Universal-Team", 310);
 		Gui::DrawStringCentered(0, 130, 0.6f, config->textColor(), Lang::get("UNIVERSAL_CORE"), 310);

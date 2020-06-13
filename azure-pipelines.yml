@@ -1,7 +1,7 @@
 trigger:
   branches:
     include: ['*']
-    exclude: [translation, full-rewrite, 3DEins-Core, DSEins]
+    exclude: [translation, AI-Stuff]
   tags:
     include: ['*']
 
