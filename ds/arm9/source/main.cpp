@@ -90,6 +90,7 @@ int main(int argc, char **argv) {
 		}
 	}
 
+	config = std::make_unique<Config>();
 	Colors::load();
 	Lang::load();
 	loadFont();
