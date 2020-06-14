@@ -33,9 +33,11 @@
 #include "mainMenu.hpp"
 #include "nitrofs.h"
 #include "screenCommon.hpp"
+#include "selector.hpp"
 #include "structs.hpp"
 
 std::unique_ptr<Config> config;
+std::unique_ptr<Selector> selector;
 touchPosition touch;
 bool exiting = false;
 
@@ -58,24 +60,24 @@ int main(int argc, char **argv) {
 	drawRectangle(0, 0, 256, 192, DARKERER_GRAY, DARKER_GRAY, true, false);
 	drawRectangle(0, 0, 256, 192, DARKERER_GRAY, DARKER_GRAY, false, false);
 
-	// Init filesystem
+	// Init filesystem.
 	if(!fatInitDefault()) {
-		// Prints error if fatInitDefault() fails
+		// Prints error if fatInitDefault() fails.
 		consoleDemoInit();
 		printf("fatInitDefault() failed...");
 		while(1) swiWaitForVBlank();
 	}
 
-	// Make directories
+	// Make directories, if not exist.
 	mkdir(sdFound() ? "sd:/_nds" : "fat:/_nds", 0777);
 	mkdir(sdFound() ? "sd:/_nds/DSEins" : "fat:/_nds/DSEins", 0777);
 
-	// Try to init NitroFS from argv provided to the game when it was launched
+	// Try to init NitroFS from argv provided to the game when it was launched.
 	if(!nitroFSInit(argv[0])) {
-		// If that fails, try to init NitroFS on 'DSEins.nds'
+		// If that fails, try to init NitroFS on 'DSEins.nds'.
 		if(!nitroFSInit("DSEins.nds")) {
 			if(!nitroFSInit("/_nds/DSEins/DSEins.nds")) {
-				// Prints error if nitroFSInit() fails
+				// Prints error if nitroFSInit() fails.
 				consoleDemoInit();
 				printf("nitroFSInit() failed...\n\n");
 				printf("Please copy DSEins.nds to:\n\n");
@@ -91,19 +93,23 @@ int main(int argc, char **argv) {
 	}
 
 	config = std::make_unique<Config>();
+	selector = std::make_unique<Selector>(80, 40);
+
 	Colors::load();
 	Lang::load();
 	loadFont();
 	Gui::loadGraphics();
 	printTextCentered(Lang::get("LOADING"), 0, 32, false, true);
 	CoreHelper::generateSeed();
-	Gui::selectorVisible(false); // Hide here.
 
 	u16 hDown = 0;
 	Gui::setScreen(std::make_unique<MainMenu>());
 	Gui::clearScreen(false, true);
+
 	// Draw Screen.
 	Gui::DrawScreen();
+	selector->show();
+
 	while(!exiting) {
 		scanKeys();
 		swiWaitForVBlank();
@@ -111,5 +117,6 @@ int main(int argc, char **argv) {
 		touchRead(&touch);
 		Gui::mainLoop(hDown, touch);
 	}
+
 	return 0;
 }

@@ -55,24 +55,23 @@ void Gui::screenBack() {
 }
 
 // Basic GUI Stuff.
-
 void Gui::DrawTop(bool useBars) {
 	if (useBars) {
-		drawRectangle(0, 20, 256, 152, GREEN, true, false);
-		drawRectangle(0, 0, 256, 20, DARK_GREEN, true, false);
-		drawRectangle(0, 172, 256, 20, DARK_GREEN, true, false);
+		drawRectangle(0, 20, 256, 152, DARKER_GRAY, true, false);
+		drawRectangle(0, 0, 256, 20, DARKERER_GRAY, true, false);
+		drawRectangle(0, 172, 256, 20, DARKERER_GRAY, true, false);
 	} else {
-		drawRectangle(0, 0, 256, 192, GREEN, true, false);
+		drawRectangle(0, 0, 256, 192, DARKER_GRAY, true, false);
 	}
 }
 
 void Gui::DrawBottom(bool useBars) {
 	if (useBars) {
-		drawRectangle(0, 20, 256, 152, GREEN, false, false);
-		drawRectangle(0, 0, 256, 20, DARK_GREEN, false, false);
-		drawRectangle(0, 172, 256, 20, DARK_GREEN, false, false);
+		drawRectangle(0, 20, 256, 152, DARKER_GRAY, false, false);
+		drawRectangle(0, 0, 256, 20, DARKERER_GRAY, false, false);
+		drawRectangle(0, 172, 256, 20, DARKERER_GRAY, false, false);
 	} else {
-		drawRectangle(0, 0, 256, 192, GREEN, false, false);
+		drawRectangle(0, 0, 256, 192, DARKER_GRAY, false, false);
 	}
 }
 
@@ -86,7 +85,7 @@ void Gui::loadGraphics() {
 		cards[i] = loadImage("/graphics/cards/" + std::to_string(i) + ".gfx");
 	}
 
-	Image selector = loadImage("/graphics/cards/selector.gfx");
+	Image selector = loadImage("/graphics/corner.gfx");
 
 	for (int i = 0; i < (int)selectorspr.size();i++) {
 		selectorspr[i] = initSprite(false, SpriteSize_16x16);
@@ -103,24 +102,6 @@ void Gui::loadGraphics() {
 		copyPalette(cards[0], true, i * 12);
 		BG_PALETTE[0x20 + i * 12 + 1] = cardColors[i];
 	}
-}
-
-// Move the selector.
-void Gui::moveSelector(int x, int y) {
-	for (int i = 0; i < (int)selectorspr.size(); i++) {
-		// 44 is 60 - 16, 74 is 90 - 16
-		setSpritePosition(selectorspr[i], false, x + (44 * i % 2), y + (74 * i / 2));
-	}
-	// Update OAM here.
-	updateOam();
-}
-
-void Gui::selectorVisible(bool isVisible) {
-	for (int i = 0; i < (int)selectorspr.size(); i++) {
-		setSpriteVisibility(selectorspr[i], false, isVisible);
-	}
-	// Update OAM.
-	updateOam();
 }
 
 // Draw a card.

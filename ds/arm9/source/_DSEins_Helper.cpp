@@ -27,16 +27,18 @@
 #include "_DSEins_Helper.hpp"
 #include "gui.hpp"
 #include "lang.hpp"
+#include "selector.hpp"
 #include "structs.hpp"
 
 #include <nds.h>
 
+extern std::unique_ptr<Selector> selector;
 extern touchPosition touch;
 std::vector<ButtonStruct> colorPos = {
-	{30, 45, 80, 40, GameHelper::getColorName(CardColor::COLOR_RED), CARD_COLOR_RED, false},   // Red.
-	{130, 45, 80, 40, GameHelper::getColorName(CardColor::COLOR_BLUE), CARD_COLOR_BLUE, false},  // Blue.
-	{30, 105, 80, 40, GameHelper::getColorName(CardColor::COLOR_YELLOW), CARD_COLOR_YELLOW, false},  // Yellow.
-	{130, 105, 80, 40, GameHelper::getColorName(CardColor::COLOR_GREEN), CARD_COLOR_GREEN, false}  // Green.
+	{30, 45, 80, 40, "COLOR_RED", CARD_COLOR_RED, true}, // Red.
+	{130, 45, 80, 40, "COLOR_BLUE", CARD_COLOR_BLUE, true}, // Blue.
+	{30, 105, 80, 40, "COLOR_YELLOW", CARD_COLOR_YELLOW, true}, // Yellow.
+	{130, 105, 80, 40, "COLOR_GREEN", CARD_COLOR_GREEN, true} // Green.
 };
 
 extern bool Buttontouching(ButtonStruct button);
@@ -46,19 +48,23 @@ CardColor _DSEins_Helper::selectColor() {
 	int selection = 0;
 	bool doUpdate = true;
 
+	selector->show();
+	selector->move(colorPos[selection].x, colorPos[selection].y);
+	selector->update();
+
 	Gui::clearScreen(true, true);
 	Gui::clearScreen(false, true);
-	printTextCentered(Lang::get("SELECT_COLOR"), 0, 3, true, true);
+	Gui::DrawTop(true);
+	printTextCentered(Lang::get("SELECT_COLOR"), 0, 2, true, true);
 
-	for(int i = 0; i < 4; i++) {
+	for (int i = 0; i < 4; i++) {
 		Gui::DrawButton(colorPos[i]);
 	}
 
 	while(1) {
 		if (doUpdate) {
-			Gui::clearScreen(false, true);
-			drawOutline(colorPos[selection].x, colorPos[selection].y, colorPos[selection].xSize, colorPos[selection].ySize, WHITE, false, true);
-			doUpdate = false;
+			selector->move(colorPos[selection].x, colorPos[selection].y);
+			selector->update();
 		}
 
 		// The input part.
@@ -97,6 +103,9 @@ CardColor _DSEins_Helper::selectColor() {
 		}
 
 		if (keysDown() & KEY_A) {
+			selector->hide();
+			selector->update();
+
 			if (selection == 0) {
 				return CardColor::COLOR_RED;
 			} else if (selection == 1) {
@@ -110,18 +119,25 @@ CardColor _DSEins_Helper::selectColor() {
 
 		if (keysDown() & KEY_TOUCH) {
 			if (Buttontouching(colorPos[0])) {
+				selector->hide();
+				selector->update();
 				return CardColor::COLOR_RED;
 			} else if (Buttontouching(colorPos[1])) {
+				selector->hide();
+				selector->update();
 				return CardColor::COLOR_BLUE;
 			} else if (Buttontouching(colorPos[2])) {
+				selector->hide();
+				selector->update();
 				return CardColor::COLOR_YELLOW;
 			} else if (Buttontouching(colorPos[3])) {
+				selector->hide();
+				selector->update();
 				return CardColor::COLOR_GREEN;
 			}
 		}
 	}
 
-	// Redraw screen.
-	Gui::clearScreen(false, false);
+	// Redraw.
 	Gui::DrawScreen();
 }

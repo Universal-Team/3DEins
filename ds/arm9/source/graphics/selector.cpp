@@ -24,48 +24,52 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef _DSEINS_GUI_HPP
-#define _DSEINS_GUI_HPP
-
-#include "coreHelper.hpp"
 #include "graphics.hpp"
-#include "screen.hpp"
+#include "selector.hpp"
+#include <array>
 
-#include <nds.h>
+extern std::array<int, 4> selectorspr;
 
-struct ButtonStruct {
-	int x;
-	int y;
-	float xSize;
-	float ySize;
-	std::string Text;
-	u8 colorIndex;
-	bool layer;
-};
+// Init the selector.
+Selector::Selector(int w, int h) {
+	this->width = w;
+	this->height = h;
 
-namespace Gui {
-	// Screen stuff.
-	void DrawScreen(); // Redraw the screen. Needs to be called when screen changes are made.
-	void mainLoop(u16 hDown, touchPosition touch); // Logic MainLoop.
-	void setScreen(std::unique_ptr<Screen> screen); // Set a specific screen.
-	void screenBack(void); // Go a screen back. Needs "return;" at the end.
+   for (int i = 0; i < (int)selectorspr.size(); i++) {
+        setSpriteVisibility(selectorspr[i], false, false);
+    }
 
-	// GUI Stuff.
-	void DrawTop(bool useBars);
-	void DrawBottom(bool useBars);
+	updateOam();
+}
 
-	/* 	Clear a Screen & Layer.
- 		* bool top is whether to draw on the top or bottom screen.
- 		* bool layer is whether to draw on layer 3 (false) or layer 2 (true).
-	*/ 
-	void clearScreen(bool top, bool layer);
+// Move the Selector. 16 means the spritesize there, btw.
+void Selector::move(int x, int y) {
+    setSpritePosition(selectorspr[0], false, x, y);
+    setSpritePosition(selectorspr[1], false, x, y + (this->height - 16));
+    setSpritePosition(selectorspr[2], false, x + (this->width - 16), y);
+    setSpritePosition(selectorspr[3], false, x + (this->width - 16), y + (this->height - 16));
+}
 
-	// Card Loading & Drawing stuff.
-	void loadGraphics();
-	void DrawCard(CardType CT, CardColor CC, int x, int y, float ScaleX, float ScaleY, bool top, bool layer);
-	void DrawPlayerCard(const std::vector<CardStruct> &hand, const int &card, int x, int y, float ScaleX, float ScaleY, bool top, bool layer);
+// Hide the Selector.
+void Selector::hide() {
+   for (int i = 0; i < (int)selectorspr.size(); i++) {
+        setSpriteVisibility(selectorspr[i], false, false);
+    }
+}
 
-	void DrawButton(ButtonStruct btn);
-};
+// Show the Selector.
+void Selector::show() {
+   for (int i = 0; i < (int)selectorspr.size(); i++) {
+        setSpriteVisibility(selectorspr[i], false, true);
+    }
+}
 
-#endif
+// Resize the selector.
+void Selector::resize(int w, int h) {
+	this->width = w;
+	this->height = h;
+}
+
+void Selector::update() {
+	updateOam();
+}

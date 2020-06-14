@@ -27,6 +27,7 @@
 #ifndef _DSEINS_MAINMENU_HPP
 #define _DSEINS_MAINMENU_HPP
 
+#include "gui.hpp"
 #include "screenCommon.hpp"
 
 #include "structs.hpp"
@@ -38,6 +39,12 @@ public:
 	void Logic(u16 hDown, touchPosition touch) override;
 private:
 	int selection = 0;
+	bool doUpdate = true;
+
+	std::vector<ButtonStruct> buttonPos = {
+		{30, 45, 80, 40, "NEW_GAME", GRAY, true}, // New Game.
+		{130, 45, 80, 40, "UI_SETTINGS", GRAY, true} // UI Settings.
+	};
 };
 
 #endif

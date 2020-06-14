@@ -28,6 +28,9 @@
 #include "gameScreen.hpp"
 #include "lang.hpp"
 #include "msg.hpp"
+#include "selector.hpp"
+
+extern std::unique_ptr<Selector> selector;
 
 GameScreen::GameScreen() {
 	this->currentGame = std::make_unique<Game>(this->playerAmount);
@@ -236,14 +239,14 @@ void GameScreen::setState(int Player) {
 
 void GameScreen::displayPlayerCards(void) const {
 	// P1.
-	printText(this->returnPlayerName(0) + " " + Lang::get("CARDS_LEFT") + std::to_string(this->currentGame->getSize(0)), 10, 155, true, true);
+	printText(this->returnPlayerName(0) + " " + Lang::get("CARDS_LEFT") + std::to_string(this->currentGame->getSize(0)), 10, 5, true, true);
 	// P2.
-	printText(this->returnPlayerName(1) + " " + Lang::get("CARDS_LEFT") + std::to_string(this->currentGame->getSize(1)), 10, 28, true, true);
+	printText(this->returnPlayerName(1) + " " + Lang::get("CARDS_LEFT") + std::to_string(this->currentGame->getSize(1)), 10, 25, true, true);
 }
 
 
 void GameScreen::Draw(void) const {
-	Gui::DrawTop(true);
+	Gui::DrawTop(false);
 	this->displayPlayerCards();
 	// Draw TableCard.
 	Gui::DrawCard(this->currentGame->tableCard().CT, this->currentGame->tableCard().CC, 100, 45, 1, 1, true, true);
@@ -257,15 +260,16 @@ void GameScreen::Draw(void) const {
 void GameScreen::ShowCards(void) const {
 	if (!this->isAI()) {
 		for (unsigned i = 0; i < std::min(7u, (unsigned)this->currentGame->getSize(this->currentGame->currentPlayer())-this->screenPos); i++) {
-			printText(GameHelper::getTypeName(this->currentGame->getType(this->screenPos+i, this->currentGame->currentPlayer())) + " | " + GameHelper::getColorName(this->currentGame->getColor(this->screenPos+i, this->currentGame->currentPlayer())), 8, 15 + (i * 15), false, true);
+			printText(GameHelper::getTypeName(this->currentGame->getType(this->screenPos+i, this->currentGame->currentPlayer())) + " | " + GameHelper::getColorName(this->currentGame->getColor(this->screenPos+i, this->currentGame->currentPlayer())), 8, 20 + (i * 15), false, true);
 		}
 
 		// Draw Current Card.
 		Gui::DrawPlayerCard(this->currentGame->getHand(this->currentGame->currentPlayer()), this->currentGame->cardIndex(this->currentGame->currentPlayer()), 140, 45, 1, 1, false, true);
 	}
+
 	char message [100];
 	snprintf(message, sizeof(message), Lang::get("ITS_PLAYER_TURN").c_str(), returnPlayerName(this->currentGame->currentPlayer()).c_str());
-	printTextCentered(message, 0, 5, false, true);
+	printTextCentered(message, 0, 2, false, true);
 }
 
 
@@ -337,6 +341,8 @@ void GameScreen::Logic(u16 hDown, touchPosition touch) {
 		if (hDown & KEY_B) {
 			Gui::screenBack();
 			Gui::DrawScreen();
+			selector->show();
+			selector->update();
 			return;
 		}
 

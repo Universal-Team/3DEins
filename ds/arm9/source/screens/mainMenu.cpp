@@ -26,21 +26,49 @@
 
 #include "mainMenu.hpp"
 #include "gameScreen.hpp"
+#include "selector.hpp"
 
 extern bool exiting;
+extern std::unique_ptr<Selector> selector;
 
 void MainMenu::Draw(void) const {
 	Gui::DrawTop(true);
 	printTextCentered("DSEins - " + Lang::get("MAINMENU"), 0, 1, true, true);
 	Gui::DrawBottom(true);
+
+	for (int i = 0; i < 2; i++) {
+		Gui::DrawButton(this->buttonPos[i]);
+	}
 }
 
 void MainMenu::Logic(u16 hDown, touchPosition touch) {
+	if (this->doUpdate) {
+		this->doUpdate = false;
+		selector->move(this->buttonPos[this->selection].x, this->buttonPos[this->selection].y);
+		selector->update();
+	}
+
 	if (hDown & KEY_START) {
 		exiting = true;
 	}
 
+	if (hDown & KEY_RIGHT) {
+		if (this->selection == 0) {
+			this->selection = 1;
+			this->doUpdate = true;
+		}
+	}
+
+	if (hDown & KEY_LEFT) {
+		if (this->selection == 1) {
+			this->selection = 0;
+			this->doUpdate = true;
+		}
+	}
+
 	if (hDown & KEY_A) {
+		selector->hide();
+		selector->update();
 		Gui::setScreen(std::make_unique<GameScreen>());
 		Gui::DrawScreen();
 	}
