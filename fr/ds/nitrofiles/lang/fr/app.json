@@ -1,5 +1,5 @@
 {
-	"A_CONTINUE": "Press A to continue.",
+	"A_CONTINUE": "Appuyez sur A pour continuer.",
 	"CARD_0": "0",
 	"CARD_1": "1",
 	"CARD_2": "2",
@@ -38,7 +38,7 @@
 	"SELECT_COLOR": "Sélectionnez la couleur que vous voulez.",
 	"SELECT_LANG": "Choisissez la langue actuelle.",
 	"TABLECARD": "Carte actuelle: ",
-	"UI_SETTINGS": "UI Settings",
+	"UI_SETTINGS": "Paramètres de l'UI",
 	"Y_CONTINUE": "Appuyez sur Y pour continuer.",
 	"YES": "Oui"
 }
