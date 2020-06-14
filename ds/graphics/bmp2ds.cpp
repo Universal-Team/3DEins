@@ -51,7 +51,7 @@ Image loadBmp16(std::string path, int paletteOffset, int paletteCount) {
 		// }
 		// printf("\n");
 
-		int ppb = 2/(bitDepth/4); // Pixels Per Byte
+		int ppb = 1.0 / bitDepth * 8; // Pixels Per Byte
 		int rowWidth = ((bitDepth*image.width+31)/32)*4;
 
 		// Load pixels
@@ -66,15 +66,28 @@ Image loadBmp16(std::string path, int paletteOffset, int paletteCount) {
 			uint8_t* src = bmpImageBuffer+(y*rowWidth);
 			for(unsigned int x=0;x<image.width;x+=ppb) {
 				uint8_t val = *(src++);
-				if(ppb == 1) {
-					image.bitmap.push_back(val);
-				} else if(ppb == 2) {
-					image.bitmap.push_back(val>>4);  // First nibble
-					// printf("%x", val>>4);
-					if(!(image.width%2 && x == image.width-1)) {
-						image.bitmap.push_back(val&0xF); // Second nibble
-						// printf("%x", val&0xF);
-					}
+				switch(ppb) {
+					case 1:
+						image.bitmap.push_back(val);
+						break;
+					case 2:
+						image.bitmap.push_back(val>>4); // First nibble
+						// printf("%x", val>>4);
+						if(!(image.width%2 && x == image.width-1)) {
+							image.bitmap.push_back(val&0xF); // Second nibble
+							// printf("%x", val&0xF);
+						}
+						break;
+					case 8:
+						image.bitmap.push_back((val >> 7) & 1); // First bit
+						image.bitmap.push_back((val >> 6) & 1); // Second bit
+						image.bitmap.push_back((val >> 5) & 1); // Third bit
+						image.bitmap.push_back((val >> 4) & 1); // Fourth bit
+						image.bitmap.push_back((val >> 3) & 1); // Fifth bit
+						image.bitmap.push_back((val >> 2) & 1); // Sixth bit
+						image.bitmap.push_back((val >> 1) & 1); // Seventh bit
+						image.bitmap.push_back((val >> 0) & 1); // Eighth bit
+						break;
 				}
 			}
 			// printf("|\n");
