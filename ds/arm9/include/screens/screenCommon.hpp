@@ -31,9 +31,10 @@
 #include "graphics.hpp"
 #include "gui.hpp"
 #include "lang.hpp"
+#include "msg.hpp"
 #include "screen.hpp"
 
 extern bool selected;
 extern bool changes;
-
+extern bool doUpdate;
 #endif

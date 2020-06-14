@@ -65,7 +65,7 @@ namespace Gui {
 	void DrawCard(CardType CT, CardColor CC, int x, int y, float ScaleX, float ScaleY, bool top, bool layer);
 	void DrawPlayerCard(const std::vector<CardStruct> &hand, const int &card, int x, int y, float ScaleX, float ScaleY, bool top, bool layer);
 
-	void DrawButton(ButtonStruct btn);
+	void DrawButton(ButtonStruct btn, TextColor color = TextColor::gray);
 };
 
 #endif

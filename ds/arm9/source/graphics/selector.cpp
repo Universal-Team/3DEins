@@ -29,6 +29,7 @@
 #include <array>
 
 extern std::array<int, 4> selectorspr;
+bool doUpdate = false;
 
 // Init the selector.
 Selector::Selector(int w, int h) {
@@ -71,5 +72,9 @@ void Selector::resize(int w, int h) {
 }
 
 void Selector::update() {
-	updateOam();
+    // Only update OAM, if doUpdate is true.
+    if (doUpdate) {
+        doUpdate = false;
+        updateOam();
+    }
 }

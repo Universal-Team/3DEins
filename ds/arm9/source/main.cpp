@@ -36,6 +36,7 @@
 #include "selector.hpp"
 #include "structs.hpp"
 
+extern bool doUpdate;
 std::unique_ptr<Config> config;
 std::unique_ptr<Selector> selector;
 touchPosition touch;
@@ -109,6 +110,7 @@ int main(int argc, char **argv) {
 	// Draw Screen.
 	Gui::DrawScreen();
 	selector->show();
+	doUpdate = true;
 
 	while(!exiting) {
 		scanKeys();

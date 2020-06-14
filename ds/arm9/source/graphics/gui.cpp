@@ -114,7 +114,7 @@ void Gui::DrawPlayerCard(const std::vector<CardStruct> &hand, const int &card, i
 	Gui::DrawCard(hand[card].CT, hand[card].CC, x, y, ScaleX, ScaleY, top, layer);
 }
 
-void Gui::DrawButton(ButtonStruct btn) {
+void Gui::DrawButton(ButtonStruct btn, TextColor color) {
 	drawRectangle(btn.x, btn.y, btn.xSize, btn.ySize, btn.colorIndex, false, btn.layer);
-	printTextCenteredTintedMaxW(Lang::get(btn.Text), btn.xSize-5, 1, TextColor::gray, btn.x - 128 + (btn.xSize/2), btn.y + (btn.ySize/2) - 10, false, true);
+	printTextCenteredTintedMaxW(Lang::get(btn.Text), btn.xSize-5, 1, color, btn.x - 128 + (btn.xSize/2), btn.y + (btn.ySize/2) - 10, false, true);
 }

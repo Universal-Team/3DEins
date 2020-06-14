@@ -42,8 +42,7 @@ void MainMenu::Draw(void) const {
 }
 
 void MainMenu::Logic(u16 hDown, touchPosition touch) {
-	if (this->doUpdate) {
-		this->doUpdate = false;
+	if (doUpdate) {
 		selector->move(this->buttonPos[this->selection].x, this->buttonPos[this->selection].y);
 		selector->update();
 	}
@@ -55,21 +54,32 @@ void MainMenu::Logic(u16 hDown, touchPosition touch) {
 	if (hDown & KEY_RIGHT) {
 		if (this->selection == 0) {
 			this->selection = 1;
-			this->doUpdate = true;
+			doUpdate = true;
 		}
 	}
 
 	if (hDown & KEY_LEFT) {
 		if (this->selection == 1) {
 			this->selection = 0;
-			this->doUpdate = true;
+			doUpdate = true;
 		}
 	}
 
 	if (hDown & KEY_A) {
-		selector->hide();
-		selector->update();
-		Gui::setScreen(std::make_unique<GameScreen>());
-		Gui::DrawScreen();
+		if (this->selection == 0) {
+			selector->hide();
+			doUpdate = true;
+			selector->update();
+			Gui::setScreen(std::make_unique<GameScreen>());
+			Gui::DrawScreen();
+		} else {
+			selector->hide();
+			doUpdate = true;
+			selector->update();
+			Msg::DisplayWaitMsg("This Feature is not implemented yet!");
+			selector->show();
+			doUpdate = true;
+			selector->update();
+		}
 	}
 }

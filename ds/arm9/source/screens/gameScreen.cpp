@@ -317,6 +317,8 @@ void GameScreen::Logic(u16 hDown, touchPosition touch) {
 					Msg::DisplayPlayerSwitch(message);
 					Gui::screenBack();
 					Gui::DrawScreen();
+					selector->show();
+					doUpdate = true;
 					return;
 				}
 
@@ -342,7 +344,7 @@ void GameScreen::Logic(u16 hDown, touchPosition touch) {
 			Gui::screenBack();
 			Gui::DrawScreen();
 			selector->show();
-			selector->update();
+			doUpdate = true;
 			return;
 		}
 

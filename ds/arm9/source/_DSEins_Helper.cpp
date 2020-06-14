@@ -32,6 +32,7 @@
 
 #include <nds.h>
 
+extern bool doUpdate;
 extern std::unique_ptr<Selector> selector;
 extern touchPosition touch;
 std::vector<ButtonStruct> colorPos = {
@@ -46,10 +47,10 @@ extern bool Buttontouching(ButtonStruct button);
 // Select a Color.
 CardColor _DSEins_Helper::selectColor() {
 	int selection = 0;
-	bool doUpdate = true;
 
 	selector->show();
 	selector->move(colorPos[selection].x, colorPos[selection].y);
+	doUpdate = true;
 	selector->update();
 
 	Gui::clearScreen(true, true);
@@ -58,7 +59,7 @@ CardColor _DSEins_Helper::selectColor() {
 	printTextCentered(Lang::get("SELECT_COLOR"), 0, 2, true, true);
 
 	for (int i = 0; i < 4; i++) {
-		Gui::DrawButton(colorPos[i]);
+		Gui::DrawButton(colorPos[i], TextColor::white);
 	}
 
 	while(1) {
@@ -104,6 +105,7 @@ CardColor _DSEins_Helper::selectColor() {
 
 		if (keysDown() & KEY_A) {
 			selector->hide();
+			doUpdate = true;
 			selector->update();
 
 			if (selection == 0) {
@@ -120,18 +122,22 @@ CardColor _DSEins_Helper::selectColor() {
 		if (keysDown() & KEY_TOUCH) {
 			if (Buttontouching(colorPos[0])) {
 				selector->hide();
+				doUpdate = true;
 				selector->update();
 				return CardColor::COLOR_RED;
 			} else if (Buttontouching(colorPos[1])) {
 				selector->hide();
+				doUpdate = true;
 				selector->update();
 				return CardColor::COLOR_BLUE;
 			} else if (Buttontouching(colorPos[2])) {
 				selector->hide();
+				doUpdate = true;
 				selector->update();
 				return CardColor::COLOR_YELLOW;
 			} else if (Buttontouching(colorPos[3])) {
 				selector->hide();
+				doUpdate = true;
 				selector->update();
 				return CardColor::COLOR_GREEN;
 			}

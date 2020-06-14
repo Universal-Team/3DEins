@@ -39,7 +39,6 @@ public:
 	void Logic(u16 hDown, touchPosition touch) override;
 private:
 	int selection = 0;
-	bool doUpdate = true;
 
 	std::vector<ButtonStruct> buttonPos = {
 		{30, 45, 80, 40, "NEW_GAME", GRAY, true}, // New Game.

@@ -36,7 +36,7 @@ void Msg::DisplayPlayerSwitch(std::string message) {
 
 	drawRectangle(0, 172, 256, 20, DARKERER_GRAY, true, true);
 	printTextCentered(message, 0, 80, true, true);
-	printTextCentered(Lang::get("Y_CONTINUE"), 0, 170, true, true);
+	printTextCentered(Lang::get("Y_CONTINUE"), 0, 175, true, true);
 
 	while(1) {
 		scanKeys();
@@ -54,7 +54,7 @@ void Msg::DisplayWaitMsg(std::string message) {
 
 	drawRectangle(0, 172, 256, 20, DARKERER_GRAY, true, true);
 	printTextCentered(message, 0, 80, true, true);
-	printTextCentered(Lang::get("A_CONTINUE"), 0, 170, true, true);
+	printTextCentered(Lang::get("A_CONTINUE"), 0, 175, true, true);
 
 	while(1) {
 		scanKeys();
