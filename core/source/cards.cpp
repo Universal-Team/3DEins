@@ -62,13 +62,15 @@ bool Cards::Playable(const CardStruct Table, const int position) {
 		if (this->Hand[position].CT == CardType::SPECIAL) return true;
 	#endif
 
-	// First, we will check for Playable Colors.
-	if (this->Hand[position].CC == Table.CC) return true; // CardColor Matches!
-	if (this->Hand[position].CC == CardColor::COLOR_BLACK) return true; // The CardColor is black, which should be valid.
+	// Do exception here for Wild.
+	if (this->Hand[position].CT == CardType::WILD) {
+		if (Table.CT == CardType::WILD || Table.CT == CardType::DRAW4)	return false;
+		return true;
+	}
 
-	// Now the a bit more complex thing -> CardType.
+	if (this->Hand[position].CT == CardType::DRAW4)	return true; // Should be valid?
+	if (this->Hand[position].CC == Table.CC) return true; // CardColor Matches!
 	if (this->Hand[position].CT == Table.CT) return true; // CardType Matches!
-	if (this->Hand[position].CT == CardType::WILD || this->Hand[position].CT == CardType::DRAW4) return true; // Wild & Wild Draw 4 are valid anyways.
 
 	// If nothing matches, return false.
 	return false;
