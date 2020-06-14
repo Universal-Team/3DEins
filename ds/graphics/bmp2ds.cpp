@@ -34,20 +34,16 @@ Image loadBmp16(std::string path, int paletteOffset, int paletteCount) {
 		fseek(file, 0x0E, SEEK_SET);
 		fseek(file, (uint8_t)fgetc(file)-2, SEEK_CUR); // Seek to palette start location
 		fread(palTemp, 4, numColors, file);
-		if(palTemp[0] == 0) { // To allow blank palette (use whatever's there) images 
-			image.palette.resize(0);
-		} else {
-			for(int i=0;i<numColors;i++) {
-				int r = round((((palTemp[i]>>24)&0xff)*31)/255.0);
-				int g = round((((palTemp[i]>>16)&0xff)*31)/255.0);
-				int b = round((((palTemp[i]>>8)&0xff)*31)/255.0);
-				image.palette[i] = r | g<<5 | b<<10 | 1<<15;
-				if(i > 0 && palTemp[i] == palTemp[i-1] && i > paletteCount) {
-					image.palette.resize(i);
-					break;
-				}
-				if(image.palette[i] == 0xfc1f)	image.palette[i] = 0;
+		for(int i=0;i<numColors;i++) {
+			int r = round((((palTemp[i]>>24)&0xff)*31)/255.0);
+			int g = round((((palTemp[i]>>16)&0xff)*31)/255.0);
+			int b = round((((palTemp[i]>>8)&0xff)*31)/255.0);
+			image.palette[i] = r | g<<5 | b<<10 | 1<<15;
+			if(i > 0 && palTemp[i] == palTemp[i-1] && i > paletteCount) {
+				image.palette.resize(i);
+				break;
 			}
+			if(image.palette[i] == 0xfc1f)	image.palette[i] = 0;
 		}
 
 		// for(unsigned int i=0;i<image.palette.size();i++) {
