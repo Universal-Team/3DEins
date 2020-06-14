@@ -1,4 +1,5 @@
 {
+	"A_CONTINUE": "Press A to continue.",
 	"CARD_0": "0",
 	"CARD_1": "1",
 	"CARD_2": "2",
@@ -37,6 +38,7 @@
 	"SELECT_COLOR": "好きな色を選んでください。",
 	"SELECT_LANG": "言語を選択する",
 	"TABLECARD": "テーブルカード：",
+	"UI_SETTINGS": "UI Settings",
 	"Y_CONTINUE": "Yを押して続行します",
 	"YES": "はい"
 }
