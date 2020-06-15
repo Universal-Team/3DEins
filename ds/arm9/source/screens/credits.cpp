@@ -54,7 +54,7 @@ void Credits::Draw(void) const {
 	printTextCentered(Lang::get("DEVELOPED_BY"), 0, 25, true, true);
 	printTextCentered(Lang::get("MAIN_DEV"), 0, 40, true, true);
 	printText(Lang::get("CURRENT_VERSION") + VER_NUMBER, (250-getTextWidth(Lang::get("CURRENT_VERSION") + VER_NUMBER)), 175, true, true);
-	drawImage(50, 70, this->core, true, true);
+	drawImage(25, 60, this->core, true, true);
 	Gui::DrawBottom(true);
 	this->DrawBottom();
 }
@@ -66,7 +66,7 @@ void Credits::DrawBottom(void) const {
 		printTextCentered(Lang::get("GENERAL_CREDITS"), 0, 1, false, true);
 
 		printTextCentered("SuperSaiyajinStackZ", 0, 30, false, true);
-		printTextCenteredMaxW(Lang::get("_3DEINS_CORE"), 240, 1, 0, 45, false, true);
+		printTextCenteredMaxW(Lang::get("_DSEINS_CORE"), 240, 1, 0, 45, false, true);
 	} else if (this->creditsPage == 1) {
 		printTextCentered(Lang::get("TRANSLATORS"), 0, 1, false, true);
 

@@ -1,5 +1,5 @@
 /*
-*   This file is part of 3DEins-Core
+*   This file is part of 3DEins/DSEins-Core
 *   Copyright (C) 2020 Universal-Team
 *
 *   This program is free software: you can redistribute it and/or modify
