@@ -414,5 +414,9 @@ void GameScreen::Logic(u16 hDown, touchPosition touch) {
 				Msg::DisplayPlayerSwitch(Lang::get("DRAW_1_MSG"));
 			}
 		}
+
+		if (hDown & KEY_SELECT) {
+			Msg::DisplayPlayerSwitch(Lang::get("PLAY_INSTRUCTIONS"));
+		}
 	}
 }

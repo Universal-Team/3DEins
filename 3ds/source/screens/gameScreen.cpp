@@ -766,4 +766,8 @@ void GameScreen::PlayerLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 		Msg::HelperBox(Lang::get("TABLECARD") + GameHelper::getTypeName(this->currentGame->tableCard().CT) + " - " + GameHelper::getColorName(this->currentGame->tableCard().CC)
 		+ "\n\n" + Lang::get("CURRENT_CARD") + GameHelper::getTypeName(this->currentGame->getType(this->currentGame->cardIndex(this->currentGame->currentPlayer()), this->currentGame->currentPlayer())) + " - " + GameHelper::getColorName(this->currentGame->getColor(this->currentGame->cardIndex(this->currentGame->currentPlayer()), this->currentGame->currentPlayer())));
 	}
+
+	if (hHeld & KEY_SELECT) {
+		Msg::HelperBox(Lang::get("PLAY_INSTRUCTIONS"));
+	}
 }
