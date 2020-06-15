@@ -120,5 +120,6 @@ int main(int argc, char **argv) {
 		Gui::mainLoop(hDown, touch);
 	}
 
+	config->save();
 	return 0;
 }

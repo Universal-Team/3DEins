@@ -24,8 +24,8 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef _DSEINS_MAINMENU_HPP
-#define _DSEINS_MAINMENU_HPP
+#ifndef _DSEINS_SETTINGS_HPP
+#define _DSEINS_SETTINGS_HPP
 
 #include "gui.hpp"
 #include "screenCommon.hpp"
@@ -33,7 +33,7 @@
 #include "structs.hpp"
 #include <vector>
 
-class MainMenu : public Screen {
+class Settings : public Screen {
 public:
 	void Draw(void) const override;
 	void Logic(u16 hDown, touchPosition touch) override;
@@ -41,9 +41,8 @@ private:
 	int selection = 0;
 
 	std::vector<ButtonStruct> buttonPos = {
-		{30, 45, 80, 40, "NEW_GAME", GRAY, true}, // New Game.
-		{130, 45, 80, 40, "UI_SETTINGS", GRAY, true}, // UI Settings.
-		{30, 100, 80, 40, "CREDITS", GRAY, true} // Credits.
+		{30, 45, 80, 40, "LANGUAGE", GRAY, true}, // Language.
+		{130, 45, 80, 40, "?", GRAY, true} // ?
 	};
 };
 

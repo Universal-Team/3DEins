@@ -24,105 +24,49 @@
 *         reasonable ways as different from the original version.
 */
 
-#include "credits.hpp"
-#include "mainMenu.hpp"
-#include "gameScreen.hpp"
+#include "langSelection.hpp"
 #include "selector.hpp"
 #include "settings.hpp"
 
-extern bool exiting;
 extern std::unique_ptr<Selector> selector;
 extern bool Buttontouching(ButtonStruct button);
 
-void MainMenu::Draw(void) const {
+void Settings::Draw(void) const {
 	Gui::DrawTop(true);
-	printTextCentered("DSEins - " + Lang::get("MAINMENU"), 0, 1, true, true);
+	printTextCentered("DSEins - " + Lang::get("UI_SETTINGS"), 0, 1, true, true);
 	Gui::DrawBottom(true);
 
-	for (int i = 0; i < 3; i++) {
+	for (int i = 0; i < 1; i++) {
 		Gui::DrawButton(this->buttonPos[i]);
 	}
 }
 
-void MainMenu::Logic(u16 hDown, touchPosition touch) {
+void Settings::Logic(u16 hDown, touchPosition touch) {
 	if (doUpdate) {
 		selector->move(this->buttonPos[this->selection].x, this->buttonPos[this->selection].y);
 		selector->update();
 	}
 
-	if (hDown & KEY_START) {
-		exiting = true;
-	}
-
-	if (hDown & KEY_RIGHT) {
-		if (this->selection == 0) {
-			this->selection = 1;
-			doUpdate = true;
-		}
-	}
-
-	if (hDown & KEY_LEFT) {
-		if (this->selection == 1) {
-			this->selection = 0;
-			doUpdate = true;
-		}
-	}
-
-	if (hDown & KEY_DOWN) {
-		if (this->selection == 0) {
-			this->selection = 2;
-			doUpdate = true;
-		}
-	}
-
-	if (hDown & KEY_UP) {
-		if (this->selection == 2) {
-			this->selection = 0;
-			doUpdate = true;
-		}
-	}
-
 	if (hDown & KEY_A) {
-		if (this->selection != 1) {
-			selector->hide();
-			doUpdate = true;
-			selector->update();
-		}
-
-		switch(this->selection) {
-			case 0:
-				Gui::setScreen(std::make_unique<GameScreen>());
-				Gui::DrawScreen();
-				break;
-			case 1:
-				Gui::setScreen(std::make_unique<Settings>());
-				doUpdate = true;
-				Gui::DrawScreen();
-				break;
-			case 2:
-				Gui::setScreen(std::make_unique<Credits>());
-				Gui::DrawScreen();
-				break;
-		}
+		Gui::setScreen(std::make_unique<LangSelection>());
+		selector->resize(20, 20); // Resize to the other size.
+		doUpdate = true;
+		Gui::DrawScreen();
 	}
 
 	if (hDown & KEY_TOUCH) {
 		if (Buttontouching(this->buttonPos[0])) {
-			selector->hide();
+			Gui::setScreen(std::make_unique<LangSelection>());
+			selector->resize(20, 20); // Resize to the other size.
 			doUpdate = true;
-			selector->update();
-			Gui::setScreen(std::make_unique<GameScreen>());
-			Gui::DrawScreen();
-		} else if (Buttontouching(this->buttonPos[1])) {
-			Gui::setScreen(std::make_unique<Settings>());
-			doUpdate = true;
-			Gui::DrawScreen();
-		} else if (Buttontouching(this->buttonPos[2])) {
-			selector->hide();
-			doUpdate = true;
-			selector->update();
-			Gui::setScreen(std::make_unique<Credits>());
 			Gui::DrawScreen();
 		}
+	}
+
+	if (hDown & KEY_B) {
+		doUpdate = true;
+		Gui::screenBack();
+		Gui::DrawScreen();
+		return;
 	}
 }
