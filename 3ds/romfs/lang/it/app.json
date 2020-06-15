@@ -60,6 +60,7 @@
 	"NO_CARD_SETS_FOUND": "Nessun CarfSet trovato.",
 	"NUMBER_CARD": "Solo una carta normale, senza casi speciali.",
 	"OK": "OK",
+	"PLAY_INSTRUCTIONS": ": Draw Card\n | : Change Card\n: Play Card\n | : Go to first/last card",
 	"PLAYER": "Player",
 	"PLAYER_BREAK": "%s deve fare una pausa.\n%s: Continua!",
 	"PLAYER_NAME": "Nome di Giocatore: ",
