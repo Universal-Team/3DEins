@@ -60,6 +60,7 @@
 	"NO_CARD_SETS_FOUND": "No CardSets found.",
 	"NUMBER_CARD": "Just a normal card, without special cases.",
 	"OK": "OK",
+	"PLAY_INSTRUCTIONS": ": Draw Card\n | : Change Card\n: Play Card\n | : Go to first/last card",
 	"PLAYER": "Player",
 	"PLAYER_BREAK": "%s needs to take a break.\n%s: Continue!",
 	"PLAYER_NAME": "Playername: ",
