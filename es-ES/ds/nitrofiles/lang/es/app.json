@@ -47,10 +47,10 @@
 	"SELECT_GAME_MODE": "Selecciona el modo de juego.",
 	"SELECT_LANG": "Eliga el lenguaje actual.",
 	"SELECT_PLAYER_AMOUNT": "Seleccione la cantidad del jugador.",
-	"SINGLE_PLAYER": "Single Player",
+	"SINGLE_PLAYER": "Un jugador",
 	"TABLECARD": "Carta de mesa: ",
-	"TRANSLATORS": "All our Translators",
-	"UI_SETTINGS": "UI Settings",
+	"TRANSLATORS": "Todos nuestros traductores",
+	"UI_SETTINGS": "Interfaz de Usuario",
 	"Y_CONTINUE": "Pulse Y para continuar.",
 	"YES": "Sí"
 }
