@@ -60,6 +60,7 @@
 	"NO_CARD_SETS_FOUND": "Aucun jeu de cartes trouvé.",
 	"NUMBER_CARD": "Juste une carte normale, sans cas spéciaux.",
 	"OK": "OK",
+	"PLAY_INSTRUCTIONS": ": Draw Card\n | : Change Card\n: Play Card\n | : Go to first/last card",
 	"PLAYER": "Player",
 	"PLAYER_BREAK": "%s doit faire une pause.\n%s: Continuez!",
 	"PLAYER_NAME": "Nom du joueur: ",
