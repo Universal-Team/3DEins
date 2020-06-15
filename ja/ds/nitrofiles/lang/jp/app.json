@@ -37,6 +37,7 @@
 	"NEW_GAME": "新しいゲーム",
 	"NO": "いいえ",
 	"OK": "OK",
+	"PLAY_INSTRUCTIONS": "X: Draw Card\nD-Pad Up / Down: Change Card\nA: Play Card",
 	"PLAYER": "Player",
 	"PLAYER_BREAK": "%sは休憩が必要です。\n%s：続ける！",
 	"PLAYER_NEXT": "%sは番を完了しました。\n%s：続ける！",
