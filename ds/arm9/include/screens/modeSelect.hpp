@@ -24,38 +24,37 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef _DSEINS_GAMESCREEN_HPP
-#define _DSEINS_GAMESCREEN_HPP
+#ifndef _DSEINS_MODE_SELECT_HPP
+#define _DSEINS_MODE_SELECT_HPP
 
-#include "game.hpp"
+#include "gui.hpp"
 #include "screenCommon.hpp"
 
 #include "structs.hpp"
 #include <vector>
 
-class GameScreen : public Screen {
+class ModeSelect : public Screen {
 public:
 	void Draw(void) const override;
 	void Logic(u16 hDown, touchPosition touch) override;
-	GameScreen(bool useAI, int playerAmount);
 private:
-	// Draws.
-	void displayPlayerCards(void) const;
-	void ShowCards(void) const;
+	void DrawModeSelect(void) const;
+	void ModeLogic(u16 hDown, touchPosition touch);
+	void DrawPlayerSelect(void) const;
+	void PlayerLogic(u16 hDown, touchPosition touch);
 
-	// Logics.
-	void AILogic();
-	int getNextPlayer();
-	bool CanPlayerPlay(const int player);
-	bool checkForPlayableCard(const int player);
-	void setState(int Player);
-	std::string returnPlayerName(int player) const;
-	bool isAI() const;
+	int modeSel = 0, playerSel = 0, mode = 0;
 
-	int selection = 0;
-	bool useAI = false;
-	std::unique_ptr<Game> currentGame;
-	int playerAmount = 2;
+	std::vector<ButtonStruct> modeSelect = {
+		{80, 45, 80, 40, "SINGLE_PLAYER", GRAY, true}, // Single Player.
+		{80, 100, 80, 40, "MULTI_PLAYER", GRAY, true}  // Multiplayer.
+	};
+
+	std::vector<Structs::ButtonPos> playerSelect = {
+		{30, 60, 60, 90,}, // 2.
+		{100, 60, 60, 90},  // 3.
+		{170, 60, 60, 90} // 4.
+	};
 };
 
 #endif

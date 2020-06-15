@@ -26,7 +26,7 @@
 
 #include "credits.hpp"
 #include "mainMenu.hpp"
-#include "gameScreen.hpp"
+#include "modeSelect.hpp"
 #include "selector.hpp"
 #include "settings.hpp"
 
@@ -83,7 +83,7 @@ void MainMenu::Logic(u16 hDown, touchPosition touch) {
 	}
 
 	if (hDown & KEY_A) {
-		if (this->selection != 1) {
+		if (this->selection == 2) {
 			selector->hide();
 			doUpdate = true;
 			selector->update();
@@ -91,7 +91,8 @@ void MainMenu::Logic(u16 hDown, touchPosition touch) {
 
 		switch(this->selection) {
 			case 0:
-				Gui::setScreen(std::make_unique<GameScreen>());
+				Gui::setScreen(std::make_unique<ModeSelect>());
+				doUpdate = true;
 				Gui::DrawScreen();
 				break;
 			case 1:
@@ -108,10 +109,8 @@ void MainMenu::Logic(u16 hDown, touchPosition touch) {
 
 	if (hDown & KEY_TOUCH) {
 		if (Buttontouching(this->buttonPos[0])) {
-			selector->hide();
+			Gui::setScreen(std::make_unique<ModeSelect>());
 			doUpdate = true;
-			selector->update();
-			Gui::setScreen(std::make_unique<GameScreen>());
 			Gui::DrawScreen();
 		} else if (Buttontouching(this->buttonPos[1])) {
 			Gui::setScreen(std::make_unique<Settings>());

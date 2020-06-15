@@ -49,6 +49,7 @@ CardColor _DSEins_Helper::selectColor() {
 	int selection = 0;
 
 	selector->show();
+	selector->resize(80, 40);
 	selector->move(colorPos[selection].x, colorPos[selection].y);
 	doUpdate = true;
 	selector->update();
@@ -105,6 +106,7 @@ CardColor _DSEins_Helper::selectColor() {
 
 		if (keysDown() & KEY_A) {
 			selector->hide();
+			selector->resize(60, 90);
 			doUpdate = true;
 			selector->update();
 
@@ -122,21 +124,25 @@ CardColor _DSEins_Helper::selectColor() {
 		if (keysDown() & KEY_TOUCH) {
 			if (Buttontouching(colorPos[0])) {
 				selector->hide();
+				selector->resize(60, 90);
 				doUpdate = true;
 				selector->update();
 				return CardColor::COLOR_RED;
 			} else if (Buttontouching(colorPos[1])) {
 				selector->hide();
+				selector->resize(60, 90);
 				doUpdate = true;
 				selector->update();
 				return CardColor::COLOR_BLUE;
 			} else if (Buttontouching(colorPos[2])) {
 				selector->hide();
+				selector->resize(60, 90);
 				doUpdate = true;
 				selector->update();
 				return CardColor::COLOR_YELLOW;
 			} else if (Buttontouching(colorPos[3])) {
 				selector->hide();
+				selector->resize(60, 90);
 				doUpdate = true;
 				selector->update();
 				return CardColor::COLOR_GREEN;

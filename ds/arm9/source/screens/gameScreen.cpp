@@ -32,11 +32,15 @@
 
 extern std::unique_ptr<Selector> selector;
 
-GameScreen::GameScreen() {
+GameScreen::GameScreen(bool useAI, int playerAmount) {
+	this->playerAmount = playerAmount;
+	this->useAI = useAI;
 	this->currentGame = std::make_unique<Game>(this->playerAmount);
 }
 
-bool GameScreen::isAI() const { 
+bool GameScreen::isAI() const {
+	if (!this->useAI)	return false;
+
 	if (this->currentGame->currentPlayer() != 0) {
 		return true;
 	} else {
@@ -47,23 +51,24 @@ bool GameScreen::isAI() const {
 std::string GameScreen::returnPlayerName(int player) const {
 	switch(player) {
 		case 0:
-			return "Player 1";
+			return Lang::get("PLAYER") + " 1";
 		case 1:
-			return "Player 2";
+			return Lang::get("PLAYER") + " 2";
 		case 2:
-			return "Player 3";
+			return Lang::get("PLAYER") + " 3";
 		case 3:
-			return "Player 4";
+			return Lang::get("PLAYER") + " 4";
 	}
 	return "?";
 }
 
 bool GameScreen::checkForPlayableCard(const int player) {
-	for(int i = 0; i < (int)this->currentGame->getSize(player); i++) {
+	for (int i = 0; i < (int)this->currentGame->getSize(player); i++) {
 		if (this->currentGame->getType(i, player) == this->currentGame->tableCard().CT || this->currentGame->getColor(i, player) == this->currentGame->tableCard().CC || this->currentGame->getType(i, player) == CardType::DRAW4 || this->currentGame->getType(i, player) == CardType::WILD) {
 			return true;
 		}
 	}
+
 	return false;
 }
 
@@ -242,6 +247,16 @@ void GameScreen::displayPlayerCards(void) const {
 	printText(this->returnPlayerName(0) + " " + Lang::get("CARDS_LEFT") + std::to_string(this->currentGame->getSize(0)), 10, 5, true, true);
 	// P2.
 	printText(this->returnPlayerName(1) + " " + Lang::get("CARDS_LEFT") + std::to_string(this->currentGame->getSize(1)), 10, 25, true, true);
+
+	if (this->playerAmount == 3) {
+		// P3.
+		printText(this->returnPlayerName(2) + " " + Lang::get("CARDS_LEFT") + std::to_string(this->currentGame->getSize(2)), 10, 165, true, true);
+	} else if (this->playerAmount == 4) {
+		// P3.
+		printText(this->returnPlayerName(2) + " " + Lang::get("CARDS_LEFT") + std::to_string(this->currentGame->getSize(2)), 10, 155, true, true);
+		// P4.
+		printText(this->returnPlayerName(3) + " " + Lang::get("CARDS_LEFT") + std::to_string(this->currentGame->getSize(3)), 10, 175, true, true);
+	}
 }
 
 
