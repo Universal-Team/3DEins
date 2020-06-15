@@ -266,8 +266,8 @@ void GameScreen::Draw(void) const {
 	Gui::DrawTop(false);
 	this->displayPlayerCards();
 	// Draw TableCard.
-	Gui::DrawCard(this->currentGame->tableCard().CT, this->currentGame->tableCard().CC, 100, 45, 1, 1, true, true);
-	printText(GameHelper::getTypeName(this->currentGame->tableCard().CT) + " | " + GameHelper::getColorName(this->currentGame->tableCard().CC), 100, 140, true, true);
+	Gui::DrawCard(this->currentGame->tableCard().CT, this->currentGame->tableCard().CC, 98, 45, 1, 1, true, true);
+	printTextCentered(GameHelper::getTypeName(this->currentGame->tableCard().CT) + " | " + GameHelper::getColorName(this->currentGame->tableCard().CC), 0, 140, true, true);
 	Gui::DrawBottom(true);
 	// Display the hand.
 	this->ShowCards();
