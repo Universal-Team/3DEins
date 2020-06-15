@@ -24,19 +24,15 @@
 *         reasonable ways as different from the original version.
 */
 
-#include "chat_action.hpp"
-#include "chatSystem.hpp"
 #include "config.hpp"
 #include "credits.hpp"
-#include "gameScreen.hpp"
 #include "mainMenu.hpp"
+#include "modeSelect.hpp"
 #include "rulesScreen.hpp"
 #include "uiSettings.hpp"
 
 extern std::unique_ptr<Config> config;
-extern std::unique_ptr<ScreenState> screenS;
 extern bool exiting;
-std::unique_ptr<ChatSystem> chat;
 extern bool buttonTouch(touchPosition touch, ButtonStruct button);
 
 MainMenu::MainMenu() { }
@@ -59,7 +55,7 @@ void MainMenu::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hDown & KEY_TOUCH) {
 		if (buttonTouch(touch, mainButtons[0])) {
 			if (Msg::promptMsg(Lang::get("NEW_GAME_PROMPT"))) {
-				Gui::setScreen(std::make_unique<GameScreen>(), true, true);
+				Gui::setScreen(std::make_unique<ModeSelect>(), true, true);
 			}
 		} else if (buttonTouch(touch, mainButtons[1])) {
 			Gui::setScreen(std::make_unique<UISettings>(), true, true);
@@ -74,7 +70,7 @@ void MainMenu::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		switch (Selection) {
 			case 0:
 				if (Msg::promptMsg(Lang::get("NEW_GAME_PROMPT"))) {
-					Gui::setScreen(std::make_unique<GameScreen>(), true, true);
+					Gui::setScreen(std::make_unique<ModeSelect>(), true, true);
 				}
 				break;
 			case 1:
@@ -103,13 +99,5 @@ void MainMenu::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 		fadeout = true;
 		fadecolor = 0;
 		exiting = true;
-	}
-
-	if (hDown & KEY_X) {
-		std::vector<PlayerStruct> pS;
-		pS.push_back({"StackZ", 34453, 0, "Hey, I'm StackZ!, Main Developer! :P"});
-		pS.push_back({"Lea", 13972, 5, "Hey, I'm Lea! :)"});
-		chat = std::make_unique<ChatSystem>("Stack-World", pS);
-		screenS = std::make_unique<Chat_Action>(chat);
 	}
 }

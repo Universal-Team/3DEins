@@ -39,13 +39,16 @@ extern bool touching(touchPosition touch, Structs::ButtonPos button);
 // We will show 5 Cards.
 #define MAXSHOWNCARDS 5
 
-GameScreen::GameScreen() {
-	// Init a new game.
+GameScreen::GameScreen(bool useAI, int playerAmount) {
+	this->playerAmount = playerAmount;
+	this->useAI = useAI;
 	this->InitializeNewGame();
 }
 
 
 bool GameScreen::isAI() const { 
+	if (!this->useAI)	return false;
+	
 	if (this->currentGame->currentPlayer() != 0) {
 		return true;
 	} else {

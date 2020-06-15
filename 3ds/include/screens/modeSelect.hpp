@@ -24,62 +24,36 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef _3DEINS_GAMESCREEN_HPP
-#define _3DEINS_GAMESCREEN_HPP
+#ifndef _3DEINS_MODE_SELECT_HPP
+#define _3DEINS_MODE_SELECT_HPP
 
 #include "common.hpp"
-#include "computer.hpp"
-#include "game.hpp"
 #include "structs.hpp"
 
 #include <vector>
 
-class GameScreen : public Screen {
+class ModeSelect : public Screen {
 public:
 	void Draw(void) const override;
 	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
-	GameScreen(bool useAI, int playerAmount);
 private:
-	std::unique_ptr<Game> currentGame;
-	bool checkForPlayableCard(const int player);
+	void DrawModeSelect(void) const;
+	void ModeLogic(u32 hDown, u32 hHeld, touchPosition touch);
+	void DrawPlayerSelect(void) const;
 	void PlayerLogic(u32 hDown, u32 hHeld, touchPosition touch);
-	void SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch);
 
-	void AILogic();
-	void InitializeNewGame();
-	void setState(int Player);
-	
-	// Hand displays.
-	void DisplayPlayerHand() const;
-	void DisplayPlayerHandSmall() const;
-	void DrawPlayers() const;
-	void DrawPlayerStats(void) const;
-	void DrawSubMenu(void) const;
-	int getAvatar(int player) const;
+	int modeSel = 0, playerSel = 0, mode = 0;
 
-	// Useful functions.
-	std::string returnPlayerName(int player) const;
-	int getPlayerCards(int player) const;
-	bool CanPlayerPlay(const int player);
-	int getNextPlayer();
+	std::vector<ButtonStruct> modeSelect = {
+		{90, 70, 140, 40, "SINGLE_PLAYER"}, // Single Player.
+		{90, 145, 140, 40, "MULTI_PLAYER"} // Multi Player.
+	};
 
-	void animationCard(const int player, const CardStruct &card);
-	void drawAnim(const int player, const CardStruct &card);
-	
-	// Player Amount & Current Player.
-	std::unique_ptr<Computer> computers[3];
-	int playerAmount = 2;
-	int subMode = 0;
-	int selection = 0;
-	bool isSubMenu = false;
-	bool useAI = false;
-	bool isAI() const;
 
-	// Button Struct for the Sub Menu.
-	std::vector<Structs::ButtonPos> breakBtn = {
-		{90, 40, 140, 40},  // Resume.
-		{90, 100, 140, 40}, // Restart.
-		{90, 160, 140, 40}, // Exit game.
+	std::vector<Structs::ButtonPos> playerSelect = {
+		{50, 70, 60, 90}, // 2.
+		{140, 70, 60, 90}, // 3.
+		{230, 70, 60, 90} // 4.
 	};
 };
 
