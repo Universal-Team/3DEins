@@ -129,6 +129,8 @@ void GameScreen::AILogic() {
 					Msg::DisplayPlayerSwitch(message);
 					Gui::screenBack();
 					Gui::DrawScreen();
+					selector->show();
+					doUpdate = true;
 					return;
 				}
 
@@ -304,6 +306,8 @@ void GameScreen::Logic(u16 hDown, touchPosition touch) {
 	if (this->isAI()) {
 		this->AILogic();
 	} else {
+		u16 repeat = keysDownRepeat();
+
 		if (this->currentGame->state(this->currentGame->currentPlayer()) == PlayerState::BREAK) {
 			this->currentGame->state(PlayerState::NOTHING, this->currentGame->currentPlayer()); // Reset.
 			char message [100];
@@ -375,7 +379,7 @@ void GameScreen::Logic(u16 hDown, touchPosition touch) {
 			return;
 		}
 
-		if (hDown & KEY_DOWN) {
+		if (repeat & KEY_DOWN) {
 			if (this->currentGame->cardIndex(this->currentGame->currentPlayer()) < this->currentGame->getSize(this->currentGame->currentPlayer()) -1) {
 				this->currentGame->cardIndex(this->currentGame->cardIndex(this->currentGame->currentPlayer()) + 1, this->currentGame->currentPlayer());
 				Gui::clearScreen(false, true);
@@ -383,7 +387,7 @@ void GameScreen::Logic(u16 hDown, touchPosition touch) {
 			}
 		}
 
-		if (hDown & KEY_UP) {
+		if (repeat & KEY_UP) {
 			if (this->currentGame->cardIndex(this->currentGame->currentPlayer()) > 0) {
 				this->currentGame->cardIndex(this->currentGame->cardIndex(this->currentGame->currentPlayer()) - 1, this->currentGame->currentPlayer());
 				Gui::clearScreen(false, true);
