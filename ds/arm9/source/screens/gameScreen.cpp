@@ -258,10 +258,22 @@ void GameScreen::Draw(void) const {
 
 // Display the Player's hand.
 void GameScreen::ShowCards(void) const {
+	std::string cards;
 	if (!this->isAI()) {
-		for (unsigned i = 0; i < std::min(7u, (unsigned)this->currentGame->getSize(this->currentGame->currentPlayer())-this->screenPos); i++) {
-			printText(GameHelper::getTypeName(this->currentGame->getType(this->screenPos+i, this->currentGame->currentPlayer())) + " | " + GameHelper::getColorName(this->currentGame->getColor(this->screenPos+i, this->currentGame->currentPlayer())), 8, 20 + (i * 15), false, true);
+		for (int i = (this->currentGame->cardIndex(this->currentGame->currentPlayer()) < 6) ? 0 : this->currentGame->cardIndex(this->currentGame->currentPlayer())-6; i < this->currentGame->getSize(this->currentGame->currentPlayer()) && i < ((this->currentGame->cardIndex(this->currentGame->currentPlayer()) < 6) ? 7 : this->currentGame->cardIndex(this->currentGame->currentPlayer())+1); i++) {
+			if (i == this->currentGame->cardIndex(this->currentGame->currentPlayer())) {
+				cards += "> " + GameHelper::getTypeName(this->currentGame->getType(i, this->currentGame->currentPlayer())) + " | " + GameHelper::getColorName(this->currentGame->getColor(i, this->currentGame->currentPlayer())) + "\n";
+			} else {
+				cards += GameHelper::getTypeName(this->currentGame->getType(i, this->currentGame->currentPlayer())) + " | " + GameHelper::getColorName(this->currentGame->getColor(i, this->currentGame->currentPlayer())) + "\n";
+			}
+
 		}
+
+		for (int i = 0; i < ((this->currentGame->getSize(this->currentGame->currentPlayer()) < 6) ? 6-this->currentGame->getSize(this->currentGame->currentPlayer()) : 0); i++) {
+			cards += "\n";
+		}
+
+		printText(cards, 8, 20, false, true);
 
 		// Draw Current Card.
 		Gui::DrawPlayerCard(this->currentGame->getHand(this->currentGame->currentPlayer()), this->currentGame->cardIndex(this->currentGame->currentPlayer()), 140, 45, 1, 1, false, true);
@@ -386,17 +398,6 @@ void GameScreen::Logic(u16 hDown, touchPosition touch) {
 			} else {
 				Msg::DisplayPlayerSwitch(Lang::get("DRAW_1_MSG"));
 			}
-		}
-
-		// Scroll screen if needed.
-		if (this->currentGame->cardIndex(this->currentGame->currentPlayer()) < screenPos) {
-			this->screenPos = this->currentGame->cardIndex(this->currentGame->currentPlayer());
-			Gui::clearScreen(false, true);
-			this->ShowCards();
-		} else if (this->currentGame->cardIndex(this->currentGame->currentPlayer()) > screenPos + 7 - 1) {
-			this->screenPos = this->currentGame->cardIndex(this->currentGame->currentPlayer()) - 7 + 1;
-			Gui::clearScreen(false, true);
-			this->ShowCards();
 		}
 	}
 }
