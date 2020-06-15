@@ -44,6 +44,7 @@ touchPosition touch;
 
 std::unique_ptr<SaveData> savedata;
 std::unique_ptr<Config> config;
+CardStruct animationCards[4];
 
 // Include all spritesheet's.
 C2D_SpriteSheet cards;
@@ -113,6 +114,13 @@ Result Init::Initialize() {
 	
 	osSetSpeedupEnable(true); // Enable speed-up for New 3DS users.
 	config->loadCardSets("romfs:/Set.json"); // Load initial colors.
+
+	// Randomize animation cards here.
+	for (int i = 0; i < 4; i++) {
+		animationCards[i].CC = CardColor(((randomGen()) % 3) + 0);
+		animationCards[i].CT = CardType(((randomGen()) % 15) + 0);
+	}
+
 	Gui::setScreen(std::make_unique<MainMenu>(), false, true);
 	return 0;
 }
