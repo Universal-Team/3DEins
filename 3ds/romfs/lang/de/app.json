@@ -60,7 +60,7 @@
 	"NO_CARD_SETS_FOUND": "Keine Kartensets gefunden.",
 	"NUMBER_CARD": "Nur eine normale Karte, ohne besondere Fälle.",
 	"OK": "OK",
-	"PLAY_INSTRUCTIONS": ": Draw Card\n | : Change Card\n: Play Card\n | : Go to first/last card",
+	"PLAY_INSTRUCTIONS": ": Karte ziehen\n | : Karte wechseln\n: Karte spielen\n | : Gehe zur ersten/letzten Karte",
 	"PLAYER": "Spieler",
 	"PLAYER_BREAK": "%s muss eine Pause einlegen.\n%s: Du kannst fortfahren!",
 	"PLAYER_NAME": "Spielername: ",
