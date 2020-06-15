@@ -37,6 +37,7 @@
 	"NEW_GAME": "Nuevo Juego",
 	"NO": "No \t",
 	"OK": "Aceptar",
+	"PLAY_INSTRUCTIONS": "X: Draw Card\nD-Pad Up / Down: Change Card\nA: Play Card",
 	"PLAYER": "Jugador",
 	"PLAYER_BREAK": "%s necesita tomar un descanso.\n%s: ¡Continúe!",
 	"PLAYER_NEXT": "%s ha terminado su ronda.\n%s: ¡Continúe!",
