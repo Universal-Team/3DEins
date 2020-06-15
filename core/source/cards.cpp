@@ -26,7 +26,7 @@
 
 #include "cards.hpp"
 #include "coreHelper.hpp"
-#include "msg.hpp"
+#include "logging.hpp"
 
 // Deck &deck is the reference to our CardDeck.
 void Cards::add(std::unique_ptr<Deck> &deck) {
@@ -37,7 +37,7 @@ void Cards::add(std::unique_ptr<Deck> &deck) {
 	
 		this->Hand.push_back(deck->getCard());
 	} else {
-		Msg::DisplayWaitMsg("Carddeck is not initialized.");
+		Logging::writeToLog("Carddeck is not initialized.");
 	}
 }
 
@@ -47,10 +47,10 @@ void Cards::Remove(const int position) {
 		if (position < (int)this->Hand.size()) { // Out of range checks.
 			this->Hand.erase(this->Hand.begin()+position);
 		} else {
-			Msg::DisplayWaitMsg("Position out of scope.\nDo not remove card.");
+			Logging::writeToLog("Position out of scope.\nDo not remove card.");
 		}
 	} else {
-		Msg::DisplayWaitMsg("Hand size is 0 or lower.\nDo not remove card.");
+		Logging::writeToLog("Hand size is 0 or lower.\nDo not remove card.");
 	}
 }
 
