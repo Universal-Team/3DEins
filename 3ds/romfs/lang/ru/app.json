@@ -60,6 +60,7 @@
 	"NO_CARD_SETS_FOUND": "CardSet не найден.",
 	"NUMBER_CARD": "Просто обычная карта, без особых случаев.",
 	"OK": "OK",
+	"PLAY_INSTRUCTIONS": ": Draw Card\n | : Change Card\n: Play Card\n | : Go to first/last card",
 	"PLAYER": "Игрок",
 	"PLAYER_BREAK": "%s требует перерыва.\n%s: Продолжить!",
 	"PLAYER_NAME": "Имя игрока: ",
