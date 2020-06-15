@@ -67,7 +67,7 @@ bool buttonTouch(touchPosition touch, ButtonStruct button) {
 // Generate random ID between 1 and 65535.
 void Init::GenerateID() {
 	srand(std::time(nullptr));
-	u16 id = rand() % 65535 + 1;
+	u16 id = ((randomGen()) % 65535) + 1;
 	savedata->playerID(id);
 }
 
@@ -102,7 +102,7 @@ Result Init::Initialize() {
 
 	Lang::load();
 	savedata = std::make_unique<SaveData>("sdmc:/3ds/3DEins/SaveData.dat");
-	
+	CoreHelper::generateSeed();
 	if (savedata) {
 		if (savedata->playerID() == 0) {
 			GenerateID(); // We don't have an ID yet, so generate it.
@@ -120,7 +120,6 @@ Result Init::Initialize() {
 Result Init::MainLoop() {
 	// Initialize everything.
 	Initialize();
-	CoreHelper::generateSeed();
 	// Here we set the initial fade effect for fadein.
 	fadealpha = 255;
 	fadein = true;

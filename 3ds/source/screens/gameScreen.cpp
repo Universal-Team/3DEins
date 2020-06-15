@@ -64,10 +64,9 @@ void GameScreen::InitializeNewGame() {
 	this->currentGame = std::make_unique<Game>(this->playerAmount);
 
 	int randomNum[3];
-	srand(std::time(nullptr));
-	randomNum[0] = {rand() % 4 + 0};
-	randomNum[1] = {rand() % 4 + 0};
-	randomNum[2] = {rand() % 4 + 0};
+	randomNum[0] = ((randomGen()) % 4) + 1;
+	randomNum[1] = ((randomGen()) % 4) + 1;
+	randomNum[2] = ((randomGen()) % 4) + 1;
 
 	this->computers[0] = std::make_unique<Computer>(randomNum[0]);
 	this->computers[1] = std::make_unique<Computer>(randomNum[1]);
