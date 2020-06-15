@@ -60,6 +60,7 @@
 	"NO_CARD_SETS_FOUND": "No CardSets found.",
 	"NUMBER_CARD": "特別なケースなしで通常のカードです。",
 	"OK": "OK",
+	"PLAY_INSTRUCTIONS": ": Draw Card\n | : Change Card\n: Play Card\n | : Go to first/last card",
 	"PLAYER": "Player",
 	"PLAYER_BREAK": "%sは休憩が必要です。\n%s：続ける！",
 	"PLAYER_NAME": "プレイヤー名：",
