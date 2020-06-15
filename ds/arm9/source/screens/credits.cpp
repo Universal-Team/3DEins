@@ -53,6 +53,7 @@ void Credits::Draw(void) const {
 	printTextCentered("DSEins - " + Lang::get("CREDITS"), 0, 1, true, true);
 	printTextCentered(Lang::get("DEVELOPED_BY"), 0, 25, true, true);
 	printTextCentered(Lang::get("MAIN_DEV"), 0, 40, true, true);
+	printText(Lang::get("CURRENT_VERSION") + VER_NUMBER, (250-getTextWidth(Lang::get("CURRENT_VERSION") + VER_NUMBER)), 175, true, true);
 	drawImage(50, 70, this->core, true, true);
 	Gui::DrawBottom(true);
 	this->DrawBottom();
