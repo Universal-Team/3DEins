@@ -37,6 +37,7 @@
 	"NEW_GAME": "Nouvelle partie",
 	"NO": "Non",
 	"OK": "OK",
+	"PLAY_INSTRUCTIONS": "X: Draw Card\nD-Pad Up / Down: Change Card\nA: Play Card",
 	"PLAYER": "Player",
 	"PLAYER_BREAK": "%s doit faire une pause.\n%s: A toi!",
 	"PLAYER_NEXT": "%s a terminé sa manche.\n%s: A toi!",
