@@ -29,7 +29,7 @@
 #include "rulesScreen.hpp"
 
 extern std::unique_ptr<Config> config;
-extern bool touching(touchPosition touch, Structs::ButtonPos button);
+extern bool touching(Structs::ButtonPos button);
 
 #ifdef _USE_SPECIAL_CARD
 #define MAXRULES	15
@@ -123,6 +123,7 @@ void RulesScreen::Draw(void) const {
 	for(int i = 0; i < (int)cards.size(); i++) {
 		GFX::DrawCard(CardType(i), cards[i].x, cards[i].y, CardColor(1), 0.8, 0.8);
 	}
+
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 }
 
@@ -140,7 +141,7 @@ void RulesScreen::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 	if (hDown & KEY_TOUCH) {
 		for(int i = 0; i < (int)cards.size(); i++) {
-			if (touching(touch, cards[i])) {
+			if (touching(cards[i])) {
 				rulePage = i;
 			}
 		}

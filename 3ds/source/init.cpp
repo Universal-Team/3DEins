@@ -54,13 +54,13 @@ C2D_SpriteSheet sprites;
 bool isGood = true;
 
 // If Position pressed -> Do something.
-bool touching(touchPosition touch, Structs::ButtonPos button) {
+bool touching(Structs::ButtonPos button) {
 	if (touch.px >= button.x && touch.px <= (button.x + button.w) && touch.py >= button.y && touch.py <= (button.y + button.h))	return true;
 	else	return false;
 }
 
 // If Button Position pressed -> Do something.
-bool buttonTouch(touchPosition touch, ButtonStruct button) {
+bool buttonTouch(ButtonStruct button) {
 	if (touch.px >= button.X && touch.px <= (button.X + button.xSize) && touch.py >= button.Y && touch.py <= (button.Y + button.ySize))	return true;
 	else	return false;
 }

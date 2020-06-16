@@ -36,11 +36,11 @@ extern std::unique_ptr<Config> config;
 std::vector<Structs::ButtonPos> promptBtn = {
 	{10, 100, 140, 40}, // Yes.
 	{170, 100, 140, 40}, // No.
-	{100, 100, 140, 40}, // OK.
+	{100, 100, 140, 40}  // OK.
 };
 
 extern touchPosition touch;
-extern bool touching(touchPosition touch, Structs::ButtonPos button);
+extern bool touching(Structs::ButtonPos button);
 
 // Display a Message, which needs to be confirmed with A/B.
 bool Msg::promptMsg2(std::string promptMsg) {
@@ -79,10 +79,10 @@ bool Msg::promptMsg2(std::string promptMsg) {
 				return false;
 			}
 		}
-		if (hidKeysDown() & KEY_TOUCH && touching(touch, promptBtn[0])) {
+		if (hidKeysDown() & KEY_TOUCH && touching(promptBtn[0])) {
 			return true;
 		}
-		if (hidKeysDown() & KEY_TOUCH && touching(touch, promptBtn[1])) {
+		if (hidKeysDown() & KEY_TOUCH && touching(promptBtn[1])) {
 			return false;
 		}
 	}
@@ -141,8 +141,7 @@ void Msg::DisplayWaitMsg(std::string waitMsg, ...) {
 		gspWaitForVBlank();
 		hidScanInput();
 		hidTouchRead(&touch);
-		if ((hidKeysDown() & KEY_A) || (hidKeysDown() & KEY_TOUCH && touching(touch, promptBtn[2])))
-			break;
+		if ((hidKeysDown() & KEY_A) || (hidKeysDown() & KEY_TOUCH && touching(promptBtn[2])))	break;
 	}
 }
 
@@ -165,8 +164,7 @@ void Msg::DisplayPlayerSwitch(std::string waitMsg, ...) {
 		gspWaitForVBlank();
 		hidScanInput();
 		hidTouchRead(&touch);
-		if ((hidKeysDown() & KEY_Y) || (hidKeysDown() & KEY_TOUCH && touching(touch, promptBtn[2])))
-			break;
+		if ((hidKeysDown() & KEY_Y) || (hidKeysDown() & KEY_TOUCH && touching(promptBtn[2])))	break;
 	}
 }
 

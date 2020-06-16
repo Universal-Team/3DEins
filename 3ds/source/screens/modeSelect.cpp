@@ -29,8 +29,8 @@
 #include "modeSelect.hpp"
 
 extern std::unique_ptr<Config> config;
-extern bool buttonTouch(touchPosition touch, ButtonStruct button);
-extern bool touching(touchPosition touch, Structs::ButtonPos button);
+extern bool buttonTouch(ButtonStruct button);
+extern bool touching(Structs::ButtonPos button);
 
 void ModeSelect::Draw(void) const {
 	if (this->mode == 0) {
@@ -88,7 +88,7 @@ void ModeSelect::ModeLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 	if (hDown & KEY_TOUCH) {
 		for (int i = 0; i < 2; i++) {
-			if (buttonTouch(touch, this->modeSelect[i])) {
+			if (buttonTouch(this->modeSelect[i])) {
 				this->modeSel = i;
 				this->mode = 1;
 			}
@@ -115,7 +115,7 @@ void ModeSelect::PlayerLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 	if (hDown & KEY_TOUCH) {
 		for (int i = 0; i < 3; i++) {
-			if (touching(touch, this->playerSelect[i])) {
+			if (touching(this->playerSelect[i])) {
 				this->playerSel = i;
 				if (this->modeSel == 0) {
 					Gui::setScreen(std::make_unique<GameScreen>(true, 2 + this->playerSel), true, true);

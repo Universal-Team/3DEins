@@ -31,7 +31,7 @@
 
 extern std::unique_ptr<Config> config;
 
-extern bool touching(touchPosition touch, Structs::ButtonPos button);
+extern bool touching(Structs::ButtonPos button);
 
 // Draw a preview of the color.
 void ColorChanger::DrawPreview(void) const {
@@ -101,7 +101,7 @@ void ColorChanger::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	}
 
 	if (hDown & KEY_TOUCH) {
-		if (touching(touch, buttons[0])) {
+		if (touching(buttons[0])) {
 			int temp = Keyboard::getUint(255, Lang::get("ENTER_RED_RGB"));
 			if(temp != -1) {
 				red = temp;
@@ -117,7 +117,7 @@ void ColorChanger::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 					config->textColor(RGBA8(red, ColorHelper::getColorValue(config->textColor(), 1), ColorHelper::getColorValue(config->textColor(), 0), 255));
 				}
 			}
-		} else if (touching(touch, buttons[1])) {
+		} else if (touching(buttons[1])) {
 			int temp = Keyboard::getUint(255, Lang::get("ENTER_GREEN_RGB"));
 			if(temp != -1) {
 				green = temp;
@@ -133,7 +133,7 @@ void ColorChanger::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 					config->textColor(RGBA8(ColorHelper::getColorValue(config->textColor(), 2), green, ColorHelper::getColorValue(config->textColor(), 0), 255));
 				}
 			}
-		} else if (touching(touch, buttons[2])) {
+		} else if (touching(buttons[2])) {
 			int temp = Keyboard::getUint(255, Lang::get("ENTER_BLUE_RGB"));
 			if(temp != -1) {
 				blue = temp;

@@ -30,7 +30,6 @@
 #include <vector>
 
 extern std::unique_ptr<Config> config;
-extern bool touching(touchPosition touch, Structs::ButtonPos button);
 
 void Chat_Action::DrawStateTop(void) const {
 	char message [100];
@@ -59,7 +58,7 @@ void Chat_Action::DrawChatTop(void) const {
 }
 
 void Chat_Action::DrawMemberListTop(void) const {
-	for(int i=0;i<3 && i<(int)cs->getUserAmount();i++) {
+	for(int i = 0; i < 3 && i < (int)cs->getUserAmount(); i++) {
 		if (memberPos + i == memberSelection) {
 			Gui::Draw_Rect(0, 40 + (i * 60), 400, 50, config->selectorColor());
 		} else {
@@ -91,6 +90,7 @@ void Chat_Action::DrawChatBottom(void) const {
 		} else {
 			C2D_DrawRectSolid(this->LayoutABC[i].x, this->LayoutABC[i].y, 0.5f, 30, 40, config->barColor() & C2D_Color32(255, 255, 255, 200));
 		}
+
 		if (this->layout == 0) {
 			char c[2] = {LayoutABC[i].character[0]};
 			Gui::DrawString(LayoutABC[i].x+5+(10-(Gui::GetStringWidth(0.55, c)/2)), this->LayoutABC[i].y+10+(10-(Gui::GetStringHeight(0.55, c)/2)), 0.55, config->textColor(), c);

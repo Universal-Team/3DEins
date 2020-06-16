@@ -28,7 +28,7 @@
 #include "langSelection.hpp"
 
 extern std::unique_ptr<Config> config;
-extern bool touching(touchPosition touch, Structs::ButtonPos button);
+extern bool touching(Structs::ButtonPos button);
 
 // Get current lang.
 LangSelection::LangSelection() { this->selectedLang = config->language(); }
@@ -63,7 +63,7 @@ void LangSelection::Draw(void) const {
 void LangSelection::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hDown & KEY_TOUCH) {
 		for(int language = 0; language < 10; language++) {
-			if (touching(touch, langBlocks[language])) {
+			if (touching(langBlocks[language])) {
 				config->language(language);
 				Lang::load();
 			}

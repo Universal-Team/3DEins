@@ -51,15 +51,15 @@ void SetChanger::Draw(void) const {
 		Gui::DrawStringCentered(0, 0, 0.7f, config->textColor(), "3DEins - " + Lang::get("CARDSETS"), 400);
 
 		std::string dirs;
-		for (uint i=(selectedSet<5) ? 0 : selectedSet-5;i<dirContents.size()&&i<((selectedSet<5) ? 6 : selectedSet+1);i++) {
-			if (i == selectedSet) {
+		for (uint i = (this->selectedSet < 5) ? 0 : this->selectedSet-5; i < dirContents.size() && i < ((this->selectedSet < 5) ? 6 : this->selectedSet+1); i++) {
+			if (i == this->selectedSet) {
 				dirs += "> " + dirContents[i].name + "\n\n";
 			} else {
 				dirs += dirContents[i].name + "\n\n";
 			}
 		}
 
-		for (uint i=0;i<((dirContents.size()<6) ? 6-dirContents.size() : 0);i++) {
+		for (uint i = 0; i < ((dirContents.size() < 6) ? 6-dirContents.size() : 0); i++) {
 			dirs += "\n\n";
 		}
 

@@ -29,7 +29,7 @@
 
 extern std::unique_ptr<Config> config;
 
-extern bool touching(touchPosition touch, Structs::ButtonPos button);
+extern bool touching(Structs::ButtonPos button);
 
 struct Translator {
 	std::string Name;

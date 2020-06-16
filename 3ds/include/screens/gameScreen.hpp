@@ -74,12 +74,21 @@ private:
 	bool isSubMenu = false;
 	bool useAI = false;
 	bool isAI() const;
-
+	void PlayLogic(int cardPos);
+	
 	// Button Struct for the Sub Menu.
 	std::vector<Structs::ButtonPos> breakBtn = {
 		{90, 40, 140, 40},  // Resume.
 		{90, 100, 140, 40}, // Restart.
-		{90, 160, 140, 40}, // Exit game.
+		{90, 160, 140, 40}  // Exit game.
+	};
+
+	const std::vector<Structs::ButtonPos> cardPos = {
+		{1, 50, 60, 90},
+		{66, 50, 60, 90},
+		{131, 50, 60, 90},
+		{196, 50, 60, 90},
+		{261, 50, 60, 90}
 	};
 };
 

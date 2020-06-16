@@ -32,7 +32,7 @@
 
 
 extern std::unique_ptr<Config> config;
-extern bool touching(touchPosition touch, Structs::ButtonPos button);
+extern bool touching(Structs::ButtonPos button);
 
 void UISettings::Draw(void) const {
 	GFX::DrawTop();
@@ -58,11 +58,11 @@ void UISettings::Draw(void) const {
 
 void UISettings::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hDown & KEY_TOUCH) {
-		if (touching(touch, mainButtons[0])) {
+		if (touching(mainButtons[0])) {
 			Gui::setScreen(std::make_unique<ColorChanger>(), true, true);
-		} else if (touching(touch, mainButtons[1])) {
+		} else if (touching(mainButtons[1])) {
 			Gui::setScreen(std::make_unique<LangSelection>(), true, true);
-		} else if (touching(touch, mainButtons[2])) {
+		} else if (touching(mainButtons[2])) {
 			if (config->allowAnimation()) {
 				config->allowAnimation(false);
 				Msg::DisplayWaitMsg(Lang::get("TURNED_OFF"));
@@ -70,7 +70,7 @@ void UISettings::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 				config->allowAnimation(true);
 				Msg::DisplayWaitMsg(Lang::get("TURNED_ON"));
 			}
-		} else if (touching(touch, mainButtons[3])) {
+		} else if (touching(mainButtons[3])) {
 			Gui::setScreen(std::make_unique<SetChanger>(), true, true);
 		}
 	}

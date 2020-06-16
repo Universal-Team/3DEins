@@ -38,7 +38,7 @@ std::vector<Structs::ButtonPos> colorPos = {
 	{10, 145, 140, 40}, // Yellow.
 	{170, 145, 140, 40}, // Green.
 };
-extern bool touching(touchPosition touch, Structs::ButtonPos button);
+extern bool touching(Structs::ButtonPos button);
 
 // Select a Color.
 CardColor _3DEins_Helper::selectColor() {
@@ -94,13 +94,13 @@ CardColor _3DEins_Helper::selectColor() {
 		}
 
 		if (hidKeysDown() & KEY_TOUCH) {
-			if (touching(touch, colorPos[0])) {
+			if (touching(colorPos[0])) {
 				return CardColor::COLOR_RED;
-			} else if (touching(touch, colorPos[1])) {
+			} else if (touching(colorPos[1])) {
 				return CardColor::COLOR_BLUE;
-			} else if (touching(touch, colorPos[2])) {
+			} else if (touching(colorPos[2])) {
 				return CardColor::COLOR_YELLOW;
-			} else if (touching(touch, colorPos[3])) {
+			} else if (touching(colorPos[3])) {
 				return CardColor::COLOR_GREEN;
 			}
 		}
@@ -135,6 +135,7 @@ int _3DEins_Helper::selectAvatar(int oldAvatar) {
 		Gui::Draw_Rect(110, 160, 80, 30, config->buttonColor());
 		Gui::Draw_Rect(210, 160, 80, 30, config->buttonColor());
 		Gui::Draw_Rect(310, 160, 80, 30, config->buttonColor());
+		
 		if (page == 1) {
 			GFX::DrawButtonSelector(10 + (selection * 100), 160, 1, 1, true);
 		} else {

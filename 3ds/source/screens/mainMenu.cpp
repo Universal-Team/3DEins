@@ -33,7 +33,7 @@
 
 extern std::unique_ptr<Config> config;
 extern bool exiting;
-extern bool buttonTouch(touchPosition touch, ButtonStruct button);
+extern bool buttonTouch(ButtonStruct button);
 
 MainMenu::MainMenu() { }
 
@@ -53,15 +53,15 @@ void MainMenu::Draw(void) const {
 
 void MainMenu::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hDown & KEY_TOUCH) {
-		if (buttonTouch(touch, mainButtons[0])) {
+		if (buttonTouch(mainButtons[0])) {
 			if (Msg::promptMsg(Lang::get("NEW_GAME_PROMPT"))) {
 				Gui::setScreen(std::make_unique<ModeSelect>(), true, true);
 			}
-		} else if (buttonTouch(touch, mainButtons[1])) {
+		} else if (buttonTouch(mainButtons[1])) {
 			Gui::setScreen(std::make_unique<UISettings>(), true, true);
-		} else if (buttonTouch(touch, mainButtons[2])) {
+		} else if (buttonTouch(mainButtons[2])) {
 			Gui::setScreen(std::make_unique<Credits>(), true, true);
-		} else if (buttonTouch(touch, mainButtons[3])) {
+		} else if (buttonTouch(mainButtons[3])) {
 			Gui::setScreen(std::make_unique<RulesScreen>(), true, true);
 		}
 	}
