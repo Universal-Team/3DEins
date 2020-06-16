@@ -52,7 +52,7 @@
 	"LOADING_SET_PROMPT": "Gostaria de carregar este conjunto?\n\n%s",
 	"LOADING_SPRITESHEET": "Carregando Spritesheet...",
 	"MAIN_DEV": "Desenvolvedor Principal: StackZ",
-	"MAINMENU": "MainMenu",
+	"MAINMENU": "MenuPrincipal",
 	"MULTI_PLAYER": "Multijogador",
 	"NEW_GAME": "Novo Jogo",
 	"NEW_GAME_PROMPT": "Gostaria de iniciar um novo jogo?\n3DEins não estão totalmente implementados no momento.",
@@ -60,7 +60,7 @@
 	"NO_CARD_SETS_FOUND": "Nenhum CardSet encontrado.",
 	"NUMBER_CARD": "Apenas um cartão normal, sem casos especiais.",
 	"OK": "OK",
-	"PLAY_INSTRUCTIONS": ": Draw Card\n | : Change Card\n: Play Card\n | : Go to first/last card",
+	"PLAY_INSTRUCTIONS": ": Comprar Cartão\n | : Mudar Cartão \n: Jogar Cartão\n | : Ir para o primeiro/último cartão",
 	"PLAYER": "Jogador",
 	"PLAYER_BREAK": "%s precisa fazer uma pausa.\n%s: Continuar!",
 	"PLAYER_NAME": "Nome do jogador: ",
@@ -97,6 +97,6 @@
 	"UNIVERSAL_CORE": "Para Universal-Core que é usado com o aplicativo 3DS.",
 	"WILD_CARD": "O jogador atual pode escolher uma cor.",
 	"WILD_DRAW4_CARD": "O próximo jogador precisa comprar 4 cartas.\nO jogador atual pode escolher uma cor.\nEste cartão pode ser combatido com outro cartão Plus.",
-	"Y_CONTINUE": "Press  to continue.",
-	"YES": "Yes"
+	"Y_CONTINUE": "Pressione  para continuar.",
+	"YES": "Sim"
 }
