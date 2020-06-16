@@ -45,9 +45,9 @@ private:
 	void previewLogic(u32 hDown, u32 hHeld, touchPosition touch);
 	void loadPreviewColors(const std::string file);
 
-
 	bool checkForValidate(std::string file);
 	Result loadSet(std::string folder);
+	Result loadDefault();
 	uint selectedSet = 0;
 	std::string setPath = "";
 	mutable bool dirChanged = true;

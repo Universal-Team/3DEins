@@ -84,6 +84,7 @@ void SetChanger::Draw(void) const {
 			Gui::DrawStringCentered(0, 0, 0.7f, config->textColor(), "3DEins - " + Lang::get("CARDSETS"), 400);
 
 			std::string dirs;
+
 			for (uint i = (this->selectedSet < 5) ? 0 : this->selectedSet-5; i < dirContents.size() && i < ((this->selectedSet < 5) ? 6 : this->selectedSet+1); i++) {
 				if (i == this->selectedSet) {
 					dirs += "> " + dirContents[i].name + "\n\n";
@@ -128,14 +129,25 @@ void SetChanger::previewLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	}
 
 	if (hDown & KEY_A) {
-		Msg::DisplayMsg(Lang::get("LOADING_SPRITESHEET"));
-		Gui::unloadSheet(cards);
-		Gui::loadSheet((this->setPath + "/cards.t3x").c_str(), cards);
-		config->loadCardSets(this->setPath + "/Set.json");
-		C2D_SpriteSheetFree(this->previewCards);
-		this->selectedCard = 0;
-		this->setPath = "";
-		this->mode = 0;
+		if (this->setPath == "3DEINS_DEFAULT_ROMFS") {
+			Msg::DisplayMsg(Lang::get("LOADING_SPRITESHEET"));
+			Gui::unloadSheet(cards);
+			Gui::loadSheet("romfs:/gfx/cards.t3x", cards);
+			config->loadCardSets("romfs:/Set.json");
+			C2D_SpriteSheetFree(this->previewCards);
+			this->selectedCard = 0;
+			this->setPath = "";
+			this->mode = 0;
+		} else {
+			Msg::DisplayMsg(Lang::get("LOADING_SPRITESHEET"));
+			Gui::unloadSheet(cards);
+			Gui::loadSheet((this->setPath + "/cards.t3x").c_str(), cards);
+			config->loadCardSets(this->setPath + "/Set.json");
+			C2D_SpriteSheetFree(this->previewCards);
+			this->selectedCard = 0;
+			this->setPath = "";
+			this->mode = 0;
+		}
 	}
 
 	if (hDown & KEY_B) {
@@ -187,6 +199,10 @@ void SetChanger::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 			}
 		}
 
+		if (hDown & KEY_X) {
+			this->loadDefault();
+		}
+
 		if (hDown & KEY_B) {
 			Gui::screenBack(true);
 			return;
@@ -208,6 +224,21 @@ bool SetChanger::checkForValidate(std::string file) {
 		return false;
 	}
 }
+
+Result SetChanger::loadDefault() {
+	char message [100];
+	snprintf(message, sizeof(message), Lang::get("LOADING_SET_PROMPT").c_str(), "3DEINS_DEFAULT");
+	if (Msg::promptMsg2(message)) {
+		Msg::DisplayMsg(Lang::get("LOADING_SPRITESHEET"));
+		// Load.
+		Gui::loadSheet("romfs:/gfx/cards.t3x", this->previewCards);
+		this->loadPreviewColors("romfs:/Set.json");
+		this->setPath = "3DEINS_DEFAULT_ROMFS";
+		this->mode = 1;
+	}
+	return 0;
+}
+
 
 // Load a set.
 Result SetChanger::loadSet(std::string folder) {
