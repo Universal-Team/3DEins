@@ -29,6 +29,7 @@
 
 #include "common.hpp"
 #include "fileBrowse.hpp"
+#include <citro2d.h>
 #include <vector>
 
 class SetChanger : public Screen {
@@ -37,13 +38,22 @@ public:
 	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
 	SetChanger();
 private:
+	C2D_SpriteSheet previewCards;
+	u32 previewColors[4];
+	int selectedCard = 0;
+	void DrawPreview(void) const;
+	void previewLogic(u32 hDown, u32 hHeld, touchPosition touch);
+	void loadPreviewColors(const std::string file);
+
+
 	bool checkForValidate(std::string file);
 	Result loadSet(std::string folder);
 	uint selectedSet = 0;
-	int keyRepeatDelay = 0;
+	std::string setPath = "";
 	mutable bool dirChanged = true;
 	std::vector<DirEntry> dirContents;
 	bool isEmpty = false;
+	int mode = 0;
 };
 
 #endif
