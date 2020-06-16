@@ -37,7 +37,7 @@
 	"NEW_GAME": "Новая игра",
 	"NO": "Нет",
 	"OK": "OK",
-	"PLAY_INSTRUCTIONS": "X: Draw Card\nD-Pad Up / Down: Change Card\nA: Play Card",
+	"PLAY_INSTRUCTIONS": "X: Карта розыгрыша\nD-Pad вверх / вниз: Смена карты\nA: Играйте в Карта",
 	"PLAYER": "Игрок",
 	"PLAYER_BREAK": "%s требует перерыва.\n%s: Продолжить!",
 	"PLAYER_NEXT": "%s завершил свой раунд.\n%s: Продолжить!",
