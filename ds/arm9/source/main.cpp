@@ -1,5 +1,5 @@
 	/*
-*   This file is part of LeafEdit
+*   This file is part of DSEins
 *   Copyright (C) 2019-2020 DeadPhoenix8091, Epicpkmn11, Flame, RocketRobz, StackZ, TotallyNotGuy
 *
 *   This program is free software: you can redistribute it and/or modify
