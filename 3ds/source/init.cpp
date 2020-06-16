@@ -128,6 +128,7 @@ Result Init::Initialize() {
 Result Init::MainLoop() {
 	// Initialize everything.
 	Initialize();
+	hidSetRepeatParameters(15, 10);
 	// Here we set the initial fade effect for fadein.
 	fadealpha = 255;
 	fadein = true;

@@ -671,12 +671,14 @@ void GameScreen::PlayerLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 		this->currentGame->currentPlayer(this->getNextPlayer());
 	}
 
+	u32 hRepeat = hidKeysDownRepeat();
+
 	// Pressing Start goes to the Sub Menu.
 	if (hDown & KEY_START) {
 		this->isSubMenu = true;
 	}
 
-	if (hDown & KEY_RIGHT) {
+	if (hRepeat & KEY_RIGHT) {
 		if (this->currentGame->cardIndex(this->currentGame->currentPlayer()) < this->currentGame->getSize(this->currentGame->currentPlayer()) -1)	this->currentGame->cardIndex(this->currentGame->cardIndex(this->currentGame->currentPlayer()) + 1, this->currentGame->currentPlayer());
 	}
 
@@ -684,7 +686,7 @@ void GameScreen::PlayerLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 		this->currentGame->cardIndex(this->currentGame->getSize(this->currentGame->currentPlayer()) -1, this->currentGame->currentPlayer());
 	}
 
-	if (hDown & KEY_LEFT) {
+	if (hRepeat & KEY_LEFT) {
 		if (this->currentGame->cardIndex(this->currentGame->currentPlayer()) > 0)	this->currentGame->cardIndex(this->currentGame->cardIndex(this->currentGame->currentPlayer()) - 1, this->currentGame->currentPlayer());
 	}
 
