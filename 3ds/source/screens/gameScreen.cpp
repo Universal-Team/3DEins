@@ -384,7 +384,7 @@ void GameScreen::animationCard(const int player, const CardStruct &card) {
 void GameScreen::DrawPlayerStats(void) const {
 	Animation::DrawSubBG();
 	Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(0, 0, 0, 210)); // Darken the screen.
-	Gui::DrawStringCentered(0, 0, 0.8f, config->textColor(), "3DEins - " + Lang::get("STATS"), 400);
+	Gui::DrawStringCentered(0, 0, 0.8f, config->textColor(), "3DEins - " + Lang::get("STATS"), 390);
 	GFX::DrawPlayer(30, 50, 1, 1, this->getAvatar(subMode - 1));
 	Gui::DrawString(190, 55, 0.7f, config->textColor(), Lang::get("POSITION") + std::to_string(subMode) + " | " + std::to_string(this->currentGame->maxPlayer()), 200);
 	Gui::DrawString(190, 85, 0.7f, config->textColor(), Lang::get("PLAYER_NAME") + returnPlayerName(subMode - 1), 200);
@@ -400,9 +400,9 @@ void GameScreen::DrawPlayerStats(void) const {
 void GameScreen::DrawSubMenu(void) const {
 	Animation::DrawSubBG();
 	Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(0, 0, 0, 210)); // Darken the screen.
-	Gui::DrawStringCentered(0, 0, 0.8f, config->textColor(), "3DEins - " + Lang::get("GAME_PAUSED"), 400);
-	Gui::DrawStringCentered(0, 55, 0.7f, config->textColor(), Lang::get("PLAYERS") + std::to_string(this->currentGame->maxPlayer()), 400);
-	Gui::DrawStringCentered(0, 216, 0.75f, config->textColor(), Lang::get("STATS_INFO"), 400);
+	Gui::DrawStringCentered(0, 0, 0.8f, config->textColor(), "3DEins - " + Lang::get("GAME_PAUSED"), 390);
+	Gui::DrawStringCentered(0, 55, 0.7f, config->textColor(), Lang::get("PLAYERS") + std::to_string(this->currentGame->maxPlayer()), 390);
+	Gui::DrawStringCentered(0, 216, 0.75f, config->textColor(), Lang::get("STATS_INFO"), 390);
 	
 	Animation::DrawSubBG(false);
 	Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(0, 0, 0, 210)); // Darken the screen.

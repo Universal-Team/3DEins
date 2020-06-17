@@ -53,7 +53,7 @@ const std::vector<Translator> TL = {
 void Credits::Draw(void) const {
 	GFX::DrawTop(); // Draw the top screen.
 	if (this->creditsPage != 2) {
-		Gui::DrawStringCentered(0, 0, 0.7f, config->textColor(), "3DEins - " + Lang::get("CREDITS"), 400);
+		Gui::DrawStringCentered(0, 0, 0.7f, config->textColor(), "3DEins - " + Lang::get("CREDITS"), 390);
 		Gui::DrawStringCentered(0, 30, 0.7f, config->textColor(), Lang::get("DEVELOPED_BY"), 390);
 		Gui::DrawStringCentered(0, 50, 0.7f, config->textColor(), Lang::get("MAIN_DEV"), 390);
 		GFX::DrawSprite(sprites_stackie_idx, 2, 80);

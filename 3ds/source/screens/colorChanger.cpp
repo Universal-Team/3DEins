@@ -44,7 +44,7 @@ void ColorChanger::DrawPreview(void) const {
 
 void ColorChanger::Draw(void) const {
 	GFX::DrawTop();
-	Gui::DrawStringCentered(0, 0, 0.9f, config->textColor(), "3DEins - " + Lang::get("COLOR_SETTINGS"), 320);
+	Gui::DrawStringCentered(0, 0, 0.9f, config->textColor(), "3DEins - " + Lang::get("COLOR_SETTINGS"), 390);
 	DrawPreview();
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 	GFX::DrawBottom();

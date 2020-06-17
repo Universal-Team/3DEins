@@ -78,6 +78,7 @@ void LangSelection::Logic(u16 hDown, touchPosition touch) {
 				config->language(this->selectedLang);
 				Lang::load();
 				doUpdate = true;
+				Gui::DrawScreen();
 			}
 		}
 	}
@@ -88,6 +89,7 @@ void LangSelection::Logic(u16 hDown, touchPosition touch) {
 			config->language(this->selectedLang);
 			Lang::load();
 			doUpdate = true;
+			Gui::DrawScreen();
 		}
 	}
 
@@ -97,6 +99,7 @@ void LangSelection::Logic(u16 hDown, touchPosition touch) {
 			config->language(this->selectedLang);
 			Lang::load();
 			doUpdate = true;
+			Gui::DrawScreen();
 		}
 	}
 
@@ -106,6 +109,7 @@ void LangSelection::Logic(u16 hDown, touchPosition touch) {
 			config->language(this->selectedLang);
 			Lang::load();
 			doUpdate = true;
+			Gui::DrawScreen();
 		}
 	}
 
@@ -115,6 +119,7 @@ void LangSelection::Logic(u16 hDown, touchPosition touch) {
 			config->language(this->selectedLang);
 			Lang::load();
 			doUpdate = true;
+			Gui::DrawScreen();
 		}
 	}
 }

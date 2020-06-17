@@ -62,7 +62,7 @@ void SetChanger::loadPreviewColors(const std::string file) {
 
 void SetChanger::DrawPreview(void) const {
 	GFX::DrawTop();
-	Gui::DrawStringCentered(0, 0, 0.7f, config->textColor(), "3DEins - " + Lang::get("CARDSETS"), 400);
+	Gui::DrawStringCentered(0, 0, 0.8f, config->textColor(), "3DEins - " + Lang::get("CARDSETS"), 390);
 	// Preview cards.
 	Gui::DrawSprite(this->previewCards, this->selectedCard, 170, 75);
 	GFX::DrawBottom();
@@ -81,7 +81,7 @@ void SetChanger::Draw(void) const {
 	if (this->mode == 0) {
 		if (!this->isEmpty) {
 			GFX::DrawFileBrowseBG();
-			Gui::DrawStringCentered(0, 0, 0.7f, config->textColor(), "3DEins - " + Lang::get("CARDSETS"), 400);
+			Gui::DrawStringCentered(0, 0, 0.8f, config->textColor(), "3DEins - " + Lang::get("CARDSETS"), 390);
 
 			std::string dirs;
 

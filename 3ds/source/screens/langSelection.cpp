@@ -35,7 +35,7 @@ LangSelection::LangSelection() { this->selectedLang = config->language(); }
 
 void LangSelection::Draw(void) const {
 	GFX::DrawTop();
-	Gui::DrawStringCentered(0, 0, 0.8f, config->textColor(), Lang::get("SELECT_LANG"), 400);
+	Gui::DrawStringCentered(0, 0, 0.8f, config->textColor(), Lang::get("SELECT_LANG"), 390);
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 	GFX::DrawBottom();
 

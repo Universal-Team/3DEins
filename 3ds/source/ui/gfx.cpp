@@ -446,5 +446,5 @@ void GFX::Main(u32 hDown, u32 hHeld, touchPosition touch) {
 // TODO: Change to "Lang::get(...)"?
 void GFX::Button(const ButtonStruct btn) {
 	Gui::Draw_Rect(btn.X, btn.Y, btn.xSize, btn.ySize, config->buttonColor());
-	Gui::DrawStringCentered(btn.X - 160 + (btn.xSize/2), btn.Y + (btn.ySize/2) - 10, 0.6f, config->textColor(), Lang::get(btn.Text), btn.X-10, btn.Y-5);
+	Gui::DrawStringCentered(btn.X - 160 + (btn.xSize/2), btn.Y + (btn.ySize/2) - 10, 0.6f, config->textColor(), Lang::get(btn.Text), btn.xSize-10, btn.ySize-5);
 }

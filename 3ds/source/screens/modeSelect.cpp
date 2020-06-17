@@ -42,7 +42,7 @@ void ModeSelect::Draw(void) const {
 
 void ModeSelect::DrawModeSelect(void) const {
 	GFX::DrawTop();
-	Gui::DrawStringCentered(0, 2, 0.7f, config->textColor(), Lang::get("SELECT_GAME_MODE"));
+	Gui::DrawStringCentered(0, 2, 0.7f, config->textColor(), Lang::get("SELECT_GAME_MODE"), 390);
 	GFX::DrawBottom();
 
 	for (int i = 0; i < 2; i++) {

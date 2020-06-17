@@ -109,7 +109,7 @@ void RulesScreen::DisplayCards(void) const {
 void RulesScreen::Draw(void) const {
 	Animation::DrawSubBG();
 	Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(0, 0, 0, 210)); // Darken the screen.
-	Gui::DrawStringCentered(0, 0, 0.7f, config->textColor(), "3DEins - " + Lang::get("RULES"), 400);
+	Gui::DrawStringCentered(0, 0, 0.8f, config->textColor(), "3DEins - " + Lang::get("RULES"), 390);
 	// Draw Card.
 	GFX::DrawCard(CardType(rulePage), 30, 50, CardColor(1));
 	Gui::DrawString(210, 40, 0.7f, config->textColor(), Lang::get("POINTS") + std::to_string(GameHelper::getPoints(CardType(rulePage))), 160);
