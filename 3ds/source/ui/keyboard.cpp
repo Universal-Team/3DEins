@@ -34,6 +34,11 @@ int layoutMode = 0;
 bool caps = false, enter = false;
 int shift = 0;
 
+bool keyTouch(touchPosition touch, Structs::ButtonPos button) {
+	if (touch.px >= button.x && touch.px <= (button.x + button.w) && touch.py >= button.y && touch.py <= (button.y + button.h))	return true;
+	else	return false;
+}
+
 Structs::Key LayoutABC[] = {
 	{"A", 6, 42}, {"B", 41, 42}, {"C", 76, 42}, {"D", 111, 42}, {"E", 146, 42}, {"F", 181, 42}, {"G", 216, 42}, {"H", 251, 42},
 	{"I", 6, 90}, {"J", 41, 90}, {"K", 76, 90}, {"L", 111, 90}, {"M", 146, 90}, {"N", 181, 90}, {"O", 216, 90}, {"P", 251, 90}, {"Q", 286, 90},
@@ -86,8 +91,6 @@ Structs::ButtonPos Numbers [] = {
 	{170, 170, 60, 50},
 	{250, 170, 60, 50}, // Enter.
 };
-
-extern bool touching(Structs::ButtonPos button);
 
 void Keyboard::Draw(int selection) {
 	for (uint i = 0; i < (sizeof(LayoutABC)/sizeof(LayoutABC[0])); i++) {
@@ -239,32 +242,32 @@ std::string Keyboard::Numpad(uint maxLength, std::string Text) {
 		if (hDown & KEY_TOUCH) {
 			touchRead(&touch);
 			if (string.length() < maxLength) {
-				if (touching(Numbers[0])) {
+				if (keyTouch(touch, Numbers[0])) {
 					string += "1";
-				} else if (touching(Numbers[1])) {
+				} else if (keyTouch(touch, Numbers[1])) {
 					string += "2";
-				} else if (touching(Numbers[2])) {
+				} else if (keyTouch(touch, Numbers[2])) {
 					string += "3";
-				} else if (touching(Numbers[4])) {
+				} else if (keyTouch(touch, Numbers[4])) {
 					string += "4";
-				} else if (touching(Numbers[5])) {
+				} else if (keyTouch(touch, Numbers[5])) {
 					string += "5";
-				} else if (touching(Numbers[6])) {
+				} else if (keyTouch(touch, Numbers[6])) {
 					string += "6";
-				} else if (touching(Numbers[7])) {
+				} else if (keyTouch(touch, Numbers[7])) {
 					string += "0";
-				} else if (touching(Numbers[8])) {
+				} else if (keyTouch(touch, Numbers[8])) {
 					string += "7";
-				} else if (touching(Numbers[9])) {
+				} else if (keyTouch(touch, Numbers[9])) {
 					string += "8";
-				} else if (touching(Numbers[10])) {
+				} else if (keyTouch(touch, Numbers[10])) {
 					string += "9";
 				}
 			}
 
-			if (touching(Numbers[3])) {
+			if (keyTouch(touch, Numbers[3])) {
 				if (string.length() > 0)	string = string.substr(0, string.length()-1);
-			} else if (touching(Numbers[11])) {
+			} else if (keyTouch(touch, Numbers[11])) {
 				enter = true;
 			}
 		}
