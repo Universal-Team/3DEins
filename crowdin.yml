@@ -1,5 +1,5 @@
 files:
   - source: /3ds/romfs/lang/en/app.json
     translation: /3ds/romfs/lang/%two_letters_code%/app.json
-  - source: ds/nitrofiles/lang/en/app.json
-    translation: ds/nitrofiles/lang/%two_letters_code%/app.json
+  - source: /ds/nitrofiles/lang/en/app.json
+    translation: /ds/nitrofiles/lang/%two_letters_code%/app.json
