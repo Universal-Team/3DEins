@@ -37,10 +37,14 @@ struct Translator {
 const std::vector<Translator> TL = {
 	{"_mapple²", "Русский"},
 	{"antoine62", "Français"},
-	{"Linuxcat", "Français"},
+	{"cooolgamer", "Français"},
+	{"FlameKat53", "Bruh"},
+	{"jackcool476", "Français"},
+	{"LinuxCat", "Français"},
 	{"Pk11", "日本語"},
 	{"SuperSaiyajinStackZ", "Deutsch, English"},
-	{"XxPhoenix1996xX", "Español"},
+	{"XDgierman", "Polski"},
+	{"XxPhoenix1996xX", "Español, Italiano, Português"},
 	{"YoSoy", "Español"}
 };
 
@@ -55,19 +59,22 @@ void Credits::Draw(void) const {
 	printTextCentered(Lang::get("MAIN_DEV"), 0, 40, true, true);
 	printText(Lang::get("CURRENT_VERSION") + VER_NUMBER, (250-getTextWidth(Lang::get("CURRENT_VERSION") + VER_NUMBER)), 175, true, true);
 	drawImage(25, 60, this->core, true, true);
-	Gui::DrawBottom(true);
 	this->DrawBottom();
 }
 
 void Credits::DrawBottom(void) const {
 	Gui::clearScreen(false, true); // Clear first!
+	Gui::clearScreen(false, false); // Clear first!
 
 	if (this->creditsPage == 0) {
+		Gui::DrawBottom(true);
 		printTextCentered(Lang::get("GENERAL_CREDITS"), 0, 1, false, true);
 
 		printTextCentered("SuperSaiyajinStackZ", 0, 30, false, true);
 		printTextCenteredMaxW(Lang::get("_DSEINS_CORE"), 240, 1, 0, 45, false, true);
 	} else if (this->creditsPage == 1) {
+		Gui::DrawBottom(false);
+		drawRectangle(0, 0, 256, 20, DARKERER_GRAY, false, true);
 		printTextCentered(Lang::get("TRANSLATORS"), 0, 1, false, true);
 
 		std::string tlText;
@@ -75,7 +82,7 @@ void Credits::DrawBottom(void) const {
 			tlText += TL[i].Name + " - " + TL[i].Language + "\n";
 		}
 
-		printTextCentered(tlText, 0, 25, false, true);
+		printTextCenteredMaxW(tlText, 240, 1, 0, 18, false, true);
 	}
 }
 

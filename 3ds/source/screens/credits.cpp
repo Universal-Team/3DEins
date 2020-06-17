@@ -39,10 +39,14 @@ struct Translator {
 const std::vector<Translator> TL = {
 	{"_mapple²", "Русский"},
 	{"antoine62", "Français"},
-	{"Linuxcat", "Français"},
+	{"cooolgamer", "Français"},
+	{"FlameKat53", "Bruh"},
+	{"jackcool476", "Français"},
+	{"LinuxCat", "Français"},
 	{"Pk11", "日本語"},
 	{"SuperSaiyajinStackZ", "Deutsch, English"},
-	{"XxPhoenix1996xX", "Español"},
+	{"XDgierman", "Polski"},
+	{"XxPhoenix1996xX", "Español, Italiano, Português"},
 	{"YoSoy", "Español"}
 };
 
@@ -77,7 +81,7 @@ void Credits::Draw(void) const {
 			tlText += TL[i].Name + " - " + TL[i].Language + "\n";
 		}
 
-		Gui::DrawStringCentered(0, 30, 0.6f, config->textColor(), tlText, 310);
+		Gui::DrawStringCentered(0, 29, 0.53f, config->textColor(), tlText, 310);
 	}
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 }

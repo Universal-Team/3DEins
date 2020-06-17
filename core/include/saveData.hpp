@@ -1,6 +1,6 @@
 /*
-*   This file is part of 3DEins-Core
-*   Copyright (C) 2020 SuperSaiyajinStackZ
+*   This file is part of 3DEins/DSEins-Core
+*   Copyright (C) 2020 Universal-Team
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -39,7 +39,7 @@ typedef uint32_t u32;
 typedef uint64_t u64;
 
 /*	
-*		3DEins SaveData Struct.
+*		3DEins | DSEins SaveData Struct.
 *	0x0 - 0x9: Player Name. (size: 10, UTF-8, 10 chars)
 *	0xA - 0xC: Player ID. (size: 2, u16)
 *	0xD - 0x2B: Player Phrase. (size: 30, UTF-8, 30 chars)

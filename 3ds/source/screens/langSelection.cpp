@@ -52,7 +52,7 @@ void LangSelection::Draw(void) const {
 	Gui::DrawString(langBlocks[4].x+25, langBlocks[4].y, 0.7f, config->textColor(), "Français", 320);
 
 	Gui::DrawString(langBlocks[5].x+25, langBlocks[5].y, 0.7f, config->textColor(), "Italiano", 320);
-	Gui::DrawString(langBlocks[6].x+25, langBlocks[6].y, 0.7f, config->textColor(), "Lietuvių", 320);
+	Gui::DrawString(langBlocks[6].x+25, langBlocks[6].y, 0.7f, config->textColor(), "Polski", 320);
 	Gui::DrawString(langBlocks[7].x+25, langBlocks[7].y, 0.7f, config->textColor(), "Português", 320);
 	Gui::DrawString(langBlocks[8].x+25, langBlocks[8].y, 0.7f, config->textColor(), "Русский", 320);
 	Gui::DrawString(langBlocks[9].x+25, langBlocks[9].y, 0.7f, config->textColor(), "日本語", 320);

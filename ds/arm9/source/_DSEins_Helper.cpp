@@ -27,6 +27,7 @@
 #include "_DSEins_Helper.hpp"
 #include "gui.hpp"
 #include "lang.hpp"
+#include "saveData.hpp"
 #include "selector.hpp"
 #include "structs.hpp"
 
@@ -35,6 +36,8 @@
 extern bool doUpdate;
 extern std::unique_ptr<Selector> selector;
 extern touchPosition touch;
+//extern std::unique_ptr<SaveData> savedata;
+
 std::vector<ButtonStruct> colorPos = {
 	{30, 45, 80, 40, "COLOR_RED", CARD_COLOR_RED, true}, // Red.
 	{130, 45, 80, 40, "COLOR_BLUE", CARD_COLOR_BLUE, true}, // Blue.

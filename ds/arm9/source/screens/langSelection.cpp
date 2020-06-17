@@ -51,7 +51,7 @@ void LangSelection::Draw(void) const {
 	printText("Français", langBlocks[4].x+25, langBlocks[4].y+2, false, true);
 
 	printText("Italiano", langBlocks[5].x+25, langBlocks[5].y+2, false, true);
-	printText("Lietuvių", langBlocks[6].x+25, langBlocks[6].y+2, false, true);
+	printText("Polski", langBlocks[6].x+25, langBlocks[6].y+2, false, true);
 	printText("Português", langBlocks[7].x+25, langBlocks[7].y+2, false, true);
 	printText("Русский", langBlocks[8].x+25, langBlocks[8].y+2, false, true);
 	printText("日本語", langBlocks[9].x+25, langBlocks[9].y+2, false, true);
