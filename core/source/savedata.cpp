@@ -133,6 +133,21 @@ void SaveData::playerPhrase(const std::string phrase) {
 	if (!this->changesMade)	this->changesMade = true;
 }
 
+/* Wins. */
+u8 SaveData::playerWins() { return this->saveData[0x2C]; }
+void SaveData::playerWins(u8 wins) {
+	if (wins > 255)	return; // Since we use one byte (255) do not allow a larger value.
+	this->saveData[0x2C] = wins;
+	if (!this->changesMade)	this->changesMade = true;
+}
+
+/* Lose. */
+u8 SaveData::playerLose() { return this->saveData[0x2D]; }
+void SaveData::playerLose(u8 lose) {
+	if (lose > 255)	return; // Since we use one byte (255) do not allow a larger value.
+	this->saveData[0x2D] = lose;
+	if (!this->changesMade)	this->changesMade = true;
+}
 
 // Write data to SaveFile. Call this when exiting or so.
 void SaveData::write() {

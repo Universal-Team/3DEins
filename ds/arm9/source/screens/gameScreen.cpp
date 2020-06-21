@@ -28,8 +28,10 @@
 #include "gameScreen.hpp"
 #include "lang.hpp"
 #include "msg.hpp"
+#include "saveData.hpp"
 #include "selector.hpp"
 
+extern std::unique_ptr<SaveData> savedata;
 extern std::unique_ptr<Selector> selector;
 
 GameScreen::GameScreen(bool useAI, int playerAmount) {
@@ -127,6 +129,7 @@ void GameScreen::AILogic() {
 					char message [100];
 					snprintf(message, sizeof(message), Lang::get("PLAYER_WON").c_str(), returnPlayerName(this->currentGame->currentPlayer()).c_str());
 					Msg::DisplayPlayerSwitch(message);
+					if (savedata->playerLose() < 255)	savedata->playerLose(savedata->playerLose() + 1);
 					Gui::screenBack();
 					Gui::DrawScreen();
 					selector->show();
@@ -346,6 +349,9 @@ void GameScreen::Logic(u16 hDown, touchPosition touch) {
 					char message [100];
 					snprintf(message, sizeof(message), Lang::get("PLAYER_WON").c_str(), returnPlayerName(this->currentGame->currentPlayer()).c_str());
 					Msg::DisplayPlayerSwitch(message);
+					if (this->useAI) {
+						if (savedata->playerWins() < 255)	savedata->playerWins(savedata->playerWins() + 1);
+					}
 					Gui::screenBack();
 					Gui::DrawScreen();
 					selector->show();

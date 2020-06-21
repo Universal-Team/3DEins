@@ -471,6 +471,7 @@ void GameScreen::AILogic() {
 					char message [100];
 					snprintf(message, sizeof(message), Lang::get("PLAYER_WON").c_str(), returnPlayerName(this->currentGame->currentPlayer()).c_str());
 					Msg::DisplayPlayerSwitch(message);
+					if (savedata->playerLose() < 255)	savedata->playerLose(savedata->playerLose() + 1);
 					Gui::screenBack(true);
 					return;
 				}
@@ -693,6 +694,9 @@ void GameScreen::PlayLogic(int cardPos) {
 			char message [100];
 			snprintf(message, sizeof(message), Lang::get("PLAYER_WON").c_str(), returnPlayerName(this->currentGame->currentPlayer()).c_str());
 			Msg::DisplayPlayerSwitch(message);
+			if (this->useAI) {
+				if (savedata->playerWins() < 255)	savedata->playerWins(savedata->playerWins() + 1);
+			}
 			Gui::screenBack(true);
 			return;
 		}

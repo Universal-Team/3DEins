@@ -42,7 +42,7 @@ std::unique_ptr<Config> config;
 std::unique_ptr<Selector> selector;
 touchPosition touch;
 bool exiting = false;
-//std::unique_ptr<SaveData> savedata;
+std::unique_ptr<SaveData> savedata;
 
 // If button Position pressed -> Do something.
 bool touching(touchPosition touch, Structs::ButtonPos button) {
@@ -97,7 +97,7 @@ int main(int argc, char **argv) {
 
 	config = std::make_unique<Config>();
 	selector = std::make_unique<Selector>(80, 40);
-	//savedata = std::make_unique<SaveData>(sdFound() ? "sd:/_nds/DSEins/SaveData.dat" : "fat:/_nds/DSEins/SaveData.dat"); // Not used for now.
+	savedata = std::make_unique<SaveData>(sdFound() ? "sd:/_nds/DSEins/SaveData.dat" : "fat:/_nds/DSEins/SaveData.dat"); // Not used for now.
 
 	Colors::load();
 	Lang::load();
@@ -124,5 +124,6 @@ int main(int argc, char **argv) {
 	}
 
 	config->save();
+	savedata->write();
 	return 0;
 }

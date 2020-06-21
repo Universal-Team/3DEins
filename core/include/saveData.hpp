@@ -43,6 +43,8 @@ typedef uint64_t u64;
 *	0x0 - 0x9: Player Name. (size: 10, UTF-8, 10 chars)
 *	0xA - 0xC: Player ID. (size: 2, u16)
 *	0xD - 0x2B: Player Phrase. (size: 30, UTF-8, 30 chars)
+*	0x2C - 0x2D: Player Win amount. (size: 1, u8)
+*	0x2D - 0x2E: Player Lose amount. (size: 1, u8)
 */
 
 class SaveData {
@@ -60,6 +62,8 @@ public:
 	u16 playerID();				void playerID(u16 ID);
 	int playerAvatar();			void playerAvatar(int avatar);
 	std::string playerPhrase();	void playerPhrase(std::string phrase);
+	u8 playerWins(); void playerWins(u8 wins);
+	u8 playerLose(); void playerLose(u8 lose);
 
 	// Operations.
 	void write();
