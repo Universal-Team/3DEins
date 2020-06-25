@@ -32,28 +32,26 @@ GFXFILES	:=	$(foreach dir,$(GRAPHICS),$(notdir $(wildcard $(dir)/*.t3s)))
 #---------------------------------------------------------------------------------
 export T3XFILES	:=	$(patsubst %.t3s, $(GFXBUILD)/%.t3x, $(GFXFILES))
 #---------------------------------------------------------------------------------
-.PHONY: all clean
+.PHONY: all clean random
 
 #---------------------------------------------------------------------------------
 all: $(GFXBUILD) $(DEPSDIR) $(T3XFILES)
 #---------------------------------------------------------------------------------
+random:
+	@g++ CardRandomizer.cpp -o CardRandomizer
+	./CardRandomizer
+#---------------------------------------------------------------------------------
 clean:
 	@echo clean ...
 	@rm -fr out/cards.t3x
-	@rm -fr out/chars.t3x
 #---------------------------------------------------------------------------------
 $(GFXBUILD)/cards.t3x:	cards.t3s
 #---------------------------------------------------------------------------------
 	@echo build cards SpriteSheet...
 	@tex3ds -i $< -o $(GFXBUILD)/cards.t3x
 	@echo Done!
+	@echo Now copy the cards.t3x file over to your SD Card at "sdmc:/3ds/3DEins/sets/<SetName>/" and the Set.json file as well.
 
-#---------------------------------------------------------------------------------
-$(GFXBUILD)/chars.t3x:	chars.t3s
-#---------------------------------------------------------------------------------
-	@echo build chars SpriteSheet...
-	@tex3ds -i $< -o $(GFXBUILD)/chars.t3x
-	@echo Done!
 
 #---------------------------------------------------------------------------------
 .PRECIOUS	:	%.t3x

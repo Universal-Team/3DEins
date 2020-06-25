@@ -250,7 +250,12 @@ int GameHelper::getHighestCard(std::unique_ptr<Game> &currentGame, const int pla
 	return -1;
 }
 
+bool hasSeeded = false;
+
 // Generate a seed for the shuffle cards function.
 void CoreHelper::generateSeed() {
-	randomGen.seed(time(NULL));
+	if (!hasSeeded) {
+		hasSeeded = true;
+		randomGen.seed(time(NULL));
+	}
 }
