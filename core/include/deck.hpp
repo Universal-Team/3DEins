@@ -50,7 +50,6 @@ public:
 	*/
 	int deckSize() { return CardDeck.size(); }
 
-
 	/*	Return the CardType of the last card.
 	*	Returns the CardType of the last card from the deck.
 	*/

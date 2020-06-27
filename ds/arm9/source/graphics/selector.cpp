@@ -1,6 +1,6 @@
 /*
 *   This file is part of DSEins
-*   Copyright (C) 2019-2020 DeadPhoenix8091, Epicpkmn11, Flame, RocketRobz, StackZ, TotallyNotGuy
+*   Copyright (C) 2019-2020 Universal-Team
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -36,33 +36,33 @@ Selector::Selector(int w, int h) {
 	this->width = w;
 	this->height = h;
 
-   for (int i = 0; i < (int)selectorspr.size(); i++) {
-        setSpriteVisibility(selectorspr[i], false, false);
-    }
+	for (int i = 0; i < (int)selectorspr.size(); i++) {
+		setSpriteVisibility(selectorspr[i], false, false);
+	}
 
 	updateOam();
 }
 
 // Move the Selector. 16 means the spritesize there, btw.
 void Selector::move(int x, int y) {
-    setSpritePosition(selectorspr[0], false, x, y);
-    setSpritePosition(selectorspr[1], false, x, y + (this->height - 16));
-    setSpritePosition(selectorspr[2], false, x + (this->width - 16), y);
-    setSpritePosition(selectorspr[3], false, x + (this->width - 16), y + (this->height - 16));
+	setSpritePosition(selectorspr[0], false, x, y);
+	setSpritePosition(selectorspr[1], false, x, y + (this->height - 16));
+	setSpritePosition(selectorspr[2], false, x + (this->width - 16), y);
+	setSpritePosition(selectorspr[3], false, x + (this->width - 16), y + (this->height - 16));
 }
 
 // Hide the Selector.
 void Selector::hide() {
-   for (int i = 0; i < (int)selectorspr.size(); i++) {
-        setSpriteVisibility(selectorspr[i], false, false);
-    }
+	for (int i = 0; i < (int)selectorspr.size(); i++) {
+		setSpriteVisibility(selectorspr[i], false, false);
+	}
 }
 
 // Show the Selector.
 void Selector::show() {
-   for (int i = 0; i < (int)selectorspr.size(); i++) {
-        setSpriteVisibility(selectorspr[i], false, true);
-    }
+	for (int i = 0; i < (int)selectorspr.size(); i++) {
+		setSpriteVisibility(selectorspr[i], false, true);
+	}
 }
 
 // Resize the selector.
@@ -72,9 +72,9 @@ void Selector::resize(int w, int h) {
 }
 
 void Selector::update() {
-    // Only update OAM, if doUpdate is true.
-    if (doUpdate) {
-        doUpdate = false;
-        updateOam();
-    }
+	// Only update OAM, if doUpdate is true.
+	if (doUpdate) {
+		doUpdate = false;
+		updateOam();
+	}
 }

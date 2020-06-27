@@ -1,6 +1,6 @@
 /*
 *   This file is part of DSEins
-*   Copyright (C) 2019-2020 DeadPhoenix8091, Epicpkmn11, Flame, RocketRobz, StackZ, TotallyNotGuy
+*   Copyright (C) 2019-2020 Universal-Team
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -45,14 +45,14 @@ private:
 
 	int modeSel = 0, playerSel = 0, mode = 0;
 
-	std::vector<ButtonStruct> modeSelect = {
+	const std::vector<ButtonStruct> modeSelect = {
 		{80, 45, 80, 40, "SINGLE_PLAYER", GRAY, true}, // Single Player.
-		{80, 100, 80, 40, "MULTI_PLAYER", GRAY, true}  // Multiplayer.
+		{80, 100, 80, 40, "MULTI_PLAYER", GRAY, true} // Multiplayer.
 	};
 
-	std::vector<Structs::ButtonPos> playerSelect = {
+	const std::vector<Structs::ButtonPos> playerSelect = {
 		{30, 60, 60, 90,}, // 2.
-		{100, 60, 60, 90},  // 3.
+		{100, 60, 60, 90}, // 3.
 		{170, 60, 60, 90} // 4.
 	};
 };

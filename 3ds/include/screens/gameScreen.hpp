@@ -1,6 +1,6 @@
 /*
 *   This file is part of 3DEins
-*   Copyright (C) 2019-2020 DeadPhoenix8091, Epicpkmn11, Flame, RocketRobz, StackZ, TotallyNotGuy
+*   Copyright (C) 2019-2020 Universal-Team
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -77,10 +77,10 @@ private:
 	void PlayLogic(int cardPos);
 	
 	// Button Struct for the Sub Menu.
-	std::vector<Structs::ButtonPos> breakBtn = {
-		{90, 40, 140, 40},  // Resume.
+	const std::vector<Structs::ButtonPos> breakBtn = {
+		{90, 40, 140, 40}, // Resume.
 		{90, 100, 140, 40}, // Restart.
-		{90, 160, 140, 40}  // Exit game.
+		{90, 160, 140, 40} // Exit game.
 	};
 
 	const std::vector<Structs::ButtonPos> cardPos = {

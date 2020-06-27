@@ -1,7 +1,7 @@
 //# Stuff you may not have yet.
 
-#ifndef TONCCPY_H
-#define TONCCPY_H
+#ifndef _DSEINS_TONCCPY_H
+#define _DSEINS_TONCCPY_H
 
 
 #ifdef __cplusplus

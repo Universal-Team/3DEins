@@ -40,7 +40,7 @@ void Player::addCard(std::unique_ptr<Deck> &deck) {
 
 // Remove a card of the hand.
 void Player::removeCard(int position) {
-	if ((int)this->cards->getSize() != 0) {
+	if ((int)this->cards->getSize() > 0) {
 		if (position < (int)this->cards->getSize()) { // Out of range checks.
 			this->cards->Remove(position);
 		}
@@ -63,6 +63,7 @@ const std::vector<CardStruct> Player::getHand() {
 	return this->cards->getCards();
 }
 
+// Return if playable.
 bool Player::Playable(const CardStruct &Table, const int &card) {
 	return this->cards->Playable(Table, card);
 }
@@ -72,14 +73,14 @@ bool Player::Playable(const CardStruct &Table, const int &card) {
 *	points -> Reference to the Player where the Points should be added.
 */
 void Player::returnCardPoints(std::unique_ptr<Player> &player) {
-	if (this->getSize() == 0)	return; // No points we can write.
-
-	for (int i = 0; i < this->getSize(); i++) {
-		player->playerPoints += this->cards->getPoints(i);
+	if (this->getSize() > 0) {
+		for (int i = 0; i < this->getSize(); i++) {
+			player->playerPoints += this->cards->getPoints(i);
+		}
 	}
 }
 
-// return the CardColor.
+// Return the CardColor.
 const CardColor Player::CC(int card) {
 	return this->cards->CC(card);
 }

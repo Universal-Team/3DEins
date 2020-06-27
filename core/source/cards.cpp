@@ -28,10 +28,11 @@
 #include "coreHelper.hpp"
 #include "logging.hpp"
 
-// Deck &deck is the reference to our CardDeck.
+// std::unique_ptr<Deck> &deck is the reference to our CardDeck.
+// Add a card.
 void Cards::add(std::unique_ptr<Deck> &deck) {
 	if (deck != nullptr) {
-		if (deck->deckSize() == 0) {
+		if (deck->deckSize() < 1) {
 			deck->fill(); // Cause our CardDeck is empty, we fill and shuffle it.
 		}
 	
@@ -41,6 +42,7 @@ void Cards::add(std::unique_ptr<Deck> &deck) {
 	}
 }
 
+// Remove a card.
 void Cards::Remove(const int position) {
 	// Only Remove card, if Hand isn't empty to avoid crashes on Vector.
 	if ((int)this->Hand.size() > 0) {
@@ -54,6 +56,7 @@ void Cards::Remove(const int position) {
 	}
 }
 
+// Check if playable.
 bool Cards::Playable(const CardStruct Table, const int position) {
 	if (position > (int)this->Hand.size())	return false; // Out of range!
 

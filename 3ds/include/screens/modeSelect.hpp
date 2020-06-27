@@ -1,6 +1,6 @@
 /*
 *   This file is part of 3DEins
-*   Copyright (C) 2019-2020 DeadPhoenix8091, Epicpkmn11, Flame, RocketRobz, StackZ, TotallyNotGuy
+*   Copyright (C) 2019-2020 Universal-Team
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -44,13 +44,13 @@ private:
 
 	int modeSel = 0, playerSel = 0, mode = 0;
 
-	std::vector<ButtonStruct> modeSelect = {
+	const std::vector<ButtonStruct> modeSelect = {
 		{90, 70, 140, 40, "SINGLE_PLAYER"}, // Single Player.
 		{90, 145, 140, 40, "MULTI_PLAYER"} // Multi Player.
 	};
 
 
-	std::vector<Structs::ButtonPos> playerSelect = {
+	const std::vector<Structs::ButtonPos> playerSelect = {
 		{50, 70, 60, 90}, // 2.
 		{140, 70, 60, 90}, // 3.
 		{230, 70, 60, 90} // 4.

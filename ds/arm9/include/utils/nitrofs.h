@@ -34,8 +34,8 @@
 		* Updated for libsysbase change in devkitARM r46 and above.
 */
 
-#ifndef NITROFS_H
-#define NITROFS_H
+#ifndef _DSEINS_NITROFS_H
+#define _DSEINS_NITROFS_H
 
 #include <nds.h>
 #include <stdio.h>

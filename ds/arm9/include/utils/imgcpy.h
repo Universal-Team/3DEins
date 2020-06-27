@@ -1,5 +1,5 @@
-#ifndef IMGCPY_H
-#define IMGCPY_H
+#ifndef _DSEINS_IMGCPY_H
+#define _DSEINS_IMGCPY_H
 
 
 #ifdef __cplusplus

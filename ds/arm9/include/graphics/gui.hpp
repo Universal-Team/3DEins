@@ -1,6 +1,6 @@
 /*
 *   This file is part of DSEins
-*   Copyright (C) 2019-2020 DeadPhoenix8091, Epicpkmn11, Flame, RocketRobz, StackZ, TotallyNotGuy
+*   Copyright (C) 2019-2020 Universal-Team
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -54,10 +54,10 @@ namespace Gui {
 	void DrawTop(bool useBars);
 	void DrawBottom(bool useBars);
 
-	/* 	Clear a Screen & Layer.
- 		* bool top is whether to draw on the top or bottom screen.
- 		* bool layer is whether to draw on layer 3 (false) or layer 2 (true).
-	*/ 
+	/*	Clear a Screen & Layer.
+		bool top is whether to draw on the top or bottom screen.
+		bool layer is whether to draw on layer 3 (false) or layer 2 (true).
+	*/
 	void clearScreen(bool top, bool layer);
 
 	// Card Loading & Drawing stuff.

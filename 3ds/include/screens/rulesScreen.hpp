@@ -1,6 +1,6 @@
 /*
 *   This file is part of 3DEins
-*   Copyright (C) 2019-2020 DeadPhoenix8091, Epicpkmn11, Flame, RocketRobz, StackZ, TotallyNotGuy
+*   Copyright (C) 2019-2020 Universal-Team
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -42,7 +42,7 @@ private:
 	void DisplayCards(void) const;
 	int rulePage = 0;
 
-	std::vector<Structs::ButtonPos> cards = {
+	const std::vector<Structs::ButtonPos> cards = {
 		{0, 0, 48, 72},
 		{52, 0, 48, 72},
 		{104, 0, 48, 72},

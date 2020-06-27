@@ -67,11 +67,11 @@ enum class CardType {
 
 /* The CardColors. */
 enum class CardColor {
-    COLOR_RED,
-    COLOR_BLUE,
-    COLOR_GREEN,
-    COLOR_YELLOW,
-    COLOR_BLACK
+	COLOR_RED,
+	COLOR_BLUE,
+	COLOR_GREEN,
+	COLOR_YELLOW,
+	COLOR_BLACK
 };
 
 /* The PlayerState. */

@@ -1,6 +1,6 @@
 /*
 *   This file is part of 3DEins
-*   Copyright (C) 2019-2020 DeadPhoenix8091, Epicpkmn11, Flame, RocketRobz, StackZ, TotallyNotGuy
+*   Copyright (C) 2019-2020 Universal-Team
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -56,11 +56,11 @@ void Credits::Draw(void) const {
 		Gui::DrawStringCentered(0, 0, 0.7f, config->textColor(), "3DEins - " + Lang::get("CREDITS"), 390);
 		Gui::DrawStringCentered(0, 30, 0.7f, config->textColor(), Lang::get("DEVELOPED_BY"), 390);
 		Gui::DrawStringCentered(0, 50, 0.7f, config->textColor(), Lang::get("MAIN_DEV"), 390);
-		GFX::DrawSprite(sprites_stackie_idx, 2, 80);
+		GFX::DrawSprite(sprites_stackZ_idx, 2, 70);
 		GFX::DrawSprite(sprites_core_idx, 190, 105);
 		std::string currentVersion = Lang::get("CURRENT_VERSION");
 		currentVersion += V_STRING;
-		Gui::DrawString(395-Gui::GetStringWidth(0.70f, currentVersion), 217, 0.70f, config->textColor(), currentVersion, 400);
+		Gui::DrawString(395-Gui::GetStringWidth(0.6f, currentVersion), 217, 0.6f, config->textColor(), currentVersion, 390);
 	} else {
 		Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(0, 0, 0, 190));
 		GFX::DrawSprite(sprites_discord_idx, 115, 35);

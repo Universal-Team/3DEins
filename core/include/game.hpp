@@ -44,8 +44,6 @@ public:
 	// Constructor initialized with amount of players.
 	Game(const int players);
 
-	// Player stuff.
-
 	/*	Add a Card to the specific player's hand.
 	*	const int player -> The player.
 	*	Adds a card to the specific Player's hand.
@@ -96,7 +94,6 @@ public:
 	int winner() const { return this->v_winner; }
 	// Check if player has won and set it to v_winner.
 	void checkCards(const int player);
-
 
 	// Get the Player's Hand.
 	const std::vector<CardStruct> getHand(int player);

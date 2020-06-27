@@ -40,7 +40,6 @@ void loadFont(void);
  */
 Image loadImage(std::string path);
 
-
 /*
  * Copies a palette from an Image into palette VRAM
  * const Image &image is the Image to use the palette from
@@ -590,4 +589,4 @@ int getTextWidth(const std::string &text);
  */
 int getTextWidth(const std::u16string &text);
 
-#endif //GRAPHICS_HPP
+#endif

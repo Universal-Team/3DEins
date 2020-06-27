@@ -123,8 +123,9 @@ CardStruct Deck::getCard() {
 	return temp;
 }
 
+// Return the top card of the deck.
 CardStruct Deck::topCard() {
-	if (this->deckSize() == 0) {
+	if (this->deckSize() < 1) {
 		this->fill();
 	}
 	

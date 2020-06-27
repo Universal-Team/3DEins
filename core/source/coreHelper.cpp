@@ -123,6 +123,7 @@ int GameHelper::getPoints(const CardType card) {
 			return SPECIAL_CARD_POINTS;
 		#endif
 	}
+	
 	return 0; // Should Never happen.
 }
 
@@ -164,6 +165,7 @@ std::string GameHelper::getTypeName(const CardType Card) {
 			return Lang::get("CARD_SPECIAL");
 		#endif
 	}
+
 	return "?"; // Should Never Happen.
 }
 
@@ -181,6 +183,7 @@ std::string GameHelper::getColorName(const CardColor Card) {
 		case CardColor::COLOR_BLACK:
 			return Lang::get("COLOR_BLACK");
 	}
+
 	return "?"; // Should Never Happen.
 }
 

@@ -24,8 +24,8 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef _3DEINS_SAVEDATA_HPP
-#define _3DEINS_SAVEDATA_HPP
+#ifndef _3DEINS_CORE_SAVEDATA_HPP
+#define _3DEINS_CORE_SAVEDATA_HPP
 
 #include <cstring>
 #include <memory>
@@ -71,7 +71,10 @@ public:
 
 	// Write.
 	template <typename T>
-	void Write(u32 offset, T data) { *reinterpret_cast<T*>(this->saveData.get() + offset) = data; }
+	void Write(u32 offset, T data) {
+		*reinterpret_cast<T*>(this->saveData.get() + offset) = data;
+		if (!this->changesMade)	this->changesMade = true; // Set changes made to true.
+	}
 
 	// Read an offset from the saveData.
 	template <typename T>

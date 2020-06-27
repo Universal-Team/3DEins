@@ -1,6 +1,6 @@
 /*
 *   This file is part of DSEins
-*   Copyright (C) 2019-2020 DeadPhoenix8091, Epicpkmn11, Flame, RocketRobz, StackZ, TotallyNotGuy
+*   Copyright (C) 2019-2020 Universal-Team
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -40,7 +40,7 @@ public:
 private:
 	int selection = 0;
 
-	std::vector<ButtonStruct> buttonPos = {
+	const std::vector<ButtonStruct> buttonPos = {
 		{30, 45, 80, 40, "LANGUAGE", GRAY, true}, // Language.
 		{130, 45, 80, 40, "?", GRAY, true} // ?
 	};

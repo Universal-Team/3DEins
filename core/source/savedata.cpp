@@ -97,7 +97,6 @@ u16 SaveData::playerID() {
 }
 void SaveData::playerID(u16 ID) {
 	this->Write<u16>(0xA, ID);
-	if (!this->changesMade)	this->changesMade = true;
 }
 
 /*	Player Avatar. */
@@ -120,6 +119,7 @@ std::string SaveData::playerPhrase() {
 			output += character;
 		}
 	}
+	
 	return output;
 }
 
