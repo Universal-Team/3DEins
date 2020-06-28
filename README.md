@@ -2,7 +2,7 @@
 <p align="center">
   <img src="https://img.shields.io/badge/License-GPLv3-informational.svg" alt="License: GPLv3">
   <a href="https://discord.gg/KDJCfGF">
-    <img src="https://img.shields.io/badge/Discord-%233deins-7289DA" alt="Discord Server: #pkmn-chest">
+    <img src="https://img.shields.io/badge/Discord-%233deins-7289DA" alt="Discord Server: #leafedit">
   </a>
   <a href="https://dev.azure.com/Universal-Team/Builds/_build?definitionId=15">
     <img src="https://dev.azure.com/Universal-Team/Builds/_apis/build/status/Universal-Team.3DEins?branchName=master" alt="Build status on Azure Pipelines">
