@@ -39,9 +39,9 @@ extern bool touching(Structs::ButtonPos button);
 static void DrawRGBColor(u8 r, u8 g, u8 b) {
 	// Display RGB line.
 	for (int i = 0; i < 256; i++) {
-		Gui::Draw_Rect(32.5 + i, 30, 1, 20, C2D_Color32(i, g, b, 255));
-		Gui::Draw_Rect(32.5 + i, 80, 1, 20, C2D_Color32(r, i, b, 255));
-		Gui::Draw_Rect(32.5 + i, 130, 1, 20, C2D_Color32(r, g, i, 255));
+		Gui::Draw_Rect(32.5 + i, 30, 1, 20, C2D_Color32(i, 0, 0, 255));
+		Gui::Draw_Rect(32.5 + i, 80, 1, 20, C2D_Color32(0, i, 0, 255));
+		Gui::Draw_Rect(32.5 + i, 130, 1, 20, C2D_Color32(0, 0, i, 255));
 	}
 
 	// Display Values.
