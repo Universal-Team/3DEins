@@ -609,7 +609,7 @@ void GameScreen::setState(int Player) {
 				}
 				break;
 			} else {
-				this->currentGame->tbCardColor(Overlays::SelectColor());
+				this->currentGame->tbCardColor(Overlays::SelectCardColor());
 				this->currentGame->state(PlayerState::NOTHING, Player); // Set state to Nothing after it.
 				break;
 			}

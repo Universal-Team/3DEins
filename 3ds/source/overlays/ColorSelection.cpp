@@ -24,90 +24,125 @@
 *         reasonable ways as different from the original version.
 */
 
+#include "colorHelper.hpp"
 #include "config.hpp"
+#include "gui.hpp"
 #include "overlay.hpp"
 #include "structs.hpp"
 
 extern std::unique_ptr<Config> config;
 extern touchPosition touch;
-const std::vector<Structs::ButtonPos> colorPos = {
-	{10, 70, 140, 40}, // Red.
-	{170, 70, 140, 40}, // Blue.
-	{10, 145, 140, 40}, // Yellow.
-	{170, 145, 140, 40}  // Green.
-};
 
 extern bool touching(Structs::ButtonPos button);
 
-static void Draw(int selection) {
+// Draw RGB Colors.
+static void DrawRGBColor(u8 r, u8 g, u8 b) {
+	// Display RGB line.
+	for (int i = 0; i < 256; i++) {
+		Gui::Draw_Rect((i * 1.25), 30, 1.25, 20, C2D_Color32(i, 0, 0, 255));
+		Gui::Draw_Rect((i * 1.25), 80, 1.25, 20, C2D_Color32(0, i, 0, 255));
+		Gui::Draw_Rect((i * 1.25), 130, 1.25, 20, C2D_Color32(0, 0, i, 255));
+	}
+
+	// Display Values.
+	Gui::DrawStringCentered(0, 10, 0.7f, config->textColor(), std::to_string(r));
+	Gui::DrawStringCentered(0, 60, 0.7f, config->textColor(), std::to_string(g));
+	Gui::DrawStringCentered(0, 110, 0.7f, config->textColor(), std::to_string(b));
+
+	// Display as formated string.
+	char hexValues[16];
+
+	snprintf(hexValues, sizeof hexValues, "#%02x%02x%02x", r, g, b);
+	Gui::DrawStringCentered(0, 158, 0.7f, config->textColor(), "RGB: " + std::to_string(r) + ", " + std::to_string(g) + ", " + std::to_string(b) + " - Hex: " + hexValues, 310);
+	Gui::Draw_Rect(110, 180, 100, 30, C2D_Color32(r, g, b, 255));
+}
+
+// Draw.
+static void Draw(u8 r, u8 g, u8 b) {
 	Gui::clearTextBufs();
 	C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
 	C2D_TargetClear(Top, C2D_Color32(0, 0, 0, 0));
 	C2D_TargetClear(Bottom, C2D_Color32(0, 0, 0, 0));
 	GFX::DrawTop();
 	Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(0, 0, 0, 190));
-	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.7f, Lang::get("SELECT_COLOR")))/2, 0.7f, config->textColor(), Lang::get("SELECT_COLOR"), 390, 70);
-	GFX::DrawBottom();
-	Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(0, 0, 0, 190));
-	Gui::Draw_Rect(10, 70, 140, 40, config->cardRed());
-	Gui::Draw_Rect(170, 70, 140, 40, config->cardBlue());
-	Gui::Draw_Rect(10, 145, 140, 40, config->cardYellow());
-	Gui::Draw_Rect(170, 145, 140, 40, config->cardGreen());
-	Gui::DrawStringCentered(10 - 160 + (140/2), 70 + (40/2) - 10, 0.6f, config->textColor(), Lang::get("COLOR_RED"), 140-17, 40-5);
-	Gui::DrawStringCentered(170 - 160 + (140/2), 70 + (40/2) - 10, 0.6f, config->textColor(), Lang::get("COLOR_BLUE"), 140-17, 40-5);
-	Gui::DrawStringCentered(10 - 160 + (140/2), 145 + (40/2) - 10, 0.6f, config->textColor(), Lang::get("COLOR_YELLOW"), 140-17, 40-5);
-	Gui::DrawStringCentered(170 - 160 + (140/2), 145 + (40/2) - 10, 0.6f, config->textColor(), Lang::get("COLOR_GREEN"), 140-17, 40-5);
-	GFX::DrawButtonSelector(colorPos[selection].x, colorPos[selection].y);
+	Gui::DrawStringCentered(0, 0, 0.8f, config->textColor(), Lang::get("SELECT_RGB_COLOR"), 390);
+	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.7f, Lang::get("UI_COLOR_BEHAVIOUR")))/2, 0.7f, config->textColor(), Lang::get("UI_COLOR_BEHAVIOUR"), 390, 70);
+	Gui::ScreenDraw(Bottom);
+	Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(255, 255, 255, 190));
+	DrawRGBColor(r, g, b);
 	C3D_FrameEnd(0);
 }
 
 
-CardColor Overlays::SelectColor() {
+u32 Overlays::SelectColor(u32 oldColor) {
+	u8 r = ColorHelper::getColorValue(oldColor, 2);
+	u8 g = ColorHelper::getColorValue(oldColor, 1);
+	u8 b = ColorHelper::getColorValue(oldColor, 0);
+
 	int selection = 0;
 	while(1) {
-		Draw(selection);
+		Draw(r, g, b);
 
 		hidScanInput();
 		hidTouchRead(&touch);
 
 		if (hidKeysDown() & KEY_UP) {
-			if (selection > 1) selection -= 2;
-		}
-		
-		if (hidKeysDown() & KEY_DOWN) {
-			if (selection < 2) selection += 2;
-		}
-
-		if (hidKeysDown() & KEY_LEFT) {
 			if (selection > 0) selection--;
 		}
 
-		if (hidKeysDown() & KEY_RIGHT) {
-			if (selection < 3) selection++;
+		if (hidKeysDown() & KEY_DOWN) {
+			if (selection < 2) selection++;
 		}
 
-		if (hidKeysDown() & KEY_A) {
+		if (hidKeysHeld() & KEY_RIGHT) {
 			switch(selection) {
-				case 0:
-					return CardColor::COLOR_RED;
-				case 1:
-					return CardColor::COLOR_BLUE;
+				case 0: // Red.
+					if (r < 255) r++;
+					break;
+				case 1: // Green.
+					if (g < 255) g++;
+					break;
 				case 2:
-					return CardColor::COLOR_YELLOW;
-				case 3:
-					return CardColor::COLOR_GREEN;
+					if (b < 255) b++;
+					break;
 			}
 		}
 
-		if (hidKeysDown() & KEY_TOUCH) {
-			if (touching(colorPos[0])) {
-				return CardColor::COLOR_RED;
-			} else if (touching(colorPos[1])) {
-				return CardColor::COLOR_BLUE;
-			} else if (touching(colorPos[2])) {
-				return CardColor::COLOR_YELLOW;
-			} else if (touching(colorPos[3])) {
-				return CardColor::COLOR_GREEN;
+		if (hidKeysHeld() & KEY_LEFT) {
+			switch(selection) {
+				case 0: // Red.
+					if (r > 0) r--;
+					break;
+				case 1: // Green.
+					if (g > 0) g--;
+					break;
+				case 2:
+					if (b > 0) b--;
+					break;
+			}
+		}
+
+		if (hidKeysDown() & KEY_START) {
+			return RGBA8(r, g, b, 255);
+		}
+
+		if (hidKeysDown() & KEY_B) {
+			return oldColor;
+		}
+
+		if (hidKeysHeld() & KEY_TOUCH) {
+			for (int i = 0; i < 256; i++) {
+				if (touch.px >= (i*1.25) && touch.px <= (i*1.25) + 1.25 && touch.py >= 30 && touch.py <= 30 + 20) {
+					r = i;
+				}
+
+				if (touch.px >= (i*1.25) && touch.px <= (i*1.25) + 1.25 && touch.py >= 80 && touch.py <= 80 + 20) {
+					g = i;
+				}
+
+				if (touch.px >= (i*1.25) && touch.px <= (i*1.25) + 1.25 && touch.py >= 130 && touch.py <= 130 + 20) {
+					b = i;
+				}
 			}
 		}
 	}
