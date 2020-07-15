@@ -104,19 +104,19 @@ void ColorChanger::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hDown & KEY_A) {
 		switch(this->colorMode) {
 			case 0:
-				config->selectorColor(Overlays::SelectColor(config->selectorColor()));
+				config->selectorColor(Overlays::SelectRGB(config->selectorColor()));
 				break;
 			case 1:
-				config->buttonColor(Overlays::SelectColor(config->buttonColor()));
+				config->buttonColor(Overlays::SelectRGB(config->buttonColor()));
 				break;
 			case 2:
-				config->barColor(Overlays::SelectColor(config->barColor()));
+				config->barColor(Overlays::SelectRGB(config->barColor()));
 				break;
 			case 3:
-				config->bgColor(Overlays::SelectColor(config->bgColor()));
+				config->bgColor(Overlays::SelectRGB(config->bgColor()));
 				break;
 			case 4:
-				config->textColor(Overlays::SelectColor(config->textColor()));
+				config->textColor(Overlays::SelectRGB(config->textColor()));
 				break;
 		}
 	}

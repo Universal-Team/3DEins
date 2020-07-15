@@ -34,7 +34,7 @@ namespace Overlays {
 	CardColor SelectCardColor();
 	int SelectAvatar(int oldAvatar);
 
-	u32 SelectColor(u32 oldColor);
+	u32 SelectRGB(u32 oldColor);
 
 	// File / Directory Selections.
 	std::string SelectFile(const std::vector<std::string> fileType, const std::string initialPath, const std::string Text);
