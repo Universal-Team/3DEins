@@ -39,10 +39,14 @@ extern bool touching(Structs::ButtonPos button);
 static void DrawRGBColor(u8 r, u8 g, u8 b) {
 	// Display RGB line.
 	for (int i = 0; i < 256; i++) {
-		Gui::Draw_Rect((i * 1.25), 30, 1.25, 20, C2D_Color32(i, 0, 0, 255));
-		Gui::Draw_Rect((i * 1.25), 80, 1.25, 20, C2D_Color32(0, i, 0, 255));
-		Gui::Draw_Rect((i * 1.25), 130, 1.25, 20, C2D_Color32(0, 0, i, 255));
+		Gui::Draw_Rect((32.5 + i), 30, 1, 20, C2D_Color32(i, 0, 0, 255));
+		Gui::Draw_Rect((32.5 + i), 80, 1, 20, C2D_Color32(0, i, 0, 255));
+		Gui::Draw_Rect((32.5 + i), 130, 1, 20, C2D_Color32(0, 0, i, 255));
 	}
+
+	Gui::Draw_Rect((32.5 + r), 30, 1, 20, C2D_Color32(255, 255, 255, 255));
+	Gui::Draw_Rect((32.5 + g), 80, 1, 20, C2D_Color32(255, 255, 255, 255));
+	Gui::Draw_Rect((32.5 + b), 130, 1, 20, C2D_Color32(255, 255, 255, 255));
 
 	// Display Values.
 	Gui::DrawStringCentered(0, 10, 0.7f, config->textColor(), std::to_string(r));
@@ -132,15 +136,15 @@ u32 Overlays::SelectColor(u32 oldColor) {
 
 		if (hidKeysHeld() & KEY_TOUCH) {
 			for (int i = 0; i < 256; i++) {
-				if (touch.px >= (i*1.25) && touch.px <= (i*1.25) + 1.25 && touch.py >= 30 && touch.py <= 30 + 20) {
+				if (touch.px >= (32.5 + i) && touch.px <= (32.5 + i) + 1 && touch.py >= 30 && touch.py <= 30 + 20) {
 					r = i;
 				}
 
-				if (touch.px >= (i*1.25) && touch.px <= (i*1.25) + 1.25 && touch.py >= 80 && touch.py <= 80 + 20) {
+				if (touch.px >= (32.5 + i) && touch.px <= (32.5 + i) + 1 && touch.py >= 80 && touch.py <= 80 + 20) {
 					g = i;
 				}
 
-				if (touch.px >= (i*1.25) && touch.px <= (i*1.25) + 1.25 && touch.py >= 130 && touch.py <= 130 + 20) {
+				if (touch.px >= (32.5 + i) && touch.px <= (32.5 + i) + 1 && touch.py >= 130 && touch.py <= 130 + 20) {
 					b = i;
 				}
 			}
