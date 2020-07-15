@@ -36,19 +36,6 @@ extern C2D_SpriteSheet cards;
 extern std::string getColorString(nlohmann::json json, const std::string &key, const std::string &key2);
 extern u32 getColor(std::string colorString);
 
-// Load path.
-SetChanger::SetChanger() {
-	this->dirContents.clear();
-	chdir("sdmc:/3ds/3DEins/sets/");
-	std::vector<DirEntry> dirContentsTemp;
-	getDirectoryContents(dirContentsTemp, {});
-	for(uint i=0;i<dirContentsTemp.size();i++) {
-		this->dirContents.push_back(dirContentsTemp[i]);
-	}
-
-	if (this->dirContents.size() == 0)	this->isEmpty = true;
-}
-
 void SetChanger::loadPreviewColors(const std::string file) {
 	FILE *file2 = fopen(file.c_str(), "r");
 	nlohmann::json previewSet = nlohmann::json::parse(file2, nullptr, false);
@@ -78,39 +65,7 @@ void SetChanger::DrawPreview(void) const {
 }
 
 void SetChanger::Draw(void) const {
-	if (this->mode == 0) {
-		if (!this->isEmpty) {
-			GFX::DrawFileBrowseBG();
-			Gui::DrawStringCentered(0, 0, 0.8f, config->textColor(), "3DEins - " + Lang::get("CARDSETS"), 390);
-
-			std::string dirs;
-
-			for (uint i = (this->selectedSet < 5) ? 0 : this->selectedSet-5; i < dirContents.size() && i < ((this->selectedSet < 5) ? 6 : this->selectedSet+1); i++) {
-				if (i == this->selectedSet) {
-					dirs += "> " + dirContents[i].name + "\n\n";
-				} else {
-					dirs += dirContents[i].name + "\n\n";
-				}
-			}
-
-			for (uint i = 0; i < ((dirContents.size() < 6) ? 6-dirContents.size() : 0); i++) {
-				dirs += "\n\n";
-			}
-
-			Gui::DrawString(26, 32, 0.53f, config->textColor(), dirs.c_str(), 360);
-			Gui::DrawStringCentered(0, 215, 0.6f, config->textColor(), Lang::get("REFRESH"), 390);
-			if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
-			GFX::DrawFileBrowseBG(false);
-			if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
-		} else {
-			GFX::DrawFileBrowseBG();
-			Gui::DrawStringCentered(0, 0, 0.7f, config->textColor(), "3DEins - " + Lang::get("CARDSETS"), 400);
-			Gui::DrawStringCentered(0, 215, 0.6f, config->textColor(), Lang::get("NO_CARD_SETS_FOUND"), 390);
-			if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
-			GFX::DrawFileBrowseBG(false);
-			if (fadealpha > 0) Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
-		}
-	} else {
+	if (this->mode != 0) {
 		this->DrawPreview();
 	}
 }
@@ -161,56 +116,19 @@ void SetChanger::previewLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 void SetChanger::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (this->mode == 0) {
-		u32 hRepeat = hidKeysDownRepeat();
+		std::string path = Overlays::SelectSet();
 
-		if (this->dirChanged) {
-			this->dirContents.clear();
-			chdir("sdmc:/3ds/3DEins/sets/");
-			std::vector<DirEntry> dirContentsTemp;
-			getDirectoryContents(dirContentsTemp, {});
-			for(uint i=0;i<dirContentsTemp.size();i++) {
-				this->dirContents.push_back(dirContentsTemp[i]);
-			}
-
-			this->dirChanged = false;
-		}
-
-		// Refresh.
-		if (hDown & KEY_START) {
-			this->dirChanged = true;
-		}
-
-		if (hRepeat & KEY_UP) {
-			if (this->selectedSet > 0) {
-				this->selectedSet--;
-			}
-		} else if (hRepeat & KEY_DOWN) {
-			if (this->selectedSet < this->dirContents.size()-1) {
-				this->selectedSet++;
-			}
-		}
-
-		if (hDown & KEY_A) {
-			if (this->dirContents.size() != 0) {
-				if (this->dirContents[selectedSet].isDirectory) {
-					std::string path = this->dirContents[selectedSet].name;
-					this->loadSet(path);
-				}
-			}
-		}
-
-		if (hDown & KEY_X) {
+		if (path == "3DEINS_DEFAULT_ROMFS") {
 			this->loadDefault();
 		}
 
-		if (hDown & KEY_B) {
+		if (path != "") {
+			this->loadSet(path);
+		} else {
 			Gui::screenBack(true);
 			return;
 		}
 
-		if (hHeld & KEY_SELECT) {
-			Msg::HelperBox(Lang::get("REFRESH"));
-		}
 	} else {
 		this->previewLogic(hDown, hHeld, touch);
 	}
@@ -236,9 +154,9 @@ Result SetChanger::loadDefault() {
 		this->setPath = "3DEINS_DEFAULT_ROMFS";
 		this->mode = 1;
 	}
+
 	return 0;
 }
-
 
 // Load a set.
 Result SetChanger::loadSet(std::string folder) {

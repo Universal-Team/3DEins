@@ -33,6 +33,11 @@
 namespace Overlays {
 	CardColor SelectColor();
 	int SelectAvatar(int oldAvatar);
+
+	// File / Directory Selections.
+	std::string SelectFile(const std::vector<std::string> fileType, const std::string initialPath, const std::string Text);
+	std::string SelectDirectory(const std::string initialPath, const std::string Text);
+	std::string SelectSet();
 }
 
 #endif

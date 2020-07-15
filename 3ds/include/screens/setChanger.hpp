@@ -28,7 +28,6 @@
 #define _3DEINS_SET_CHANGER_HPP
 
 #include "common.hpp"
-#include "fileBrowse.hpp"
 #include <citro2d.h>
 #include <vector>
 
@@ -36,7 +35,7 @@ class SetChanger : public Screen {
 public:
 	void Draw(void) const override;
 	void Logic(u32 hDown, u32 hHeld, touchPosition touch) override;
-	SetChanger();
+	SetChanger() { }
 private:
 	C2D_SpriteSheet previewCards;
 	u32 previewColors[4];
@@ -48,11 +47,7 @@ private:
 	bool checkForValidate(std::string file);
 	Result loadSet(std::string folder);
 	Result loadDefault();
-	uint selectedSet = 0;
 	std::string setPath = "";
-	mutable bool dirChanged = true;
-	std::vector<DirEntry> dirContents;
-	bool isEmpty = false;
 	int mode = 0;
 };
 

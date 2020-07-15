@@ -1,45 +1,46 @@
+/*
+*   This file is part of 3DEins
+*   Copyright (C) 2019-2020 Universal-Team
+*
+*   This program is free software: you can redistribute it and/or modify
+*   it under the terms of the GNU General Public License as published by
+*   the Free Software Foundation, either version 3 of the License, or
+*   (at your option) any later version.
+*
+*   This program is distributed in the hope that it will be useful,
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+*   GNU General Public License for more details.
+*
+*   You should have received a copy of the GNU General Public License
+*   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*
+*   Additional Terms 7.b and 7.c of GPLv3 apply to this file:
+*       * Requiring preservation of specified reasonable legal notices or
+*         author attributions in that material or in the Appropriate Legal
+*         Notices displayed by works containing it.
+*       * Prohibiting misrepresentation of the origin of that material,
+*         or requiring that modified versions of such material be marked in
+*         reasonable ways as different from the original version.
+*/
+
 #include "common.hpp"
 #include "fileBrowse.hpp"
-#include "screenCommon.hpp"
-#include "structs.hpp"
 
 #include <3ds.h>
-#include <cstring>
 #include <dirent.h>
-#include <sys/stat.h>
+#include <functional>
 #include <unistd.h>
 #include <vector>
 
-#include <algorithm>
-#include <functional>
-#include <array>
-#include <iostream>
-
-int file_count = 0;
-std::vector<DirEntry> dirContents;
-
-off_t getFileSize(const char *fileName) {
-	FILE* fp = fopen(fileName, "rb");
-	off_t fsize = 0;
-	if (fp) {
-		fseek(fp, 0, SEEK_END);
-		fsize = ftell(fp);			// Get source file's size
-		fseek(fp, 0, SEEK_SET);
-	}
-
-	fclose(fp);
-
-	return fsize;
-}
-
-bool nameEndsWith(const std::string& name, const std::vector<std::string> extensionList) {
+bool nameEndsWith(const std::string name, const std::vector<std::string> extensionList) {
 	if (name.substr(0, 2) == "._") return false;
 
 	if (name.size() == 0) return false;
 
 	if (extensionList.size() == 0) return true;
 
-	for (int i = 0; i <(int)extensionList.size(); i++) {
+	for (int i = 0; i < (int)extensionList.size(); i++) {
 		const std::string ext = extensionList.at(i);
 		if (strcasecmp(name.c_str() + name.size() - ext.size(), ext.c_str()) == 0) return true;
 	}
@@ -68,13 +69,13 @@ void getDirectoryContents(std::vector<DirEntry>& dirContents, const std::vector<
 
 	if (pdir == NULL) {
 		Msg::DisplayMsg("Unable to open the directory.");
-		for(int i=0;i<120;i++)	gspWaitForVBlank();
+		for(int i = 0; i < 120; i++) gspWaitForVBlank();
 	} else {
 		while(true) {
 			DirEntry dirEntry;
 
 			struct dirent* pent = readdir(pdir);
-			if(pent == NULL) break;
+			if (pent == NULL) break;
 
 			stat(pent->d_name, &st);
 			dirEntry.name = pent->d_name;
@@ -84,6 +85,7 @@ void getDirectoryContents(std::vector<DirEntry>& dirContents, const std::vector<
 				dirContents.push_back(dirEntry);
 			}
 		}
+
 		closedir(pdir);
 	}
 
@@ -92,10 +94,11 @@ void getDirectoryContents(std::vector<DirEntry>& dirContents, const std::vector<
 
 void getDirectoryContents(std::vector<DirEntry>& dirContents) { getDirectoryContents(dirContents, {}); }
 
-std::vector<std::string> getContents(const std::string &name, const std::vector<std::string> &extensionList) {
+std::vector<std::string> getContents(const std::string name, const std::vector<std::string> extensionList) {
 	std::vector<std::string> dirContents;
 	DIR* pdir = opendir(name.c_str());
 	struct dirent *pent;
+
 	while ((pent = readdir(pdir)) != NULL) {
 		if (nameEndsWith(pent->d_name, extensionList))	dirContents.push_back(pent->d_name);
 	}
@@ -105,17 +108,17 @@ std::vector<std::string> getContents(const std::string &name, const std::vector<
 }
 
 // exist?
-bool returnIfExist(const std::string &path, const std::vector<std::string> &extensionList) {
-	dirContents.clear();
+bool returnIfExist(const std::string path, const std::vector<std::string> extensionList) {
+	std::vector<DirEntry> dirs;
 	chdir(path.c_str());
 	std::vector<DirEntry> dirContentsTemp;
 	getDirectoryContents(dirContentsTemp, extensionList);
 
-	for(uint i=0;i<dirContentsTemp.size();i++) {
-		dirContents.push_back(dirContentsTemp[i]);
+	for(uint i = 0; i < dirContentsTemp.size(); i++) {
+		dirs.push_back(dirContentsTemp[i]);
 	}
 
-	if (dirContents.size() == 0) {
+	if (dirs.size() < 1) {
 		return false;
 	}
 
