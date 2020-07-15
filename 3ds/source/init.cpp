@@ -24,7 +24,6 @@
 *         reasonable ways as different from the original version.
 */
 
-#include "_3DEins_Helper.hpp"
 #include "common.hpp"
 #include "config.hpp"
 #include "coreHelper.hpp"
@@ -32,6 +31,7 @@
 #include "init.hpp"
 #include "keyboard.hpp"
 #include "mainMenu.hpp"
+#include "overlay.hpp"
 #include "saveData.hpp"
 
 #include <3ds.h>
@@ -47,22 +47,20 @@ std::unique_ptr<Config> config;
 CardStruct animationCards[4];
 
 // Include all spritesheet's.
-C2D_SpriteSheet cards;
-C2D_SpriteSheet characters;
-C2D_SpriteSheet sprites;
+C2D_SpriteSheet cards, characters, sprites;
 
 bool isGood = true;
 
 // If Position pressed -> Do something.
 bool touching(Structs::ButtonPos button) {
-	if (touch.px >= button.x && touch.px <= (button.x + button.w) && touch.py >= button.y && touch.py <= (button.y + button.h))	return true;
-	else	return false;
+	if (touch.px >= button.x && touch.px <= (button.x + button.w) && touch.py >= button.y && touch.py <= (button.y + button.h)) return true;
+	else return false;
 }
 
 // If Button Position pressed -> Do something.
 bool buttonTouch(ButtonStruct button) {
-	if (touch.px >= button.X && touch.px <= (button.X + button.xSize) && touch.py >= button.Y && touch.py <= (button.Y + button.ySize))	return true;
-	else	return false;
+	if (touch.px >= button.X && touch.px <= (button.X + button.xSize) && touch.py >= button.Y && touch.py <= (button.Y + button.ySize)) return true;
+	else return false;
 }
 
 // Generate random ID between 1 and 65535.
@@ -93,7 +91,7 @@ Result Init::Initialize() {
 	mkdir("sdmc:/3ds/3DEins/sets", 0777);
 	
 	config = std::make_unique<Config>();
-	if (!config)	isGood = false;
+	if (!config) isGood = false;
 
 	if (!isGood) {
 		Gui::setScreen(std::make_unique<ErrorScreen>(), false, true);
@@ -108,7 +106,7 @@ Result Init::Initialize() {
 		if (savedata->playerID() == 0) {
 			GenerateID(); // We don't have an ID yet, so generate it.
 			enterName(); // Enter username.
-			savedata->playerAvatar(_3DEins_Helper::selectAvatar(savedata->playerAvatar()));
+			savedata->playerAvatar(Overlays::SelectAvatar(savedata->playerAvatar()));
 		}
 	}
 	
@@ -143,10 +141,11 @@ Result Init::MainLoop() {
 		C2D_TargetClear(Top, C2D_Color32(0, 0, 0, 0));
 		C2D_TargetClear(Bottom, C2D_Color32(0, 0, 0, 0));
 		Gui::clearTextBufs();
-		GFX::Main(hDown, hHeld, touch);
+		Gui::DrawScreen(true);
+		Gui::ScreenLogic(hDown, hHeld, touch, true, true);
 		C3D_FrameEnd(0);
 		if (exiting) {
-			if (!fadeout)	break;
+			if (!fadeout) break;
 		}
 
 		Gui::fadeEffects(16, 16, true);

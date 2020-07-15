@@ -28,9 +28,6 @@
 #include "config.hpp"
 #include "coreHelper.hpp"
 #include "gfx.hpp"
-#include "screenState.hpp"
-
-#include <stack>
 
 extern std::unique_ptr<Config> config;
 
@@ -82,9 +79,7 @@ void GFX::DrawFileBrowseBG(bool isTop) {
 	}
 }
 
-extern C2D_SpriteSheet cards;
-extern C2D_SpriteSheet characters;
-extern C2D_SpriteSheet sprites;
+extern C2D_SpriteSheet cards, characters, sprites;
 
 void GFX::DrawSprite(int index, int x, int y, float ScaleX, float ScaleY) {
 	Gui::DrawSprite(sprites, index, x, y, ScaleX, ScaleY);
@@ -127,11 +122,7 @@ void GFX::DrawButtonSelector(int x, int y, float ScaleX, float ScaleY, bool useS
 	C2D_SetImageTint(&tint, C2D_TopRight, color, 1);
 	C2D_SetImageTint(&tint, C2D_BotLeft, color, 1);
 	C2D_SetImageTint(&tint, C2D_BotRight, color, 1);
-	if (useSmall) {
-		C2D_DrawImageAt(C2D_SpriteSheetGetImage(sprites, sprites_btnSelector2_idx), x, y, 0.5f, &tint, ScaleX, ScaleY);
-	} else {
-		C2D_DrawImageAt(C2D_SpriteSheetGetImage(sprites, sprites_btnSelector_idx), x, y, 0.5f, &tint, ScaleX, ScaleY);
-	}
+	useSmall ? C2D_DrawImageAt(C2D_SpriteSheetGetImage(sprites, sprites_btnSelector2_idx), x, y, 0.5f, &tint, ScaleX, ScaleY) : C2D_DrawImageAt(C2D_SpriteSheetGetImage(sprites, sprites_btnSelector_idx), x, y, 0.5f, &tint, ScaleX, ScaleY);
 	timer += .030;
 }
 
@@ -420,30 +411,6 @@ void GFX::DrawPlayer(int x, int y, float ScaleX, float ScaleY, int player) {
 	}
 }
 
-std::unique_ptr<ScreenState> screenS;
-
-// Main Logic.
-void GFX::Main(u32 hDown, u32 hHeld, touchPosition touch) {
-	if (screenS != nullptr) {
-		if (screenS->isUsed) {
-			DrawTop();
-			Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(0, 0, 0, 190));
-			screenS->DrawStateTop();
-			DrawBottom();
-			Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(0, 0, 0, 190));
-			screenS->DrawStateBottom();
-			screenS->StateLogic(hDown, hHeld, touch);
-		} else {
-			Gui::DrawScreen(true);
-			Gui::ScreenLogic(hDown, hHeld, touch, true, true);
-		}
-	} else {
-		Gui::DrawScreen(true);
-		Gui::ScreenLogic(hDown, hHeld, touch, true, true);
-	}
-}
-
-// TODO: Change to "Lang::get(...)"?
 void GFX::Button(const ButtonStruct btn) {
 	Gui::Draw_Rect(btn.X, btn.Y, btn.xSize, btn.ySize, config->buttonColor());
 	Gui::DrawStringCentered(btn.X - 160 + (btn.xSize/2), btn.Y + (btn.ySize/2) - 10, 0.6f, config->textColor(), Lang::get(btn.Text), btn.xSize-10, btn.ySize-5);

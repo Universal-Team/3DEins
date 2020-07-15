@@ -32,7 +32,7 @@
 #include "gui.hpp"
 #include "lang.hpp"
 #include "msg.hpp"
+#include "overlay.hpp"
 #include "screenCommon.hpp"
-#include "screenState.hpp"
 
 #endif

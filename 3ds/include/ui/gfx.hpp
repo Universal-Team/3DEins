@@ -60,9 +60,6 @@ namespace GFX {
 	void DrawChar(int image, int x, int y, float ScaleX = 1, float ScaleY = 1);
 	void DrawPlayer(int x, int y, float ScaleX, float ScaleY, int player);
 
-	// Main Logic.
-	void Main(u32 hDown, u32 hHeld, touchPosition touch);
-
 	// Buttons.
 	void Button(const ButtonStruct btn);
 }

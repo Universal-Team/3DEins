@@ -119,6 +119,7 @@ int Cards::getPoints(const int position) {
 			return SPECIAL_CARD_POINTS;
 		#endif
 	}
+	
 	return 0; // Should Never happen.
 }
 

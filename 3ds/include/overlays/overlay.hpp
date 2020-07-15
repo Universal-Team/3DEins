@@ -24,14 +24,15 @@
 *         reasonable ways as different from the original version.
 */
 
-#ifndef _3DEINS_HELPER_HPP
-#define _3DEINS_HELPER_HPP
+#ifndef _3DEINS_OVERLAY_HPP
+#define _3DEINS_OVERLAY_HPP
 
+#include "common.hpp"
 #include "coreHelper.hpp"
 
-namespace _3DEins_Helper {
-	CardColor selectColor();
-	int selectAvatar(int oldAvatar);
+namespace Overlays {
+	CardColor SelectColor();
+	int SelectAvatar(int oldAvatar);
 }
 
 #endif

@@ -24,10 +24,10 @@
 *         reasonable ways as different from the original version.
 */
 
-#include "_3DEins_Helper.hpp" // Used for the special actions.
 #include "config.hpp"
 #include "gameScreen.hpp"
 #include "msg.hpp"
+#include "overlay.hpp"
 #include "saveData.hpp"
 
 #include <ctime>
@@ -79,6 +79,7 @@ void GameScreen::DisplayPlayerHand() const {
 			} else {
 				GFX::DrawPlayerCard(this->currentGame->getHand(this->currentGame->currentPlayer()), i+this->currentGame->cardIndex(this->currentGame->currentPlayer())-4, 1 + (i * 65), 50);
 			}
+
 			if (i == this->currentGame->cardIndex(this->currentGame->currentPlayer())) {
 				if (this->currentGame->cardIndex(this->currentGame->currentPlayer()) < MAXSHOWNCARDS) {
 					GFX::DrawCardSelector(1 + (i * 65), 50);
@@ -105,6 +106,7 @@ void GameScreen::DrawPlayers() const {
 	// Player 2.
 	GFX::DrawPlayer(0, 0, 0.9, 0.9, this->computers[0]->getAvatar());
 	Gui::DrawString(90, 40, 0.6f, config->textColor(), std::to_string(this->currentGame->getSize(1)));
+
 	if (this->currentGame->maxPlayer() == 3) {
 		// Player 3.
 		GFX::DrawPlayer(300, 0, 0.9, 0.9, this->computers[1]->getAvatar());
@@ -130,6 +132,7 @@ std::string GameScreen::returnPlayerName(int player) const {
 		case 3:
 			return this->computers[2]->getName();
 	}
+
 	return "?";
 }
 
@@ -144,6 +147,7 @@ int GameScreen::getAvatar(int player) const {
 		case 3:
 			return this->computers[2]->getAvatar();
 	}
+
 	return 0;
 }
 
@@ -163,6 +167,7 @@ void GameScreen::Draw(void) const {
 		GFX::DrawTop(false);
 		// Draw Players & amount of cards.
 		this->DrawPlayers();
+
 		if (this->currentGame->currentPlayer() == 0) {
 			GFX::DrawSelectedPlayer(130, 200);
 		} else if (this->currentGame->currentPlayer() == 1) {
@@ -323,6 +328,7 @@ void GameScreen::animationCard(const int player, const CardStruct &card) {
 
 		// Draw Players & amount of cards.
 		this->DrawPlayers();
+
 		if (this->currentGame->currentPlayer() == 0) {
 			GFX::DrawSelectedPlayer(130, 200);
 		} else if (this->currentGame->currentPlayer() == 1) {
@@ -542,9 +548,9 @@ void GameScreen::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 		}
 
 		if (hDown & KEY_DOWN) {
-			if (this->selection < 2)	this->selection++;
+			if (this->selection < 2) this->selection++;
 		} else if (hDown & KEY_UP) {
-			if (this->selection > 0)	this->selection--;
+			if (this->selection > 0) this->selection--;
 		}	
 
 		if (hDown & KEY_TOUCH) {
@@ -565,11 +571,11 @@ void GameScreen::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	}
 
 	if (hDown & KEY_L) {
-		if (this->subMode > 0)	this->subMode--;
+		if (this->subMode > 0) this->subMode--;
 	}
 
 	if (hDown & KEY_R) {
-		if (this->subMode < this->currentGame->maxPlayer())	this->subMode++;
+		if (this->subMode < this->currentGame->maxPlayer()) this->subMode++;
 	}
 }
 
@@ -603,7 +609,7 @@ void GameScreen::setState(int Player) {
 				}
 				break;
 			} else {
-				this->currentGame->tbCardColor(_3DEins_Helper::selectColor());
+				this->currentGame->tbCardColor(Overlays::SelectColor());
 				this->currentGame->state(PlayerState::NOTHING, Player); // Set state to Nothing after it.
 				break;
 			}
@@ -634,6 +640,7 @@ bool GameScreen::checkForPlayableCard(const int player) {
 			return true;
 		}
 	}
+
 	return false;
 }
 
@@ -658,6 +665,7 @@ int GameScreen::getNextPlayer() {
 			return this->currentGame->maxPlayer() -1;
 		}
 	}
+
 	return 0; // Should never happen.
 }
 
@@ -690,6 +698,7 @@ void GameScreen::PlayLogic(int cardPos) {
 
 		// Check if player won.
 		this->currentGame->checkCards(this->currentGame->currentPlayer());
+
 		if (this->currentGame->winner() == this->currentGame->currentPlayer()) {
 			char message [100];
 			snprintf(message, sizeof(message), Lang::get("PLAYER_WON").c_str(), returnPlayerName(this->currentGame->currentPlayer()).c_str());
@@ -712,6 +721,7 @@ void GameScreen::PlayLogic(int cardPos) {
 			Msg::DisplayPlayerSwitch(message);
 			this->currentGame->currentPlayer(this->getNextPlayer());
 		}
+
 		this->currentGame->canContinue(false);
 	}
 }

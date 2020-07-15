@@ -63,7 +63,7 @@ endif
 ifneq ($(shell echo $(shell git describe --tags) | head -c 4 | tail -c 1),)
 VERSION_MINOR := $(shell echo $(shell git describe --tags) | head -c 4 | tail -c 1)
 else
-VERSION_MINOR := 1
+VERSION_MINOR := 2
 endif
 
 ifneq ($(shell echo $(shell git describe --tags) | head -c 6 | tail -c 1),)
@@ -80,9 +80,9 @@ CORESOURCE	:=	../core/source
 COREINCLUDE	:=	../core/include
 COMMONSRC	:= ../common/source
 COMMONINC	:= ../common/include
-SOURCES		:=	$(CORESOURCE) $(COMMONSRC) $(UNIVCORE) source source/core source/screens source/states source/ui source/utils
+SOURCES		:=	$(CORESOURCE) $(COMMONSRC) $(UNIVCORE) source source/core source/overlays source/screens source/ui source/utils
 DATA		:=	data
-INCLUDES	:=	$(COREINCLUDE) $(COMMONINC) $(UNIVCORE) include include/core include/screens include/states include/ui include/utils
+INCLUDES	:=	$(COREINCLUDE) $(COMMONINC) $(UNIVCORE) include include/core include/overlays include/screens include/ui include/utils
 GRAPHICS	:=	assets/gfx
 ROMFS		:=	romfs
 GFXBUILD	:=	$(ROMFS)/gfx
