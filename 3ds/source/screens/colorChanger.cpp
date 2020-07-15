@@ -28,6 +28,7 @@
 #include "colorHelper.hpp"
 #include "config.hpp"
 #include "keyboard.hpp"
+#include "overlay.hpp"
 
 extern std::unique_ptr<Config> config;
 
@@ -98,6 +99,26 @@ void ColorChanger::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 	if (hDown & KEY_RIGHT) {
 		if (this->colorMode < 4)	this->colorMode++;
+	}
+
+	if (hDown & KEY_A) {
+		switch(this->colorMode) {
+			case 0:
+				config->selectorColor(Overlays::SelectUIColor(config->selectorColor()));
+				break;
+			case 1:
+				config->buttonColor(Overlays::SelectUIColor(config->buttonColor()));
+				break;
+			case 2:
+				config->barColor(Overlays::SelectUIColor(config->barColor()));
+				break;
+			case 3:
+				config->bgColor(Overlays::SelectUIColor(config->bgColor()));
+				break;
+			case 4:
+				config->textColor(Overlays::SelectUIColor(config->textColor()));
+				break;
+		}
 	}
 
 	if (hDown & KEY_TOUCH) {
