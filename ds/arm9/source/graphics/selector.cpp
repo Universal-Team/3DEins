@@ -31,7 +31,7 @@
 extern std::array<int, 4> selectorspr;
 bool doUpdate = false;
 
-// Init the selector.
+/* Init the selector. */
 Selector::Selector(int w, int h) {
 	this->width = w;
 	this->height = h;
@@ -43,7 +43,7 @@ Selector::Selector(int w, int h) {
 	updateOam();
 }
 
-// Move the Selector. 16 means the spritesize there, btw.
+/* Move the Selector. 16 means the spritesize there, btw. */
 void Selector::move(int x, int y) {
 	setSpritePosition(selectorspr[0], false, x, y);
 	setSpritePosition(selectorspr[1], false, x, y + (this->height - 16));
@@ -51,28 +51,28 @@ void Selector::move(int x, int y) {
 	setSpritePosition(selectorspr[3], false, x + (this->width - 16), y + (this->height - 16));
 }
 
-// Hide the Selector.
+/* Hide the Selector. */
 void Selector::hide() {
 	for (int i = 0; i < (int)selectorspr.size(); i++) {
 		setSpriteVisibility(selectorspr[i], false, false);
 	}
 }
 
-// Show the Selector.
+/* Show the Selector. */
 void Selector::show() {
 	for (int i = 0; i < (int)selectorspr.size(); i++) {
 		setSpriteVisibility(selectorspr[i], false, true);
 	}
 }
 
-// Resize the selector.
+/* Resize the selector. */
 void Selector::resize(int w, int h) {
 	this->width = w;
 	this->height = h;
 }
 
 void Selector::update() {
-	// Only update OAM, if doUpdate is true.
+	/* Only update OAM, if doUpdate is true. */
 	if (doUpdate) {
 		doUpdate = false;
 		updateOam();

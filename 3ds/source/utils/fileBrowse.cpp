@@ -107,7 +107,6 @@ std::vector<std::string> getContents(const std::string name, const std::vector<s
 	return dirContents;
 }
 
-// exist?
 bool returnIfExist(const std::string path, const std::vector<std::string> extensionList) {
 	std::vector<DirEntry> dirs;
 	chdir(path.c_str());

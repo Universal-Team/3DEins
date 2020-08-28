@@ -79,11 +79,11 @@ void ModeSelect::ModeLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	}
 
 	if (hDown & KEY_DOWN) {
-		if (this->modeSel == 0)	this->modeSel = 1;
+		if (this->modeSel == 0) this->modeSel = 1;
 	}
 
 	if (hDown & KEY_UP) {
-		if (this->modeSel == 1)	this->modeSel = 0;
+		if (this->modeSel == 1) this->modeSel = 0;
 	}
 
 	if (hDown & KEY_TOUCH) {
@@ -106,17 +106,18 @@ void ModeSelect::PlayerLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	}
 
 	if (hDown & KEY_RIGHT) {
-		if (this->playerSel < 2)	this->playerSel++;
+		if (this->playerSel < 2) this->playerSel++;
 	}
 
 	if (hDown & KEY_LEFT) {
-		if (this->playerSel > 0)	this->playerSel--;
+		if (this->playerSel > 0) this->playerSel--;
 	}
 
 	if (hDown & KEY_TOUCH) {
 		for (int i = 0; i < 3; i++) {
 			if (touching(this->playerSelect[i])) {
 				this->playerSel = i;
+				
 				if (this->modeSel == 0) {
 					Gui::setScreen(std::make_unique<GameScreen>(true, 2 + this->playerSel), true, true);
 				} else {

@@ -26,6 +26,4 @@
 
 #include "init.hpp"
 
-int main() {
-	Init::MainLoop();
-}
+int main() { Init::MainLoop(); }

@@ -1,6 +1,6 @@
 /*
 *   This file is part of 3DEins
-*   Copyright (C) 2019-2020 DeadPhoenix8091, Epicpkmn11, Flame, RocketRobz, StackZ, TotallyNotGuy
+*   Copyright (C) 2019-2020 Universal-Team
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -30,13 +30,13 @@
 #include <string>
 
 namespace Logging {
-	// Create the Log File.
+	/* Create the Log File. */
 	void createLogFile(void);
 
-	// Write to the Log.
+	/* Write to the Log. */
 	void writeToLog(std::string debugText);
 
-	// Other useful stuff.
+	/* Other useful stuff. */
 	std::string logDate(void);
 	std::string format(const std::string& fmt_str, ...);
 }

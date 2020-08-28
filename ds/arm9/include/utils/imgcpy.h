@@ -1,7 +1,6 @@
 #ifndef _DSEINS_IMGCPY_H
 #define _DSEINS_IMGCPY_H
 
-
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -10,7 +9,7 @@ extern "C" {
 
 typedef unsigned int uint;
 
-// Modified tonccpy for copying images with transparency
+/* Modified tonccpy for copying images with transparency. */
 void imgcpy(void *dst, const void *src, const u16 *pal, uint size, uint palOfs);
 
 #ifdef __cplusplus

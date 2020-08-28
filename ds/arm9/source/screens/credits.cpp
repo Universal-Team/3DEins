@@ -48,7 +48,7 @@ const std::vector<Translator> TL = {
 	{"YoSoy", "Español"}
 };
 
-// Load core graphic here on constructor call.
+/* Load core graphic here on constructor call. */
 Credits::Credits() { this->core = loadImage("/graphics/core.gfx"); }
 
 

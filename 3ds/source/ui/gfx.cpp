@@ -42,7 +42,7 @@ void GFX::DrawTop(bool useBars) {
 	}
 }
 
-// False actually only draws 1 bar on the top screen. Special case for the Game screen. xD
+/* False actually only draws 1 bar on the top screen. Special case for the Game screen. */
 void GFX::DrawBottom(bool useBars) {
 	Gui::ScreenDraw(Bottom);
 	if (useBars) {
@@ -56,7 +56,7 @@ void GFX::DrawBottom(bool useBars) {
 }
 
 void GFX::DrawFileBrowseBG(bool isTop) {
-	if (isTop == true) {
+	if (isTop) {
 		Gui::ScreenDraw(Top);
 		Gui::Draw_Rect(0, 0, 400, 27, config->barColor());
 		Gui::Draw_Rect(0, 27, 400, 31, config->bgColor());
@@ -127,7 +127,7 @@ void GFX::DrawButtonSelector(int x, int y, float ScaleX, float ScaleY, bool useS
 }
 
 void GFX::DrawCard(CardType CT, int x, int y, CardColor CC, float ScaleX, float ScaleY) {
-	// Special case "Bruh".
+	/* Special case "Bruh". */
 	#ifdef _USE_SPECIAL_CARD
 		if (CT == CardType::SPECIAL) {
 			Gui::DrawSprite(sprites, sprites_bruh_idx, x, y, ScaleX, ScaleY);
@@ -135,7 +135,7 @@ void GFX::DrawCard(CardType CT, int x, int y, CardColor CC, float ScaleX, float 
 		}
 	#endif
 
-	// Card Color.
+	/* Card Color. */
 	if (CC == CardColor::COLOR_BLUE) {
 		switch (CT) {
 			case CardType::NUMBER_0:
@@ -188,6 +188,7 @@ void GFX::DrawCard(CardType CT, int x, int y, CardColor CC, float ScaleX, float 
 				break;
 			#endif
 		}
+
 	} else if (CC == CardColor::COLOR_GREEN) {
 		switch (CT) {
 			case CardType::NUMBER_0:
@@ -240,6 +241,7 @@ void GFX::DrawCard(CardType CT, int x, int y, CardColor CC, float ScaleX, float 
 				break;
 			#endif
 		}
+
 	} else if (CC == CardColor::COLOR_RED) {
 		switch (CT) {
 			case CardType::NUMBER_0:
@@ -292,6 +294,7 @@ void GFX::DrawCard(CardType CT, int x, int y, CardColor CC, float ScaleX, float 
 				break;
 			#endif
 		}
+
 	} else if (CC == CardColor::COLOR_YELLOW) {
 		switch (CT) {
 			case CardType::NUMBER_0:
@@ -344,6 +347,7 @@ void GFX::DrawCard(CardType CT, int x, int y, CardColor CC, float ScaleX, float 
 				break;
 			#endif
 		}
+		
 	} else if (CC == CardColor::COLOR_BLACK) {
 		switch (CT) {
 			case CardType::NUMBER_0:

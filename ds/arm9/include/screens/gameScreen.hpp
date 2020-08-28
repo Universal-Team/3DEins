@@ -39,11 +39,11 @@ public:
 	void Logic(u16 hDown, touchPosition touch) override;
 	GameScreen(bool useAI, int playerAmount);
 private:
-	// Draws.
+	/* Draws. */
 	void displayPlayerCards(void) const;
 	void ShowCards(void) const;
 
-	// Logics.
+	/* Logics. */
 	void AILogic();
 	int getNextPlayer();
 	bool CanPlayerPlay(const int player);

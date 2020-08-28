@@ -46,24 +46,24 @@ std::unique_ptr<SaveData> savedata;
 std::unique_ptr<Config> config;
 CardStruct animationCards[4];
 
-// Include all spritesheet's.
+/* Include all spritesheet's. */
 C2D_SpriteSheet cards, characters, sprites;
 
 bool isGood = true;
 
-// If Position pressed -> Do something.
+/* If Position pressed -> Do something. */
 bool touching(Structs::ButtonPos button) {
 	if (touch.px >= button.x && touch.px <= (button.x + button.w) && touch.py >= button.y && touch.py <= (button.y + button.h)) return true;
 	else return false;
 }
 
-// If Button Position pressed -> Do something.
+/* If Button Position pressed -> Do something. */
 bool buttonTouch(ButtonStruct button) {
 	if (touch.px >= button.X && touch.px <= (button.X + button.xSize) && touch.py >= button.Y && touch.py <= (button.Y + button.ySize)) return true;
 	else return false;
 }
 
-// Generate random ID between 1 and 65535.
+/* Generate random ID between 1 and 65535. */
 void Init::GenerateID() {
 	srand(std::time(nullptr));
 	u16 id = ((randomGen()) % 65535) + 1;
@@ -71,7 +71,7 @@ void Init::GenerateID() {
 }
 
 void Init::enterName() {
-	// Avoid glitchy things.
+	/* Avoid glitchy things. */
 	C2D_TargetClear(Top, C2D_Color32(0, 0, 0, 0));
 	C2D_TargetClear(Bottom, C2D_Color32(0, 0, 0, 0));
 	std::string str = Keyboard::getString(10, Lang::get("ENTER_PLAYER_NAME"), 0.6);
@@ -82,7 +82,7 @@ Result Init::Initialize() {
 	gfxInitDefault();
 	romfsInit();
 	Gui::init();
-	// Load Sheets.
+	/* Load Sheets. */
 	Gui::loadSheet("romfs:/gfx/cards.t3x", cards);
 	Gui::loadSheet("romfs:/gfx/chars.t3x", characters);
 	Gui::loadSheet("romfs:/gfx/sprites.t3x", sprites);
@@ -95,7 +95,7 @@ Result Init::Initialize() {
 
 	if (!isGood) {
 		Gui::setScreen(std::make_unique<ErrorScreen>(), false, true);
-		osSetSpeedupEnable(true);	// Enable speed-up for New 3DS users.
+		osSetSpeedupEnable(true); // Enable speed-up for New 3DS users.
 		return 0;
 	}
 
@@ -113,7 +113,7 @@ Result Init::Initialize() {
 	osSetSpeedupEnable(true); // Enable speed-up for New 3DS users.
 	config->loadCardSets("romfs:/Set.json"); // Load initial colors.
 
-	// Randomize animation cards here.
+	/* Randomize animation cards here. */
 	for (int i = 0; i < 4; i++) {
 		animationCards[i].CC = CardColor(((randomGen()) % 3) + 0);
 		animationCards[i].CT = CardType(((randomGen()) % 15) + 0);
@@ -124,15 +124,15 @@ Result Init::Initialize() {
 }
 
 Result Init::MainLoop() {
-	// Initialize everything.
+	/* Initialize everything. */
 	Initialize();
 	hidSetRepeatParameters(15, 10);
-	// Here we set the initial fade effect for fadein.
+	/* Here we set the initial fade effect for fadein. */
 	fadealpha = 255;
 	fadein = true;
-	// Loop as long as the status is not exiting.
-	while (aptMainLoop()) {
-		// Scan all the Inputs.
+	/* Loop as long as the status is not exiting. */
+	while (aptMainLoop() && !exiting) {
+		/* Scan all the Inputs. */
 		hidScanInput();
 		u32 hDown = hidKeysDown();
 		u32 hHeld = hidKeysHeld();
@@ -150,16 +150,17 @@ Result Init::MainLoop() {
 
 		Gui::fadeEffects(16, 16, true);
 	}
-	// Exit all services and exit the app.
+
+	/* Exit all services and exit the app. */
 	Exit();
 	return 0;
 }
 
 Result Init::Exit() {
 	Gui::exit();
-	if (isGood)	config->save(); // Only save if config is good.
+	if (isGood) config->save(); // Only save if config is good.
 	savedata->write(); // Only write if changes made.
-	// Free all SpriteSheets.
+	/* Free all SpriteSheets. */
 	Gui::unloadSheet(cards);
 	Gui::unloadSheet(characters);
 	Gui::unloadSheet(sprites);

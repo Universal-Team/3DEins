@@ -48,13 +48,13 @@ void SaveData::create(std::string saveFile) {
 
 SaveData::SaveData(std::string saveFile) {
 	this->savePath = saveFile;
-	// Try to access the saveFile.
+	/* Try to access the saveFile. */
 	if (access(saveFile.c_str(), F_OK) != 0 ) {
-		// SaveFile does not exist. Create it.
+		/* SaveFile does not exist. Create it. */
 		this->create(this->savePath);
 	}
 
-	// Now we open the SaveFile.
+	/* Now we open the SaveFile. */
 	FILE* in = fopen(this->savePath.c_str(), "r");
 	if (in) {
 		fseek(in, 0, SEEK_END);
@@ -67,7 +67,7 @@ SaveData::SaveData(std::string saveFile) {
 }
 
 
-/*	Player Name. */
+/* Player Name. */
 std::string SaveData::playerName() {
 	std::string output;
 	std::string test(reinterpret_cast<char *>(this->saveData.get() + 0), 9 + 1);
@@ -82,16 +82,16 @@ std::string SaveData::playerName() {
 }
 
 void SaveData::playerName(const std::string name) {
-	// Do not allow a string longer as 10.
+	/* Do not allow a string longer as 10. */
 	if (name.length() > NAME_SIZE) {
 		return;
 	}
 
-	memcpy(this->saveData.get() + 0, (u8 *)name.data(), name.length()); // 9 + 1
+	memcpy(this->saveData.get() + 0, (u8 *)name.data(), name.length()); // 9 + 1.
 	if (!this->changesMade)	this->changesMade = true;
 }
 
-/*	Player ID. */
+/* Player ID. */
 u16 SaveData::playerID() {
 	return Read<u16>(0xA);
 }
@@ -99,7 +99,7 @@ void SaveData::playerID(u16 ID) {
 	this->Write<u16>(0xA, ID);
 }
 
-/*	Player Avatar. */
+/* Player Avatar. */
 int SaveData::playerAvatar() {
 	return this->saveData.get()[0xC];
 }
@@ -108,7 +108,7 @@ void SaveData::playerAvatar(int avatar) {
 	if (!this->changesMade)	this->changesMade = true;
 }
 
-/*	Phrase. */
+/* Phrase. */
 std::string SaveData::playerPhrase() {
 	std::string output;
 	std::string test(reinterpret_cast<char *>(this->saveData.get() + 0xD), 29 + 1);
@@ -124,12 +124,12 @@ std::string SaveData::playerPhrase() {
 }
 
 void SaveData::playerPhrase(const std::string phrase) {
-	// Do not allow a string longer as 30.
+	/* Do not allow a string longer as 30. */
 	if (phrase.length() > 30) {
 		return;
 	}
 
-	memcpy(this->saveData.get() + 0xD, (u8 *)phrase.data(), phrase.length()); // 29 + 1
+	memcpy(this->saveData.get() + 0xD, (u8 *)phrase.data(), phrase.length()); // 29 + 1.
 	if (!this->changesMade)	this->changesMade = true;
 }
 
@@ -149,7 +149,7 @@ void SaveData::playerLose(u8 lose) {
 	if (!this->changesMade)	this->changesMade = true;
 }
 
-// Write data to SaveFile. Call this when exiting or so.
+/* Write data to SaveFile. Call this when exiting or so. */
 void SaveData::write() {
 	if (this->changesMade) {
 		FILE *file = fopen(this->savePath.c_str(), "w");

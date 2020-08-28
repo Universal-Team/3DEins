@@ -31,8 +31,7 @@
 
 #define COM_AMOUNT	4
 
-std::array<std::string, COM_AMOUNT+1> files {
-	{
+std::array<std::string, COM_AMOUNT + 1> files {{
 		"romfs:/computer/computer_1.bin", "romfs:/computer/computer_2.bin",
 		"romfs:/computer/computer_3.bin", "romfs:/computer/computer_4.bin",
 		"romfs:/computer/computer_5.bin"
@@ -41,7 +40,7 @@ std::array<std::string, COM_AMOUNT+1> files {
 
 
 Computer::Computer(int character) {
-	// Now we open the Computer File.
+	/* Now we open the Computer File. */
 	FILE* in = fopen(files[character].c_str(), "r");
 	fseek(in, 0, SEEK_END);
 	u32 fileSize = ftell(in);
@@ -50,19 +49,20 @@ Computer::Computer(int character) {
 	fread(Buffer, 1, fileSize, in);
 	fclose(in);
 
-	// Getting COM Name.
+	/* Getting COM Name. */
 	const std::string name_1(reinterpret_cast<char *>(Buffer + 0), 9 + 1);
 
-	// Make sure to only get valid chars.
+	/* Make sure to only get valid chars. */
 	for(char character : name_1) {
-		if (character == '\0')	break;
+		if (character == '\0') break;
 		if (character < 256) {
 			this->name += character;
 		}
 	}
-	// Get Computer avatar.
+
+	/* Get Computer avatar. */
 	this->avatar = Buffer[0xA];
 
-	// Here we delete the buffer.
+	/* Here we delete the buffer. */
 	delete[] Buffer;
 }

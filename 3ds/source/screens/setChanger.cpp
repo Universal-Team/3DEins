@@ -29,10 +29,10 @@
 #include <unistd.h>
 
 extern std::unique_ptr<Config> config;
-// For the sets.
+/* For the sets. */
 extern C2D_SpriteSheet cards;
 
-// For Preview stuff.
+/* For Preview stuff. */
 extern std::string getColorString(nlohmann::json json, const std::string &key, const std::string &key2);
 extern u32 getColor(std::string colorString);
 
@@ -50,10 +50,10 @@ void SetChanger::loadPreviewColors(const std::string file) {
 void SetChanger::DrawPreview(void) const {
 	GFX::DrawTop();
 	Gui::DrawStringCentered(0, 0, 0.8f, config->textColor(), "3DEins - " + Lang::get("CARDSETS"), 390);
-	// Preview cards.
+	/* Preview cards. */
 	Gui::DrawSprite(this->previewCards, this->selectedCard, 170, 75);
 	GFX::DrawBottom();
-	// Preview Colors.
+	/* Preview Colors. */
 	Gui::Draw_Rect(10, 70, 140, 40, this->previewColors[0]);
 	Gui::Draw_Rect(170, 70, 140, 40, this->previewColors[1]);
 	Gui::Draw_Rect(10, 145, 140, 40, this->previewColors[2]);
@@ -134,7 +134,7 @@ void SetChanger::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	}
 }
 
-// Check if Files of the set exist.
+/* Check if Files of the set exist. */
 bool SetChanger::checkForValidate(std::string file) {
 	if (access(file.c_str(), F_OK) != -1 ) {
 		return true;
@@ -148,7 +148,7 @@ Result SetChanger::loadDefault() {
 	snprintf(message, sizeof(message), Lang::get("LOADING_SET_PROMPT").c_str(), "3DEINS_DEFAULT");
 	if (Msg::promptMsg2(message)) {
 		Msg::DisplayMsg(Lang::get("LOADING_SPRITESHEET"));
-		// Load.
+		/* Load. */
 		Gui::loadSheet("romfs:/gfx/cards.t3x", this->previewCards);
 		this->loadPreviewColors("romfs:/Set.json");
 		this->setPath = "3DEINS_DEFAULT_ROMFS";
@@ -158,7 +158,7 @@ Result SetChanger::loadDefault() {
 	return 0;
 }
 
-// Load a set.
+/* Load a set. */
 Result SetChanger::loadSet(std::string folder) {
 	if (this->checkForValidate(folder)) {
 		if (this->checkForValidate(folder + "/Set.json")) {
@@ -167,17 +167,19 @@ Result SetChanger::loadSet(std::string folder) {
 				snprintf(message, sizeof(message), Lang::get("LOADING_SET_PROMPT").c_str(), folder.c_str());
 				if (Msg::promptMsg2(message)) {
 					Msg::DisplayMsg(Lang::get("LOADING_SPRITESHEET"));
-					// Load.
+					/* Load. */
 					Gui::loadSheet((folder + "/cards.t3x").c_str(), this->previewCards);
 					this->loadPreviewColors(folder + "/Set.json");
 					this->setPath = folder;
 					this->mode = 1;
 				}
+
 			} else {
 				char message [100];
 				snprintf(message, sizeof(message), Lang::get("FILE_NOT_EXIST").c_str(), "cards.t3x");
 				Msg::DisplayWaitMsg(message);
 			}
+			
 		} else {
 			char message [100];
 			snprintf(message, sizeof(message), Lang::get("FILE_NOT_EXIST").c_str(), "Set.json");

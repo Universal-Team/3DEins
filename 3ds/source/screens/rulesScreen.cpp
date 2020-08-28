@@ -51,21 +51,27 @@ void RulesScreen::DrawDescription(void) const {
 		case 9:
 			Gui::DrawStringCentered(0, 170, 0.7f, config->textColor(), Lang::get("NUMBER_CARD"), 400);
 			break;
+
 		case 10:
 			Gui::DrawStringCentered(0, 170, 0.7f, config->textColor(), Lang::get("REVERSE_CARD"), 400);
 			break;
+
 		case 11:
 			Gui::DrawStringCentered(0, 170, 0.7f, config->textColor(), Lang::get("SKIP_CARD"), 400);
 			break;
+
 		case 12:
 			Gui::DrawStringCentered(0, 170, 0.7f, config->textColor(), Lang::get("PLUS2_CARD"), 400);
 			break;
+
 		case 13:
 			Gui::DrawStringCentered(0, 170, 0.7f, config->textColor(), Lang::get("WILD_CARD"), 400);
 			break;
+
 		case 14:
 			Gui::DrawStringCentered(0, 170, 0.7f, config->textColor(), Lang::get("WILD_DRAW4_CARD"), 400);
 			break;
+
 		#ifdef _USE_SPECIAL_CARD
 		case 15:
 			Gui::DrawStringCentered(0, 170, 0.7f, config->textColor(), "Plays a 'Bruh' soundeffect.\nThe Tablecard get's randomized.", 400);
@@ -94,10 +100,12 @@ void RulesScreen::DisplayCards(void) const {
 			GFX::DrawCard(CardType(rulePage), 300, 95, CardColor(2), 0.7, 0.7);
 			GFX::DrawCard(CardType(rulePage), 350, 95, CardColor(3), 0.7, 0.7);
 			break;
+
 		case 13:
 		case 14:
 			GFX::DrawCard(CardType(rulePage), 200, 95, CardColor(4), 0.7, 0.7);
 			break;
+			
 		#ifdef _USE_SPECIAL_CARD
 		case 15:
 			GFX::DrawCard(CardType(rulePage), 200, 95, CardColor(4), 0.7, 0.7);
@@ -110,13 +118,14 @@ void RulesScreen::Draw(void) const {
 	Animation::DrawSubBG();
 	Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(0, 0, 0, 210)); // Darken the screen.
 	Gui::DrawStringCentered(0, 0, 0.8f, config->textColor(), "3DEins - " + Lang::get("RULES"), 390);
-	// Draw Card.
+	/* Draw Card. */
 	GFX::DrawCard(CardType(rulePage), 30, 50, CardColor(1));
 	Gui::DrawString(210, 40, 0.7f, config->textColor(), Lang::get("POINTS") + std::to_string(GameHelper::getPoints(CardType(rulePage))), 160);
 	Gui::DrawString(210, 70, 0.7f, config->textColor(), Lang::get("CARDTYPE") + GameHelper::getTypeName(CardType(rulePage)), 160);
 	Gui::DrawString(30, 140, 0.7f, config->textColor(), Lang::get("AVAILABLE_COLORS"), 160);
 	DrawDescription();
 	DisplayCards();
+
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
 	Animation::DrawSubBG(false);
 	Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(0, 0, 0, 210)); // Darken the screen.
@@ -134,15 +143,15 @@ void RulesScreen::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	}
 
 	if (hDown & KEY_R) {
-		if (rulePage < MAXRULES)	rulePage++;
+		if (this->rulePage < MAXRULES) this->rulePage++;
 	} else if (hDown & KEY_L) {
-		if (rulePage > 0)	rulePage--;
+		if (this->rulePage > 0) this->rulePage--;
 	}
 
 	if (hDown & KEY_TOUCH) {
 		for(int i = 0; i < (int)cards.size(); i++) {
 			if (touching(cards[i])) {
-				rulePage = i;
+				this->rulePage = i;
 			}
 		}
 	}

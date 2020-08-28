@@ -30,20 +30,20 @@
 #include <regex>
 #include <unistd.h>
 
-// Get String of the JSON.
+/* Get String of the JSON. */
 std::string getColorString(nlohmann::json json, const std::string &key, const std::string &key2) {
-	if(!json.contains(key))	return "";
-	if(!json.at(key).is_object()) return "";
+	if (!json.contains(key)) return "";
+	if (!json.at(key).is_object()) return "";
 
-	if(!json.at(key).contains(key2)) return "";
-	if(!json.at(key).at(key2).is_string()) return "";
+	if (!json.at(key).contains(key2)) return "";
+	if (!json.at(key).at(key2).is_string()) return "";
 
 	return json.at(key).at(key2).get_ref<const std::string&>();
 }
 
-// Get the colors.
+/* Get the colors. */
 u32 getColor(std::string colorString) {
-	if (colorString.length() < 7 || std::regex_search(colorString.substr(1), std::regex("[^0-9a-f]"))) { // invalid color
+	if (colorString.length() < 7 || std::regex_search(colorString.substr(1), std::regex("[^0-9a-f]"))) { // invalid color.
 		return 0;
 	}
 
@@ -53,12 +53,12 @@ u32 getColor(std::string colorString) {
 	return RGBA8(r, g, b, 0xFF);
 }
 
-// In case it doesn't exist.
+/* In case it doesn't exist. */
 void Config::initialize() {
-	// Create through fopen "Write".
+	/* Create through fopen "Write". */
 	FILE *file = fopen("sdmc:/3ds/3DEins/Settings.json", "w");
 
-	// Set default values.
+	/* Set default values. */
 	this->setBool("Allow_Animation", true);
 	this->setInt("Bar_Color", C2D_Color32(220, 60, 0, 255));
 	this->setInt("Text_Color", C2D_Color32(255, 255, 255, 255));
@@ -66,7 +66,7 @@ void Config::initialize() {
 	this->setInt("Button_Color", C2D_Color32(200, 0, 0, 255));
 	this->setInt("Language", 2);
 
-	// Write to file.
+	/* Write to file. */
 	fwrite(this->json.dump(1, '\t').c_str(), 1, this->json.dump(1, '\t').size(), file);
 	fclose(file); // Now we have the file and can properly access it.
 }
@@ -80,7 +80,7 @@ Config::Config() {
 	this->json = nlohmann::json::parse(file, nullptr, false);
 	fclose(file);
 
-	// Here we get the initial settings.
+	/* Here we get the initial settings. */
 
 	if (!this->json.contains("Allow_Animation")) {
 		this->allowAnimation(true);
@@ -127,11 +127,11 @@ Config::Config() {
 	this->changesMade = false; // No changes made yet.
 }
 
-// Write to config if changesMade.
+/* Write to config if changesMade. */
 void Config::save() {
 	if (this->changesMade) {
 		FILE *file = fopen("sdmc:/3ds/3DEins/Settings.json", "w");
-		// Set values.
+		/* Set values. */
 		this->setBool("Allow_Animation", this->allowAnimation());
 		this->setInt("Bar_Color", this->barColor());
 		this->setInt("Text_Color", this->textColor());
@@ -139,13 +139,13 @@ void Config::save() {
 		this->setInt("Button_Color", this->buttonColor());
 		this->setInt("Selector_Color", this->selectorColor());
 		this->setInt("Language", this->language());
-		// Write changes to file.
+		/* Write changes to file. */
 		fwrite(this->json.dump(1, '\t').c_str(), 1, this->json.dump(1, '\t').size(), file);
 		fclose(file);
 	}
 }
 
-// Load card set colors.
+/* Load card set colors. */
 void Config::loadCardSets(std::string file) {
 	FILE *file2= fopen(file.c_str(), "r");
 	nlohmann::json cardset = nlohmann::json::parse(file2, nullptr, false);
@@ -157,7 +157,7 @@ void Config::loadCardSets(std::string file) {
 	this->cardYellow(getColor(getColorString(cardset, "info", "Yellow")));
 }
 
-// Helper functions.
+/* Helper functions. */
 bool Config::getBool(const std::string &key) {
 	if (!this->json.contains(key)) {
 		return false;

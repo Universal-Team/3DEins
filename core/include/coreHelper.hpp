@@ -92,10 +92,11 @@ enum class DIRECTION {
 	COUNTERCLOCKWISE
 };
 
-/*	Card Struct. A CardStruct contains:
-*	1.) Card Color (Like Green, Blue, Yellow, Red, Black.)
-*	2.) Card Type (Like 0, 4, 7, Plus 2, Wild, etc.)
-*	Size: u16 || 2x u8.
+/*
+	Card Struct. A CardStruct contains:
+	1.) Card Color (Like Green, Blue, Yellow, Red, Black.)
+	2.) Card Type (Like 0, 4, 7, Plus 2, Wild, etc.)
+	Size: u16 || 2x u8.
 */
 struct CardStruct {
 	CardColor CC;
@@ -104,8 +105,9 @@ struct CardStruct {
 
 
 namespace CoreHelper {
-	/*	Generate a seed for the shuffling cards. Only call this on application start.
-	*	Generates the seed for std::mt19937 randomGen.
+	/*
+		Generate a seed for the shuffling cards. Only call this on application start.
+		Generates the seed for std::mt19937 randomGen.
 	*/
 	void generateSeed();
 }
@@ -114,42 +116,48 @@ namespace CoreHelper {
 class Game;
 
 namespace GameHelper {
-	/*	Handle Status for the Players & the game.
-	*	std::unique_ptr<Game> &game -> A reference to the current game.
-	* 	const int firstPlayer -> The current Player.
-	* 	const int secondPlayer -> The next Player.
-	* 	const int maxPlayer -> The Player amount.
+	/*
+		Handle Status for the Players & the game.
+		std::unique_ptr<Game> &game -> A reference to the current game.
+		const int firstPlayer -> The current Player.
+		const int secondPlayer -> The next Player.
+		const int maxPlayer -> The Player amount.
 	*/
 	void checkAndSet(std::unique_ptr<Game> &game, const int firstPlayer, const int secondPlayer, const int maxPlayer);
 
-	/*	Return the amount of points of a card.
-	*	const CardType card -> The CardType.
-	*	Returns the amount of points of the specific CardType.
+	/*
+		Return the amount of points of a card.
+		const CardType card -> The CardType.
+		Returns the amount of points of the specific CardType.
 	*/
 	int getPoints(const CardType card);
 
-	/*	Return the name of the CardType.
-	*	const CardType Card -> The CardType.
-	*	Returns the name of the CardType with 'Lang::get(...);'.
+	/*
+		Return the name of the CardType.
+		const CardType Card -> The CardType.
+		Returns the name of the CardType with 'Lang::get(...);'.
 	*/
 	std::string getTypeName(const CardType Card);
 
-	/*	Return the name of the CardColor.
-	*	const CardColor Card -> The CardColor.
-	*	Returns the name of the CardColor with 'Lang::get(...);'.
+	/*
+		Return the name of the CardColor.
+		const CardColor Card -> The CardColor.
+		Returns the name of the CardColor with 'Lang::get(...);'.
 	*/
 	std::string getColorName(const CardColor Card);
 
-	/*	Return the amount of points of a CardType for the AI.
-	*	const CardType Card -> The CardType.
-	*	Returns the amount of points from the specific CardType.
+	/*
+		Return the amount of points of a CardType for the AI.
+		const CardType Card -> The CardType.
+		Returns the amount of points from the specific CardType.
 	*/
 	int AIPointTable(const CardType card);
 
-	/*	Return the highest card index points for the AI.
-	*	std::unique_ptr<Game> &currentGame -> The current Game.
-	*	const int player -> The current player.
-	*	Return the index of the best card.
+	/*
+		Return the highest card index points for the AI.
+		std::unique_ptr<Game> &currentGame -> The current Game.
+		const int player -> The current player.
+		Return the index of the best card.
 	*/
 	int getHighestCard(std::unique_ptr<Game> &currentGame, const int player);
 }

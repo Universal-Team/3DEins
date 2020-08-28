@@ -15,6 +15,13 @@
 		* readded support for .gba files in addition to .nds emu
 		* added stat() support for completedness :)
 
+	2008-05-22  v0.3.1 - slight update
+		* again fixed fseek(), this time SEEK_END oddly i kinda forgot about it >_> sry
+		* also went ahead and inlined the functions, makes slight proformance improvement
+
+	2008-05-26  v0.4 - added chdir
+		* added proper chdir functionality
+
 	2008-05-30  v0.5.Turbo - major speed improvement
 		* This version uses a single filehandle to access the .nds file when not in GBA mode
 		  improving the speed it takes to open a .nds file by around 106ms. This is great for
@@ -30,12 +37,26 @@
 		  dirnext() will return . and .. first, and all relevent operations will
 		  support . and .. in pathnames.
 
+	2009-05-10 v0.7.Turbo - small changes  @_@?!
+
+	2009-08-08 v0.8.Turbo - fix fix fix
+		* fixed problem with some cards where the header would be loaded to GBA ram even if running
+		  in NDS mode causing nitroFSInit() to think it was a valid GBA cart header and attempt to
+		  read from GBA SLOT instead of SLOT 1. Fixed this by making it check that filename is not NULL
+		  and then to try FAT/SLOT1 first. The NULL option allows forcing nitroFS to use gba.
+
 	2018-09-05 v0.9 - modernize devoptab (by RonnChyran)
 		* Updated for libsysbase change in devkitARM r46 and above.
+
+	2020-08-20 v0.10 - modernize GBA SLOT support (by RocketRobz)
+		* Updated GBA SLOT detection to check for game code and header CRC.
+
+	2020-08-24 v0.11 - SDNAND support (by RocketRobz)
+		* Added support for being mounted from SDNAND, if app is launched by hiyaCFW.
 */
 
-#ifndef _DSEINS_NITROFS_H
-#define _DSEINS_NITROFS_H
+#ifndef NITROFS_H
+#define NITROFS_H
 
 #include <nds.h>
 #include <stdio.h>
@@ -58,7 +79,7 @@ extern "C" {
 	int nitroFSFstat(struct _reent *r, void *fd, struct stat *st);
 	int nitroFSstat(struct _reent *r, const char *file, struct stat *st);
 	int nitroFSChdir(struct _reent *r, const char *name);
-#define LOADERSTR "PASS" //look for this
+#define LOADERSTR "PASS" // look for this.
 #define LOADERSTROFFSET 0xac
 #define LOADEROFFSET 0x0200
 #define FNTOFFSET 0x40

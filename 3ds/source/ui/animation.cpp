@@ -43,41 +43,41 @@ void Animation::DrawSubBG(bool isTop) {
 	animated_cardMoveDelay = !animated_cardMoveDelay;
 
 	if (isTop) {
-		// BG.
+		/* BG. */
 		Gui::ScreenDraw(Top);
 		Gui::Draw_Rect(0, 30, 400, 180, config->bgColor());
-		// First Cards.
+		/* First Cards. */
 		GFX::DrawCard(animationCards[0].CT, 20, animated_cardYPos[0], animationCards[0].CC);
 		GFX::DrawCard(animationCards[0].CT, 20, animated_cardYPos[0]+240, animationCards[0].CC);
-		// Second Cards.
+		/* Second Cards. */
 		GFX::DrawCard(animationCards[1].CT, 120, animated_cardYPos[1], animationCards[1].CC);
 		GFX::DrawCard(animationCards[1].CT, 120, animated_cardYPos[1]-240, animationCards[1].CC);
-		// Third Cards.
+		/* Third Cards. */
 		GFX::DrawCard(animationCards[2].CT, 220, animated_cardYPos[0], animationCards[2].CC);
 		GFX::DrawCard(animationCards[2].CT, 220, animated_cardYPos[0]+240, animationCards[2].CC);
-		// Fourth Cards.
+		/* Fourth Cards. */
 		GFX::DrawCard(animationCards[3].CT, 320, animated_cardYPos[1], animationCards[3].CC);
 		GFX::DrawCard(animationCards[3].CT, 320, animated_cardYPos[1]-240, animationCards[3].CC);
-		// Draw Bars with 225 Alpha, so it looks pretty nice.
+		/* Draw Bars with 225 Alpha, so it looks pretty nice. */
 		Gui::Draw_Rect(0, 0, 400, 30, config->barColor() - C2D_Color32(0, 0, 0, 30));
 		Gui::Draw_Rect(0, 210, 400, 30, config->barColor() - C2D_Color32(0, 0, 0, 30));
 	} else {
-		// BG.
+		/* BG. */
 		Gui::ScreenDraw(Bottom);
 		Gui::Draw_Rect(0, 30, 320, 180, config->bgColor());
-		// First Cards.
+		/* First Cards. */
 		GFX::DrawCard(animationCards[0].CT, 0, animated_cardYPos[0], animationCards[0].CC);
 		GFX::DrawCard(animationCards[0].CT, 0, animated_cardYPos[0]+240, animationCards[0].CC);
-		// Second Cards.
+		/* Second Cards. */
 		GFX::DrawCard(animationCards[1].CT, 100, animated_cardYPos[1], animationCards[1].CC);
 		GFX::DrawCard(animationCards[1].CT, 100, animated_cardYPos[1]-240, animationCards[1].CC);
-		// Third Cards.
+		/* Third Cards. */
 		GFX::DrawCard(animationCards[2].CT, 200, animated_cardYPos[0], animationCards[2].CC);
 		GFX::DrawCard(animationCards[2].CT, 200, animated_cardYPos[0]+240, animationCards[2].CC);
-		// Fourth Cards.
+		/* Fourth Cards. */
 		GFX::DrawCard(animationCards[3].CT, 300, animated_cardYPos[1], animationCards[3].CC);
 		GFX::DrawCard(animationCards[3].CT, 300, animated_cardYPos[1]-240, animationCards[3].CC);
-		// Draw Bars with 225 Alpha, so it looks pretty nice.
+		/* Draw Bars with 225 Alpha, so it looks pretty nice. */
 		Gui::Draw_Rect(0, 0, 320, 30, config->barColor() - C2D_Color32(0, 0, 0, 30));
 		Gui::Draw_Rect(0, 210, 320, 30, config->barColor() - C2D_Color32(0, 0, 0, 30));
 	}

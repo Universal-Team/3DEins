@@ -41,96 +41,102 @@ protected:
 	std::unique_ptr<Deck> cardDeck; // The CardDeck variable.
 	int playerAmount; // The amount of players.
 public:
-	// Constructor initialized with amount of players.
+	/* Constructor initialized with amount of players. */
 	Game(const int players);
 
-	/*	Add a Card to the specific player's hand.
-	*	const int player -> The player.
-	*	Adds a card to the specific Player's hand.
+	/*
+		Add a Card to the specific player's hand.
+		const int player -> The player.
+		Adds a card to the specific Player's hand.
 	*/
 	void addCard(const int player);
 
-	/*	Remove a Card from the specific player's hand.
-	*	const int position -> The Position of the card.
-	*	const int player -> The player.
-	*	If position is out of scope -> Don't do anything.
+	/*
+		Remove a Card from the specific player's hand.
+		const int position -> The Position of the card.
+		const int player -> The player.
+		If position is out of scope -> Don't do anything.
 	*/
-	void removeCard(const int position, const int player); // If no player passed, use currentPlayer.
+	void removeCard(const int position, const int player);
 
-	/*	Return if the card is playable.
-	*	const int position -> The Position of the card.
-	*	const int player -> The player.
-	*	Returns true, if card is playable, false if not.
+	/*
+		Return if the card is playable.
+		const int position -> The Position of the card.
+		const int player -> The player.
+		Returns true, if card is playable, false if not.
 	*/
-	bool Playable(const int position, const int player); // Check if card is playable.
+	bool Playable(const int position, const int player);
 
-	/*	Play a card.
-	*	const int position -> The Position of the card.
-	*	const int player -> The player.
-	*	If TableCard & Current Card does not match -> Do nothing.
+	/*
+		Play a card.
+		const int position -> The Position of the card.
+		const int player -> The player.
+		If TableCard & Current Card does not match -> Do nothing.
 	*/
 	void play(const int position, const int player); // Play's a card.
 
-	// Get and Set the current Player.
+	/* Get and Set the current Player. */
 	int currentPlayer() const { return this->v_currentPlayer; }
 	void currentPlayer(const int player) { if (player <= this->playerAmount - 1)	this->v_currentPlayer = player; }
 
-	// Return the player amount.
+	/* Return the player amount. */
 	int maxPlayer() const { return this->playerAmount; }
 
-	// Get and Set direction.
+	/* Get and Set direction. */
 	DIRECTION direction() const { return this->v_playDirection; }
 	void direction(const DIRECTION d) { this->v_playDirection = d; }
 
-	// Get and Set, if able to continue the round.
+	/* Get and Set, if able to continue the round. */
 	bool canContinue() const { return this->v_canContinue; }
 	void canContinue(const bool v) { this->v_canContinue = v; }
 
-	// Get and Set the Card Indexes of the players.
+	/* Get and Set the Card Indexes of the players. */
 	int cardIndex(const int player) const { return this->v_cardIndex[player]; }
 	void cardIndex(const int index, const int player) { this->v_cardIndex[player] = index; }
 
-	// Get the current winner.
+	/* Get the current winner. */
 	int winner() const { return this->v_winner; }
-	// Check if player has won and set it to v_winner.
+	/* Check if player has won and set it to v_winner. */
 	void checkCards(const int player);
 
-	// Get the Player's Hand.
+	/* Get the Player's Hand. */
 	const std::vector<CardStruct> getHand(int player);
-	// Get the size of the player's hand.
+	/* Get the size of the player's hand. */
 	int getSize(int player) const;
 
-	// Get and Set Player Status.
+	/* Get and Set Player Status. */
 	const PlayerState state(const int player);
 	void state(const PlayerState s, const int player);
 
-	// Get the TableCard's CardStruct.
+	/* Get the TableCard's CardStruct. */
 	CardStruct tableCard() { return this->TableCard; }
-	// Set the TableCard's color.
+	/* Set the TableCard's color. */
 	void tbCardColor(const CardColor color) { this->TableCard.CC = color; }
-	// Set the TableCard's type.
+	/* Set the TableCard's type. */
 	void tbCardType(const CardType cardtype) { this->TableCard.CT = cardtype; }
 	CardStruct getTableTop();
 
-	// Get the CardColor from a card of the Player's hand.
+	/* Get the CardColor from a card of the Player's hand. */
 	CardColor getColor(const int index, const int player) const;
-	// Get the CardType from a card of the Player's hand.
+	/* Get the CardType from a card of the Player's hand. */
 	CardType getType(const int index, const int player) const;
-	// Get the CardStruct from a card of the Player's hand.
+	/* Get the CardStruct from a card of the Player's hand. */
 	CardStruct getPlayerCard(const int index, const int player);
-	// Return the points from a player.
+	/* Return the points from a player. */
 	int getPoints(const int player) const;
 	
-	// Card Drawing stuff.
-	// Return, if card was already drawn.
+	/*
+		Card Drawing stuff.
+		Return, if card was already drawn.
+	*/
 	bool drawn() const { return this->v_hasDrawn; }
-	// Set CardDraw status. Only 1 draw each turn allowed.
+	/* Set CardDraw status. Only 1 draw each turn allowed. */
 	void drawn(const bool v) { this->v_hasDrawn = v; }
-	// Get the Plus 2 / 4 Drawing Counter.
+	/* Get the Plus 2 / 4 Drawing Counter. */
 	int drawingCounter() { return this->v_drawingCounter; }
-	// Add the Plus 2 / 4 Drawing Counter.
+	/* Add the Plus 2 / 4 Drawing Counter. */
 	void drawingCounter(const int v) { this->v_drawingCounter += v; }
-	// Reset the Plus 2 / 4 Drawing Counter.
+	/* Reset the Plus 2 / 4 Drawing Counter. */
 	void resetCounter() { this->v_drawingCounter = 0; }
 
 private:

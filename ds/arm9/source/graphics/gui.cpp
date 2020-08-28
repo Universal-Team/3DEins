@@ -54,7 +54,7 @@ void Gui::screenBack() {
 	screens.pop();
 }
 
-// Basic GUI Stuff.
+/* Basic GUI Stuff. */
 void Gui::DrawTop(bool useBars) {
 	if (useBars) {
 		drawRectangle(0, 20, 256, 152, DARKER_GRAY, true, false);
@@ -79,7 +79,7 @@ void Gui::clearScreen(bool top, bool layer) {
 	drawRectangle(0, 0, 256, 192, CLEAR, top, layer);
 }
 
-// Load the card Graphics.
+/* Load the card Graphics. */
 void Gui::loadGraphics() {
 	for (int i = 0; i < (int)cards.size(); i++) {
 		cards[i] = loadImage("/graphics/cards/" + std::to_string(i) + ".gfx");
@@ -104,12 +104,12 @@ void Gui::loadGraphics() {
 	}
 }
 
-// Draw a card.
+/* Draw a card. */
 void Gui::DrawCard(CardType CT, CardColor CC, int x, int y, float ScaleX, float ScaleY, bool top, bool layer) {
 	drawImageScaled(x, y, ScaleX, ScaleY, cards[u8(CT)], top, layer, u8(CC) * 12, false);
 }
 
-// Draw a card from the Player's Hand.
+/* Draw a card from the Player's Hand. */
 void Gui::DrawPlayerCard(const std::vector<CardStruct> &hand, const int &card, int x, int y, float ScaleX, float ScaleY, bool top, bool layer) {
 	Gui::DrawCard(hand[card].CT, hand[card].CC, x, y, ScaleX, ScaleY, top, layer);
 }

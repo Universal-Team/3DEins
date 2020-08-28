@@ -34,7 +34,7 @@
 extern bool iconTouch(touchPosition touch, Structs::ButtonPos button);
 extern std::unique_ptr<Config> config;
 
-// Draw the Top (File) browse.
+/* Draw the Top (File) browse. */
 static void DrawTop(uint Selection, std::vector<DirEntry> dirContents) {
 	std::string sets;
 	Gui::clearTextBufs();
@@ -73,7 +73,7 @@ std::string Overlays::SelectSet() {
 	std::vector<DirEntry> dirContents;
 	bool dirChanged = false;
 
-	// Initial dir change.
+	/* Initial dir change. */
 	dirContents.clear();
 	chdir("sdmc:/3ds/3DEins/sets/");
 	std::vector<DirEntry> dirContentsTemp;
@@ -83,16 +83,16 @@ std::string Overlays::SelectSet() {
 	}
 
 	while (1) {
-		// Screen draw part.
+		/* Screen draw part. */
 		DrawTop(selectedSet, dirContents);
 		DrawBottom();
 
-		// The input part.
+		/* The input part. */
 		hidScanInput();
 		u32 hDown = hidKeysDown();
 		u32 hRepeat = hidKeysDownRepeat();
 
-		// if directory changed -> Refresh it.
+		/* if directory changed -> Refresh it. */
 		if (dirChanged) {
 			dirContents.clear();
 			std::vector<DirEntry> dirContentsTemp;
@@ -108,8 +108,7 @@ std::string Overlays::SelectSet() {
 			if (dirContents[selectedSet].isDirectory) {
 				char path[PATH_MAX];
 				getcwd(path, PATH_MAX);
-				std::string output = path + dirContents[selectedSet].name;
-				return output;
+				return path + dirContents[selectedSet].name;
 			}
 		}
 

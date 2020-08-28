@@ -1,4 +1,4 @@
-	/*
+/*
 *   This file is part of DSEins
 *   Copyright (C) 2019-2020 Universal-Team
 *
@@ -44,15 +44,15 @@ touchPosition touch;
 bool exiting = false;
 std::unique_ptr<SaveData> savedata;
 
-// If button Position pressed -> Do something.
+/* If button Position pressed -> Do something. */
 bool touching(touchPosition touch, Structs::ButtonPos button) {
-	if (touch.px >= button.x && touch.px <= (button.x + button.w) && touch.py >= button.y && touch.py <= (button.y + button.h))	return true;
-	else	return false;
+	if (touch.px >= button.x && touch.px <= (button.x + button.w) && touch.py >= button.y && touch.py <= (button.y + button.h)) return true;
+	else return false;
 }
 
 bool Buttontouching(ButtonStruct button) {
-	if (touch.px >= button.x && touch.px <= (button.x + button.xSize) && touch.py >= button.y && touch.py <= (button.y + button.ySize))	return true;
-	else	return false;
+	if (touch.px >= button.x && touch.px <= (button.x + button.xSize) && touch.py >= button.y && touch.py <= (button.y + button.ySize)) return true;
+	else return false;
 }
 
 int main(int argc, char **argv) {
@@ -63,24 +63,24 @@ int main(int argc, char **argv) {
 	drawRectangle(0, 0, 256, 192, DARKERER_GRAY, DARKER_GRAY, true, false);
 	drawRectangle(0, 0, 256, 192, DARKERER_GRAY, DARKER_GRAY, false, false);
 
-	// Init filesystem.
-	if(!fatInitDefault()) {
-		// Prints error if fatInitDefault() fails.
+	/* Init filesystem. */
+	if (!fatInitDefault()) {
+		/* Prints error if fatInitDefault() fails. */
 		consoleDemoInit();
 		printf("fatInitDefault() failed...");
 		while(1) swiWaitForVBlank();
 	}
 
-	// Make directories, if not exist.
+	/* Make directories, if not exist. */
 	mkdir(sdFound() ? "sd:/_nds" : "fat:/_nds", 0777);
 	mkdir(sdFound() ? "sd:/_nds/DSEins" : "fat:/_nds/DSEins", 0777);
 
-	// Try to init NitroFS from argv provided to the game when it was launched.
-	if(!nitroFSInit(argv[0])) {
-		// If that fails, try to init NitroFS on 'DSEins.nds'.
-		if(!nitroFSInit("DSEins.nds")) {
-			if(!nitroFSInit("/_nds/DSEins/DSEins.nds")) {
-				// Prints error if nitroFSInit() fails.
+	/* Try to init NitroFS from argv provided to the game when it was launched. */
+	if (!nitroFSInit(argv[0])) {
+		/* If that fails, try to init NitroFS on 'DSEins.nds'. */
+		if (!nitroFSInit("DSEins.nds")) {
+			if (!nitroFSInit("/_nds/DSEins/DSEins.nds")) {
+				/* Prints error if nitroFSInit() fails. */
 				consoleDemoInit();
 				printf("nitroFSInit() failed...\n\n");
 				printf("Please copy DSEins.nds to:\n\n");
@@ -110,7 +110,7 @@ int main(int argc, char **argv) {
 	Gui::setScreen(std::make_unique<MainMenu>());
 	Gui::clearScreen(false, true);
 
-	// Draw Screen.
+	/* Draw Screen. */
 	Gui::DrawScreen();
 	selector->show();
 	doUpdate = true;

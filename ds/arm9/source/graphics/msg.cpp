@@ -30,7 +30,7 @@
 #include "msg.hpp"
 
 void Msg::DisplayPlayerSwitch(std::string message) {
-	// We only have to clear Layer true.
+	/* We only have to clear Layer true. */
 	Gui::clearScreen(true, true);
 	Gui::clearScreen(false, true);
 
@@ -43,12 +43,12 @@ void Msg::DisplayPlayerSwitch(std::string message) {
 		if (keysDown() & KEY_Y)	break;
 	}
 
-	// Redraw screen.
+	/* Redraw screen. */
 	Gui::DrawScreen();
 }
 
 void Msg::DisplayWaitMsg(std::string message) {
-	// We only have to clear Layer true.
+	/* We only have to clear Layer true. */
 	Gui::clearScreen(true, true);
 	Gui::clearScreen(false, true);
 
@@ -61,6 +61,6 @@ void Msg::DisplayWaitMsg(std::string message) {
 		if (keysDown() & KEY_A)	break;
 	}
 
-	// Redraw screen.
+	/* Redraw screen. */
 	Gui::DrawScreen();
 }

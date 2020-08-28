@@ -39,25 +39,24 @@ typedef uint32_t u32;
 typedef uint64_t u64;
 
 /*	
-*		3DEins | DSEins SaveData Struct.
-*	0x0 - 0x9: Player Name. (size: 10, UTF-8, 10 chars)
-*	0xA - 0xC: Player ID. (size: 2, u16)
-*	0xD - 0x2B: Player Phrase. (size: 30, UTF-8, 30 chars)
-*	0x2C - 0x2D: Player Win amount. (size: 1, u8)
-*	0x2D - 0x2E: Player Lose amount. (size: 1, u8)
+	3DEins | DSEins SaveData Struct.
+	0x0 - 0x9: Player Name. (size: 10, UTF-8, 10 chars)
+	0xA - 0xC: Player ID. (size: 2, u16)
+	0xD - 0x2B: Player Phrase. (size: 30, UTF-8, 30 chars)
+	0x2C - 0x2D: Player Win amount. (size: 1, u8)
+	0x2D - 0x2E: Player Lose amount. (size: 1, u8)
 */
 
 class SaveData {
 protected:
-	// Protected data.
+	/* Protected data. */
 	std::unique_ptr<u8[]> saveData;
 	u32 saveSize;
 public:
-	// Constructor & Destructor.
 	SaveData(std::string saveFile);
 	~SaveData() { }
 
-	// Return and Set's.
+	/* Return and Set's. */
 	std::string playerName();	void playerName(std::string name);
 	u16 playerID();				void playerID(u16 ID);
 	int playerAvatar();			void playerAvatar(int avatar);
@@ -65,22 +64,22 @@ public:
 	u8 playerWins(); void playerWins(u8 wins);
 	u8 playerLose(); void playerLose(u8 lose);
 
-	// Operations.
+	/* Operations. */
 	void write();
 	void create(std::string saveFile);
 
-	// Write.
+	/* Write. */
 	template <typename T>
 	void Write(u32 offset, T data) {
 		*reinterpret_cast<T*>(this->saveData.get() + offset) = data;
 		if (!this->changesMade)	this->changesMade = true; // Set changes made to true.
 	}
 
-	// Read an offset from the saveData.
+	/* Read an offset from the saveData. */
 	template <typename T>
 	T Read(u32 offset) {
-		if (saveData != nullptr)	return *(T*)(this->saveData.get() + offset);
-		else						return *(T*)0;
+		if (saveData != nullptr) return *(T*)(this->saveData.get() + offset);
+		else return *(T*)0;
 	}
 	
 private:

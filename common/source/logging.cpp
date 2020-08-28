@@ -1,6 +1,6 @@
 /*
 *   This file is part of 3DEins
-*   Copyright (C) 2019-2020 DeadPhoenix8091, Epicpkmn11, Flame, RocketRobz, StackZ, TotallyNotGuy
+*   Copyright (C) 2019-2020 Universal-Team
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -40,7 +40,7 @@
 
 #define DO_LOG	false // Do this to true, if Logging should be used.
 
-// For formatting the Date and Time.
+/* For formatting the Date and Time. */
 std::string Logging::format(const std::string& fmt_str, ...) {
 	va_list ap;
 	char* fp = NULL;
@@ -51,7 +51,7 @@ std::string Logging::format(const std::string& fmt_str, ...) {
 	return std::string(formatted.get());
 }
 
-// Log current Time and Date.
+/* Log current Time and Date. */
 std::string Logging::logDate(void) {
 	time_t unixTime;
 	struct tm timeStruct;
@@ -60,7 +60,7 @@ std::string Logging::logDate(void) {
 	return format("%04i-%02i-%02i %02i:%02i:%02i", timeStruct.tm_year + 1900, timeStruct.tm_mon + 1, timeStruct.tm_mday, timeStruct.tm_hour, timeStruct.tm_min, timeStruct.tm_sec);
 }
 
-// Create the Log file.
+/* Create the Log file. */
 void Logging::createLogFile(void) {
 	if (DO_LOG) {
 		if ((access(LOGGING_FILE, F_OK) != 0)) {
@@ -70,10 +70,10 @@ void Logging::createLogFile(void) {
 	}
 }
 
-// Write a debug Message to the log.
+/* Write a debug Message to the log. */
 void Logging::writeToLog(std::string debugText) {
 	if (DO_LOG) {
-		// Create file if needed.
+		/* Create file if needed. */
 		if ((access(LOGGING_FILE, F_OK) != 0)) {
 			Logging::createLogFile();
 		}

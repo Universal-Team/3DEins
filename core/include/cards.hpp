@@ -34,60 +34,69 @@
 class Deck;
 class Cards {
 protected:
-	// Should it be protected?
+	/* Should it be protected? */
 	std::vector<CardStruct> Hand;
 public:
 	Cards(): Hand({}) { }
 
-	/*	Give a card to the Hand from the cardDeck.
-	*	std::unique_ptr<Deck> &deck -> A reference to the CardDeck.
+	/*
+		Give a card to the Hand from the cardDeck.
+		std::unique_ptr<Deck> &deck -> A reference to the CardDeck.
 	*/
 	void add(std::unique_ptr<Deck> &deck);
 
-	/*	Remove a card from the Hand.
-	*	const int position -> The position from the Hand.
-	*	This will not remove anything, if position is out of scope.
+	/*
+		Remove a card from the Hand.
+		const int position -> The position from the Hand.
+		This will not remove anything, if position is out of scope.
 	*/
 	void Remove(const int position);
 
-	/*	Return, if the Card is playable.
-	*	const CardStruct Table -> The CardStruct of the Tablecard.
-	*	const int position -> The position of the card from the Hand which should be checked.
-	*	Returns true, if card is playable, false if not.
+	/*
+		Return, if the Card is playable.
+		const CardStruct Table -> The CardStruct of the Tablecard.
+		const int position -> The position of the card from the Hand which should be checked.
+		Returns true, if card is playable, false if not.
 	*/
 	bool Playable(const CardStruct Table, const int position);
 
-	/*	Return the CardColor of the card.
-	*	const int position -> The position of the card from the Hand.
-	*	Returns the CardColor.
+	/*
+		Return the CardColor of the card.
+		const int position -> The position of the card from the Hand.
+		Returns the CardColor.
 	*/
 	CardColor CC(const int position) { return Hand[position].CC; }
 
-	/*	Return the CardType of the card.
-	*	const int position -> The position of the card from the Hand.
-	*	Returns the CardType.
+	/*
+		Return the CardType of the card.
+		const int position -> The position of the card from the Hand.
+		Returns the CardType.
 	*/
 	CardType CT(const int position) { return Hand[position].CT; }
 
-	/*	Return the CardStruct of the card.
-	*	const int position -> The position of the card from the Hand.
-	*	Returns the CardStruct.
+	/*
+		Return the CardStruct of the card.
+		const int position -> The position of the card from the Hand.
+		Returns the CardStruct.
 	*/
 	CardStruct CS(const int position) { return Hand[position]; }
 
-	/*	Return the size of the Hand.
-	*	Returns the size of the Hand.
+	/*	
+		Return the size of the Hand.
+		Returns the size of the Hand.
 	*/
 	int getSize();
 
-	/*	Return the points of a card.
-	*	const int position -> The position of the card from the Hand.
-	*	Returns the points of the card.
+	/*
+		Return the points of a card.
+		const int position -> The position of the card from the Hand.
+		Returns the points of the card.
 	*/
 	int getPoints(const int position);
 
-	/*	Return the Hand.
-	*	Returns a std::vector<CardStruct> of the hand.
+	/*
+		Return the Hand.
+		Returns a std::vector<CardStruct> of the hand.
 	*/
 	const std::vector<CardStruct> getCards() { return Hand; }
 };

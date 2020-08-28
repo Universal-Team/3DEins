@@ -29,7 +29,7 @@
 #include <algorithm>
 #include <time.h>
 
-// We need to do this hacky style. There is NO workaround.
+/* We need to do this hacky style. There is NO workaround. */
 #ifdef _USE_SPECIAL_CARD
 extern void _3DEins_SpecialHandle(std::unique_ptr<Game> &game, const int firstPlayer, const int secondPlayer, const int maxPlayer);
 #endif
@@ -85,7 +85,7 @@ void GameHelper::checkAndSet(std::unique_ptr<Game> &game, const int firstPlayer,
 	}
 }
 
-// Get the amount of points from the Card.
+/* Get the amount of points from the Card. */
 int GameHelper::getPoints(const CardType card) {
 	switch(card) {
 		case CardType::NUMBER_0:
@@ -127,7 +127,7 @@ int GameHelper::getPoints(const CardType card) {
 	return 0; // Should Never happen.
 }
 
-// Return the CardType Name. It should be better handled through a Language getter or so.
+/* Return the CardType Name. */
 std::string GameHelper::getTypeName(const CardType Card) {
 	switch(Card) {
 		case CardType::NUMBER_0:
@@ -169,7 +169,7 @@ std::string GameHelper::getTypeName(const CardType Card) {
 	return "?"; // Should Never Happen.
 }
 
-// Return the CardColor Name. It should be better handled through a Language getter or so.
+/* Return the CardColor Name. */
 std::string GameHelper::getColorName(const CardColor Card) {
 	switch(Card) {
 		case CardColor::COLOR_GREEN:
@@ -187,7 +187,7 @@ std::string GameHelper::getColorName(const CardColor Card) {
 	return "?"; // Should Never Happen.
 }
 
-// Return the amount of points for a CardType for the AI. TODO: Change some points or so?
+/* Return the amount of points for a CardType for the AI. TODO: Change some points or so? */
 int GameHelper::AIPointTable(const CardType card) {
 	switch(card) {
 		case CardType::NUMBER_0:
@@ -229,12 +229,12 @@ int GameHelper::AIPointTable(const CardType card) {
 	return -1; // Should not happen.
 }
 
-// Return the highest card index. Is that even properly made?
+/* Return the highest card index. Is that even properly made? */
 int GameHelper::getHighestCard(std::unique_ptr<Game> &currentGame, const int player) {
 	std::vector<int> index;
 	std::vector<int>::iterator result;
 
-	// Check, if we can play a card and set index.
+	/* Check, if we can play a card and set index. */
 	for (int i = 0; i < currentGame->getSize(player); i++) {
 		if (currentGame->Playable(i, player)) {
 			index.push_back({GameHelper::AIPointTable(currentGame->getType(i, player))});
@@ -255,7 +255,7 @@ int GameHelper::getHighestCard(std::unique_ptr<Game> &currentGame, const int pla
 
 bool hasSeeded = false;
 
-// Generate a seed for the shuffle cards function.
+/* Generate a seed for the shuffle cards function. */
 void CoreHelper::generateSeed() {
 	if (!hasSeeded) {
 		hasSeeded = true;

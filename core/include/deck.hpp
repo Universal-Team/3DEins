@@ -31,18 +31,18 @@
 
 class Deck {
 protected:
-	// Should it be protected?
+	/* Should it be protected? */
 	std::vector<CardStruct> CardDeck; // 108 Cards are there, 110 with special card.
 public:
 	Deck(): CardDeck({}) { this->fill(); } // Our Constructor will create a new CardDeck for us.
 
-	// Initialize a new Deck. Also called by fill.
+	/* Initialize a new Deck. Also called by fill. */
 	void Initialize();
 
-	// Shuffle the Deck. Useful for special cases in game.
+	/* Shuffle the Deck. Useful for special cases in game. */
 	void shuffleDeck();
 
-	// Initialize, fill and shuffle the Deck.
+	/* Initialize, fill and shuffle the Deck. */
 	void fill();
 
 	/*	Return the Decksize.
@@ -50,23 +50,27 @@ public:
 	*/
 	int deckSize() { return CardDeck.size(); }
 
-	/*	Return the CardType of the last card.
-	*	Returns the CardType of the last card from the deck.
+	/*
+		Return the CardType of the last card.
+		Returns the CardType of the last card from the deck.
 	*/
 	CardType CT() { return CardDeck[CardDeck.size() - 1].CT; }
 
-	/*	Return the CardColor of the last card.
-	*	Returns the CardColor of the last card from the deck.
+	/*	
+		Return the CardColor of the last card.
+		Returns the CardColor of the last card from the deck.
 	*/
 	CardColor CC() { return CardDeck[CardDeck.size() - 1].CC; }
 
-	/*	Return the CardStruct from the last card and remove it from the Deck as well.
-	*	Returns the CardStruct of the last card from the deck and remove it from the deck as well.
+	/*
+		Return the CardStruct from the last card and remove it from the Deck as well.
+		Returns the CardStruct of the last card from the deck and remove it from the deck as well.
 	*/
 	CardStruct getCard();
 
-	/*	Return the CardStruct from the last card.
-	*	Returns the CardStruct of the last card from the deck.
+	/*
+		Return the CardStruct from the last card.
+		Returns the CardStruct of the last card from the deck.
 	*/
 	CardStruct topCard();
 };

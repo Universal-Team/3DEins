@@ -95,11 +95,13 @@ void MainMenu::Logic(u16 hDown, touchPosition touch) {
 				doUpdate = true;
 				Gui::DrawScreen();
 				break;
+
 			case 1:
 				Gui::setScreen(std::make_unique<Settings>());
 				doUpdate = true;
 				Gui::DrawScreen();
 				break;
+
 			case 2:
 				Gui::setScreen(std::make_unique<Credits>());
 				Gui::DrawScreen();
@@ -112,10 +114,12 @@ void MainMenu::Logic(u16 hDown, touchPosition touch) {
 			Gui::setScreen(std::make_unique<ModeSelect>());
 			doUpdate = true;
 			Gui::DrawScreen();
+
 		} else if (Buttontouching(this->buttonPos[1])) {
 			Gui::setScreen(std::make_unique<Settings>());
 			doUpdate = true;
 			Gui::DrawScreen();
+			
 		} else if (Buttontouching(this->buttonPos[2])) {
 			selector->hide();
 			doUpdate = true;

@@ -1,6 +1,6 @@
 /*
 *   This file is part of 3DEins | DSEins
-*   Copyright (C) 2019-2020 DeadPhoenix8091, Epicpkmn11, Flame, RocketRobz, StackZ, TotallyNotGuy
+*   Copyright (C) 2019-2020 Universal-Team
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -57,7 +57,7 @@ void Lang::load() {
 		fclose(values);
 
 	} else {
-		// Load English otherwise.
+		/* Load English otherwise. */
 		values = fopen((LANGPATH + langs[2]+"/app.json").c_str(), "rt");
 		if (values)	appJson = nlohmann::json::parse(values, nullptr, false);
 		fclose(values);

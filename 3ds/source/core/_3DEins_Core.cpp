@@ -27,5 +27,5 @@
 #include "_3DEins_Core.h"
 #include "coreHelper.hpp"
 
-// Our function if PlayerState is PlayerState::SPECIAL.
+/* Our function if PlayerState is PlayerState::SPECIAL. */
 void _3DEins_SpecialHandle(std::unique_ptr<Game> &game, const int firstPlayer, const int secondPlayer, const int maxPlayer) { }

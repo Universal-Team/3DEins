@@ -57,6 +57,7 @@ void MainMenu::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 			if (Msg::promptMsg(Lang::get("NEW_GAME_PROMPT"))) {
 				Gui::setScreen(std::make_unique<ModeSelect>(), true, true);
 			}
+
 		} else if (buttonTouch(mainButtons[1])) {
 			Gui::setScreen(std::make_unique<UISettings>(), true, true);
 		} else if (buttonTouch(mainButtons[2])) {
@@ -86,13 +87,13 @@ void MainMenu::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	}
 
 	if (hDown & KEY_UP) {
-		if (Selection > 1)	Selection -= 2;
+		if (this->Selection > 1) this->Selection -= 2;
 	} else if (hDown & KEY_DOWN) {
-		if(Selection < 3 && Selection != 2 && Selection != 3)	Selection += 2;
+		if (this->Selection < 3 && this->Selection != 2 && this->Selection != 3) this->Selection += 2;
 	} else if (hDown & KEY_LEFT) {
-		if (Selection%2)	Selection--;
+		if (this->Selection % 2) this->Selection--;
 	} else if (hDown & KEY_RIGHT) {
-		if (!(Selection%2))	Selection++;
+		if (!(this->Selection % 2)) this->Selection++;
 	}
 
 	if (hDown & KEY_START) {

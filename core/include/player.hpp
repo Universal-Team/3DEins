@@ -39,22 +39,22 @@ protected:
 public:
 	Player(std::unique_ptr<Deck> &deck);
 
-	// Add & Remove.
+	/* Add & Remove. */
 	void addCard(std::unique_ptr<Deck> &deck);
 	void removeCard(int position);
 
-	// Check for playable & play.
+	/* Check for playable & play. */
 	bool Playable(const CardStruct &Table, const int &card);
 	void play(int position, CardStruct &table);
 
-	// Get the size & hand.
+	/* Get the size & hand. */
 	int getSize();
 	const std::vector<CardStruct> getHand();
 
-	// Return the Card Points and overwrite it to a Player's points.
+	/* Return the Card Points and overwrite it to a Player's points. */
 	void returnCardPoints(std::unique_ptr<Player> &player);
 
-	// Get Points & State.
+	/* Get Points & State. */
 	const int getPoints() { return this->playerPoints; }
 	const PlayerState getState() { return this->state; }
 	void setState(PlayerState st) { this->state = st; }

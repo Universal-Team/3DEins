@@ -36,7 +36,6 @@
 extern bool doUpdate;
 extern std::unique_ptr<Selector> selector;
 extern touchPosition touch;
-//extern std::unique_ptr<SaveData> savedata;
 
 const std::vector<ButtonStruct> colorPos = {
 	{30, 45, 80, 40, "COLOR_RED", CARD_COLOR_RED, true}, // Red.
@@ -47,7 +46,7 @@ const std::vector<ButtonStruct> colorPos = {
 
 extern bool Buttontouching(ButtonStruct button);
 
-// Select a Color.
+/* Select a Color. */
 CardColor _DSEins_Helper::selectColor() {
 	int selection = 0;
 
@@ -72,7 +71,7 @@ CardColor _DSEins_Helper::selectColor() {
 			selector->update();
 		}
 
-		// The input part.
+		/* The input part. */
 		swiWaitForVBlank();
 		scanKeys();
 		touchRead(&touch);
@@ -85,7 +84,10 @@ CardColor _DSEins_Helper::selectColor() {
 				selection -= 2;
 				doUpdate = true;
 			}
-		} else if (keysDown() & KEY_DOWN) {
+
+		}
+		
+		if (keysDown() & KEY_DOWN) {
 			if (selection == 0) {
 				selection += 2;
 				doUpdate = true;
@@ -100,7 +102,9 @@ CardColor _DSEins_Helper::selectColor() {
 				selection--;
 				doUpdate = true;
 			}
-		} else if (keysDown() & KEY_RIGHT) {
+		}
+		
+		if (keysDown() & KEY_RIGHT) {
 			if (selection < 3) {
 				selection++;
 				doUpdate = true;
@@ -115,10 +119,13 @@ CardColor _DSEins_Helper::selectColor() {
 
 			if (selection == 0) {
 				return CardColor::COLOR_RED;
+
 			} else if (selection == 1) {
 				return CardColor::COLOR_BLUE;
+
 			} else if (selection == 2) {
 				return CardColor::COLOR_YELLOW;
+
 			} else if (selection == 3) {
 				return CardColor::COLOR_GREEN;
 			}
@@ -131,18 +138,21 @@ CardColor _DSEins_Helper::selectColor() {
 				doUpdate = true;
 				selector->update();
 				return CardColor::COLOR_RED;
+
 			} else if (Buttontouching(colorPos[1])) {
 				selector->hide();
 				selector->resize(60, 90);
 				doUpdate = true;
 				selector->update();
 				return CardColor::COLOR_BLUE;
+
 			} else if (Buttontouching(colorPos[2])) {
 				selector->hide();
 				selector->resize(60, 90);
 				doUpdate = true;
 				selector->update();
 				return CardColor::COLOR_YELLOW;
+
 			} else if (Buttontouching(colorPos[3])) {
 				selector->hide();
 				selector->resize(60, 90);
@@ -153,6 +163,6 @@ CardColor _DSEins_Helper::selectColor() {
 		}
 	}
 
-	// Redraw.
+	/* Redraw. */
 	Gui::DrawScreen();
 }

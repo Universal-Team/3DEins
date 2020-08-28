@@ -38,11 +38,11 @@ public:
 	void save();
 	void initialize();
 
-	// Language.
+	/* Language. */
 	int language() { return this->v_language; }
 	void language(int v) { this->v_language = v; if (!this->changesMade)	this->changesMade = true; }
 
-	// Mainly helper.
+	/* Mainly helper. */
 	bool getBool(const std::string &key);
 	void setBool(const std::string &key, bool v);
 	int getInt(const std::string &key);
@@ -53,7 +53,7 @@ private:
 	nlohmann::json json; // Our private JSON file.
 	bool changesMade = false;
 
-	// Color variables and more.
+	/* variables and more. */
 	int v_language;
 };
 

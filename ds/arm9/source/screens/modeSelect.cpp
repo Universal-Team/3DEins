@@ -148,6 +148,7 @@ void ModeSelect::PlayerLogic(u16 hDown, touchPosition touch) {
 				} else {
 					Gui::setScreen(std::make_unique<GameScreen>(false, 2 + this->playerSel));
 				}
+
 				Gui::DrawScreen();
 			}
 		}
@@ -162,6 +163,7 @@ void ModeSelect::PlayerLogic(u16 hDown, touchPosition touch) {
 		} else {
 			Gui::setScreen(std::make_unique<GameScreen>(false, 2 + this->playerSel));
 		}
+		
 		Gui::DrawScreen();
 	}
 

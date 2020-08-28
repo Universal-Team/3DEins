@@ -60,8 +60,10 @@ void UISettings::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hDown & KEY_TOUCH) {
 		if (touching(mainButtons[0])) {
 			Gui::setScreen(std::make_unique<ColorChanger>(), true, true);
+
 		} else if (touching(mainButtons[1])) {
 			Gui::setScreen(std::make_unique<LangSelection>(), true, true);
+
 		} else if (touching(mainButtons[2])) {
 			if (config->allowAnimation()) {
 				config->allowAnimation(false);
@@ -70,32 +72,35 @@ void UISettings::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 				config->allowAnimation(true);
 				Msg::DisplayWaitMsg(Lang::get("TURNED_ON"));
 			}
+
 		} else if (touching(mainButtons[3])) {
 			Gui::setScreen(std::make_unique<SetChanger>(), true, true);
 		}
 	}
 
 	if (hDown & KEY_UP) {
-		if (this->Selection > 1)	this->Selection -= 2;
+		if (this->Selection > 1) this->Selection -= 2;
 	}
 
 	if (hDown & KEY_DOWN) {
-		if (this->Selection < 4)	this->Selection += 2;
+		if (this->Selection < 4) this->Selection += 2;
 	}
 
 	if (hDown & KEY_LEFT) {
-		if (this->Selection%2) this->Selection--;
+		if (this->Selection % 2) this->Selection--;
 	}
 	
 	if (hDown & KEY_RIGHT) {
-		if (!(this->Selection%2))	this->Selection++;
+		if (!(this->Selection % 2)) this->Selection++;
 	}
 
 	if (hDown & KEY_A) {
 		if (this->Selection == 0) {
 			Gui::setScreen(std::make_unique<ColorChanger>(), true, true);
+
 		} else if (this->Selection == 1) {
 			Gui::setScreen(std::make_unique<LangSelection>(), true, true);
+
 		} else if (this->Selection == 2) {
 			if (config->allowAnimation()) {
 				config->allowAnimation(false);
@@ -104,6 +109,7 @@ void UISettings::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 				config->allowAnimation(true);
 				Msg::DisplayWaitMsg(Lang::get("TURNED_ON"));
 			}
+			
 		} else if (this->Selection == 3) {
 			Gui::setScreen(std::make_unique<SetChanger>(), true, true);
 		}

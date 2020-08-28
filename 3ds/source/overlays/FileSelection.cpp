@@ -34,7 +34,7 @@
 extern bool iconTouch(touchPosition touch, Structs::ButtonPos button);
 extern std::unique_ptr<Config> config;
 
-// Draw the Top (File) browse.
+/* Draw the Top (File) browse. */
 static void DrawTop(uint Selection, std::vector<DirEntry> dirContents, const std::string Text) {
 	std::string files;
 	Gui::clearTextBufs();
@@ -64,7 +64,7 @@ static void DrawTop(uint Selection, std::vector<DirEntry> dirContents, const std
 
 static void DrawBottom(bool isDirBrowse = false) {
 	GFX::DrawFileBrowseBG(false);
-	if (isDirBrowse)	Gui::DrawStringCentered(0, 0, 0.7f, config->textColor(), Lang::get("X_SELECT"), 390);
+	if (isDirBrowse) Gui::DrawStringCentered(0, 0, 0.7f, config->textColor(), Lang::get("X_SELECT"), 390);
 	C3D_FrameEnd(0);
 }
 
@@ -73,7 +73,7 @@ std::string Overlays::SelectFile(const std::vector<std::string> fileType, const 
 	bool dirChanged = false;
 	std::vector<DirEntry> dirContents;
 
-	// Initial dir change.
+	/* Initial dir change. */
 	dirContents.clear();
 	chdir(initialPath.c_str());
 	std::vector<DirEntry> dirContentsTemp;
@@ -83,16 +83,16 @@ std::string Overlays::SelectFile(const std::vector<std::string> fileType, const 
 	}
 
 	while (1) {
-		// Screen draw part.
+		/* Screen draw part. */
 		DrawTop(selectedFile, dirContents, Text);
 		DrawBottom();
 
-		// The input part.
+		/* The input part. */
 		hidScanInput();
 		u32 hDown = hidKeysDown();
 		u32 hRepeat = hidKeysDownRepeat();
 
-		// if directory changed -> Refresh it.
+		/* if directory changed -> Refresh it. */
 		if (dirChanged) {
 			dirContents.clear();
 			std::vector<DirEntry> dirContentsTemp;
@@ -112,8 +112,7 @@ std::string Overlays::SelectFile(const std::vector<std::string> fileType, const 
 			} else {
 				char path[PATH_MAX];
 				getcwd(path, PATH_MAX);
-				std::string output = path + dirContents[selectedFile].name;
-				return output;
+				return path + dirContents[selectedFile].name;
 			}
 		}
 
@@ -154,7 +153,7 @@ std::string Overlays::SelectDirectory(const std::string initialPath, const std::
 	bool dirChanged = false;
 	std::vector<DirEntry> dirContents;
 
-	// Initial dir change.
+	/* Initial dir change. */
 	dirContents.clear();
 	chdir(initialPath.c_str());
 	std::vector<DirEntry> dirContentsTemp;
@@ -164,16 +163,16 @@ std::string Overlays::SelectDirectory(const std::string initialPath, const std::
 	}
 
 	while (1) {
-		// Screen draw part.
+		/* Screen draw part. */
 		DrawTop(selectedDirectory, dirContents, Text);
 		DrawBottom(true);
 
-		// The input part.
+		/* The input part. */
 		hidScanInput();
 		u32 hDown = hidKeysDown();
 		u32 hRepeat = hidKeysDownRepeat();
 
-		// if directory changed -> Refresh it.
+		/* if directory changed -> Refresh it. */
 		if (dirChanged) {
 			dirContents.clear();
 			std::vector<DirEntry> dirContentsTemp;
@@ -227,8 +226,7 @@ std::string Overlays::SelectDirectory(const std::string initialPath, const std::
 			if (dirContents[selectedDirectory].isDirectory) {
 				char path[PATH_MAX];
 				getcwd(path, PATH_MAX);
-				std::string output = path + dirContents[selectedDirectory].name;
-				return output;
+				return path + dirContents[selectedDirectory].name;
 			}
 		}
 	}

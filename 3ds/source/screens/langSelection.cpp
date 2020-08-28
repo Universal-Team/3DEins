@@ -30,7 +30,7 @@
 extern std::unique_ptr<Config> config;
 extern bool touching(Structs::ButtonPos button);
 
-// Get current lang.
+/* Get current lang. */
 LangSelection::LangSelection() { this->selectedLang = config->language(); }
 
 void LangSelection::Draw(void) const {

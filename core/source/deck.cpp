@@ -27,11 +27,13 @@
 #include "deck.hpp"
 #include <algorithm>
 
-// This has all the default Cards from the regular game inside the Vector.
-// Used to initialize a new deck.
-// If "_USE_SPECIAL_CARD" is defined, the deck is 110 Cards, else 108. (Special Card 2 times included.)
+/*
+	This has all the default Cards from the regular game inside the Vector.
+	Used to initialize a new deck.
+	If "_USE_SPECIAL_CARD" is defined, the deck is 110 Cards, else 108. (Special Card 2 times included.)
+*/
 const std::vector<CardStruct> defaultDeck = {
-	// RED COLOR.
+	/* RED COLOR. */
 	{CardColor::COLOR_RED, CardType::NUMBER_0}, // 0.
 	{CardColor::COLOR_RED, CardType::NUMBER_1}, {CardColor::COLOR_RED, CardType::NUMBER_1}, // 1.
 	{CardColor::COLOR_RED, CardType::NUMBER_2}, {CardColor::COLOR_RED, CardType::NUMBER_2}, // 2.
@@ -46,7 +48,7 @@ const std::vector<CardStruct> defaultDeck = {
 	{CardColor::COLOR_RED, CardType::SKIP}, {CardColor::COLOR_RED, CardType::SKIP}, // Skip.
 	{CardColor::COLOR_RED, CardType::DRAW2}, {CardColor::COLOR_RED, CardType::DRAW2}, // Draw 2.
 
-	// YELLOW COLOR.
+	/* YELLOW COLOR. */
 	{CardColor::COLOR_YELLOW, CardType::NUMBER_0}, // 0.
 	{CardColor::COLOR_YELLOW, CardType::NUMBER_1}, {CardColor::COLOR_YELLOW, CardType::NUMBER_1}, // 1.
 	{CardColor::COLOR_YELLOW, CardType::NUMBER_2}, {CardColor::COLOR_YELLOW, CardType::NUMBER_2}, // 2.
@@ -61,7 +63,7 @@ const std::vector<CardStruct> defaultDeck = {
 	{CardColor::COLOR_YELLOW, CardType::SKIP}, {CardColor::COLOR_YELLOW, CardType::SKIP}, // Skip.
 	{CardColor::COLOR_YELLOW, CardType::DRAW2}, {CardColor::COLOR_YELLOW, CardType::DRAW2}, // Draw 2.
 
-	// GREEN COLOR.
+	/* GREEN COLOR. */
 	{CardColor::COLOR_GREEN, CardType::NUMBER_0}, // 0.
 	{CardColor::COLOR_GREEN, CardType::NUMBER_1}, {CardColor::COLOR_GREEN, CardType::NUMBER_1}, // 1.
 	{CardColor::COLOR_GREEN, CardType::NUMBER_2}, {CardColor::COLOR_GREEN, CardType::NUMBER_2}, // 2.
@@ -76,7 +78,7 @@ const std::vector<CardStruct> defaultDeck = {
 	{CardColor::COLOR_GREEN, CardType::SKIP}, {CardColor::COLOR_GREEN, CardType::SKIP}, // Skip.
 	{CardColor::COLOR_GREEN, CardType::DRAW2}, {CardColor::COLOR_GREEN, CardType::DRAW2}, // Draw 2.
 
-	// BLUE COLOR.
+	/* BLUE COLOR. */
 	{CardColor::COLOR_BLUE, CardType::NUMBER_0}, // 0.
 	{CardColor::COLOR_BLUE, CardType::NUMBER_1}, {CardColor::COLOR_BLUE, CardType::NUMBER_1}, // 1.
 	{CardColor::COLOR_BLUE, CardType::NUMBER_2}, {CardColor::COLOR_BLUE, CardType::NUMBER_2}, // 2.
@@ -91,7 +93,7 @@ const std::vector<CardStruct> defaultDeck = {
 	{CardColor::COLOR_BLUE, CardType::SKIP}, {CardColor::COLOR_BLUE, CardType::SKIP}, // Skip.
 	{CardColor::COLOR_BLUE, CardType::DRAW2}, {CardColor::COLOR_BLUE, CardType::DRAW2}, // Draw 2.
 
-	// Special Cards.
+	/* Special Cards. */
 	{CardColor::COLOR_BLACK, CardType::WILD}, {CardColor::COLOR_BLACK, CardType::WILD}, {CardColor::COLOR_BLACK, CardType::WILD}, {CardColor::COLOR_BLACK, CardType::WILD}, // Wild.
 	#ifdef _USE_SPECIAL_CARD // Special card.
 		{CardColor::COLOR_BLACK, CardType::SPECIAL}, {CardColor::COLOR_BLACK, CardType::SPECIAL},
@@ -99,31 +101,31 @@ const std::vector<CardStruct> defaultDeck = {
 	{CardColor::COLOR_BLACK, CardType::DRAW4}, {CardColor::COLOR_BLACK, CardType::DRAW4}, {CardColor::COLOR_BLACK, CardType::DRAW4}, {CardColor::COLOR_BLACK, CardType::DRAW4} // Wild Draw 4.
 };
 
-// Here we put the default CardDeck here to initialize it.
+/* Here we put the default CardDeck here to initialize it. */
 void Deck::Initialize() {
 	this->CardDeck.clear();
 	this->CardDeck = defaultDeck;
 }
 
-// We will fill our Deck with Default and shuffle it here.
+/* We will fill our Deck with Default and shuffle it here. */
 void Deck::fill() {
 	this->Initialize();
 	this->shuffleDeck();
 }
 
-// We will shuffle our deck here.
+/* We will shuffle our deck here. */
 void Deck::shuffleDeck() {
 	std::shuffle(this->CardDeck.begin(), this->CardDeck.end(), std::default_random_engine(randomGen()));
 }
 
-// Return the Card from the Deck and remove from Deck.
+/* Return the Card from the Deck and remove from Deck. */
 CardStruct Deck::getCard() {
 	CardStruct temp = {this->CC(), this->CT()};
 	this->CardDeck.erase(this->CardDeck.begin()+this->deckSize()-1); // Remove Card from deck.
 	return temp;
 }
 
-// Return the top card of the deck.
+/* Return the top card of the deck. */
 CardStruct Deck::topCard() {
 	if (this->deckSize() < 1) {
 		this->fill();

@@ -44,23 +44,24 @@ struct ButtonStruct {
 };
 
 namespace Gui {
-	// Screen stuff.
+	/* Screen stuff. */
 	void DrawScreen(); // Redraw the screen. Needs to be called when screen changes are made.
 	void mainLoop(u16 hDown, touchPosition touch); // Logic MainLoop.
 	void setScreen(std::unique_ptr<Screen> screen); // Set a specific screen.
 	void screenBack(void); // Go a screen back. Needs "return;" at the end.
 
-	// GUI Stuff.
+	/* GUI Stuff. */
 	void DrawTop(bool useBars);
 	void DrawBottom(bool useBars);
 
-	/*	Clear a Screen & Layer.
+	/*
+		Clear a Screen & Layer.
 		bool top is whether to draw on the top or bottom screen.
 		bool layer is whether to draw on layer 3 (false) or layer 2 (true).
 	*/
 	void clearScreen(bool top, bool layer);
 
-	// Card Loading & Drawing stuff.
+	/* Card Loading & Drawing stuff. */
 	void loadGraphics();
 	void DrawCard(CardType CT, CardColor CC, int x, int y, float ScaleX, float ScaleY, bool top, bool layer);
 	void DrawPlayerCard(const std::vector<CardStruct> &hand, const int &card, int x, int y, float ScaleX, float ScaleY, bool top, bool layer);

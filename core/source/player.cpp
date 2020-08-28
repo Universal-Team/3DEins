@@ -26,19 +26,19 @@
 
 #include "player.hpp"
 
-// Init Player with 6 Cards at begin.
+/* Init Player with 6 Cards at begin. */
 Player::Player(std::unique_ptr<Deck> &deck): cards(std::make_unique<Cards>()) {
 	for (int i = 0; i < 6; i++) {
 		this->cards->add(deck);
 	}
 }
 
-// Add a card to the hand.
+/* Add a card to the hand. */
 void Player::addCard(std::unique_ptr<Deck> &deck) {
 	this->cards->add(deck);
 }
 
-// Remove a card of the hand.
+/* Remove a card of the hand. */
 void Player::removeCard(int position) {
 	if ((int)this->cards->getSize() > 0) {
 		if (position < (int)this->cards->getSize()) { // Out of range checks.
@@ -47,30 +47,30 @@ void Player::removeCard(int position) {
 	}
 }
 
-// Play a card.
+/* Play a card. */
 void Player::play(int position, CardStruct &table) {
 	table = this->cards->CS(position); // Set the current card as the table card.
 	this->removeCard(position); // Remove the card from the hand.
 }
 
-// Get the amount of cards.
+/* Get the amount of cards. */
 int Player::getSize() {
 	return (int)this->cards->getSize();
 }
 
-// Return the Vector of the CardStruct. Basically the Player-Hand.
+/* Return the Vector of the CardStruct. Basically the Player-Hand. */
 const std::vector<CardStruct> Player::getHand() {
 	return this->cards->getCards();
 }
 
-// Return if playable.
+/* Return if playable. */
 bool Player::Playable(const CardStruct &Table, const int &card) {
 	return this->cards->Playable(Table, card);
 }
 
 /*
-*	Return the amount of points from the Player's hand.
-*	points -> Reference to the Player where the Points should be added.
+	Return the amount of points from the Player's hand.
+	points -> Reference to the Player where the Points should be added.
 */
 void Player::returnCardPoints(std::unique_ptr<Player> &player) {
 	if (this->getSize() > 0) {
@@ -80,17 +80,17 @@ void Player::returnCardPoints(std::unique_ptr<Player> &player) {
 	}
 }
 
-// Return the CardColor.
+/* Return the CardColor. */
 const CardColor Player::CC(int card) {
 	return this->cards->CC(card);
 }
 
-// Return the CardType.
+/* Return the CardType. */
 const CardType Player::CT(int card) {
 	return this->cards->CT(card);
 }
 
-// Return the CardStruct.
+/* Return the CardStruct. */
 const CardStruct Player::CS(int card) {
 	return this->cards->CS(card);
 }

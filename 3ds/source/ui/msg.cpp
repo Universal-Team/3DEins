@@ -42,7 +42,7 @@ std::vector<Structs::ButtonPos> promptBtn = {
 extern touchPosition touch;
 extern bool touching(Structs::ButtonPos button);
 
-// Display a Message, which needs to be confirmed with A/B.
+/* Display a Message, which needs to be confirmed with A/B. */
 bool Msg::promptMsg2(std::string promptMsg) {
 	s32 selection = 0;
 	while(1) {
@@ -54,7 +54,7 @@ bool Msg::promptMsg2(std::string promptMsg) {
 		Gui::Draw_Rect(0, 80, 400, 80, config->barColor());
 		Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8f, promptMsg))/2, 0.8f, config->textColor(), promptMsg, 390, 70);
 		GFX::DrawBottom();
-		// Draw Bottom Screen part.
+		/* Draw Bottom Screen part. */
 		Gui::Draw_Rect(10, 100, 140, 40, config->buttonColor());
 		Gui::Draw_Rect(170, 100, 140, 40, config->buttonColor());
 		Gui::DrawStringCentered(-150+70, 105, 0.8f, config->textColor(), Lang::get("YES"), 140);
@@ -62,16 +62,19 @@ bool Msg::promptMsg2(std::string promptMsg) {
 		GFX::DrawButtonSelector(promptBtn[selection].x, promptBtn[selection].y);
 		C3D_FrameEnd(0);
 
-		// Selection part.
+		/* Selection part. */
 		gspWaitForVBlank();
 		hidScanInput();
 		hidTouchRead(&touch);
 
 		if (hidKeysDown() & KEY_LEFT) {
 			selection = 0;
-		} else if(hidKeysDown() & KEY_RIGHT) {
+		}
+		
+		if(hidKeysDown() & KEY_RIGHT) {
 			selection = 1;
 		}
+
 		if (hidKeysDown() & KEY_A) {
 			if (selection == 0) {
 				return true;
@@ -79,9 +82,11 @@ bool Msg::promptMsg2(std::string promptMsg) {
 				return false;
 			}
 		}
+
 		if (hidKeysDown() & KEY_TOUCH && touching(promptBtn[0])) {
 			return true;
 		}
+
 		if (hidKeysDown() & KEY_TOUCH && touching(promptBtn[1])) {
 			return false;
 		}
@@ -90,7 +95,7 @@ bool Msg::promptMsg2(std::string promptMsg) {
 
 bool Msg::promptMsg(std::string msg) { return Msg::promptMsg2(msg); }
 
-// Displays a Warn Message.
+/* Displays a Warn Message. */
 void Msg::DisplayWarnMsg(std::string Text) {
 	Gui::clearTextBufs();
 	C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
@@ -101,12 +106,13 @@ void Msg::DisplayWarnMsg(std::string Text) {
 	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8f, Text))/2, 0.8f, config->textColor(), Text, 395, 70);
 	GFX::DrawBottom();
 	C3D_FrameEnd(0);
+
 	for (int i = 0; i < 60*2; i++) {
 		gspWaitForVBlank();
 	}
 }
 
-// Displays a Warn Message. This is mostly be used for things with more text.
+/* Displays a Warn Message. This is mostly be used for things with more text. */
 void Msg::DisplayWarnMsg2(std::string Text) {
 	Gui::clearTextBufs();
 	C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
@@ -117,12 +123,13 @@ void Msg::DisplayWarnMsg2(std::string Text) {
 	Gui::DrawStringCentered(0, (240-Gui::GetStringHeight(0.8f, Text))/2, 0.8f, config->textColor(), Text, 395, 70);
 	GFX::DrawBottom();
 	C3D_FrameEnd(0);
+
 	for (int i = 0; i < 60*2; i++) {
 		gspWaitForVBlank();
 	}
 }
 
-// Display a Message, which can be skipped with A.
+/* Display a Message, which can be skipped with A. */
 void Msg::DisplayWaitMsg(std::string waitMsg, ...) {
 	Gui::clearTextBufs();
 	C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
@@ -141,7 +148,7 @@ void Msg::DisplayWaitMsg(std::string waitMsg, ...) {
 		gspWaitForVBlank();
 		hidScanInput();
 		hidTouchRead(&touch);
-		if ((hidKeysDown() & KEY_A) || (hidKeysDown() & KEY_TOUCH && touching(promptBtn[2])))	break;
+		if ((hidKeysDown() & KEY_A) || (hidKeysDown() & KEY_TOUCH && touching(promptBtn[2]))) break;
 	}
 }
 
@@ -164,7 +171,7 @@ void Msg::DisplayPlayerSwitch(std::string waitMsg, ...) {
 		gspWaitForVBlank();
 		hidScanInput();
 		hidTouchRead(&touch);
-		if ((hidKeysDown() & KEY_Y) || (hidKeysDown() & KEY_TOUCH && touching(promptBtn[2])))	break;
+		if ((hidKeysDown() & KEY_Y) || (hidKeysDown() & KEY_TOUCH && touching(promptBtn[2]))) break;
 	}
 }
 

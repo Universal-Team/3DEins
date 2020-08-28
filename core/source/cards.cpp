@@ -28,10 +28,12 @@
 #include "coreHelper.hpp"
 #include "logging.hpp"
 
-// std::unique_ptr<Deck> &deck is the reference to our CardDeck.
-// Add a card.
+/*
+	std::unique_ptr<Deck> &deck is the reference to our CardDeck.
+	Add a card.
+*/
 void Cards::add(std::unique_ptr<Deck> &deck) {
-	if (deck != nullptr) {
+	if (deck) {
 		if (deck->deckSize() < 1) {
 			deck->fill(); // Cause our CardDeck is empty, we fill and shuffle it.
 		}
@@ -42,9 +44,9 @@ void Cards::add(std::unique_ptr<Deck> &deck) {
 	}
 }
 
-// Remove a card.
+/* Remove a card. */
 void Cards::Remove(const int position) {
-	// Only Remove card, if Hand isn't empty to avoid crashes on Vector.
+	/* Only Remove card, if Hand isn't empty to avoid crashes on Vector. */
 	if ((int)this->Hand.size() > 0) {
 		if (position < (int)this->Hand.size()) { // Out of range checks.
 			this->Hand.erase(this->Hand.begin()+position);
@@ -56,16 +58,16 @@ void Cards::Remove(const int position) {
 	}
 }
 
-// Check if playable.
+/* Check if playable. */
 bool Cards::Playable(const CardStruct Table, const int position) {
 	if (position > (int)this->Hand.size())	return false; // Out of range!
 
-	// Special case for the special card.
+	/* Special case for the special card. */
 	#ifdef _USE_SPECIAL_CARD
 		if (this->Hand[position].CT == CardType::SPECIAL) return true;
 	#endif
 
-	// Do exception here for Wild.
+	/* Do exception here for Wild. */
 	if (this->Hand[position].CT == CardType::WILD) {
 		if (Table.CT == CardType::WILD || Table.CT == CardType::DRAW4)	return false;
 		return true;
@@ -75,11 +77,11 @@ bool Cards::Playable(const CardStruct Table, const int position) {
 	if (this->Hand[position].CC == Table.CC) return true; // CardColor Matches!
 	if (this->Hand[position].CT == Table.CT) return true; // CardType Matches!
 
-	// If nothing matches, return false.
+	/* If nothing matches, return false. */
 	return false;
 }
 
-// Get the amount of points from the Card.
+/* Get the amount of points from the Card. */
 int Cards::getPoints(const int position) {
 	if (position > (int)this->Hand.size())	return 0; // Out of range!
 
@@ -123,7 +125,5 @@ int Cards::getPoints(const int position) {
 	return 0; // Should Never happen.
 }
 
-// Get the amount of Cards in a Hand.
-int Cards::getSize() {
-	return (int)this->Hand.size();
-}
+/* Get the amount of Cards in a Hand. */
+int Cards::getSize() { return (int)this->Hand.size(); }

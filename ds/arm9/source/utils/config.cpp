@@ -28,15 +28,15 @@
 #include "flashcard.hpp"
 #include <unistd.h>
 
-// In case it doesn't exist.
+/* In case it doesn't exist. */
 void Config::initialize() {
 	// Create through fopen "Write".
 	FILE *file = fopen(sdFound() ? "sd:/_nds/DSEins/Settings.json" : "fat:/_nds/DSEins/Settings.json", "w");
 
-	// Set default values.
+	/* Set default values. */
 	this->setInt("Language", 2);
 
-	// Write to file.
+	/* Write to file. */
 	fwrite(this->json.dump(1, '\t').c_str(), 1, this->json.dump(1, '\t').size(), file);
 	fclose(file); // Now we have the file and can properly access it.
 }
@@ -50,7 +50,7 @@ Config::Config() {
 	this->json = nlohmann::json::parse(file, nullptr, false);
 	fclose(file);
 
-	// Here we get the initial settings.
+	/* Here we get the initial settings. */
 
 	if (!this->json.contains("Language")) {
 		this->language(2);
@@ -61,19 +61,19 @@ Config::Config() {
 	this->changesMade = false; // No changes made yet.
 }
 
-// Write to config if changesMade.
+/* Write to config if changesMade. */
 void Config::save() {
 	if (this->changesMade) {
 		FILE *file = fopen(sdFound() ? "sd:/_nds/DSEins/Settings.json" : "fat:/_nds/DSEins/Settings.json", "w");
-		// Set values.
+		/* Set values. */
 		this->setInt("Language", this->language());
-		// Write changes to file.
+		/* Write changes to file. */
 		fwrite(this->json.dump(1, '\t').c_str(), 1, this->json.dump(1, '\t').size(), file);
 		fclose(file);
 	}
 }
 
-// Helper functions.
+/* Helper functions. */
 bool Config::getBool(const std::string &key) {
 	if (!this->json.contains(key)) {
 		return false;

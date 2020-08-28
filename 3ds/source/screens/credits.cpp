@@ -89,11 +89,11 @@ void Credits::Draw(void) const {
 
 void Credits::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if ((hDown & KEY_L || hDown & KEY_LEFT)) {
-		if (this->creditsPage > 0)	this->creditsPage--;
+		if (this->creditsPage > 0) this->creditsPage--;
 	}
 
 	if ((hDown & KEY_R || hDown & KEY_RIGHT)) {
-		if (this->creditsPage < 2)	this->creditsPage++;
+		if (this->creditsPage < 2) this->creditsPage++;
 	}
 
 	if (hDown & KEY_B) {
