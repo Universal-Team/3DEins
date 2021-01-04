@@ -1,6 +1,6 @@
 /*
 *   This file is part of DSEins
-*   Copyright (C) 2019-2020 Universal-Team
+*   Copyright (C) 2019-2021 Universal-Team
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -100,7 +100,7 @@ std::string Config::getString(const std::string &key) {
 	if (!this->json.contains(key)) {
 		return "";
 	}
-	
+
 	return this->json.at(key).get_ref<const std::string&>();
 }
 void Config::setString(const std::string &key, const std::string &v) {

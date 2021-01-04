@@ -1,6 +1,6 @@
 /*
 *   This file is part of DSEins
-*   Copyright (C) 2019-2020 Universal-Team
+*   Copyright (C) 2019-2021 Universal-Team
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -32,7 +32,6 @@
 #include "gui.hpp"
 #include "mainMenu.hpp"
 #include "nitrofs.h"
-#include "saveData.hpp"
 #include "screenCommon.hpp"
 #include "selector.hpp"
 #include "structs.hpp"
@@ -42,7 +41,6 @@ std::unique_ptr<Config> config;
 std::unique_ptr<Selector> selector;
 touchPosition touch;
 bool exiting = false;
-std::unique_ptr<SaveData> savedata;
 
 /* If button Position pressed -> Do something. */
 bool touching(touchPosition touch, Structs::ButtonPos button) {
@@ -57,7 +55,7 @@ bool Buttontouching(ButtonStruct button) {
 
 int main(int argc, char **argv) {
 	initGraphics();
-	keysSetRepeat(25,5);
+	keysSetRepeat(25, 5);
 	defaultExceptionHandler();
 
 	drawRectangle(0, 0, 256, 192, DARKERER_GRAY, DARKER_GRAY, true, false);
@@ -97,7 +95,6 @@ int main(int argc, char **argv) {
 
 	config = std::make_unique<Config>();
 	selector = std::make_unique<Selector>(80, 40);
-	savedata = std::make_unique<SaveData>(sdFound() ? "sd:/_nds/DSEins/SaveData.dat" : "fat:/_nds/DSEins/SaveData.dat"); // Not used for now.
 
 	Colors::load();
 	Lang::load();
@@ -124,6 +121,5 @@ int main(int argc, char **argv) {
 	}
 
 	config->save();
-	savedata->write();
 	return 0;
 }

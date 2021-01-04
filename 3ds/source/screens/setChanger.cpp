@@ -1,6 +1,6 @@
 /*
 *   This file is part of 3DEins
-*   Copyright (C) 2019-2020 Universal-Team
+*   Copyright (C) 2019-2021 Universal-Team
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -179,7 +179,7 @@ Result SetChanger::loadSet(std::string folder) {
 				snprintf(message, sizeof(message), Lang::get("FILE_NOT_EXIST").c_str(), "cards.t3x");
 				Msg::DisplayWaitMsg(message);
 			}
-			
+
 		} else {
 			char message [100];
 			snprintf(message, sizeof(message), Lang::get("FILE_NOT_EXIST").c_str(), "Set.json");

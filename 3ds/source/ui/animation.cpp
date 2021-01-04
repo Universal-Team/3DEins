@@ -1,6 +1,6 @@
 /*
 *   This file is part of 3DEins
-*   Copyright (C) 2019-2020 Universal-Team
+*   Copyright (C) 2019-2021 Universal-Team
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -39,7 +39,7 @@ void Animation::DrawSubBG(bool isTop) {
 		if (animated_cardYPos[0] <= -240) animated_cardYPos[0] = 0;
 		if (animated_cardYPos[1] >= +240) animated_cardYPos[1] = 0;
 	}
-	
+
 	animated_cardMoveDelay = !animated_cardMoveDelay;
 
 	if (isTop) {

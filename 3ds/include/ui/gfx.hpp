@@ -1,6 +1,6 @@
 /*
 *   This file is part of 3DEins
-*   Copyright (C) 2019-2020 Universal-Team
+*   Copyright (C) 2019-2021 Universal-Team
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -53,7 +53,7 @@ namespace GFX {
 	void DrawCardSelector(int x, int y, float ScaleX = 1, float ScaleY = 1);
 	void DrawButtonSelector(int x, int y, float ScaleX = 1, float ScaleY = 1, bool useSmall = false);
 	void DrawSelectedPlayer(int x, int y, float ScaleX = 1, float ScaleY = 1);
-	
+
 	void DrawCard(CardType CT, int x, int y, CardColor CC, float ScaleX = 1, float ScaleY = 1);
 	// Draws a card from the Player's Hand.
 	void DrawPlayerCard(const std::vector<CardStruct> &hand, const int &card, int x, int y, float ScaleX = 1, float ScaleY = 1);

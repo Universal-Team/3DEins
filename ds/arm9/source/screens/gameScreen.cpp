@@ -1,6 +1,6 @@
 /*
 *   This file is part of DSEins
-*   Copyright (C) 2019-2020 Universal-Team
+*   Copyright (C) 2019-2021 Universal-Team
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -28,10 +28,8 @@
 #include "gameScreen.hpp"
 #include "lang.hpp"
 #include "msg.hpp"
-#include "saveData.hpp"
 #include "selector.hpp"
 
-extern std::unique_ptr<SaveData> savedata;
 extern std::unique_ptr<Selector> selector;
 
 GameScreen::GameScreen(bool useAI, int playerAmount) {
@@ -45,6 +43,7 @@ bool GameScreen::isAI() const {
 
 	if (this->currentGame->currentPlayer() != 0) {
 		return true;
+
 	} else {
 		return false;
 	}
@@ -54,10 +53,13 @@ std::string GameScreen::returnPlayerName(int player) const {
 	switch(player) {
 		case 0:
 			return Lang::get("PLAYER") + " 1";
+
 		case 1:
 			return Lang::get("PLAYER") + " 2";
+
 		case 2:
 			return Lang::get("PLAYER") + " 3";
+
 		case 3:
 			return Lang::get("PLAYER") + " 4";
 	}
@@ -129,7 +131,6 @@ void GameScreen::AILogic() {
 					char message [100];
 					snprintf(message, sizeof(message), Lang::get("PLAYER_WON").c_str(), returnPlayerName(this->currentGame->currentPlayer()).c_str());
 					Msg::DisplayPlayerSwitch(message);
-					if (savedata->playerLose() < 255) savedata->playerLose(savedata->playerLose() + 1);
 					Gui::screenBack();
 					Gui::DrawScreen();
 					selector->show();
@@ -144,6 +145,7 @@ void GameScreen::AILogic() {
 					Msg::DisplayPlayerSwitch(message);
 					this->currentGame->currentPlayer(this->getNextPlayer());
 					Gui::DrawScreen();
+
 					/* We can continue! */
 				} else {
 					this->currentGame->canContinue(false);
@@ -156,9 +158,11 @@ void GameScreen::AILogic() {
 			if (needDraw) {
 				if (!this->currentGame->drawn()) {
 					this->currentGame->addCard(this->currentGame->currentPlayer());
+
 					/* Do not allow multiple draws. */
 					this->currentGame->drawn(true);
 					needDraw = false;
+
 					if (!CanPlayerPlay(this->currentGame->currentPlayer())) {
 						/* Reset hasDrawn. */
 						this->currentGame->drawn(false); // Reset.
@@ -170,6 +174,7 @@ void GameScreen::AILogic() {
 						index = -1;
 						this->currentGame->currentPlayer(this->getNextPlayer());
 						Gui::DrawScreen();
+
 					} else {
 						index = -1;
 						doInitial = true;
@@ -186,15 +191,18 @@ int GameScreen::getNextPlayer() {
 		if (this->currentGame->currentPlayer() < this->currentGame->maxPlayer() -1) {
 			/* If Player is smaller than the max Player, go to Player++. */
 			return this->currentGame->currentPlayer() + 1;
+
 		} else {
 			/* If Player is max Player, go to the first Player. */
 			return 0; // Player 0.
 		}
+
 		/* Other Direction handle. */
 	} else {
 		if (this->currentGame->currentPlayer() > 0) {
 			/* If Player is larger than 0, go to Player--. */
 			return this->currentGame->currentPlayer() - 1;
+
 		} else {
 			/* If Player is 0, go to the max Player. */
 			return this->currentGame->maxPlayer() -1;
@@ -246,11 +254,6 @@ void GameScreen::setState(int Player) {
 
 		case PlayerState::CONTINUE:
 			break;
-
-		#ifdef _USE_SPECIAL_CARD
-		case PlayerState::SPECIAL:
-			break;
-		#endif
 	}
 }
 
@@ -263,6 +266,7 @@ void GameScreen::displayPlayerCards(void) const {
 	if (this->playerAmount == 3) {
 		/* P3. */
 		printText(this->returnPlayerName(2) + " " + Lang::get("CARDS_LEFT") + std::to_string(this->currentGame->getSize(2)), 10, 165, true, true);
+
 	} else if (this->playerAmount == 4) {
 		/* P3. */
 		printText(this->returnPlayerName(2) + " " + Lang::get("CARDS_LEFT") + std::to_string(this->currentGame->getSize(2)), 10, 155, true, true);
@@ -290,6 +294,7 @@ void GameScreen::ShowCards(void) const {
 		for (int i = (this->currentGame->cardIndex(this->currentGame->currentPlayer()) < 6) ? 0 : this->currentGame->cardIndex(this->currentGame->currentPlayer())-6; i < this->currentGame->getSize(this->currentGame->currentPlayer()) && i < ((this->currentGame->cardIndex(this->currentGame->currentPlayer()) < 6) ? 7 : this->currentGame->cardIndex(this->currentGame->currentPlayer())+1); i++) {
 			if (i == this->currentGame->cardIndex(this->currentGame->currentPlayer())) {
 				cards += "> " + GameHelper::getTypeName(this->currentGame->getType(i, this->currentGame->currentPlayer())) + " | " + GameHelper::getColorName(this->currentGame->getColor(i, this->currentGame->currentPlayer())) + "\n";
+
 			} else {
 				cards += GameHelper::getTypeName(this->currentGame->getType(i, this->currentGame->currentPlayer())) + " | " + GameHelper::getColorName(this->currentGame->getColor(i, this->currentGame->currentPlayer())) + "\n";
 			}
@@ -313,9 +318,8 @@ void GameScreen::ShowCards(void) const {
 
 
 void GameScreen::Logic(u16 hDown, touchPosition touch) {
-	if (this->isAI()) {
-		this->AILogic();
-	} else {
+	if (this->isAI()) this->AILogic();
+	else {
 		u16 repeat = keysDownRepeat();
 
 		if (this->currentGame->state(this->currentGame->currentPlayer()) == PlayerState::BREAK) {
@@ -338,7 +342,7 @@ void GameScreen::Logic(u16 hDown, touchPosition touch) {
 				/* Set Draw Counter if needed. */
 				if (this->currentGame->tableCard().CT == CardType::DRAW2)	this->currentGame->drawingCounter(2);
 				else if (this->currentGame->tableCard().CT == CardType::DRAW4)	this->currentGame->drawingCounter(4);
-				
+
 				/* Special case handle for 2 Player. */
 				if (this->currentGame->maxPlayer() == 2) {
 					if (this->currentGame->state(this->currentGame->currentPlayer()) == PlayerState::CONTINUE) {
@@ -356,10 +360,6 @@ void GameScreen::Logic(u16 hDown, touchPosition touch) {
 					char message [100];
 					snprintf(message, sizeof(message), Lang::get("PLAYER_WON").c_str(), returnPlayerName(this->currentGame->currentPlayer()).c_str());
 					Msg::DisplayPlayerSwitch(message);
-
-					if (this->useAI) {
-						if (savedata->playerWins() < 255) savedata->playerWins(savedata->playerWins() + 1);
-					}
 
 					Gui::screenBack();
 					Gui::DrawScreen();
@@ -425,19 +425,18 @@ void GameScreen::Logic(u16 hDown, touchPosition touch) {
 					Msg::DisplayPlayerSwitch(message);
 					this->currentGame->currentPlayer(this->getNextPlayer());
 					Gui::DrawScreen();
+
 				} else {
 					/* Update card display. */
 					Gui::clearScreen(false, true);
 					this->ShowCards();
 				}
-				
+
 			} else {
 				Msg::DisplayPlayerSwitch(Lang::get("DRAW_1_MSG"));
 			}
 		}
 
-		if (hDown & KEY_SELECT) {
-			Msg::DisplayPlayerSwitch(Lang::get("PLAY_INSTRUCTIONS"));
-		}
+		if (hDown & KEY_SELECT) Msg::DisplayPlayerSwitch(Lang::get("PLAY_INSTRUCTIONS"));
 	}
 }

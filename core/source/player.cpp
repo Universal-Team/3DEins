@@ -1,6 +1,6 @@
 /*
 *   This file is part of 3DEins/DSEins-Core
-*   Copyright (C) 2020 Universal-Team
+*   Copyright (C) 2020-2021 Universal-Team
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -26,7 +26,9 @@
 
 #include "player.hpp"
 
-/* Init Player with 6 Cards at begin. */
+/*
+	Init Player with 6 Cards at begin.
+*/
 Player::Player(std::unique_ptr<Deck> &deck): cards(std::make_unique<Cards>()) {
 	for (int i = 0; i < 6; i++) {
 		this->cards->add(deck);
@@ -34,39 +36,31 @@ Player::Player(std::unique_ptr<Deck> &deck): cards(std::make_unique<Cards>()) {
 }
 
 /* Add a card to the hand. */
-void Player::addCard(std::unique_ptr<Deck> &deck) {
-	this->cards->add(deck);
-}
+void Player::addCard(std::unique_ptr<Deck> &deck) { this->cards->add(deck); };
 
 /* Remove a card of the hand. */
 void Player::removeCard(int position) {
 	if ((int)this->cards->getSize() > 0) {
-		if (position < (int)this->cards->getSize()) { // Out of range checks.
-			this->cards->Remove(position);
-		}
+		/* Out of range checks. */
+		if (position < (int)this->cards->getSize()) this->cards->Remove(position);
 	}
 }
 
 /* Play a card. */
 void Player::play(int position, CardStruct &table) {
 	table = this->cards->CS(position); // Set the current card as the table card.
+
 	this->removeCard(position); // Remove the card from the hand.
 }
 
 /* Get the amount of cards. */
-int Player::getSize() {
-	return (int)this->cards->getSize();
-}
+int Player::getSize() const { return (int)this->cards->getSize(); };
 
 /* Return the Vector of the CardStruct. Basically the Player-Hand. */
-const std::vector<CardStruct> Player::getHand() {
-	return this->cards->getCards();
-}
+std::vector<CardStruct> Player::getHand() const { return this->cards->getCards(); };
 
 /* Return if playable. */
-bool Player::Playable(const CardStruct &Table, const int &card) {
-	return this->cards->Playable(Table, card);
-}
+bool Player::Playable(const CardStruct &Table, const int &card) const { return this->cards->Playable(Table, card); };
 
 /*
 	Return the amount of points from the Player's hand.
@@ -81,16 +75,10 @@ void Player::returnCardPoints(std::unique_ptr<Player> &player) {
 }
 
 /* Return the CardColor. */
-const CardColor Player::CC(int card) {
-	return this->cards->CC(card);
-}
+CardColor Player::CC(int card) const { return this->cards->CC(card); };
 
 /* Return the CardType. */
-const CardType Player::CT(int card) {
-	return this->cards->CT(card);
-}
+CardType Player::CT(int card) const { return this->cards->CT(card); };
 
 /* Return the CardStruct. */
-const CardStruct Player::CS(int card) {
-	return this->cards->CS(card);
-}
+CardStruct Player::CS(int card) const { return this->cards->CS(card); };

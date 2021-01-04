@@ -1,6 +1,6 @@
 /*
 *   This file is part of 3DEins/DSEins-Core
-*   Copyright (C) 2020 Universal-Team
+*   Copyright (C) 2020-2021 Universal-Team
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -48,19 +48,19 @@ public:
 	/*	Return the Decksize.
 	*	Returns the amount of cards in the current deck.
 	*/
-	int deckSize() { return CardDeck.size(); }
+	uint8_t deckSize() const { return this->CardDeck.size(); };
 
 	/*
 		Return the CardType of the last card.
 		Returns the CardType of the last card from the deck.
 	*/
-	CardType CT() { return CardDeck[CardDeck.size() - 1].CT; }
+	CardType CT() const { return this->CardDeck[this->CardDeck.size() - 1].CT; };
 
-	/*	
+	/*
 		Return the CardColor of the last card.
 		Returns the CardColor of the last card from the deck.
 	*/
-	CardColor CC() { return CardDeck[CardDeck.size() - 1].CC; }
+	CardColor CC() const { return this->CardDeck[this->CardDeck.size() - 1].CC; };
 
 	/*
 		Return the CardStruct from the last card and remove it from the Deck as well.

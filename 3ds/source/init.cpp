@@ -1,6 +1,6 @@
 /*
 *   This file is part of 3DEins
-*   Copyright (C) 2019-2020 Universal-Team
+*   Copyright (C) 2019-2021 Universal-Team
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -32,7 +32,6 @@
 #include "keyboard.hpp"
 #include "mainMenu.hpp"
 #include "overlay.hpp"
-#include "saveData.hpp"
 
 #include <3ds.h>
 #include <ctime>
@@ -42,7 +41,6 @@
 bool exiting = false;
 touchPosition touch;
 
-std::unique_ptr<SaveData> savedata;
 std::unique_ptr<Config> config;
 CardStruct animationCards[4];
 
@@ -63,21 +61,6 @@ bool buttonTouch(ButtonStruct button) {
 	else return false;
 }
 
-/* Generate random ID between 1 and 65535. */
-void Init::GenerateID() {
-	srand(std::time(nullptr));
-	u16 id = ((randomGen()) % 65535) + 1;
-	savedata->playerID(id);
-}
-
-void Init::enterName() {
-	/* Avoid glitchy things. */
-	C2D_TargetClear(Top, C2D_Color32(0, 0, 0, 0));
-	C2D_TargetClear(Bottom, C2D_Color32(0, 0, 0, 0));
-	std::string str = Keyboard::getString(10, Lang::get("ENTER_PLAYER_NAME"), 0.6);
-	savedata->playerName(str);
-}
-
 Result Init::Initialize() {
 	gfxInitDefault();
 	romfsInit();
@@ -89,7 +72,7 @@ Result Init::Initialize() {
 
 	mkdir("sdmc:/3ds/3DEins", 0777);
 	mkdir("sdmc:/3ds/3DEins/sets", 0777);
-	
+
 	config = std::make_unique<Config>();
 	if (!config) isGood = false;
 
@@ -100,16 +83,8 @@ Result Init::Initialize() {
 	}
 
 	Lang::load();
-	savedata = std::make_unique<SaveData>("sdmc:/3ds/3DEins/SaveData.dat");
 	CoreHelper::generateSeed();
-	if (savedata) {
-		if (savedata->playerID() == 0) {
-			GenerateID(); // We don't have an ID yet, so generate it.
-			enterName(); // Enter username.
-			savedata->playerAvatar(Overlays::SelectAvatar(savedata->playerAvatar()));
-		}
-	}
-	
+
 	osSetSpeedupEnable(true); // Enable speed-up for New 3DS users.
 	config->loadCardSets("romfs:/Set.json"); // Load initial colors.
 
@@ -130,6 +105,7 @@ Result Init::MainLoop() {
 	/* Here we set the initial fade effect for fadein. */
 	fadealpha = 255;
 	fadein = true;
+
 	/* Loop as long as the status is not exiting. */
 	while (aptMainLoop() && !exiting) {
 		/* Scan all the Inputs. */
@@ -144,6 +120,7 @@ Result Init::MainLoop() {
 		Gui::DrawScreen(true);
 		Gui::ScreenLogic(hDown, hHeld, touch, true, true);
 		C3D_FrameEnd(0);
+
 		if (exiting) {
 			if (!fadeout) break;
 		}
@@ -159,7 +136,6 @@ Result Init::MainLoop() {
 Result Init::Exit() {
 	Gui::exit();
 	if (isGood) config->save(); // Only save if config is good.
-	savedata->write(); // Only write if changes made.
 	/* Free all SpriteSheets. */
 	Gui::unloadSheet(cards);
 	Gui::unloadSheet(characters);

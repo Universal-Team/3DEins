@@ -1,6 +1,6 @@
 /*
 *   This file is part of 3DEins
-*   Copyright (C) 2019-2020 Universal-Team
+*   Copyright (C) 2019-2021 Universal-Team
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -56,13 +56,13 @@ static void Draw(int page, int selection) {
 	Gui::Draw_Rect(110, 160, 80, 30, config->buttonColor());
 	Gui::Draw_Rect(210, 160, 80, 30, config->buttonColor());
 	Gui::Draw_Rect(310, 160, 80, 30, config->buttonColor());
-		
+
 	if (page == 1) {
 		GFX::DrawButtonSelector(10 + (selection * 100), 160, 1, 1, true);
 	} else {
 		GFX::DrawButtonSelector(10 + ((selection-4) * 100), 160, 1, 1, true);
 	}
-		
+
 	GFX::DrawBottom();
 	Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(0, 0, 0, 190));
 	C3D_FrameEnd(0);

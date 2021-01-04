@@ -1,6 +1,6 @@
 /*
 *   This file is part of 3DEins/DSEins-Core
-*   Copyright (C) 2020 Universal-Team
+*   Copyright (C) 2020-2021 Universal-Team
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -37,7 +37,7 @@ protected:
 	/* Should it be protected? */
 	std::vector<CardStruct> Hand;
 public:
-	Cards(): Hand({}) { }
+	Cards() : Hand({}) { }
 
 	/*
 		Give a card to the Hand from the cardDeck.
@@ -58,47 +58,47 @@ public:
 		const int position -> The position of the card from the Hand which should be checked.
 		Returns true, if card is playable, false if not.
 	*/
-	bool Playable(const CardStruct Table, const int position);
+	bool Playable(const CardStruct Table, const int position) const;
 
 	/*
 		Return the CardColor of the card.
 		const int position -> The position of the card from the Hand.
 		Returns the CardColor.
 	*/
-	CardColor CC(const int position) { return Hand[position].CC; }
+	CardColor CC(const int position) const { return this->Hand[position].CC; };
 
 	/*
 		Return the CardType of the card.
 		const int position -> The position of the card from the Hand.
 		Returns the CardType.
 	*/
-	CardType CT(const int position) { return Hand[position].CT; }
+	CardType CT(const int position) const { return this->Hand[position].CT; };
 
 	/*
 		Return the CardStruct of the card.
 		const int position -> The position of the card from the Hand.
 		Returns the CardStruct.
 	*/
-	CardStruct CS(const int position) { return Hand[position]; }
+	CardStruct CS(const int position) const { return this->Hand[position]; };
 
-	/*	
+	/*
 		Return the size of the Hand.
 		Returns the size of the Hand.
 	*/
-	int getSize();
+	int getSize() const;
 
 	/*
 		Return the points of a card.
 		const int position -> The position of the card from the Hand.
 		Returns the points of the card.
 	*/
-	int getPoints(const int position);
+	int getPoints(const int position) const;
 
 	/*
 		Return the Hand.
 		Returns a std::vector<CardStruct> of the hand.
 	*/
-	const std::vector<CardStruct> getCards() { return Hand; }
+	std::vector<CardStruct> getCards() const { return this->Hand; };
 };
 
 #endif

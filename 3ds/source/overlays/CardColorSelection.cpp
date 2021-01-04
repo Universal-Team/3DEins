@@ -1,6 +1,6 @@
 /*
 *   This file is part of 3DEins
-*   Copyright (C) 2019-2020 Universal-Team
+*   Copyright (C) 2019-2021 Universal-Team
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -73,7 +73,7 @@ CardColor Overlays::SelectCardColor() {
 		if (hidKeysDown() & KEY_UP) {
 			if (selection > 1) selection -= 2;
 		}
-		
+
 		if (hidKeysDown() & KEY_DOWN) {
 			if (selection < 2) selection += 2;
 		}

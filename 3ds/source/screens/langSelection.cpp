@@ -1,6 +1,6 @@
 /*
 *   This file is part of 3DEins
-*   Copyright (C) 2019-2020 Universal-Team
+*   Copyright (C) 2019-2021 Universal-Team
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -42,7 +42,7 @@ void LangSelection::Draw(void) const {
 	for (int language = 0; language < 10; language++) {
 		Gui::Draw_Rect(langBlocks[language].x, langBlocks[language].y, langBlocks[language].w, langBlocks[language].h, config->buttonColor());
 	}
-	
+
 	Gui::Draw_Rect(langBlocks[config->language()].x, langBlocks[config->language()].y, langBlocks[config->language()].w, langBlocks[config->language()].h, config->selectorColor());
 
 	Gui::DrawString(langBlocks[0].x+25, langBlocks[0].y, 0.7f, config->textColor(), "Bruh", 320);
@@ -101,7 +101,7 @@ void LangSelection::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 			Lang::load();
 		}
 	}
-	
+
 	if (hDown & KEY_B) {
 		Gui::screenBack(true);
 		return;

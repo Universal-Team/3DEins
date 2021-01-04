@@ -1,6 +1,6 @@
 /*
 *   This file is part of DSEins
-*   Copyright (C) 2019-2020 Universal-Team
+*   Copyright (C) 2019-2021 Universal-Team
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -163,7 +163,7 @@ void ModeSelect::PlayerLogic(u16 hDown, touchPosition touch) {
 		} else {
 			Gui::setScreen(std::make_unique<GameScreen>(false, 2 + this->playerSel));
 		}
-		
+
 		Gui::DrawScreen();
 	}
 

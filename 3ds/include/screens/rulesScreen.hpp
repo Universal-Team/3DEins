@@ -1,6 +1,6 @@
 /*
 *   This file is part of 3DEins
-*   Copyright (C) 2019-2020 Universal-Team
+*   Copyright (C) 2019-2021 Universal-Team
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -27,10 +27,8 @@
 #ifndef _3DEINS_RULESSCREEN_HPP
 #define _3DEINS_RULESSCREEN_HPP
 
-#include "_3DEins_Core.h"
 #include "common.hpp"
 #include "structs.hpp"
-
 #include <vector>
 
 class RulesScreen : public Screen {
@@ -43,26 +41,23 @@ private:
 	int rulePage = 0;
 
 	const std::vector<Structs::ButtonPos> cards = {
-		{0, 0, 48, 72},
-		{52, 0, 48, 72},
-		{104, 0, 48, 72},
-		{156, 0, 48, 72},
-		{208, 0, 48, 72},
-		{260, 0, 48, 72},
+		{ 0, 0, 48, 72 },
+		{ 52, 0, 48, 72 },
+		{ 104, 0, 48, 72 },
+		{ 156, 0, 48, 72 },
+		{ 208, 0, 48, 72 },
+		{ 260, 0, 48, 72 },
 
-		{0, 80, 48, 72},
-		{52, 80, 48, 72},
-		{104, 80, 48, 72},
-		{156, 80, 48, 72},
+		{ 0, 80, 48, 72 },
+		{ 52, 80, 48, 72 },
+		{ 104, 80, 48, 72 },
+		{ 156, 80, 48, 72 },
 
-		{208, 80, 48, 72},
-		{260, 80, 48, 72},
-		{0, 160, 48, 72},
-		{52, 160, 48, 72},
-		{104, 160, 48, 72}
-		#ifdef _USE_SPECIAL_CARD
-		,{156, 160, 48, 72}
-		#endif
+		{ 208, 80, 48, 72 },
+		{ 260, 80, 48, 72 },
+		{ 0, 160, 48, 72 },
+		{ 52, 160, 48, 72 },
+		{ 104, 160, 48, 72 }
 	};
 };
 

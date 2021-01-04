@@ -1,6 +1,6 @@
 /*
 *   This file is part of 3DEins
-*   Copyright (C) 2019-2020 Universal-Team
+*   Copyright (C) 2019-2021 Universal-Team
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -117,7 +117,7 @@ void ModeSelect::PlayerLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 		for (int i = 0; i < 3; i++) {
 			if (touching(this->playerSelect[i])) {
 				this->playerSel = i;
-				
+
 				if (this->modeSel == 0) {
 					Gui::setScreen(std::make_unique<GameScreen>(true, 2 + this->playerSel), true, true);
 				} else {

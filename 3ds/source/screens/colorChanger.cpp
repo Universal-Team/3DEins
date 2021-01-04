@@ -1,6 +1,6 @@
 /*
 *   This file is part of 3DEins
-*   Copyright (C) 2019-2020 Universal-Team
+*   Copyright (C) 2019-2021 Universal-Team
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -160,7 +160,7 @@ void ColorChanger::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 					config->textColor(RGBA8(ColorHelper::getColorValue(config->textColor(), 2), green, ColorHelper::getColorValue(config->textColor(), 0), 255));
 				}
 			}
-			
+
 		} else if (touching(buttons[2])) {
 			int temp = Keyboard::getUint(255, Lang::get("ENTER_BLUE_RGB"));
 			if (temp != -1) {

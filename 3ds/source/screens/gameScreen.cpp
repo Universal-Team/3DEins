@@ -1,6 +1,6 @@
 /*
 *   This file is part of 3DEins
-*   Copyright (C) 2019-2020 Universal-Team
+*   Copyright (C) 2019-2021 Universal-Team
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -28,11 +28,9 @@
 #include "gameScreen.hpp"
 #include "msg.hpp"
 #include "overlay.hpp"
-#include "saveData.hpp"
 
 #include <ctime>
 
-extern std::unique_ptr<SaveData> savedata;
 extern std::unique_ptr<Config> config;
 extern bool touching(Structs::ButtonPos button);
 
@@ -45,19 +43,16 @@ GameScreen::GameScreen(bool useAI, int playerAmount) {
 	this->InitializeNewGame();
 }
 
-bool GameScreen::isAI() const { 
+bool GameScreen::isAI() const {
 	if (!this->useAI) return false;
-	
-	if (this->currentGame->currentPlayer() != 0) {
-		return true;
-	} else {
-		return false;
-	}
+
+	if (this->currentGame->currentPlayer() != 0) return true;
+	else return false;
 }
 
 void GameScreen::InitializeNewGame() {
-	// Set to nullptr, if not already. */
-	if (this->currentGame != nullptr)	this->currentGame = nullptr;
+	/* Set to nullptr, if not already. */
+	if (this->currentGame != nullptr) this->currentGame = nullptr;
 
 	this->currentGame = std::make_unique<Game>(this->playerAmount);
 
@@ -76,6 +71,7 @@ void GameScreen::DisplayPlayerHand() const {
 		for (int i = 0; i < (int)this->currentGame->getSize(this->currentGame->currentPlayer()); i++) {
 			if (this->currentGame->cardIndex(this->currentGame->currentPlayer()) < MAXSHOWNCARDS) {
 				GFX::DrawPlayerCard(this->currentGame->getHand(this->currentGame->currentPlayer()), i, 1 + (i * 65), 50);
+
 			} else {
 				GFX::DrawPlayerCard(this->currentGame->getHand(this->currentGame->currentPlayer()), i+this->currentGame->cardIndex(this->currentGame->currentPlayer())-4, 1 + (i * 65), 50);
 			}
@@ -83,6 +79,7 @@ void GameScreen::DisplayPlayerHand() const {
 			if (i == this->currentGame->cardIndex(this->currentGame->currentPlayer())) {
 				if (this->currentGame->cardIndex(this->currentGame->currentPlayer()) < MAXSHOWNCARDS) {
 					GFX::DrawCardSelector(1 + (i * 65), 50);
+
 				} else {
 					GFX::DrawCardSelector(1 + (4 * 65), 50);
 				}
@@ -97,11 +94,11 @@ void GameScreen::DisplayPlayerHandSmall() const {
 			GFX::DrawPlayerCard(this->currentGame->getHand(this->currentGame->currentPlayer()), i, 2 + (i * 18), 150, 0.8, 0.8);
 		}
 	}
-}	
+}
 
 void GameScreen::DrawPlayers() const {
 	/* Player 1. */
-	GFX::DrawPlayer(0, 130, 0.9, 0.9, savedata->playerAvatar());
+	GFX::DrawPlayer(0, 130, 0.9, 0.9, 0);
 	Gui::DrawString(90, 200, 0.6f, config->textColor(), std::to_string(this->currentGame->getSize(0)));
 	/* Player 2. */
 	GFX::DrawPlayer(0, 0, 0.9, 0.9, this->computers[0]->getAvatar());
@@ -111,6 +108,7 @@ void GameScreen::DrawPlayers() const {
 		/* Player 3. */
 		GFX::DrawPlayer(300, 0, 0.9, 0.9, this->computers[1]->getAvatar());
 		Gui::DrawString(270, 40, 0.6f, config->textColor(), std::to_string(this->currentGame->getSize(2)));
+
 	} else if (this->currentGame->maxPlayer() == 4) {
 		/* Player 3. */
 		GFX::DrawPlayer(300, 0, 0.9, 0.9, this->computers[1]->getAvatar());
@@ -124,11 +122,14 @@ void GameScreen::DrawPlayers() const {
 std::string GameScreen::returnPlayerName(int player) const {
 	switch(player) {
 		case 0:
-			return savedata->playerName();
+			return "Player 1";
+
 		case 1:
 			return this->computers[0]->getName();
+
 		case 2:
 			return this->computers[1]->getName();
+
 		case 3:
 			return this->computers[2]->getName();
 	}
@@ -139,11 +140,14 @@ std::string GameScreen::returnPlayerName(int player) const {
 int GameScreen::getAvatar(int player) const {
 	switch(player) {
 		case 0:
-			return savedata->playerAvatar();
+			return 0;
+
 		case 1:
 			return this->computers[0]->getAvatar();
+
 		case 2:
 			return this->computers[1]->getAvatar();
+
 		case 3:
 			return this->computers[2]->getAvatar();
 	}
@@ -160,9 +164,11 @@ void GameScreen::Draw(void) const {
 	if (this->isSubMenu) {
 		if (this->subMode == 0) {
 			this->DrawSubMenu();
+
 		} else {
 			this->DrawPlayerStats();
 		}
+
 	} else {
 		GFX::DrawTop(false);
 		/* Draw Players & amount of cards. */
@@ -170,10 +176,13 @@ void GameScreen::Draw(void) const {
 
 		if (this->currentGame->currentPlayer() == 0) {
 			GFX::DrawSelectedPlayer(130, 200);
+
 		} else if (this->currentGame->currentPlayer() == 1) {
 			GFX::DrawSelectedPlayer(130, 70);
+
 		} else if (this->currentGame->currentPlayer() == 2) {
 			GFX::DrawSelectedPlayer(250, 70);
+
 		} else if (this->currentGame->currentPlayer() == 3) {
 			GFX::DrawSelectedPlayer(250, 200);
 		}
@@ -208,14 +217,17 @@ void GameScreen::drawAnim(const int player, const CardStruct &card) {
 			wantedXPos = 0;
 			wantedYPos = 150;
 			break;
+
 		case 1:
 			wantedXPos = 0;
 			wantedYPos = 0;
 			break;
+
 		case 2:
 			wantedXPos = 340;
 			wantedYPos = 0;
 			break;
+
 		case 3:
 			wantedXPos = 340;
 			wantedYPos = 150;
@@ -226,19 +238,21 @@ void GameScreen::drawAnim(const int player, const CardStruct &card) {
 		Gui::clearTextBufs();
 		C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
 		GFX::DrawTop(false);
-		
-		if (curPosX != wantedXPos) {
-			GFX::DrawCard(card.CT, curPosX, curPosY, card.CC);
-		}
+
+		if (curPosX != wantedXPos) GFX::DrawCard(card.CT, curPosX, curPosY, card.CC);
 
 		/* Draw Players & amount of cards. */
 		this->DrawPlayers();
+
 		if (this->currentGame->currentPlayer() == 0) {
 			GFX::DrawSelectedPlayer(130, 200);
+
 		} else if (this->currentGame->currentPlayer() == 1) {
 			GFX::DrawSelectedPlayer(130, 70);
+
 		} else if (this->currentGame->currentPlayer() == 2) {
 			GFX::DrawSelectedPlayer(250, 70);
+
 		} else if (this->currentGame->currentPlayer() == 3) {
 			GFX::DrawSelectedPlayer(250, 200);
 		}
@@ -255,38 +269,24 @@ void GameScreen::drawAnim(const int player, const CardStruct &card) {
 		C3D_FrameEnd(0);
 
 		if (player == 0 || player == 1) {
-			if (curPosX > wantedXPos) {
-				curPosX = curPosX - speed;
-			} else if (curPosX < wantedXPos) {
-				curPosX = wantedXPos;
-			}
+			if (curPosX > wantedXPos) curPosX = curPosX - speed;
+			else if (curPosX < wantedXPos) curPosX = wantedXPos;
 
 		} else if (player == 2 || player == 3) {
-			if (curPosX < wantedXPos) {
-				curPosX = curPosX + speed;
-			} else if (curPosX > wantedXPos) {
-				curPosX = wantedXPos;
-			}
+			if (curPosX < wantedXPos) curPosX = curPosX + speed;
+			else if (curPosX > wantedXPos) curPosX = wantedXPos;
 		}
 
 		if (player == 0 || player == 3) {
-			if (curPosY < wantedYPos) {
-				curPosY = curPosY + 2.3;
-			} else if (curPosY > wantedYPos) {
-				curPosY = wantedYPos;
-			}
+			if (curPosY < wantedYPos) curPosY = curPosY + 2.3;
+			else if (curPosY > wantedYPos) curPosY = wantedYPos;
 
 		} else if (player == 1 || player == 2) {
-			if (curPosY > wantedYPos) {
-				curPosY = curPosY - 2.3;
-			} else if (curPosY < wantedYPos) {
-				curPosY = wantedYPos;
-			}
+			if (curPosY > wantedYPos) curPosY = curPosY - 2.3;
+			else if (curPosY < wantedYPos) curPosY = wantedYPos;
 		}
 
-		if (curPosY == wantedYPos && curPosX == wantedXPos) {
-			swap = false;
-		}
+		if (curPosY == wantedYPos && curPosX == wantedXPos) swap = false;
 	}
 }
 
@@ -305,14 +305,17 @@ void GameScreen::animationCard(const int player, const CardStruct &card) {
 			curPosX = 0;
 			curPosY = 150;
 			break;
+
 		case 1:
 			curPosX = 0;
 			curPosY = 0;
 			break;
+
 		case 2:
 			curPosX = 340;
 			curPosY = 0;
 			break;
+
 		case 3:
 			curPosX = 340;
 			curPosY = 150;
@@ -323,21 +326,22 @@ void GameScreen::animationCard(const int player, const CardStruct &card) {
 		Gui::clearTextBufs();
 		C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
 		GFX::DrawTop(false);
-		
+
 		/* If X-Pos isn't the wanted one, draw it before the Players. */
-		if (curPosX != wantedXPos) {
-			GFX::DrawCard(card.CT, curPosX, curPosY, card.CC);
-		}
+		if (curPosX != wantedXPos) GFX::DrawCard(card.CT, curPosX, curPosY, card.CC);
 
 		/* Draw Players & amount of cards. */
 		this->DrawPlayers();
 
 		if (this->currentGame->currentPlayer() == 0) {
 			GFX::DrawSelectedPlayer(130, 200);
+
 		} else if (this->currentGame->currentPlayer() == 1) {
 			GFX::DrawSelectedPlayer(130, 70);
+
 		} else if (this->currentGame->currentPlayer() == 2) {
 			GFX::DrawSelectedPlayer(250, 70);
+
 		} else if (this->currentGame->currentPlayer() == 3) {
 			GFX::DrawSelectedPlayer(250, 200);
 		}
@@ -345,9 +349,7 @@ void GameScreen::animationCard(const int player, const CardStruct &card) {
 		/* Draw Table Card. */
 		GFX::DrawCard(this->currentGame->tableCard().CT, 170, 75, this->currentGame->tableCard().CC);
 
-		if (curPosX == wantedXPos) {
-			GFX::DrawCard(card.CT, curPosX, curPosY, card.CC);
-		}
+		if (curPosX == wantedXPos) GFX::DrawCard(card.CT, curPosX, curPosY, card.CC);
 
 		/* Bottom Screen. */
 		GFX::DrawBottom(false);
@@ -358,38 +360,24 @@ void GameScreen::animationCard(const int player, const CardStruct &card) {
 		C3D_FrameEnd(0);
 
 		if (player == 0 || player == 1) {
-			if (curPosX < wantedXPos) {
-				curPosX = curPosX + speed;
-			} else if (curPosX > wantedXPos) {
-				curPosX = wantedXPos;
-			}
+			if (curPosX < wantedXPos) curPosX = curPosX + speed;
+			else if (curPosX > wantedXPos) curPosX = wantedXPos;
 
 		} else if (player == 2 || player == 3) {
-			if (curPosX > wantedXPos) {
-				curPosX = curPosX - speed;
-			} else if (curPosX < wantedXPos) {
-				curPosX = wantedXPos;
-			}
+			if (curPosX > wantedXPos) curPosX = curPosX - speed;
+			else if (curPosX < wantedXPos) curPosX = wantedXPos;
 		}
 
 		if (player == 0 || player == 3) {
-			if (curPosY > wantedYPos) {
-				curPosY = curPosY - 2.3;
-			} else if (curPosY < wantedYPos) {
-				curPosY = wantedYPos;
-			}
+			if (curPosY > wantedYPos) curPosY = curPosY - 2.3;
+			else if (curPosY < wantedYPos) curPosY = wantedYPos;
 
 		} else if (player == 1 || player == 2) {
-			if (curPosY < wantedYPos) {
-				curPosY = curPosY + 2.3;
-			} else if (curPosY > wantedYPos) {
-				curPosY = wantedYPos;
-			}
+			if (curPosY < wantedYPos) curPosY = curPosY + 2.3;
+			else if (curPosY > wantedYPos) curPosY = wantedYPos;
 		}
 
-		if (curPosY == wantedYPos && curPosX == wantedXPos) {
-			swap = false;
-		}
+		if (curPosY == wantedYPos && curPosX == wantedXPos) swap = false;
 	}
 }
 
@@ -416,7 +404,7 @@ void GameScreen::DrawSubMenu(void) const {
 	Gui::DrawStringCentered(0, 0, 0.8f, config->textColor(), "3DEins - " + Lang::get("GAME_PAUSED"), 390);
 	Gui::DrawStringCentered(0, 55, 0.7f, config->textColor(), Lang::get("PLAYERS") + std::to_string(this->currentGame->maxPlayer()), 390);
 	Gui::DrawStringCentered(0, 216, 0.75f, config->textColor(), Lang::get("STATS_INFO"), 390);
-	
+
 	Animation::DrawSubBG(false);
 	Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(0, 0, 0, 210)); // Darken the screen.
 	for(int i = 0; i < 3; i++) {
@@ -484,7 +472,6 @@ void GameScreen::AILogic() {
 					char message [100];
 					snprintf(message, sizeof(message), Lang::get("PLAYER_WON").c_str(), returnPlayerName(this->currentGame->currentPlayer()).c_str());
 					Msg::DisplayPlayerSwitch(message);
-					if (savedata->playerLose() < 255)	savedata->playerLose(savedata->playerLose() + 1);
 					Gui::screenBack(true);
 					return;
 				}
@@ -495,6 +482,7 @@ void GameScreen::AILogic() {
 					snprintf(message, sizeof(message), Lang::get("PLAYER_NEXT").c_str(), returnPlayerName(this->currentGame->currentPlayer()).c_str(), returnPlayerName(this->getNextPlayer()).c_str());
 					Msg::DisplayPlayerSwitch(message);
 					this->currentGame->currentPlayer(this->getNextPlayer());
+
 					/* We can continue! */
 				} else {
 					this->currentGame->canContinue(false);
@@ -508,9 +496,11 @@ void GameScreen::AILogic() {
 				if (!this->currentGame->drawn()) {
 					if (config->allowAnimation())	this->drawAnim(this->currentGame->currentPlayer(), this->currentGame->getTableTop());
 					this->currentGame->addCard(this->currentGame->currentPlayer());
+
 					/* Do not allow multiple draws. */
 					this->currentGame->drawn(true);
 					needDraw = false;
+
 					if (!CanPlayerPlay(this->currentGame->currentPlayer())) {
 						/* Reset hasDrawn. */
 						this->currentGame->drawn(false); // Reset.
@@ -521,6 +511,7 @@ void GameScreen::AILogic() {
 						doInitial = false;
 						index = -1;
 						this->currentGame->currentPlayer(this->getNextPlayer());
+
 					} else {
 						index = -1;
 						doInitial = true;
@@ -539,12 +530,14 @@ void GameScreen::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 				case 0:
 					this->isSubMenu = false;
 					break;
+
 				case 1:
 					if (Msg::promptMsg(Lang::get("RESTART_GAME"))) {
 						this->InitializeNewGame();
 						this->isSubMenu = false;
 					}
 					break;
+
 				case 2:
 					if (Msg::promptMsg(Lang::get("QUIT_GAME"))) {
 						Gui::screenBack(true);
@@ -556,13 +549,16 @@ void GameScreen::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 		if (hDown & KEY_DOWN) {
 			if (this->selection < 2) this->selection++;
-		} else if (hDown & KEY_UP) {
+		}
+
+		if (hDown & KEY_UP) {
 			if (this->selection > 0) this->selection--;
-		}	
+		}
 
 		if (hDown & KEY_TOUCH) {
 			if (touching(breakBtn[0])) {
 				this->isSubMenu = false;
+
 			} else if (touching(breakBtn[1])) {
 				if (Msg::promptMsg(Lang::get("RESTART_GAME"))) {
 					this->InitializeNewGame();
@@ -588,14 +584,10 @@ void GameScreen::SubMenuLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 }
 
 void GameScreen::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
-	if (this->isSubMenu) {
-		this->SubMenuLogic(hDown, hHeld, touch);
-	} else {
-		if (this->isAI()) {
-			this->AILogic();
-		} else {
-			this->PlayerLogic(hDown, hHeld, touch);
-		}
+	if (this->isSubMenu) this->SubMenuLogic(hDown, hHeld, touch);
+	else {
+		if (this->isAI()) this->AILogic();
+		else this->PlayerLogic(hDown, hHeld, touch);
 	}
 }
 
@@ -617,6 +609,7 @@ void GameScreen::setState(int Player) {
 					this->currentGame->state(PlayerState::NOTHING, Player); // Set state to Nothing after it.
 				}
 				break;
+
 			} else {
 				this->currentGame->tbCardColor(Overlays::SelectCardColor());
 				this->currentGame->state(PlayerState::NOTHING, Player); // Set state to Nothing after it.
@@ -639,11 +632,6 @@ void GameScreen::setState(int Player) {
 
 		case PlayerState::CONTINUE:
 			break;
-
-		#ifdef _USE_SPECIAL_CARD
-		case PlayerState::SPECIAL:
-			break;
-		#endif
 	}
 }
 
@@ -657,13 +645,14 @@ bool GameScreen::checkForPlayableCard(const int player) {
 	return false;
 }
 
-bool GameScreen::CanPlayerPlay(const int player) { return this->checkForPlayableCard(player); }
+bool GameScreen::CanPlayerPlay(const int player) { return this->checkForPlayableCard(player); };
 
 int GameScreen::getNextPlayer() {
 	if (this->currentGame->direction() == DIRECTION::CLOCKWISE) {
-		if (this->currentGame->currentPlayer() < this->currentGame->maxPlayer() -1) {
+		if (this->currentGame->currentPlayer() < this->currentGame->maxPlayer() - 1) {
 			/* If Player is smaller than the max Player, go to Player++. */
 			return this->currentGame->currentPlayer() + 1;
+
 		} else {
 			/* If Player is max Player, go to the first Player. */
 			return 0; // Player 0.
@@ -674,6 +663,7 @@ int GameScreen::getNextPlayer() {
 		if (this->currentGame->currentPlayer() > 0) {
 			/* If Player is larger than 0, go to Player--. */
 			return this->currentGame->currentPlayer() - 1;
+
 		} else {
 			/* If Player is 0, go to the max Player. */
 			return this->currentGame->maxPlayer() -1;
@@ -718,10 +708,6 @@ void GameScreen::PlayLogic(int cardPos) {
 			snprintf(message, sizeof(message), Lang::get("PLAYER_WON").c_str(), returnPlayerName(this->currentGame->currentPlayer()).c_str());
 			Msg::DisplayPlayerSwitch(message);
 
-			if (this->useAI) {
-				if (savedata->playerWins() < 255) savedata->playerWins(savedata->playerWins() + 1);
-			}
-
 			Gui::screenBack(true);
 			return;
 		}
@@ -755,9 +741,7 @@ void GameScreen::PlayerLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 	u32 hRepeat = hidKeysDownRepeat();
 
 	/* Pressing Start goes to the Sub Menu. */
-	if (hDown & KEY_START) {
-		this->isSubMenu = true;
-	}
+	if (hDown & KEY_START) this->isSubMenu = true;
 
 	if (hRepeat & KEY_RIGHT) {
 		if (this->currentGame->cardIndex(this->currentGame->currentPlayer()) < this->currentGame->getSize(this->currentGame->currentPlayer()) -1)	this->currentGame->cardIndex(this->currentGame->cardIndex(this->currentGame->currentPlayer()) + 1, this->currentGame->currentPlayer());
@@ -784,8 +768,10 @@ void GameScreen::PlayerLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 		if (!this->currentGame->drawn()) {
 			if (config->allowAnimation())	this->drawAnim(this->currentGame->currentPlayer(), this->currentGame->getTableTop());
 			this->currentGame->addCard(this->currentGame->currentPlayer());
+
 			/* Do not allow multiple draws. */
 			this->currentGame->drawn(true);
+
 			if (!CanPlayerPlay(this->currentGame->currentPlayer())) {
 				/* Reset hasDrawn. */
 				this->currentGame->drawn(false); // Reset.
@@ -810,16 +796,12 @@ void GameScreen::PlayerLogic(u32 hDown, u32 hHeld, touchPosition touch) {
 		for (int i = 0; i < 5; i++) {
 			if (touching(this->cardPos[i])) {
 				int temp = this->currentGame->cardIndex(this->currentGame->currentPlayer());
-				if (temp > 4) {
-					this->PlayLogic(i + (temp - 4));
-				} else {
-					this->PlayLogic(i);
-				}
+
+				if (temp > 4) this->PlayLogic(i + (temp - 4));
+				else this->PlayLogic(i);
 			}
 		}
 	}
 
-	if (hHeld & KEY_SELECT) {
-		Msg::HelperBox(Lang::get("PLAY_INSTRUCTIONS"));
-	}
+	if (hHeld & KEY_SELECT) Msg::HelperBox(Lang::get("PLAY_INSTRUCTIONS"));
 }

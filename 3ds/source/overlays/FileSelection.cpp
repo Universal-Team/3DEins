@@ -1,6 +1,6 @@
 /*
 *   This file is part of 3DEins
-*   Copyright (C) 2019-2020 Universal-Team
+*   Copyright (C) 2019-2021 Universal-Team
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -121,13 +121,13 @@ std::string Overlays::SelectFile(const std::vector<std::string> fileType, const 
 				selectedFile--;
 			}
 		}
-		
+
 		if (hRepeat & KEY_DOWN) {
 			if ((uint)selectedFile < dirContents.size()-1) {
 				selectedFile++;
 			}
 		}
-		
+
 		if (hDown & KEY_B) {
 			char path[PATH_MAX];
 			getcwd(path, PATH_MAX);
@@ -141,7 +141,7 @@ std::string Overlays::SelectFile(const std::vector<std::string> fileType, const 
 				dirChanged = true;
 			}
 		}
-		
+
 		if (hDown & KEY_START) {
 			dirChanged = true;
 		}
@@ -197,13 +197,13 @@ std::string Overlays::SelectDirectory(const std::string initialPath, const std::
 				selectedDirectory--;
 			}
 		}
-		
+
 		if (hRepeat & KEY_DOWN) {
 			if ((uint)selectedDirectory < dirContents.size()-1) {
 				selectedDirectory++;
 			}
 		}
-		
+
 		if (hDown & KEY_B) {
 			char path[PATH_MAX];
 			getcwd(path, PATH_MAX);
@@ -217,7 +217,7 @@ std::string Overlays::SelectDirectory(const std::string initialPath, const std::
 				dirChanged = true;
 			}
 		}
-		
+
 		if (hDown & KEY_START) {
 			dirChanged = true;
 		}

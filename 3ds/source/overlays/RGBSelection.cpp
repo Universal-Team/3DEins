@@ -1,6 +1,6 @@
 /*
 *   This file is part of 3DEins
-*   Copyright (C) 2019-2020 Universal-Team
+*   Copyright (C) 2019-2021 Universal-Team
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -169,7 +169,7 @@ u32 Overlays::SelectRGB(u32 oldColor) {
 				if (temp != -1) {
 					g = temp;
 				}
-				
+
 			} else if (touch.px >= 270 && touch.px <= 270 + 40 && touch.py >= 130 && touch.py <= 130 + 20) {
 				int temp = Keyboard::getUint(255, Lang::get("ENTER_BLUE_RGB"));
 				if (temp != -1) {

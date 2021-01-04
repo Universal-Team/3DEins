@@ -1,6 +1,6 @@
 /*
 *   This file is part of DSEins
-*   Copyright (C) 2019-2020 Universal-Team
+*   Copyright (C) 2019-2021 Universal-Team
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -27,7 +27,6 @@
 #include "_DSEins_Helper.hpp"
 #include "gui.hpp"
 #include "lang.hpp"
-#include "saveData.hpp"
 #include "selector.hpp"
 #include "structs.hpp"
 
@@ -38,10 +37,10 @@ extern std::unique_ptr<Selector> selector;
 extern touchPosition touch;
 
 const std::vector<ButtonStruct> colorPos = {
-	{30, 45, 80, 40, "COLOR_RED", CARD_COLOR_RED, true}, // Red.
-	{130, 45, 80, 40, "COLOR_BLUE", CARD_COLOR_BLUE, true}, // Blue.
-	{30, 105, 80, 40, "COLOR_YELLOW", CARD_COLOR_YELLOW, true}, // Yellow.
-	{130, 105, 80, 40, "COLOR_GREEN", CARD_COLOR_GREEN, true} // Green.
+	{ 30, 45, 80, 40, "COLOR_RED", CARD_COLOR_RED, true }, // Red.
+	{ 130, 45, 80, 40, "COLOR_BLUE", CARD_COLOR_BLUE, true }, // Blue.
+	{ 30, 105, 80, 40, "COLOR_YELLOW", CARD_COLOR_YELLOW, true }, // Yellow.
+	{ 130, 105, 80, 40, "COLOR_GREEN", CARD_COLOR_GREEN, true } // Green.
 };
 
 extern bool Buttontouching(ButtonStruct button);
@@ -80,17 +79,19 @@ CardColor _DSEins_Helper::selectColor() {
 			if (selection == 2) {
 				selection -= 2;
 				doUpdate = true;
+
 			} else if (selection == 3) {
 				selection -= 2;
 				doUpdate = true;
 			}
 
 		}
-		
+
 		if (keysDown() & KEY_DOWN) {
 			if (selection == 0) {
 				selection += 2;
 				doUpdate = true;
+
 			} else if (selection == 1) {
 				selection += 2;
 				doUpdate = true;
@@ -103,7 +104,7 @@ CardColor _DSEins_Helper::selectColor() {
 				doUpdate = true;
 			}
 		}
-		
+
 		if (keysDown() & KEY_RIGHT) {
 			if (selection < 3) {
 				selection++;

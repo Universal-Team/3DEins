@@ -1,6 +1,6 @@
 /*
 *   This file is part of 3DEins
-*   Copyright (C) 2019-2020 Universal-Team
+*   Copyright (C) 2019-2021 Universal-Team
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -89,7 +89,7 @@ void UISettings::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 	if (hDown & KEY_LEFT) {
 		if (this->Selection % 2) this->Selection--;
 	}
-	
+
 	if (hDown & KEY_RIGHT) {
 		if (!(this->Selection % 2)) this->Selection++;
 	}
@@ -109,7 +109,7 @@ void UISettings::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 				config->allowAnimation(true);
 				Msg::DisplayWaitMsg(Lang::get("TURNED_ON"));
 			}
-			
+
 		} else if (this->Selection == 3) {
 			Gui::setScreen(std::make_unique<SetChanger>(), true, true);
 		}

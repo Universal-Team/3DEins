@@ -1,6 +1,6 @@
 /*
 *   This file is part of 3DEins
-*   Copyright (C) 2019-2020 Universal-Team
+*   Copyright (C) 2019-2021 Universal-Team
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -117,13 +117,13 @@ std::string Overlays::SelectSet() {
 				selectedSet--;
 			}
 		}
-		
+
 		if (hRepeat & KEY_DOWN) {
 			if ((uint)selectedSet < dirContents.size()-1) {
 				selectedSet++;
 			}
 		}
-		
+
 		if (hDown & KEY_B) {
 			if (Msg::promptMsg(Lang::get("CANCEL_SELECTION"))) {
 				return "";
@@ -133,7 +133,7 @@ std::string Overlays::SelectSet() {
 		if (hDown & KEY_X) {
 			return "3DEINS_DEFAULT_ROMFS";
 		}
-		
+
 		if (hDown & KEY_START) {
 			dirChanged = true;
 		}

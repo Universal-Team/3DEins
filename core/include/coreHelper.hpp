@@ -1,6 +1,6 @@
 /*
 *   This file is part of 3DEins/DSEins-Core
-*   Copyright (C) 2020 Universal-Team
+*   Copyright (C) 2020-2021 Universal-Team
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -27,19 +27,13 @@
 #ifndef _3DEINS_CORE_HELPER_HPP
 #define _3DEINS_CORE_HELPER_HPP
 
-#include "_3DEins_Core.h"
 #include <memory>
 #include <random>
 #include <string>
 #include <vector>
 
 #define MAXCARDCOLOR 4 // Only 4 Colors, the 5th color is for special cards.
-
-#ifdef _USE_SPECIAL_CARD
-	#define MAXCARDTYPE	16
-#else
-	#define MAXCARDTYPE	15
-#endif
+#define MAXCARDTYPE	15
 
 inline std::mt19937 randomGen; // Our Random generator / used for shuffle the cards.
 
@@ -60,9 +54,6 @@ enum class CardType {
 	DRAW2,
 	WILD,
 	DRAW4
-	#ifdef _USE_SPECIAL_CARD
-	,SPECIAL
-	#endif
 };
 
 /* The CardColors. */
@@ -80,9 +71,6 @@ enum class PlayerState {
 	DRAWING,
 	BREAK,
 	CONTINUE,
-	#ifdef _USE_SPECIAL_CARD
-	SPECIAL,
-	#endif
 	WISH
 };
 

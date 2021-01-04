@@ -1,6 +1,6 @@
 /*
 *   This file is part of 3DEins/DSEins-Core
-*   Copyright (C) 2020 Universal-Team
+*   Copyright (C) 2020-2021 Universal-Team
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -44,24 +44,24 @@ public:
 	void removeCard(int position);
 
 	/* Check for playable & play. */
-	bool Playable(const CardStruct &Table, const int &card);
+	bool Playable(const CardStruct &Table, const int &card) const;
 	void play(int position, CardStruct &table);
 
 	/* Get the size & hand. */
-	int getSize();
-	const std::vector<CardStruct> getHand();
+	int getSize() const;
+	std::vector<CardStruct> getHand() const;
 
 	/* Return the Card Points and overwrite it to a Player's points. */
 	void returnCardPoints(std::unique_ptr<Player> &player);
 
 	/* Get Points & State. */
-	const int getPoints() { return this->playerPoints; }
-	const PlayerState getState() { return this->state; }
-	void setState(PlayerState st) { this->state = st; }
+	int getPoints() const { return this->playerPoints; };
+	PlayerState getState() const { return this->state; };
+	void setState(PlayerState st) { this->state = st; };
 
-	const CardColor CC(int card);
-	const CardType CT(int card);
-	const CardStruct CS(int card);
+	CardColor CC(int card) const;
+	CardType CT(int card) const;
+	CardStruct CS(int card) const;
 private:
 	int playerPoints = 0; // The Player's points. Init as 0.
 	PlayerState state = PlayerState::NOTHING; // The Player's state. Init as Nothing.

@@ -1,6 +1,6 @@
 /*
 *   This file is part of 3DEins
-*   Copyright (C) 2019-2020 Universal-Team
+*   Copyright (C) 2019-2021 Universal-Team
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -48,7 +48,7 @@ private:
 	void AILogic();
 	void InitializeNewGame();
 	void setState(int Player);
-	
+
 	// Hand displays.
 	void DisplayPlayerHand() const;
 	void DisplayPlayerHandSmall() const;
@@ -65,7 +65,7 @@ private:
 
 	void animationCard(const int player, const CardStruct &card);
 	void drawAnim(const int player, const CardStruct &card);
-	
+
 	// Player Amount & Current Player.
 	std::unique_ptr<Computer> computers[3];
 	int playerAmount = 2;
@@ -75,7 +75,7 @@ private:
 	bool useAI = false;
 	bool isAI() const;
 	void PlayLogic(int cardPos);
-	
+
 	// Button Struct for the Sub Menu.
 	const std::vector<Structs::ButtonPos> breakBtn = {
 		{90, 40, 140, 40}, // Resume.

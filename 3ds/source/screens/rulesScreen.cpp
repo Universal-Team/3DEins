@@ -1,6 +1,6 @@
 /*
 *   This file is part of 3DEins
-*   Copyright (C) 2019-2020 Universal-Team
+*   Copyright (C) 2019-2021 Universal-Team
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -31,11 +31,7 @@
 extern std::unique_ptr<Config> config;
 extern bool touching(Structs::ButtonPos button);
 
-#ifdef _USE_SPECIAL_CARD
-#define MAXRULES	15
-#else
-#define MAXRULES	14
-#endif
+#define MAXRULES 14
 
 void RulesScreen::DrawDescription(void) const {
 	switch (rulePage) {
@@ -71,12 +67,6 @@ void RulesScreen::DrawDescription(void) const {
 		case 14:
 			Gui::DrawStringCentered(0, 170, 0.7f, config->textColor(), Lang::get("WILD_DRAW4_CARD"), 400);
 			break;
-
-		#ifdef _USE_SPECIAL_CARD
-		case 15:
-			Gui::DrawStringCentered(0, 170, 0.7f, config->textColor(), "Plays a 'Bruh' soundeffect.\nThe Tablecard get's randomized.", 400);
-			break;
-		#endif
 	}
 }
 
@@ -105,12 +95,6 @@ void RulesScreen::DisplayCards(void) const {
 		case 14:
 			GFX::DrawCard(CardType(rulePage), 200, 95, CardColor(4), 0.7, 0.7);
 			break;
-			
-		#ifdef _USE_SPECIAL_CARD
-		case 15:
-			GFX::DrawCard(CardType(rulePage), 200, 95, CardColor(4), 0.7, 0.7);
-			break;
-		#endif
 	}
 }
 
@@ -118,6 +102,7 @@ void RulesScreen::Draw(void) const {
 	Animation::DrawSubBG();
 	Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(0, 0, 0, 210)); // Darken the screen.
 	Gui::DrawStringCentered(0, 0, 0.8f, config->textColor(), "3DEins - " + Lang::get("RULES"), 390);
+
 	/* Draw Card. */
 	GFX::DrawCard(CardType(rulePage), 30, 50, CardColor(1));
 	Gui::DrawString(210, 40, 0.7f, config->textColor(), Lang::get("POINTS") + std::to_string(GameHelper::getPoints(CardType(rulePage))), 160);
@@ -125,8 +110,8 @@ void RulesScreen::Draw(void) const {
 	Gui::DrawString(30, 140, 0.7f, config->textColor(), Lang::get("AVAILABLE_COLORS"), 160);
 	DrawDescription();
 	DisplayCards();
-
 	if (fadealpha > 0) Gui::Draw_Rect(0, 0, 400, 240, C2D_Color32(fadecolor, fadecolor, fadecolor, fadealpha));
+
 	Animation::DrawSubBG(false);
 	Gui::Draw_Rect(0, 0, 320, 240, C2D_Color32(0, 0, 0, 210)); // Darken the screen.
 	for(int i = 0; i < (int)cards.size(); i++) {
@@ -144,15 +129,15 @@ void RulesScreen::Logic(u32 hDown, u32 hHeld, touchPosition touch) {
 
 	if (hDown & KEY_R) {
 		if (this->rulePage < MAXRULES) this->rulePage++;
-	} else if (hDown & KEY_L) {
+	}
+
+	if (hDown & KEY_L) {
 		if (this->rulePage > 0) this->rulePage--;
 	}
 
 	if (hDown & KEY_TOUCH) {
 		for(int i = 0; i < (int)cards.size(); i++) {
-			if (touching(cards[i])) {
-				this->rulePage = i;
-			}
+			if (touching(cards[i])) this->rulePage = i;
 		}
 	}
 }
