@@ -1,5 +1,3 @@
-
-
 ifeq ($(strip $(DEVKITARM)),)
 $(error "Please set DEVKITARM in your environment. export DEVKITARM=<path to>devkitARM")
 endif
@@ -20,13 +18,10 @@ INPUTS		:= $(foreach dir,$(GRAPHICS),$(addprefix $(dir)/,$(notdir $(wildcard $(d
 
 TARGETS		:= $(INPUTS:.bmp=.gfx)
 
-.PHONY	:	bmp2ds clean all directories
+.PHONY	:	clean all directories
 
-all	:	bmp2ds $(TARGETS)
+all	:	./$(BMP2DS) $(TARGETS)
 	@echo graphics ...
-
-bmp2ds	:
-	@g++ bmp2ds.cpp -std=c++11 -o bmp2ds
 
 %.gfx	:	%.bmp %.txt
 	@mkdir -p $(OUT)/$(@D)

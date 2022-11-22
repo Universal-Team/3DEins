@@ -41,6 +41,10 @@ jobs:
           sudo chmod +x makerom
           mv makerom /usr/local/bin
           rm makerom-v0.17-ubuntu_x86_64.zip
+
+          curl -L https://github.com/Universal-Team/bmp2ds/releases/download/v1.1.0/bmp2ds-linux -o bmp2ds
+          chmod +x bmp2ds
+          mv bmp2ds /usr/local/bin
       - name: Build
         id: build
         run: |
