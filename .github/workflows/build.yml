@@ -52,19 +52,19 @@ jobs:
           mv makerom /usr/local/bin
           rm makerom-v0.17-ubuntu_x86_64.zip
 
-          curl -L https://github.com/Universal-Team/bmp2ds/releases/download/v1.1.0/bmp2ds-linux -o bmp2ds
-          chmod +x bmp2ds
-          mv bmp2ds /usr/local/bin
+          # curl -L https://github.com/Universal-Team/bmp2ds/releases/download/v1.1.0/bmp2ds-linux -o bmp2ds
+          # chmod +x bmp2ds
+          # mv bmp2ds /usr/local/bin
       - name: Build
         id: build
         run: |
-          make
+          make 3ds
           mkdir -p ~/artifacts
-          tools-linux/make_cia --srl="ds/DSEins.nds"
+          # tools-linux/make_cia --srl="ds/DSEins.nds"
           cp 3ds/3DEins.3dsx ~/artifacts
           cp 3ds/3DEins.cia ~/artifacts
-          cp ds/DSEins.nds ~/artifacts
-          cp ds/DSEins.cia ~/artifacts/DSEins.nds.cia
+          # cp ds/DSEins.nds ~/artifacts
+          # cp ds/DSEins.cia ~/artifacts/DSEins.nds.cia
 
           echo ::set-output name=commit_tag::$(git describe --abbrev=0 --tags --exclude git)
           echo ::set-output name=commit_hash::$(git log --format=%h -1)
